@@ -18,7 +18,9 @@ class UserSeeder extends Seeder
         if (User::count() == 0) {
 
             User::create([
-                'name'           => 'Admin',
+                'first_name'           => 'Juma',
+                'last_name'           => 'John',
+                'phone'           => '+255 789 435 676',
                 'email'          => 'admin@gmail.com',
                 'password'       => bcrypt('Admin'),
                 'remember_token' => Str::random(60),
