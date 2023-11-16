@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ward;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class WardSeeder extends Seeder
 {
@@ -13,24 +14,26 @@ class WardSeeder extends Seeder
     public function run(): void
     {
         //
-        District::create ([
-                'name' => 'Ilala',
-                'region_id' => 1
-            ],
-            [
-                'name' => 'Kinondoni',
-                'region_id' => 1
-            ],
-            [
-                'name' => 'Nyamagana',
-                'region_id' => 2
+        ward::create ([
+            'name' => 'Mnazi mmoja',
+            'district_id' => 1
+        ]);
 
-            ],
-            [
-                'name' => 'Temeke',
-                'region_id' => 1
-            ]
+        ward::create([
+            'name' => 'Kawe',
+            'district_id' => 2
+        ]);
+        
+        ward::create([
+            'name' => 'Msasani',
+            'district_id' => 2
 
-        );
+        ]);
+        
+        ward::create([
+            'name' => 'Kariakoo',
+            'district_id' => 1
+        ]);
+
     }
 }

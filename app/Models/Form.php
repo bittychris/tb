@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
     use HasFactory;
-
     protected $table='forms';
 
     protected $fillable=[
@@ -20,4 +19,5 @@ class Form extends Model
         'completedBy'
 
     ];
+    
 }

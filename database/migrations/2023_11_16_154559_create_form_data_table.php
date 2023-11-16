@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('form_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('form_id');
-            // $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('ageGroup_id');
             $table->unsignedBigInteger('attribute_id');
             $table->string('female');
             $table->string('male');
@@ -25,6 +25,11 @@ return new class extends Migration
             $table->foreign('form_id')
                 ->references('id')
                 ->on('forms')
+                ->cascadeOnDelete();
+
+            $table->foreign('ageGroup_id')
+                ->references('id')
+                ->on('age_groups')
                 ->cascadeOnDelete();
 
             $table->foreign('attribute_id')

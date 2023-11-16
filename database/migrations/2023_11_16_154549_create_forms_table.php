@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->foreign('ward_id')
                 ->references('id')
-                ->on('ward')
+                ->on('wards')
                 ->cascadeOnDelete();
 
             $table->foreign('createdBy')
