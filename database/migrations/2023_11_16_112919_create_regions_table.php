@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('form_attributes', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('age_group_ids');
-            $table->json('attribute_ids');
             $table->timestamps();
+
+        
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('form_attributes');
+        Schema::dropIfExists('regions');
     }
 };
