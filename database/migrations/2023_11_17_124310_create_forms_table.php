@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('created_by');
             $table->uuid('completed_by')->nullable();
             $table->string('scanning_name');
-            $table->bigInteger('ward_id');
+            $table->foreignId('ward_id')->unsigned()->constrained()->nullable();
             $table->string('address');
             $table->timestamps();
 
