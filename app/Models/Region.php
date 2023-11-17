@@ -5,15 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class district extends Model
+class Region extends Model
 {
     use HasFactory;
-
-    protected $table = 'districts';
-
-    protected $fillable =[
-        'name',
-        'region_id',
-
-    ];
 }

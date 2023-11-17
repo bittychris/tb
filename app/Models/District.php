@@ -5,15 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ward extends Model
+class District extends Model
 {
     use HasFactory;
-
-    protected $table= 'wards';
-
-    protected $fillable=[
-        'name',
-        'district_id'
-
-    ];
 }

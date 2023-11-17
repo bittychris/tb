@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wards', function (Blueprint $table) {
-            $table->id();
+        Schema::create('form_attributes', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->string('name');
-            $table->unsignedBigInteger('district_id');
+            $table->json('age_group_ids');
+            $table->json('attribute_ids');
             $table->timestamps();
-
-            $table->foreign('district_id')
-            ->references('id')
-            ->on('districts')
-            ->cascadeOnDelete();
         });
     }
 
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wards');
+        Schema::dropIfExists('form_attributes');
     }
 };

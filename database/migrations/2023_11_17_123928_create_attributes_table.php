@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('age_groups', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug')->unique();
-            $table->integer('min_age');
-            $table->integer('max_age');
+        Schema::create('attributes', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('age_groups');
+        Schema::dropIfExists('attributes');
     }
 };

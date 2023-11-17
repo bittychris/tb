@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\region;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class RegionSeeder extends Seeder
 {
@@ -13,114 +14,269 @@ class RegionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        region::create ([
-            'name' => 'Dar es Salaam'
-        ]);
 
-        region::create ([
-            'name' => 'Mwanza'
-        ]);
+        //disable foreign key check for this connection before running seeders
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('regions')->delete();
 
-        region::create ([
-            'name' => 'Arusha'
-        ]);
+        DB::table('regions')->insert(array (
+            0 =>
+                array (
+                    'id' => 1,
 
-        region::create ([
-            'name' => 'Morogoro'
-        ]);
+                    'name' => 'Arusha',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            1 =>
+                array (
+                    'id' => 2,
 
-        region::create ([
-            'name' => 'Kigoma'
-        ]);
+                    'name' => 'Dar es Salaam',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            2 =>
+                array (
+                    'id' => 3,
 
-        region::create ([
-            'name' => 'Morogoro'
-        ]);
+                    'name' => 'Dodoma',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            3 =>
+                array (
+                    'id' => 4,
 
-        region::create ([
-            'name' => 'Ruvuma'
-        ]);
+                    'name' => 'Geita',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            4 =>
+                array (
+                    'id' => 5,
 
-        region::create ( [
-            'name' => 'Tanga'
-        ]);
+                    'name' => 'Iringa',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            5 =>
+                array (
+                    'id' => 6,
 
-        region::create ([
-            'name' => 'Dodoma'
-        ]);
+                    'name' => 'Kagera',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            6 =>
+                array (
+                    'id' => 7,
 
-        region::create ([
-            'name' => 'Mtwara'
-        ]);
+                    'name' => 'Katavi',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            7 =>
+                array (
+                    'id' => 8,
 
-        region::create ([
-            'name' => 'Lindi'
-        ]);
+                    'name' => 'Kigoma',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            8 =>
+                array (
+                    'id' => 9,
 
-        region::create ([
-            'name' => 'Njombe'
-        ]);
+                    'name' => 'Kilimanjaro',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            9 =>
+                array (
+                    'id' => 10,
 
-        region::create ([
-            'name' => 'Songwe'
-        ]);
+                    'name' => 'Lindi',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            10 =>
+                array (
+                    'id' => 11,
 
-        region::create ([
-            'name' => 'Mbeya'
-        ]);        
+                    'name' => 'Manyara',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            11 =>
+                array (
+                    'id' => 12,
 
-        region::create ([
-            'name' => 'Rukwa'
-        ]);
+                    'name' => 'Mara',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            12 =>
+                array (
+                    'id' => 13,
 
-        region::create ([
-            'name' => 'Iringa'
-        ]);
+                    'name' => 'Mbeya',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            13 =>
+                array (
+                    'id' => 14,
 
-        region::create ([
-            'name' => 'Pwani'
-        ]);
+                    'name' => 'Morogoro',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            14 =>
+                array (
+                    'id' => 15,
 
-        region::create ([
-            'name' => 'Katavi'
-        ]);
+                    'name' => 'Mtwara',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            15 =>
+                array (
+                    'id' => 16,
 
-        region::create ([
-            'name' => 'Singida'
-        ]);
+                    'name' => 'Mwanza',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            16 =>
+                array (
+                    'id' => 17,
 
-        region::create ([
-            'name' => 'Tabora'
-        ]);
+                    'name' => 'Njombe',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            17 =>
+                array (
+                    'id' => 18,
 
-        region::create ([
-            'name' => 'Manyara'
-        ]);
+                    'name' => 'Pwani',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            18 =>
+                array (
+                    'id' => 19,
 
-        region::create ([
-            'name' => 'Kilimanjaro'
-        ]);
+                    'name' => 'Rukwa',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            19 =>
+                array (
+                    'id' => 20,
 
-        region::create ([
-            'name' => 'Shinyanga'
-        ]);
+                    'name' => 'Ruvuma',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            20 =>
+                array (
+                    'id' => 21,
 
-        region::create ([
-            'name' => 'Geita'
-        ]);
+                    'name' => 'Shinyanga',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            21 =>
+                array (
+                    'id' => 22,
 
-        region::create ([
-            'name' => 'Simiyu'
-        ]);
+                    'name' => 'Simiyu',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            22 =>
+                array (
+                    'id' => 23,
 
-        region::create ([
-            'name' => 'Mara'
-        ]);
+                    'name' => 'Singida',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            23 =>
+                array (
+                    'id' => 24,
 
-        region::create ([
-            'name' => 'Kagera'
-        ]);
+                    'name' => 'Songwe',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            24 =>
+                array (
+                    'id' => 25,
 
+                    'name' => 'Tabora',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            25 =>
+                array (
+                    'id' => 26,
+
+                    'name' => 'Tanga',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            26 =>
+                array (
+                    'id' => 27,
+
+                    'name' => 'UNG',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            27 =>
+                array (
+                    'id' => 28,
+
+                    'name' => 'UNG',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            28 =>
+                array (
+                    'id' => 29,
+
+                    'name' => 'PEM',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            29 =>
+                array (
+                    'id' => 30,
+
+                    'name' => 'PEM',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            30 =>
+                array (
+                    'id' => 31,
+
+                    'name' => 'UNG',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+            31 =>
+                array (
+                    'id' => 32,
+
+                    'name' => 'Other',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ),
+        ));
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

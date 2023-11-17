@@ -12,26 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('form_data', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('form_id');
-            $table->unsignedBigInteger('ageGroup_id');
-            $table->unsignedBigInteger('attribute_id');
-            $table->string('female');
-            $table->string('male');
-
-
+            $table->uuid('id')->primary();
+            $table->uuid('form_id');
+            $table->uuid('age_group_id');
+            $table->uuid('attribute_id');
+            $table->integer('male')->nullable();
+            $table->integer('female')->nullable();
             $table->timestamps();
 
             $table->foreign('form_id')
                 ->references('id')
                 ->on('forms')
                 ->cascadeOnDelete();
-
-            $table->foreign('ageGroup_id')
+            $table->foreign('age_group_id')
                 ->references('id')
                 ->on('age_groups')
                 ->cascadeOnDelete();
-
             $table->foreign('attribute_id')
                 ->references('id')
                 ->on('attributes')

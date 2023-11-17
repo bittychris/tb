@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regions', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+        Schema::create('age_groups', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->integer('min');
+            $table->integer('max');
+            $table->string('slug');
             $table->timestamps();
-
-        
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('age_groups');
     }
 };
