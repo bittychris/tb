@@ -37,7 +37,7 @@ class AgeGroupsList extends Component
         $checkAgeGroupExists = AgeGroup::where('slug', $validatedData['age_group_name'])->exists();
 
         if ($checkAgeGroupExists) {
-            session()->flash('warning', 'The Age group already exists.');
+            session()->flash('already_exist', 'The Age group already exists.');
 
         } else {
         

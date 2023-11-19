@@ -35,7 +35,7 @@ class AttributesList extends Component
         $checkAttributeExists = Attribute::where('name', $validatedData['name'])->exists();
 
         if ($checkAttributeExists) {
-            session()->flash('warning', 'The Attribute already exists.');
+            session()->flash('already_exist', 'The Attribute already exists.');
 
         } else {
         

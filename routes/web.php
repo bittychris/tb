@@ -36,6 +36,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
         Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+        
+        Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+
+        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
 
     });
 

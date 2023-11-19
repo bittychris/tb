@@ -72,6 +72,13 @@
   
   <!-- Add and Edit age group Modal -->
   <div wire:ignore.self class="modal fade" id="{{ $editMode == true ? 'edit_age_group_modal' : 'add_age_group_modal' }}" tabindex="-1" aria-labelledby="add_age_group_modal_label" aria-hidden="true">
+    <div class="row justify-content-center mt-3 mb-0">
+        <div class="col-5">
+            @if (session()->has('already_exist'))
+                @include('partial.alert')
+            @endif
+        </div>
+    </div>
      <div class="modal-dialog">
       <div class="modal-content">
         <form class="forms-sample" wire:submit.prevent="{{ $editMode == true ? 'updateAgeGroup' : 'saveAgeGroup' }}">
