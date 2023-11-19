@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Age groups</div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_age_group_modal" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_age_group_modal" style="float: right;"><i class="mdi mdi-plus"></i></button>
                             </div>
                         </div>
                     </h4>
@@ -51,13 +51,13 @@
                                     <td>{{ $ageGroup->max }}</td>
                                     <td class="text-center">
                                         {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <button class="btn btn-warning btn-sm" wire:click="prepareEditAgeGroup('{{$ageGroup->id}}')" data-bs-toggle="modal" data-bs-target="#edit_age_group_modal" title="Edit"><i class="mdi mdi-table-edit"></i></button>
+                                        <button class="btn btn-warning btn-sm" wire:click="prepareEditAgeGroup('{{$ageGroup->id}}')" data-bs-toggle="modal" data-bs-target="#edit_age_group_modal" title="Edit"><i class="mdi mdi-pen"></i></button>
                                         <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAgeGroup('{{$ageGroup->id}}')" data-bs-toggle="modal" data-bs-target="#delete_age_group_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="3" class="text-center">No Age group found</td>
+                                    <td colspan="5" class="text-center">No Age group found</td>
                                 </tr>
                                 @endforelse
                                
@@ -106,9 +106,9 @@
             <div class="modal-footer">
                 <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
                 @if($editMode)
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                <button type="submit" class="btn btn-primary">Update</button>
                 @else
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                <button type="submit" class="btn btn-primary">Save</button>
                 @endif
             </div>
         </form>
