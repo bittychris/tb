@@ -1,12 +1,12 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">
           <i class="mdi mdi-home menu-icon"></i>
           <span class="menu-title">Dashboard</span>
         </a>
       </li>
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
           <i class="mdi mdi-circle-outline menu-icon"></i>
           <span class="menu-title">UI Elements</span>
@@ -24,14 +24,20 @@
           <i class="mdi mdi-view-headline menu-icon"></i>
           <span class="menu-title">Form elements</span>
         </a>
-      </li>
+      </li> --}}
       <li class="nav-item">
-        <a class="nav-link" href="pages/charts/chartjs.html">
-          <i class="mdi mdi-chart-pie menu-icon"></i>
-          <span class="menu-title">Charts</span>
+        <a class="nav-link" href="{{ route('admin.age_groups') }}">
+          <i class="mdi mdi-account-multiple menu-icon"></i>
+          <span class="menu-title">Age groups</span>
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.attributes') }}">
+          <i class="mdi mdi-database menu-icon"></i>
+          <span class="menu-title">Attributes</span>
+        </a>
+      </li>
+      {{-- <li class="nav-item">
         <a class="nav-link" href="pages/tables/basic-table.html">
           <i class="mdi mdi-grid-large menu-icon"></i>
           <span class="menu-title">Tables</span>
@@ -64,6 +70,6 @@
           <i class="mdi mdi-file-document-box-outline menu-icon"></i>
           <span class="menu-title">Documentation</span>
         </a>
-      </li>
+      </li> --}}
     </ul>
-  </nav>
+</nav>

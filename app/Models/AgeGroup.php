@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class AgeGroup extends BaseModal
 {
     use HasFactory;
+
+    protected $table = 'age_groups';
+
+    protected $fillable = [
+        'slug',
+        'min',
+        'max'
+    ];
+
 }
