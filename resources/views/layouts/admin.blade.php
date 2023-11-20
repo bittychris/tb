@@ -73,31 +73,8 @@
     </div>
   <!-- container-scroller -->
 
-  <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
 
-  <!-- plugins:js -->
-  <script src="{{asset('assets/vendorss/base/vendor.bundle.base.js')}}"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <script src="{{asset('assets/vendorss/chart.js/Chart.min.js')}}"></script>
-  <script src="{{asset('assets/vendorss/datatables.net/jquery.dataTables.js')}}"></script>
-  <script src="{{asset('assets/vendorss/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
-  <script src="js/data-table.js"></script>
-  <script src="js/jquery.dataTables.js"></script>
-  <script src="js/dataTables.bootstrap4.js"></script>
-  <!-- End custom js for this page-->
-
-  <script src="js/jquery.cookie.js" type="text/javascript"></script>
-
-  {{-- <script src="{{asset('admin/vendors/base/vendor.bundle.base.js')}}"></script>
+  <script src="{{asset('admin/vendors/base/vendor.bundle.base.js')}}"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <script src="{{asset('admin/vendors/chart.js/Chart.min.js')}}"></script>
@@ -119,8 +96,11 @@
   <script src="{{asset('admin/js/jquery.cookie.js')}}" type="text/javascript"></script>
   {{-- script --}}
   <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
+
 
   @livewireScripts
+  
   @stack('js')
 
 </body>

@@ -9,7 +9,8 @@ use App\Models\FormAttribute;
 
 class AddFormAttribute extends Component
 {
-    public $fromAttribute, $name;
+    public $fromAttribute = '';
+    public $name = '';
     
     public $age_group_ids = [0];
 
@@ -51,7 +52,7 @@ class AddFormAttribute extends Component
             } elseif (empty($this->attribute_ids)) {
                 session()->flash('warning', 'No Attribute selected');
             
-            } elseif (!empty($this->attribute_ids) && !empty($this->attribute_ids)) {
+            } elseif (!empty($this->age_group_ids) && !empty($this->attribute_ids)) {
 
                 $age_group_ids = json_encode($this->age_group_ids);
 
@@ -66,7 +67,9 @@ class AddFormAttribute extends Component
                 if ($form_attribute) {
                     $this->clearForm();
                     session()->flash('success', 'From attribute saved successfully');
-    
+
+                    return redirect('admin/form_attributes');
+                    
                 } else {
                     session()->flash('error', 'An error occurred. Try again later.');
                 }

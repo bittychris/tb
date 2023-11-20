@@ -34,20 +34,19 @@
                             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
                         <div class="form-group">
-                            <label for="name">Select Age groups</label>
+                            <label for="age_group_ids">Select Age groups</label>
                             <div class="row">
                                 <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="0" id="flexCheckIndeterminateDisabled" checked style="display: none;">
                                 @foreach ($ageGroups as $ageGroup)
-                                <div class="col-4" wire:key="{{ $ageGroup->id }}">
-                                    <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="{{ $ageGroup->id }}" id="flexCheckIndeterminateDisabled">
-                                    <label class="form-check-label text-secondary" for="flexCheckIndeterminateDisabled">
+                                <div class="col-4">
+                                    <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="{{ $ageGroup->id }}" id="agp{{ $ageGroup->id }}">
+                                    <label class="form-check-label text-secondary" for="agp{{ $ageGroup->id }}">
                                         {{ $ageGroup->slug }}
                                     </label>
                                 </div>
                                 @endforeach
                                 
                             </div>
-                            @error('age_group_ids') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
 
                         <div class="form-group">
@@ -55,16 +54,15 @@
                             <div class="row">
                                 <input class="form-check-input" type="checkbox" wire:model="attribute_ids" value="0" id="flexCheckIndeterminateDisabled" checked style="display: none;">
                                 @foreach ($attributes as $attribute)
-                                <div class="col-4" wire:key="{{ $attribute->id }}">
-                                    <input class="form-check-input" type="checkbox" wire:model="attribute_ids" value="{{ $attribute->id }}" id="flexCheckIndeterminateDisabled">
-                                    <label class="form-check-label text-secondary" for="flexCheckIndeterminateDisabled">
+                                <div class="col-4">
+                                    <input class="form-check-input" type="checkbox" wire:model="attribute_ids" value="{{ $attribute->id }}" id="attr{{ $attribute->id }}">
+                                    <label class="form-check-label text-secondary" for="attr{{ $attribute->id }}">
                                         {{ $attribute->name }}
                                     </label>
                                 </div>
                                 @endforeach
                                 
                             </div>
-                            @error('attribute_ids') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
                     
                         <div class="mt-3 mb-2">
