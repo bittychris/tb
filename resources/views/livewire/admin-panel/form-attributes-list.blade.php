@@ -7,7 +7,7 @@
 
             @elseif (session()->has('warning'))
                 @include('partial.alert')
-            
+
             @elseif (session()->has('error'))
                 @include('partial.alert')
 
@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Attributes</div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_attribute_modal" style="float: right;"><i class="mdi mdi-plus"></i></button>
+                                <a href="{{route('admin.add_form_attributes')}}" class="btn btn-primary btn-sm" style="float: right;"><i class="mdi mdi-plus"></i></a>
                             </div>
                         </div>
                     </h4>
@@ -37,17 +37,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @php
-                                    $i = 1;
-                                @endphp
-                                @forelse ($from_attributes as $from_attribute)
+                                @forelse ($from_attributes as $key => $from_attribute)
                                 <tr>
-                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $from_attribute->name }}</td>
                                     <td class="text-center">
                                         {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <button class="btn btn-warning btn-sm" wire:click="prepareEditAttribute('{{$from_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#edit_attribute_modal" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                        <a href="{{route('admin.edit_form_attributes', ['form_id' => $from_attribute->id])}}" class="btn btn-warning btn-sm" title="Edit"><i class="mdi mdi-pen"></i></a>
                                         <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAttribute('{{$from_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#delete_attribute_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
@@ -56,7 +52,7 @@
                                     <td colspan="3" class="text-center">No Attribute found</td>
                                 </tr>
                                 @endforelse
-                               
+
                             </tbody>
                         </table>
                         {{ $from_attributes->links() }}
@@ -113,5 +109,5 @@
     //     });
     // });
 </script>
-    
+
 @endpush

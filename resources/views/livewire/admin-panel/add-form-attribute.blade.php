@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             @if (session()->has('already_exist'))
                 @include('partial.alert')
-            
+
             @elseif (session()->has('warning'))
                 @include('partial.alert')
 
@@ -25,9 +25,9 @@
                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_attribute_modal" style="float: right;">Back</i></button>
                             </div>
                         </div>
-                    </h4> 
+                    </h4>
 
-                    <form class="forms-sample" wire:submit.prevent="{{ $editMode == true ? 'updateFormAttribute' : 'saveFormAttribute' }}">
+                    <form class="forms-sample" wire:submit.prevent="saveFormAttribute">
                         <div class="form-group">
                             <label for="name">Form name</label>
                             <input type="text" wire:model="name" class="form-control form-control-sm" id="name" placeholder="Enter Form name">
@@ -36,35 +36,32 @@
                         <div class="form-group">
                             <label for="age_group_ids">Select Age groups</label>
                             <div class="row">
-                                <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="0" id="flexCheckIndeterminateDisabled" checked style="display: none;">
-                                @foreach ($ageGroups as $ageGroup)
+{{--                                <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="0" id="flexCheckIndeterminateDisabled" checked style="display: none;">--}}
+                                @foreach ($ageGroups as $key => $ageGroup)
                                 <div class="col-4">
-                                    <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="{{ $ageGroup->id }}" id="agp{{ $ageGroup->id }}">
-                                    <label class="form-check-label text-secondary" for="agp{{ $ageGroup->id }}">
+                                    <input class="form-check-input" wire:key="$key" name="selectedAgeGroupIds" type="checkbox" wire:model="selectedAgeGroupIds" value="{{ $ageGroup->id }}" id="group.{{$key}}">
+                                    <label class="form-check-label text-secondary" for="group.{{$key}}">
                                         {{ $ageGroup->slug }}
                                     </label>
                                 </div>
                                 @endforeach
-                                
-                            </div>
-                        </div>
 
-                        <div class="form-group">
+                            </div>
                             <label for="name">Select Attributes</label>
                             <div class="row">
-                                <input class="form-check-input" type="checkbox" wire:model="attribute_ids" value="0" id="flexCheckIndeterminateDisabled" checked style="display: none;">
-                                @foreach ($attributes as $attribute)
+                                @foreach ($attributes as $key => $attribute)
                                 <div class="col-4">
-                                    <input class="form-check-input" type="checkbox" wire:model="attribute_ids" value="{{ $attribute->id }}" id="attr{{ $attribute->id }}">
-                                    <label class="form-check-label text-secondary" for="attr{{ $attribute->id }}">
+                                    <input class="form-check-input" type="checkbox" wire:model="selectedAttributeIds" value="{{ $attribute->id }}" id="attribute.{{$key}}">
+                                    <label class="form-check-label text-secondary" for="attribute.{{$key}}">
                                         {{ $attribute->name }}
                                     </label>
                                 </div>
                                 @endforeach
-                                
+
                             </div>
+                            @error('selectedAttributeIds') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
-                    
+
                         <div class="mt-3 mb-2">
                             @if($editMode)
                                 <button type="submit" class="btn btn-primary text-white" style="float: right;">Update</button>
