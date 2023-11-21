@@ -13,7 +13,7 @@ class FormAttribute extends BaseModal
 
     protected $fillable = [
         'name',
-        'age_groups_ids',
+        'age_group_ids',
         'attribute_ids'
     ];
 
