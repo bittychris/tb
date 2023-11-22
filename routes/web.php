@@ -20,8 +20,17 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::get('/rc/dashboard', function () {
-    return view('customer.index');
-})->name('home');
+    return view('rcDashboard');
+})->name('rc');
+
+Route::get('/amref/dashboard', function () {
+    return view('amref');
+})->name('amref');
+
+Route::get('/health.blade/dashboard', function () {
+    return view('health.blade');
+})->name('health.blade');
+
 
 Route::get('/', [indexController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
