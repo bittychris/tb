@@ -19,6 +19,10 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
+Route::get('/rc/dashboard', function () {
+    return view('customer.index');
+})->name('home');
+
 Route::get('/', [indexController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -44,9 +48,56 @@ Route::group(['middleware' => 'auth'], function() {
 
     });
 
-    //regional coordinator
+    // //regional coordinator
+    // Route::group(['prefix' => 'rc'], function() {
+    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout1');
+
+    //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    //     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+
+    //     Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+
+    //     Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+
+    //     Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+
+    // });
 
 
+    //     //Amref
+    //     Route::group(['prefix' => 'amref'], function() {
+    //         Route::post('logout', [LoginController::class, 'logout'])->name('logout2');
+
+    //         Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    //         Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+
+    //         Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+
+    //         Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+
+    //         Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+
+    //     });
+
+
+    //         //Health Facilitator
+    // Route::group(['prefix' => 'health'], function() {
+    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout3');
+
+    //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    //     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+
+    //     Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+
+    //     Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+
+    //     Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+
+    // });
 
 });
+
 
