@@ -22,7 +22,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">{{ $editMode == true ? 'Edit Form Attribute' : 'Add Form Attribute' }}</div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_attribute_modal" style="float: right;">Back</i></button>
+                                <a href="{{ route('admin.form_attributes') }}" class="btn btn-primary btn-sm" style="float: right;">Back</i></a>
                             </div>
                         </div>
                     </h4>
@@ -36,7 +36,6 @@
                         <div class="form-group">
                             <label for="age_group_ids">Select Age groups</label>
                             <div class="row">
-{{--                                <input class="form-check-input" type="checkbox" wire:model="age_group_ids" value="0" id="flexCheckIndeterminateDisabled" checked style="display: none;">--}}
                                 @foreach ($ageGroups as $key => $ageGroup)
                                 <div class="col-4">
                                     <input class="form-check-input" wire:key="$key" name="selectedAgeGroupIds" type="checkbox" wire:model="selectedAgeGroupIds" value="{{ $ageGroup->id }}" id="group.{{$key}}">

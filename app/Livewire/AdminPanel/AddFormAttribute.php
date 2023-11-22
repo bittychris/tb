@@ -12,7 +12,7 @@ class AddFormAttribute extends Component
     public $fromAttribute, $name;
 
     public $editMode = false;
-    
+
     public $form_id;
 
     public $selectedAgeGroupIds = [];
@@ -58,9 +58,11 @@ class AddFormAttribute extends Component
             if (count($this->selectedAgeGroupIds) == 0) {
                 session()->flash('warning', 'No Age Group selected');
                 return;
+
             } elseif (count($this->selectedAttributeIds) == 0) {
                 session()->flash('warning', 'No Attribute selected');
                 return;
+
             } else {
 
                 $age_group_ids = json_encode($this->selectedAgeGroupIds);
@@ -76,7 +78,7 @@ class AddFormAttribute extends Component
 
                     session()->flash('success', 'From attribute updated successfully');
 
-                }else{
+                } else{
                     $form_attribute = FormAttribute::create([
                         'name' => $this->name,
                         'age_group_ids' => $age_group_ids,
@@ -85,6 +87,7 @@ class AddFormAttribute extends Component
 
                     session()->flash('success', 'From attribute saved successfully');
                     return redirect(route('admin.edit_form_attributes', ['form_id' => $form_attribute->id]));
+                    
                 }
 
             }
