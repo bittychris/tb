@@ -7,7 +7,6 @@ use App\Models\Attribute;
 use App\Models\District;
 use App\Models\Form;
 use App\Models\FormAttribute;
-use App\Models\FormData as ModelsFormData;
 use App\Models\Region;
 use App\Models\Ward;
 use Illuminate\Support\Facades\Auth;
@@ -32,15 +31,15 @@ class FormData extends Component
     public $formData = [];
 
 
-    public function mount(Form $form)
+    public function mount($form)
     {
-        $this->form = $form;
-        $this->scanning_name = $form->scanning_name;
-        $this->form_id = $form->form_attribute_id;
-        $this->address = $form->address;
-        $this->ward_id = $form->ward_id;
-
         if ($this->form) {
+            $this->form = $form;
+            $this->scanning_name = $form->scanning_name;
+            $this->form_id = $form->form_attribute_id;
+            $this->address = $form->address;
+            $this->ward_id = $form->ward_id;
+
             $this->wards = Ward::all();
             $this->updatedFormId();
 
@@ -153,6 +152,13 @@ class FormData extends Component
     public function updatedDistrictId()
     {
         $this->wards = Ward::where('district_id', $this->district_id)->get();
+    }
+
+    public function calculateTotal($attributeId, $gender)
+    {
+        return collect($this->formData)->sum(function ($ageGroup) use ($attributeId, $gender) {
+            return $ageGroup[$attributeId][$gender] ?? 0;
+        });
     }
 
     public function render()

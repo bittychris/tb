@@ -125,6 +125,21 @@
                                             @endforeach
                                         </tr>
                                     @endforeach
+                                    <tr>
+                                        <td>Total</td>
+                                        @foreach($attributeList as $attribute)
+                                            <td>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
+                                            <td>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                        @endforeach
+                                    </tr>
+
+                                    <!-- Add Grand Total row -->
+                                    <tr>
+                                        <td>Grand Total</td>
+                                        @foreach($attributeList as $attribute)
+                                            <td colspan="2">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
+                                        @endforeach
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

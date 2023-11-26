@@ -41,6 +41,10 @@
     <style>
         .formData tr th {
             font-size: 11px;
+            text-align: center;
+        }
+        .formData tr td {
+            text-align: center;
         }
     </style>
   @livewireStyles
