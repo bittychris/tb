@@ -41,7 +41,7 @@
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>
-                                        <a href="{{ route('admin.create_form', ['form_attributes_id' => $form_attribute->id ]) }}" class="text-decoration-none">{{ $form_attribute->name }}</a>
+                                        {{ $form_attribute->name }}
                                     </td>
                                     <td class="text-center">
                                         {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
