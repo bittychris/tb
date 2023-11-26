@@ -26,6 +26,40 @@
                             </div>
                         </div>
                     </h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Form</th>
+                                <th>Scanning</th>
+                                <th>Address</th>
+                                <th>Created By</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            @forelse($reports as $key => $report)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $report->form_attribute->name }}</td>
+                                    <td>{{ $report->scanning_name }}</td>
+                                    <td> {{ $report->address }}</td>
+{{--                                    {{ $report->ward->district->region->name }} {{ $report->ward->district->name }}, {{ $report->ward->name }} ---}}
+                                    <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6">No report added!</td>
+                                </tr>
+                            @endforelse
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

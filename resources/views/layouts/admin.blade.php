@@ -103,7 +103,34 @@
   <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.addEventListener('message_alert', message => {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: message.detail,
+            })
+        })
+        window.addEventListener('success_alert', message => {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: message.detail,
+                showConfirmButton: false,
+                timer: 2500
+            })
+        })
 
+        window.addEventListener('failure_alert', message => {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: message.detail,
+                showConfirmButton: true,
+            })
+        })
+    </script>
   @livewireScripts
 
   @stack('js')
