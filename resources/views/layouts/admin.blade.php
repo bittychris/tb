@@ -38,6 +38,11 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
 
+    <style>
+        .formData tr th {
+            font-size: 11px;
+        }
+    </style>
   @livewireStyles
 
 </head>
@@ -100,7 +105,7 @@
 
 
   @livewireScripts
-  
+
   @stack('js')
 
 </body>

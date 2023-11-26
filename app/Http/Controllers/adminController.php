@@ -39,12 +39,23 @@ class adminController extends Controller
 
     }
 
-    public function formData($form_id) {
+    public function createFormData() {
+
+        return view('admin_panel.form_data', ['form' => null]);
+
+    }
+
+    public function editFormData($form_id) {
 
         $form = Form::findOrFail($form_id);
 
-        return view('admin_panel.form_data', ['form' => $form], compact('form'));
+        return view('admin_panel.form_data', ['form' => $form]);
 
+    }
+
+    public function reportList() {
+
+        return view('admin_panel.report_list');
     }
 
 }

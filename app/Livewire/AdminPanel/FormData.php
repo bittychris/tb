@@ -2,57 +2,73 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\AgeGroup;
+use App\Models\Attribute;
+use App\Models\District;
+use App\Models\FormAttribute;
 use App\Models\FormData as ModelsFormData;
+use App\Models\Region;
+use App\Models\Ward;
 use Livewire\Component;
 
 class FormData extends Component
 {
-    public $form, $form_id, $age_group_id, $attribute_id, $male, $female;
+    public $form;
+    public $form_id;
+    public $scanning_name;
+    public $region_id;
+    public $districts = [];
+    public $district_id;
+    public $wards = [];
+    public $ward_id;
+    public $address;
 
-    public function mount($form) {
-        $this->form = $form;
-        $this->form_id = $form->id;
+    public $ageGroups = [];
+    public $attributeList = [];
 
-    }
+    public $formData = [];
 
-    protected function rules() {
-
-        return [
-            'age_group_id' => ['required', 'string'],
-            'attribute_id' => ['required', 'string'],
-            'male' => ['required', 'integer'],
-            'female' => ['required', 'integer']
-        ];
-
-    }
-
-    public function updated($fields)
+    public function mount($form)
     {
-        $this->validateOnly($fields);
+        $this->form = $form;
+
     }
 
-    public function saveData() {
-        $validatedData = $this->validate();
-        
-        $form_data = FormData::create([
-            'form_id' => $this->form_id,
-            'age_group_id' => $validatedData['age_group_id'],
-            'attribute_id' => $validatedData['attribute_id'],
-            'male' => $validatedData['male'],
-            'female' => $validatedData['female']
-        ]);
+    protected $rules = [
+        'scanning_name' => ['required'],
+        'region_id' => ['required'],
+        'district_id' => ['required'],
+        'ward_id' => ['required'],
+        'address' => ['required'],
+    ];
 
-        if ($form_data) {
-            $this->clearForm();
-            session()->flash('success', $this->form->scanning_name .'data saved successfully');
+    public function saveForm()
+    {
+        dd($this->formData);
+    }
 
-        } else {
-            session()->flash('error', 'An error occurred. Try again later.');
-        }
+    public function updatedFormId(){
+        $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
+
+        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->get();
+        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
+    }
+    public function updatedRegionId()
+    {
+        $this->districts = District::where('region_id', $this->region_id)->get();
+    }
+    public function updatedDistrictId()
+    {
+        $this->wards = Ward::where('district_id', $this->district_id)->get();
     }
 
     public function render()
     {
-        return view('livewire.admin-panel.form-data');
+        $formsAttributes = FormAttribute::all();
+        $regions = Region::all();
+        return view('livewire.admin-panel.form-data', [
+            'formsAttributes' => $formsAttributes,
+            'regions' => $regions
+        ]);
     }
 }
