@@ -14,8 +14,8 @@ class FormAttributesList extends Component
     
     public function render()
     {
-        $from_attributes = FormAttribute::latest()->paginate(10);
+        $form_attributes = FormAttribute::latest()->paginate(10);
 
-        return view('livewire.admin-panel.form-attributes-list', ['from_attributes' => $from_attributes]);
+        return view('livewire.admin-panel.form-attributes-list', ['form_attributes' => $form_attributes]);
     }
 }

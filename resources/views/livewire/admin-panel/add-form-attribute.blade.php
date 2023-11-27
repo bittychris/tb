@@ -22,7 +22,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">{{ $editMode == true ? 'Edit Form Attribute' : 'Add Form Attribute' }}</div>
                             <div class="col-6">
-                                <a href="{{ route('admin.form_attributes') }}" class="btn btn-primary btn-sm" style="float: right;">Back</i></a>
+                                <a href="{{ route('admin.form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back</i></a>
                             </div>
                         </div>
                     </h4>

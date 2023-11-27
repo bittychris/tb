@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Attributes</div>
                             <div class="col-6">
-                                <a href="{{route('admin.add_form_attributes')}}" class="btn btn-primary btn-sm" style="float: right;"><i class="mdi mdi-plus"></i></a>
+                                <a href="{{ route('admin.add_form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;"><i class="mdi mdi-plus"></i> Create From Attribute</a>
                             </div>
                         </div>
                     </h4>
@@ -37,14 +37,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($from_attributes as $key => $from_attribute)
+                                @forelse ($form_attributes as $key => $form_attribute)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
-                                    <td>{{ $from_attribute->name }}</td>
+                                    <td>
+                                        {{ $form_attribute->name }}
+                                    </td>
                                     <td class="text-center">
                                         {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <a href="{{route('admin.edit_form_attributes', ['form_id' => $from_attribute->id])}}" class="btn btn-warning btn-sm" title="Edit"><i class="mdi mdi-pen"></i></a>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAttribute('{{$from_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#delete_attribute_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        <a href="{{route('admin.edit_form_attributes', ['form_id' => $form_attribute->id])}}" class="btn btn-warning btn-sm" title="Edit"><i class="mdi mdi-pen"></i></a>
+                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAttribute('{{$form_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#delete_attribute_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
                                 @empty
@@ -55,7 +57,7 @@
 
                             </tbody>
                         </table>
-                        {{ $from_attributes->links() }}
+                        {{ $form_attributes->links() }}
                     </div>
                 </div>
             </div>

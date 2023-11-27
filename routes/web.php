@@ -53,7 +53,16 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
 
         Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+
         Route::get('form_attributes/{form_id}/edit', [adminController::class, 'editFormAttributes'])->name('admin.edit_form_attributes');
+
+        Route::get('create_form/{form_attributes_id}', [adminController::class, 'createForm'])->name('admin.create_form');
+
+        Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data');
+        
+        Route::get('form_data/create', [adminController::class, 'createFormData'])->name('admin.create_form_data');
+
+        Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report');
 
     });
 
