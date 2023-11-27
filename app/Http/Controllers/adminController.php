@@ -58,4 +58,20 @@ class adminController extends Controller
         return view('admin_panel.report_list');
     }
 
+    public function staffs() {
+
+        return view('admin_panel.staff_list');
+    }
+
+    public function addStaff() {
+        return view('admin_panel.add_staff');
+
+    }
+
+    public function editStaff($staff_id) {
+
+        return view('admin_panel.edit_staff', ['staff_id' => $staff_id]);
+    }
+
+
 }

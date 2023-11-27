@@ -20,9 +20,9 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Field Data</div>
+                            <div class="col-6">staff</div>
                             <div class="col-6">
-                                <a href="{{ route('admin.create_form_data') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-plus"></i> Create Report</a>
+                                <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Staff</a>
                             </div>
                         </div>
                     </h4>
@@ -32,34 +32,35 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Form</th>
-                                <th>Scanning</th>
-                                <th>Address</th>
-                                <th>Created By</th>
+                                <th>Full name</th>
+                                <th>Email</th>
+                                <th>Phone contact</th>
+                                <th>Position</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            @forelse($reports as $key => $report)
+                            @forelse($staffs as $key => $staff)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
-                                    <td>{{ $report->form_attribute->name }}</td>
-                                    <td>{{ $report->scanning_name }}</td>
-                                    <td> {{ $report->address }}</td>
-{{--                                    {{ $report->ward->district->region->name }} {{ $report->ward->district->name }}, {{ $report->ward->name }} ---}}
-                                    <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td>
+                                    <td>{{ $staff->first_name }} {{ $staff->last_name }}</td>
+                                    <td>{{ $staff->email }}</td>
+                                    <td> {{ $staff->phone }}</td>
+{{--                                    {{ $staff->ward->district->region->name }} {{ $staff->ward->district->name }}, {{ $staff->ward->name }} ---}}
+                                    {{-- <td>{{ $staff->position }}</td> --}}
+                                    <td>Admin</td>
                                     <td>
-                                        <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6">No report added!</td>
+                                    <td colspan="6">No Staff added!</td>
                                 </tr>
                             @endforelse
                             <tbody>
                             </tbody>
                         </table>
-                        {{ $reports->links() }}
+                        {{ $staffs->links() }}
                     </div>
                 </div>
             </div>
