@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Attributes</div>
                             <div class="col-6">
-                                <a href="{{route('admin.add_form_attributes')}}" class="btn btn-primary btn-sm" style="float: right;"><i class="mdi mdi-plus"></i></a>
+                                <a href="{{ route('admin.add_form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;"><i class="mdi mdi-plus"></i> Create From Attribute</a>
                             </div>
                         </div>
                     </h4>

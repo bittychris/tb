@@ -22,7 +22,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Insert Data</div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_attribute_modal" style="float: right;">Back</button>
+                                <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back</a>
                             </div>
                         </div>
                     </h4>

@@ -46,7 +46,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.report') }}">
                 <i class="mdi mdi-chart-gantt menu-icon"></i>
-                <span class="menu-title">Reports</span>
+                <span class="menu-title">Fields</span>
             </a>
         </li>
 

@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Age groups</div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_age_group_modal" style="float: right;"><i class="mdi mdi-plus"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#add_age_group_modal" style="float: right;"><i class="mdi mdi-plus"></i> Add Age group</button>
                             </div>
                         </div>
                     </h4>

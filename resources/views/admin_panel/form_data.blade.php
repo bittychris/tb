@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', '{{ $form->scanning_name }}')
+@section('title', 'Insert Data')
 
 @section('admin-content')
 
