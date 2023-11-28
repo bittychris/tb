@@ -46,6 +46,12 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
+        Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs');
+        
+        Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff');
+
+        Route::get('staffs/{staff_id}/edit', [adminController::class, 'editStaff'])->name('admin.edit_staff');
+
         Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
         Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');

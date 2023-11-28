@@ -6,6 +6,12 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.staffs') }}">
+              <i class="mdi mdi-account-multiple menu-icon"></i>
+              <span class="menu-title">Staffs</span>
+          </a>
+      </li>
         {{-- <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <i class="mdi mdi-circle-outline menu-icon"></i>
@@ -27,7 +33,7 @@
         </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.age_groups') }}">
-                <i class="mdi mdi-account-multiple menu-icon"></i>
+                <i class="mdi mdi-google-circles-extended menu-icon"></i>
                 <span class="menu-title">Age groups</span>
             </a>
         </li>
@@ -49,6 +55,12 @@
                 <span class="menu-title">Fields</span>
             </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+              <i class="mdi mdi-file-chart menu-icon"></i>
+              <span class="menu-title">Reports</span>
+          </a>
+      </li>
 
         {{-- <li class="nav-item">
           <a class="nav-link" href="pages/tables/basic-table.html">

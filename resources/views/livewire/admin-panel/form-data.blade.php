@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Insert Data</div>
+                            <div class="col-6">Insert Field Data</div>
                             <div class="col-6">
                                 <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back</a>
                             </div>
