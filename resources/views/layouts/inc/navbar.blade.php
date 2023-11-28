@@ -114,8 +114,8 @@
               </div>
             </a>
           </div>
-        </li> --}}
-        <li class="nav-item nav-profile dropdown">
+        /li> --}}
+<        <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
             <img src="{{ asset('admin/images/faces/user_logo.jpg') }}" alt="profile"/>
             <span class="nav-profile-name">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
