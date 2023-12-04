@@ -7,11 +7,17 @@
             </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.roles') }}">
+              <i class="mdi mdi-account-key menu-icon"></i>
+              <span class="menu-title">Roles</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.staffs') }}">
               <i class="mdi mdi-account-multiple menu-icon"></i>
               <span class="menu-title">Staffs</span>
           </a>
-      </li>
+        </li>
         {{-- <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <i class="mdi mdi-circle-outline menu-icon"></i>

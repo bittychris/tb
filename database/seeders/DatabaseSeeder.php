@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\WardSeeder;
+use Database\Seeders\RegionSeeder;
+use Database\Seeders\DistrictSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +24,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(UserSeeder::class);
+        $this->call(RoleSeeder::class);
         $this->call(RegionSeeder::class);
         $this->call(DistrictSeeder::class);
         $this->call(WardSeeder::class);

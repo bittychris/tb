@@ -73,5 +73,10 @@ class adminController extends Controller
         return view('admin_panel.edit_staff', ['staff_id' => $staff_id]);
     }
 
+    public function roles() {
+        return view('admin_panel.roles');
+
+    }
+
 
 }

@@ -25,43 +25,40 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('login', [LoginController::class, 'show_login'])->name('login');
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
-Route::group(['middleware' => 'auth'], function() {
-
     //admin
-    Route::group(['prefix' => 'admin'], function() {
-        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+// Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
+Route::middleware(['auth'])->prefix('admin')->group(function() {
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-        Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs');
-        
-        Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff');
+    Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs');
+    
+    Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff');
 
-        Route::get('staffs/{staff_id}/edit', [adminController::class, 'editStaff'])->name('admin.edit_staff');
+    Route::get('staffs/{staff_id}/edit', [adminController::class, 'editStaff'])->name('admin.edit_staff');
 
-        Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+    Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
-        Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+    Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
 
-        Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+    Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
 
-        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+    Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
 
-        Route::get('form_attributes/{form_id}/edit', [adminController::class, 'editFormAttributes'])->name('admin.edit_form_attributes');
+    Route::get('form_attributes/{form_id}/edit', [adminController::class, 'editFormAttributes'])->name('admin.edit_form_attributes');
 
-        Route::get('create_form/{form_attributes_id}', [adminController::class, 'createForm'])->name('admin.create_form');
+    Route::get('create_form/{form_attributes_id}', [adminController::class, 'createForm'])->name('admin.create_form');
 
-        Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data');
-        
-        Route::get('form_data/create', [adminController::class, 'createFormData'])->name('admin.create_form_data');
+    Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data');
+    
+    Route::get('form_data/create', [adminController::class, 'createFormData'])->name('admin.create_form_data');
 
-        Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report');
+    Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report');
 
-    });
-
-    //regional coordinator
-
-
+    Route::get('roles', [adminController::class, 'roles'])->name('admin.roles');
 
 });
 
+
+    //regional coordinator
