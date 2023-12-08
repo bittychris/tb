@@ -142,6 +142,15 @@
             </form>
           </div>
         </li>
+        <li class="nav-item">
+          <a href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();"
+            class="dropdown-item">
+             <i class="mdi mdi-logout text-primary me-1"></i>
+             <span>Logout</span>
+            </a>
+        </li>
       </ul>
       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
         <span class="mdi mdi-menu"></span>
