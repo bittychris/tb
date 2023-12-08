@@ -58,6 +58,21 @@ class adminController extends Controller
         return view('admin_panel.report_list');
     }
 
+    public function admins() {
+
+        return view('admin_panel.admin_list');
+    }
+
+    public function addAdmin() {
+        return view('admin_panel.add_admin');
+
+    }
+
+    public function editAdmin($admin_id) {
+
+        return view('admin_panel.edit_admin', ['admin_id' => $admin_id]);
+    }
+
     public function staffs() {
 
         return view('admin_panel.staff_list');

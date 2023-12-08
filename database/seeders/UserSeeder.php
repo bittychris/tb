@@ -18,13 +18,14 @@ class UserSeeder extends Seeder
         if (User::count() == 0) {
 
             User::create([
-                'first_name'           => 'Juma',
-                'last_name'           => 'John',
-                'phone'           => '+255 789 435 676',
+                'first_name'     => 'Juma',
+                'last_name'      => 'Hashim',
+                'phone'          => '+255 789 435 676',
                 'email'          => 'admin@gmail.com',
                 'password'       => bcrypt('Admin'),
                 'remember_token' => Str::random(60),
-            ])->assignRole('admin');
+                'role_id'        => ''
+            ])->assignRole('');
         }
     }
 

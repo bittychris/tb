@@ -32,6 +32,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
 
     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
+    Route::get('admins', [adminController::class, 'admins'])->name('admin.admins');
+    
+    Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin');
+
+    Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin');
+
     Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs');
     
     Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff');
@@ -64,7 +70,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
 
     Route::get('permissions_to_roles/add', [adminController::class, 'addPermissionsToRole'])->name('admin.add.permissions.role');
 
-    Route::get('permissions_to_roles/{role_id}/adite', [adminController::class, 'editPermissionsToRole'])->name('admin.edit.permissions.role');
+    Route::get('permissions_to_roles/{role_id}/edit', [adminController::class, 'editPermissionsToRole'])->name('admin.edit.permissions.role');
 
 
 });

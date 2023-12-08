@@ -11,6 +11,8 @@ class AddPermissionsToRole extends Component
 {
     public $selectedAllPermissionIds, $permissions, $role_id;
     
+    public $all_permissions = [];
+
     public $selectedPermissionIds = [];
 
     public $allPermissions = true;
@@ -21,14 +23,21 @@ class AddPermissionsToRole extends Component
     {
         $this->role_id = $role_id ;
 
+        $this->selectedPermissionIds = [];
+
         if ($role_id){
             $this->editMode = true;
             $permission_ids = DB::table('role_has_permissions')
-            ->select('*')
-            ->where('permission_id', $this->role_id)
-            ->get();
+                            ->select('*')
+                            ->where('role_id', $this->role_id)
+                            ->get();
 
-            $this->selectedPermissionIds = $permission_ids;
+            foreach($permission_ids as $permission) {
+                array_push($this->selectedPermissionIds, $permission->permission_id);
+    
+            }
+
+            return $this->selectedPermissionIds;
 
         }else{
             $this->editMode = false;
@@ -82,7 +91,7 @@ class AddPermissionsToRole extends Component
 
         } else {
 
-            if (!$this->editMode){
+            if ($this->editMode == false){
 
                 $data = array();
 
@@ -107,25 +116,42 @@ class AddPermissionsToRole extends Component
 
                 $this->clearForm();
 
+                redirect(route('admin.permissions.roles'));
+
                 session()->flash('success', 'Permissions of the Role saves successfully');
 
-            }else{
-                $data = array();
+            } else {
 
-                foreach($this->selectedPermissionIds as $permission_id) {
-                    $data['role_id'] = $validatedData['role_id'];
-                    $data['permission_id'] = $permission_id;
+                $role_permission_del = DB::table('role_has_permissions')
+                                        ->where('role_id', $this->role_id)
+                                        ->delete();
+                
+                if($role_permission_del) {
 
-                    DB::table('role_has_permissions')->insert($data);
+                    $data = array();
+
+                    foreach($this->selectedPermissionIds as $permission_id) {
+                        $data['role_id'] = $validatedData['role_id'];
+                        $data['permission_id'] = $permission_id;
+    
+                        DB::table('role_has_permissions')
+                            ->insert($data);
+    
+                    }
+    
+                    $data = [];
+                    
+                    $this->clearForm();
+                   
+                    redirect(route('admin.permissions.roles'));
+
+                    session()->flash('success', 'Permissions of the Role updated successfully');
+
+                } else {
+                    session()->flash('error', 'An error occurred. Try again later.');
 
                 }
-
-                $data = [];
                 
-                $this->clearForm();
-               
-                session()->flash('success', 'Permissions of the Role updated successfully');
-                // return redirect(route('admin.permissions.roles'));
             }
 
         }
@@ -134,6 +160,8 @@ class AddPermissionsToRole extends Component
 
     public function clearForm()
     {
+        $this->all_permissions = [];
+
         $this->editMode = false;
 
         $this->reset(

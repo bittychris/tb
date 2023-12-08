@@ -6,26 +6,26 @@ use App\Models\User;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
-class AddStaff extends Component
+class AddAdmin extends Component
 {
-    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $role_id;
+    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $role_id;
 
     public $editMode = false;
     
-    public function mount($staff_id = null)
+    public function mount($admin_id = null)
     {
-        $this->staff_id = $staff_id;
+        $this->admin_id = $admin_id;
 
-        if ($staff_id){
+        if ($admin_id){
             $this->editMode = true;
 
-            $this->staff = User::findOrFail($staff_id);
+            $this->admin = User::findOrFail($admin_id);
 
-            $this->first_name = $this->staff->first_name;
-            $this->last_name = $this->staff->last_name;
-            $this->email = $this->staff->email;
-            $this->phone = $this->staff->phone;
-            $this->role_id = $this->staff->role_id;
+            $this->first_name = $this->admin->first_name;
+            $this->last_name = $this->admin->last_name;
+            $this->email = $this->admin->email;
+            $this->phone = $this->admin->phone;
+            $this->role_id = $this->admin->role_id;
             
         }else{
             $this->editMode = false;
@@ -49,20 +49,20 @@ class AddStaff extends Component
         $this->validateOnly($fields);
     }
 
-    public function saveStaff() {
+    public function saveAdmin() {
         $validatedData = $this->validate();
 
         if($this->editMode == false) {
             // $this->user->password = bcrypt($this->user_password);
 
-            $checkStaffExists = User::where('email', $validatedData['email'])->exists();
+            $checkAdminExists = User::where('email', $validatedData['email'])->exists();
 
-            if ($checkStaffExists) {
+            if ($checkAdminExists) {
                 session()->flash('already_exist', 'The Email already exists.');
 
             } else {
             
-                $staff = User::create([
+                $admin = User::create([
                     'first_name' => $validatedData['first_name'],
                     'last_name' => $validatedData['last_name'],
                     'phone' => $validatedData['phone'],
@@ -70,10 +70,10 @@ class AddStaff extends Component
                     'role_id' => $validatedData['role_id']
                 ]);
 
-                if ($staff) {
+                if ($admin) {
                     $this->clearForm();
-                    redirect(route('admin.staffs'));
-                    session()->flash('danger', 'Staff deleted successfully');
+                    redirect(route('admin.admins'));
+                    session()->flash('danger', 'Admin deleted successfully');
 
                 } else {
                     session()->flash('error', 'An error occurred. Try again later.');
@@ -83,7 +83,7 @@ class AddStaff extends Component
 
         } else {
             
-            $staff = User::where('id', $this->staff_id)->update([
+            $admin = User::where('id', $this->admin_id)->update([
                 'first_name' => $validatedData['first_name'],
                 'last_name' => $validatedData['last_name'],
                 'phone' => $validatedData['phone'],
@@ -92,10 +92,10 @@ class AddStaff extends Component
 
             ]);
 
-            if ($staff) {
+            if ($admin) {
                 $this->clearForm();
-                redirect(route('admin.staffs'));
-                session()->flash('success', 'Staff details updated successfully');
+                redirect(route('admin.admins'));
+                session()->flash('success', 'Admin details updated successfully');
 
             } else {
                 session()->flash('error', 'An error occurred. Try again later.');
@@ -109,9 +109,9 @@ class AddStaff extends Component
     public function clearForm() {
         $this->editMode = false;
 
-        $this->staff = '';
+        $this->admin = '';
 
-        $this->staff_id = '';
+        $this->admin_id = '';
 
         $this->reset(
             'first_name',
@@ -124,9 +124,9 @@ class AddStaff extends Component
 
     public function render()
     {
-        $roles = Role::whereNot('name', 'Admin')->get();
+        $roles = Role::where('name', 'Admin')->get();
 
-        return view('livewire.admin-panel.add-staff', [
+        return view('livewire.admin-panel.add-admin', [
             'roles' => $roles,
         ]);
     }

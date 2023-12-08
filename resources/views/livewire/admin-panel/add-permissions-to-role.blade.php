@@ -4,6 +4,9 @@
             @if (session()->has('already_exist'))
                 @include('partial.alert')
 
+            @elseif (session()->has('success'))
+                @include('partial.alert')
+
             @elseif (session()->has('warning'))
                 @include('partial.alert')
 
@@ -20,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">{{ $editMode == true ? 'Update assigned Permissions to role' : 'Assign Permissions to role' }}</div>
+                            <div class="col-6">{{ $editMode == true ? 'Update Permissions assigned to role' : 'Assign Permissions to role' }}</div>
                             <div class="col-6">
                                 <a href="{{ route('admin.permissions.roles') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back</i></a>
                             </div>
@@ -47,7 +50,7 @@
                                     <label for="permissions">Select Permission</label>
                                 </div>
                                 <div class="col-4 border pt-2 border-primary">
-                                    <input class="form-check-input" type="checkbox" {{ $allPermissions == false ? 'checked' : '' }} wire:click="{{ $allPermissions == true ? 'selectAllPermissions' : 'deselectAllPermissions' }}" value="all-permissions" id="all-permissions">
+                                    <input class="form-check-input" type="checkbox" wire:model="all_permissions" wire:click="{{ $allPermissions == true ? 'selectAllPermissions' : 'deselectAllPermissions' }}" value="all-permissions" id="all-permissions">
                                     <label class="form-check-label text-secondary" wire:click="{{ $allPermissions == true ? 'selectAllPermissions' : 'deselectAllPermissions' }}" for="all-permissions">
                                         All Permissions
                                     </label>

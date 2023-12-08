@@ -21,23 +21,25 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/forms/basic_elements.html">
-            <i class="mdi mdi-view-headline menu-icon"></i>
-            <span class="menu-title">Form elements</span>
+          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <i class="mdi mdi-account-multiple menu-icon"></i>
+            <span class="menu-title">Admins and Staffs</span>
+            <i class="menu-arrow"></i>
           </a>
+          <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu ">
+              <li class="nav-item"> <a class="nav-link" href="{{ route('admin.admins') }}">Admins</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{{ route('admin.staffs') }}">Staffs</a></li>
+              {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('admin.permissions.roles') }}">Roles in Permissions</a></li> --}}
+            </ul>
+          </div>
         </li>
         {{-- <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.roles') }}">
-              <i class="mdi mdi-account-key menu-icon"></i>
-              <span class="menu-title">Roles</span>
-          </a>
-        </li> --}}
-        <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.staffs') }}">
               <i class="mdi mdi-account-multiple menu-icon"></i>
               <span class="menu-title">Staffs</span>
           </a>
-        </li>
+        </li> --}}
         {{-- <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <i class="mdi mdi-circle-outline menu-icon"></i>
@@ -65,7 +67,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.attributes') }}">
-                <i class="mdi mdi-database menu-icon"></i>
+                <i class="mdi mdi-view-headline menu-icon"></i>
                 <span class="menu-title">Attributes</span>
             </a>
         </li>

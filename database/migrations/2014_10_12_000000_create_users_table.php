@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('phone');
             $table->timestamp('email_verified_at')->now()->nullable();
             $table->string('password');
-            // $table->string('role');
+            $table->foreignId('role_id')->unsigned()->nullable()->constrained();
+            $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

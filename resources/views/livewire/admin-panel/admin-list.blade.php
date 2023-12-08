@@ -20,9 +20,9 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">staffs</div>
+                            <div class="col-6">Admins</div>
                             <div class="col-6">
-                                <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Staff</a>
+                                <a href="{{ route('admin.add_admin') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Admin</a>
                             </div>
                         </div>
                     </h4>
@@ -39,27 +39,27 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            @forelse($staffs as $key => $staff)
+                            @forelse($admins as $key => $admin)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
-                                    <td>{{ $staff->first_name }} {{ $staff->last_name }}</td>
-                                    <td>{{ $staff->email }}</td>
-                                    <td>{{ $staff->phone }}</td>
-                                    <td>{{ $staff->role->name }}</td>
+                                    <td>{{ $admin->first_name }} {{ $admin->last_name }}</td>
+                                    <td>{{ $admin->email }}</td>
+                                    <td>{{ $admin->phone }}</td>
+                                    <td>{{ $admin->role->name }}</td>
                                     <td>
-                                        <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteStaff({{$staff->id}})" data-bs-toggle="modal" data-bs-target="#delete_staff_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
+                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" data-bs-toggle="modal" data-bs-target="#delete_admin_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No Staff added!</td>
+                                    <td colspan="6" class="text-center">No Admin added!</td>
                                 </tr>
                             @endforelse
                             <tbody>
                             </tbody>
                         </table>
-                        {{ $staffs->links() }}
+                        {{ $admins->links() }}
                     </div>
                 </div>
             </div>
@@ -67,16 +67,16 @@
     </div>
 
     <!-- Delete age group Modal -->
-    <div wire:ignore.self class="modal fade" id="delete_staff_modal" tabindex="-1" aria-labelledby="delete_staff_modal_label" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="delete_admin_modal" tabindex="-1" aria-labelledby="delete_admin_modal_label" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
-        <form class="forms-sample" wire:submit.prevent="DeleteStaff">
+        <form class="forms-sample" wire:submit.prevent="DeleteAdmin">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm</h1>
                 <button type="button" wire:click="clearForm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-3">
-                Do you want to Delete this Staff?
+                Do you want to Delete this Admin?
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
@@ -96,7 +96,7 @@
     // Delete modal
     document.addEventListener('livewire:load', function () {
         livewire.on('closeFrom', () => {
-            $('#delete_staff_modal').modal('hide')
+            $('#delete_admin_modal').modal('hide')
         });
     });
 </script>

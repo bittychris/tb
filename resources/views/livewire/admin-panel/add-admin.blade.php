@@ -20,14 +20,14 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">{{ $editMode == true ? 'Edit Staff details' : 'Add Staff' }}</div>
+                            <div class="col-6">{{ $editMode == true ? 'Edit Admin details' : 'Add Admin' }}</div>
                             <div class="col-6">
-                                <a href="{{ route('admin.staffs') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back</i></a>
+                                <a href="{{ route('admin.admins') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back</i></a>
                             </div>
                         </div>
                     </h4>
 
-                    <form class="forms-sample" wire:submit.prevent="saveStaff">
+                    <form class="forms-sample" wire:submit.prevent="saveAdmin">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <div class="row">
@@ -70,12 +70,12 @@
                                     @error('role_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                         <div class="mt-3 mb-2">
                             @if($editMode)
-                                <button type="submit" class="btn btn-primary text-white" style="float: right;">Update</button>
+                                <button type="submit" class="btn btn-success text-white" style="float: right;">Update</button>
                             @else
-                                <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
+                                <button type="submit" class="btn btn-success text-white" style="float: right;">Save</button>
                             @endif
                         </div>
                     </form>
