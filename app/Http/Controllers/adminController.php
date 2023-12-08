@@ -78,5 +78,25 @@ class adminController extends Controller
 
     }
 
+    public function permissions() {
+        return view('admin_panel.permissions');
+
+    }
+
+    public function permissionsToRoles() {
+        return view('admin_panel.permissions_to_role_list');
+
+    }
+
+    public function addPermissionsToRole() {
+        return view('admin_panel.add_permissions_to_role');
+
+    }
+
+    public function editPermissionsToRole($role_id) {
+        return view('admin_panel.edit_permissions_to_role', ['role_id' => $role_id]);
+
+    }
+
 
 }

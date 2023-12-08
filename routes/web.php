@@ -58,6 +58,15 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
 
     Route::get('roles', [adminController::class, 'roles'])->name('admin.roles');
 
+    Route::get('permissions', [adminController::class, 'permissions'])->name('admin.permissions');
+
+    Route::get('permissions_to_roles', [adminController::class, 'permissionsToRoles'])->name('admin.permissions.roles');
+
+    Route::get('permissions_to_roles/add', [adminController::class, 'addPermissionsToRole'])->name('admin.add.permissions.role');
+
+    Route::get('permissions_to_roles/{role_id}/adite', [adminController::class, 'editPermissionsToRole'])->name('admin.edit.permissions.role');
+
+
 });
 
 
