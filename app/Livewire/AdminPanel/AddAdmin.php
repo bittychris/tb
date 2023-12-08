@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 
 class AddAdmin extends Component
 {
-    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $role_id;
+    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $roles, $role_id;
 
     public $editMode = false;
     
@@ -71,6 +71,8 @@ class AddAdmin extends Component
                 ]);
 
                 if ($admin) {
+                    // $admin ->assignRole($this->roles);
+
                     $this->clearForm();
                     redirect(route('admin.admins'));
                     session()->flash('danger', 'Admin deleted successfully');
@@ -124,10 +126,10 @@ class AddAdmin extends Component
 
     public function render()
     {
-        $roles = Role::where('name', 'Admin')->get();
+        $this->roles = Role::where('name', 'Admin')->get();
 
         return view('livewire.admin-panel.add-admin', [
-            'roles' => $roles,
+            'roles' => $this->roles,
         ]);
     }
 }
