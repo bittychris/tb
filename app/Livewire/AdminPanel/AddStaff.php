@@ -4,11 +4,12 @@ namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class AddStaff extends Component
 {
-    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $role_id;
+    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $roles, $role_id;
 
     public $editMode = false;
     
@@ -71,9 +72,12 @@ class AddStaff extends Component
                 ]);
 
                 if ($staff) {
+                    $role = Role::find($this->role_id);
+                    $staff->assignRole($role->name);
+
                     $this->clearForm();
-                    redirect(route('admin.staffs'));
-                    session()->flash('danger', 'Staff deleted successfully');
+                    session()->flash('success', 'New Staff saved successfully');
+                    return redirect(route('admin.staffs'));
 
                 } else {
                     session()->flash('error', 'An error occurred. Try again later.');
@@ -92,11 +96,24 @@ class AddStaff extends Component
 
             ]);
 
-            if ($staff) {
-                $this->clearForm();
-                redirect(route('admin.staffs'));
-                session()->flash('success', 'Staff details updated successfully');
+            // $staff->roles()->detach(); // this didn't work
 
+            if ($staff) {
+                // clear staff data in model_has_role table to enter new one
+                $del_existing_role = DB::table('model_has_roles')->where('model_id', $this->staff_id)
+                                    ->delete();
+
+                if($del_existing_role) {
+                    $role = Role::find($this->role_id);
+                    $staff = User::find($this->staff_id);
+                    $staff->assignRole($role->name);
+
+                    $this->clearForm();
+                    session()->flash('success', 'Staff details updated successfully');
+                    return redirect(route('admin.staffs'));
+    
+                }
+               
             } else {
                 session()->flash('error', 'An error occurred. Try again later.');
             }
@@ -124,10 +141,10 @@ class AddStaff extends Component
 
     public function render()
     {
-        $roles = Role::whereNot('name', 'Admin')->get();
+        $this->roles = Role::whereNot('name', 'Admin')->get();
 
         return view('livewire.admin-panel.add-staff', [
-            'roles' => $roles,
+            'roles' => $this->roles,
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class AddAdmin extends Component
@@ -71,12 +72,13 @@ class AddAdmin extends Component
                 ]);
 
                 if ($admin) {
-                    // $admin ->assignRole($this->roles);
-
+                    $role = Role::find($this->role_id);
+                    $admin->assignRole($role->name);
+                    
                     $this->clearForm();
-                    redirect(route('admin.admins'));
-                    session()->flash('danger', 'Admin deleted successfully');
-
+                    session()->flash('success', 'New Admin saved successfully');
+                    return redirect(route('admin.admins'));
+                    
                 } else {
                     session()->flash('error', 'An error occurred. Try again later.');
                 }
@@ -93,12 +95,25 @@ class AddAdmin extends Component
                 'role_id' => $validatedData['role_id']
 
             ]);
+            
+            // $admin->roles()->detach(); // This didn't work
 
             if ($admin) {
-                $this->clearForm();
-                redirect(route('admin.admins'));
-                session()->flash('success', 'Admin details updated successfully');
+                // clear admin data in model_has_role table to enter new one
+                $del_existing_role = DB::table('model_has_roles')->where('model_id', $this->admin_id)
+                                    ->delete();
+                
+                if($del_existing_role) {
+                    $role = Role::find($this->role_id);
+                    $admin = User::find($this->admin_id);
+                    $admin->assignRole($role->name);
 
+                    $this->clearForm();
+                    session()->flash('success', 'Admin details updated successfully');
+                    return redirect(route('admin.admins'));
+    
+                }
+               
             } else {
                 session()->flash('error', 'An error occurred. Try again later.');
             }

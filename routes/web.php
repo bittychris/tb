@@ -20,7 +20,7 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::get('/', [indexController::class, 'index'])->name('index');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home',  [HomeController::class, 'index'])->name('home');
 
 Route::get('login', [LoginController::class, 'show_login'])->name('login');
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function() {
 
     //admin
     Route::group(['prefix' => 'admin'],function() {
-        
+
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
         Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');

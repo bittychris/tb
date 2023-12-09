@@ -45,7 +45,11 @@
                                     <td>{{ $admin->first_name }} {{ $admin->last_name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->phone }}</td>
-                                    <td>{{ $admin->role->name }}</td>
+                                    <td>
+                                        <span class="badge bg-success rounded">
+                                            {{ $admin->role->name }}
+                                        </span>
+                                    </td>
                                     <td>
                                         <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
                                         <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" data-bs-toggle="modal" data-bs-target="#delete_admin_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
