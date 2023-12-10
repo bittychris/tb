@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
-@section('title', 'Staffs')
+@section('title', 'Admins')
 
 @section('admin-content')
 
-    <livewire:admin_panel.admin-list />
+    <livewire:admin_panel.admin-list :admins_status="true" />
 
 @endsection

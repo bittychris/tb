@@ -12,7 +12,12 @@ class StaffList extends Component
     
     protected $paginationTheme = 'bootstrap';
     
-    public $staff_id;
+    public $staff_id, $status, $btn_display;
+
+    public function mount($staffs_status) {
+        $this->status = $staffs_status;
+
+    }
 
     public function prepareDeleteStaff($staff_id) {
         $this->staff_id = $staff_id;
@@ -20,19 +25,34 @@ class StaffList extends Component
 
     public function DeleteStaff() {
 
-        $staff = User::where('id', $this->staff_id)->update([
-            'status' => false
-        ]);
-
-        if ($staff) {
-            $this->clearForm();
-            redirect(route('admin.staffs'));
-            session()->flash('danger', 'Staff details deleted successfully');
+        if ($this->status == true) {
+            $staff = User::where('id', $this->staff_id)->update([
+                'status' => false
+            ]);
+    
+            if ($staff) {
+                $this->clearForm();
+                session()->flash('warning', 'Staff details deleted successfully');
+    
+            } else {
+                session()->flash('error', 'An error occurred. Try again later.');
+            }
 
         } else {
-            session()->flash('error', 'An error occurred. Try again later.');
-        }
+            $staff = User::where('id', $this->staff_id)->update([
+                'status' => true
+            ]);
+    
+            if ($staff) {
+                $this->clearForm();
+                session()->flash('success', 'Staff details restored successfully');
+    
+            } else {
+                session()->flash('error', 'An error occurred. Try again later.');
+            }
 
+        }
+        
     }
 
     public function clearForm() {
@@ -41,7 +61,16 @@ class StaffList extends Component
 
     public function render()
     {
-        $staffs = User::where('status', true)->whereNot('role_id', 1)->latest()->paginate(10);
+        if ($this->status == false) {
+            $this->btn_display = 'none';
+
+            $staffs = User::where('status', $this->status)->whereNot('role_id', 1)->latest()->paginate(10);
+
+        } else {
+            $this->btn_display = 'block';
+            $staffs = User::where('status', $this->status)->whereNot('role_id', 1)->latest()->paginate(10);
+
+        }
 
         return view('livewire.admin-panel.staff-list', [
             'staffs' => $staffs

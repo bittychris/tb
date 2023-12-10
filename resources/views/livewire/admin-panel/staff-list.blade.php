@@ -21,7 +21,8 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">staffs</div>
-                            <div class="col-6">
+                            <div class="col-6">{{ $status == true ? 'Staffs' : 'Deleted Staffs' }}</div>
+                            <div class="col-6" style="display: {{ $btn_display }}">
                                 <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Staff</a>
                             </div>
                         </div>
@@ -51,8 +52,8 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteStaff({{$staff->id}})" data-bs-toggle="modal" data-bs-target="#delete_staff_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-xs text-white"  style="display: {{ $btn_display }}"><i class="mdi mdi-pencil"></i></a>
+                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteStaff('{{$staff->id}}')" data-bs-toggle="modal" data-bs-target="#delete_staff_modal" title="Delete"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
                                     </td>
                                 </tr>
                             @empty
@@ -80,11 +81,11 @@
                 <button type="button" wire:click="clearForm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-3">
-                Do you want to Delete this Staff?
+                {{ $status == true ? 'Do you want to Delete this Staff?' : 'Do you want to Restore this Staff Details?' }}
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <button type="submit" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }}">{{ $status == true ? 'Yes, Delete' : 'Yes, Restore' }}</button>
             </div>
         </form>
 

@@ -73,6 +73,13 @@ class adminController extends Controller
         return view('admin_panel.edit_admin', ['admin_id' => $admin_id]);
     }
 
+    public function deactivatedAdmins() {
+
+        $admins_status = false;
+
+        return view('admin_panel.deactivated_admin_list', ['admins_status' => $admins_status]);
+    }   
+
     public function staffs() {
 
         return view('admin_panel.staff_list');
@@ -87,6 +94,13 @@ class adminController extends Controller
 
         return view('admin_panel.edit_staff', ['staff_id' => $staff_id]);
     }
+
+    public function deactivatedStaffs() {
+
+        $staffs_status = false;
+
+        return view('admin_panel.deactivated_staff_list', ['staffs_status' => $staffs_status]);
+    }    
 
     public function roles() {
         return view('admin_panel.roles');
