@@ -67,6 +67,7 @@ class PermissionList extends Component
 
         $this->permission_id = $permission->id;
         $this->permission_name = $permission->name;
+        $this->group_name = $permission->group_name;
 
     }
 

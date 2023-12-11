@@ -16,7 +16,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('assets/css/css/style.css') }}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" />
 </head>
 
 <body>
@@ -26,7 +26,7 @@
         <div class="row w-100 mx-0">
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo fw-bold">
+              <div class="brand-logo fw-bold text-center">
                 USAID Afya Shirikishi
                 {{-- <img src="../../images/logo.svg" alt="logo"> --}}
               </div>
@@ -44,12 +44,12 @@
                   <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
+                  {{-- <div class="form-check">
                     <label class="form-check-label text-muted">
                       <input type="checkbox" class="form-check-input">
                       Keep me signed in
                     </label>
-                  </div>
+                  </div> --}}
                   {{-- <a href="#" class="auth-link text-black">Forgot password?</a> --}}
                 </div>
                 {{-- <div class="mb-2">
@@ -71,12 +71,12 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="{{ asset('assets/vendor/vendors/base/vendor.bundle.base.js') }}"></script>
+  {{-- <script src="{{ asset('assets/vendor/vendors/base/vendor.bundle.base.js') }}"></script> --}}
   <!-- endinject -->
   <!-- inject:js -->
-  <script src="{{ asset('assets/js/js/off-canvas.js') }}"></script>
-  <script src="{{ asset('assets/js/js/hoverable-collapse.js') }}"></script>
-  <script src="{{ asset('assets/js/js/template.js') }}"></script>
+  {{-- <script src="{{ asset('assets/js/js/off-canvas.js') }}"></script> --}}
+  {{-- <script src="{{ asset('assets/js/js/hoverable-collapse.js') }}"></script> --}}
+  {{-- <script src="{{ asset('assets/js/js/template.js') }}"></script> --}}
   <!-- endinject -->
 </body>
 

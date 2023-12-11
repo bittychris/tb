@@ -21,7 +21,7 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">{{ $status == true ? 'Admins' : 'Deleted Admins' }}</div>
-                            <div class="col-6"" style="display: {{ $btn_display }}">
+                            <div class="col-6" style="display: {{ $btn_display }};">
                                 <a href="{{ route('admin.add_admin') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Admin</a>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-xs text-white" style="display: {{ $btn_display }}"><i class="mdi mdi-pencil"></i></a>
+                                        <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-sm text-white" style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
                                         <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" data-bs-toggle="modal" data-bs-target="#delete_admin_modal" title="Delete"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
                                     </td>
                                 </tr>

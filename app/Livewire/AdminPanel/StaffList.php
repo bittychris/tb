@@ -67,7 +67,7 @@ class StaffList extends Component
             $staffs = User::where('status', $this->status)->whereNot('role_id', 1)->latest()->paginate(10);
 
         } else {
-            $this->btn_display = 'block';
+            $this->btn_display = '';
             $staffs = User::where('status', $this->status)->whereNot('role_id', 1)->latest()->paginate(10);
 
         }

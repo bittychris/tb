@@ -47,7 +47,7 @@
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $Role->name }}</td>
                                     <td>
-                                        @forelse ($RolesPermissions as $permission)
+                                        @foreach ($RolesPermissions as $permission)
                                             @if ($Role->id == $permission->role_id)
                                                 <span class="badge rounded bg-success">
                                                 {{ $permission->permission_name }}

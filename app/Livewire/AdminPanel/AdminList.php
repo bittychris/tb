@@ -66,7 +66,7 @@ class AdminList extends Component
             $admins = User::where('status', $this->status)->where('role_id', 1)->latest()->paginate(10);
 
         } else {
-            $this->btn_display = 'block';
+            $this->btn_display = '';
             $admins = User::where('status', $this->status)->where('role_id', 1)->latest()->paginate(10);
 
         }
