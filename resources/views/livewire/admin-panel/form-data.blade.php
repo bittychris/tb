@@ -32,7 +32,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="district_id">Form</label>
-                                    <select wire:model.live="form_id" class="form-control form-control-sm text-dark" >
+                                    <select wire:model.live="form_id" class="form-control form-control-sm text-dark" required >
                                         <option value="" class="fw-bold">Select Form</option>
                                         @foreach ($formsAttributes as $formsAttribute)
 
@@ -45,7 +45,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="scanning_name">Scanning Name</label>
-                                    <input type="text" wire:model="scanning_name" class="form-control form-control-sm">
+                                    <input type="text" wire:model="scanning_name" class="form-control form-control-sm" required>
                                     @error('scanning_name') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label >Region</label>
-                                    <select wire:model.live="region_id" class="form-control form-control-sm text-dark" >
+                                    <select wire:model.live="region_id" class="form-control form-control-sm text-dark" required >
                                         <option value="" class="fw-bold">Select Region</option>
                                         @foreach ($regions as $region)
                                             <option value="{{ $region->id }}">{{ $region->name }}</option>
@@ -65,7 +65,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="district_id">District</label>
-                                    <select wire:model.live="district_id" class="form-control form-control-sm text-dark" >
+                                    <select wire:model.live="district_id" class="form-control form-control-sm text-dark" required>
                                         <option value="" class="fw-bold">Select District</option>
                                         @foreach ($districts as $district)
                                             <option value="{{ $district->id }}">{{ $district->name }}</option>
@@ -77,7 +77,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="district_id">Ward</label>
-                                    <select wire:model="ward_id" class="form-control form-control-sm text-dark" >
+                                    <select wire:model="ward_id" class="form-control form-control-sm text-dark" required >
                                         <option value="" class="fw-bold">Select Ward</option>
                                         @foreach ($wards as $ward)
                                             <option value="{{ $ward->id }}">{{ $ward->name }}</option>
@@ -89,7 +89,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="scanning_name">Address</label>
-                                    <input type="text" wire:model="address" class="form-control form-control-sm">
+                                    <input type="text" wire:model="address" class="form-control form-control-sm" required>
                                     @error('address') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
@@ -117,10 +117,10 @@
                                             <td>{{ $ageGroup->slug }}</td>
                                             @foreach($attributeList as $attribute)
                                                 <td>
-                                                    <input type="number" style="width: 60px"  wire:model="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                    <input type="number" style="width: 60px"  wire:model="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F" rerquired>
                                                 </td>
                                                 <td>
-                                                    <input type="number" style="width: 60px" wire:model="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                    <input type="number" style="width: 60px" wire:model="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M" required>
                                                 </td>
                                             @endforeach
                                         </tr>
@@ -132,10 +132,10 @@
                                             <td>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
                                         @endforeach
                                     </tr>
+                                        <td>Grand Total</td>
 
                                     <!-- Add Grand Total row -->
                                     <tr>
-                                        <td>Grand Total</td>
                                         @foreach($attributeList as $attribute)
                                             <td colspan="2">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
                                         @endforeach
