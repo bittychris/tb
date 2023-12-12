@@ -12,9 +12,12 @@ class PermissionList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $permission_id, $permission, $permission_name, $group_name;
+    public $action, $permission_id, $permission, $permission_name, $group_name;
 
-    public $listen = 'closeFrom';
+    protected $listeners = [
+        'closeForm',
+        'openForm'
+    ];
 
     public $editMode = false;
     
@@ -49,9 +52,11 @@ class PermissionList extends Component
 
             if ($permission) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('success', 'Permission saved successfully');
 
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -59,15 +64,24 @@ class PermissionList extends Component
 
     }
 
-    public function prepareEditPermission($permission_id) {
+    public function prepareData($permission_id, $action) {
 
-        $this->editMode = true;
+        $this->permission_id = $permission_id;
+        $this->action = $action;
 
-        $permission = Permission::findOrFail($permission_id);
+        if($this->action == 'edit') {
+            $this->editMode = true;
 
-        $this->permission_id = $permission->id;
-        $this->permission_name = $permission->name;
-        $this->group_name = $permission->group_name;
+            $this->dispatch('openForm');
+
+            $permission = Permission::find($this->permission_id);
+            $this->permission_name = $permission->name;
+            $this->group_name = $permission->group_name;
+
+        } elseif($this->action == 'delete') {
+            $this->dispatch('openDeleteModal');
+
+        }      
 
     }
 
@@ -83,17 +97,13 @@ class PermissionList extends Component
 
         if ($permission) {
             $this->clearForm();
+            $this->dispatch('closeForm');
             session()->flash('success', 'Permission updated successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
-
-    }
-
-    public function prepareDeletePermission($permission_id) {
-
-        $this->permission_id = $permission_id;
 
     }
 
@@ -103,9 +113,11 @@ class PermissionList extends Component
 
         if ($permission) {
             $this->clearForm();
+            $this->dispatch('closeForm');
             session()->flash('warning', 'Permission deleted successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
         

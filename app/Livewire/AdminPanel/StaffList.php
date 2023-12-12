@@ -21,6 +21,8 @@ class StaffList extends Component
 
     public function prepareDeleteStaff($staff_id) {
         $this->staff_id = $staff_id;
+        $this->dispatch('openDeleteModal');
+
     }
 
     public function DeleteStaff() {
@@ -32,9 +34,11 @@ class StaffList extends Component
     
             if ($staff) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('warning', 'Staff details deleted successfully');
     
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -45,9 +49,11 @@ class StaffList extends Component
     
             if ($staff) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('success', 'Staff details restored successfully');
     
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 

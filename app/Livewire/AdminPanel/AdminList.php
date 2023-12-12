@@ -21,6 +21,8 @@ class AdminList extends Component
 
     public function prepareDeleteAdmin($admin_id) {
         $this->admin_id = $admin_id;
+        $this->dispatch('openDeleteModal');
+
     }
 
     public function DeleteAdmin() {
@@ -32,9 +34,11 @@ class AdminList extends Component
     
             if ($admin) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('warning', 'Admin details deleted successfully');
     
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -45,9 +49,11 @@ class AdminList extends Component
     
             if ($admin) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('success', 'Admin details restored successfully');
     
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 

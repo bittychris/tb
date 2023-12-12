@@ -12,6 +12,23 @@ class FormAttributesList extends Component
 
     protected $paginationTheme = 'bootstrap';
     
+    public $formAttribute_id;
+
+    public function prepareData($formAttribute_id) {
+        $this->formAttribute_id = $formAttribute_id;
+        $this->dispatch('openDeleteModal');
+
+    }
+
+    public function deleteFormAttribute() {
+        
+    }
+
+    public function clearForm() {
+        $this->formAttribute_id = '';
+
+    }
+
     public function render()
     {
         $form_attributes = FormAttribute::latest()->paginate(10);

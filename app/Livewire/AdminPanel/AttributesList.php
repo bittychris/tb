@@ -12,7 +12,7 @@ class AttributesList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $attribute_id, $attribute, $name;
+    public $action, $attribute_id, $attribute, $name;
 
     public $editMode = false;
     
@@ -45,9 +45,11 @@ class AttributesList extends Component
 
             if ($attribute) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('success', 'Attribute saved successfully');
 
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -55,14 +57,26 @@ class AttributesList extends Component
 
     }
 
-    public function prepareEditAttribute($attribute_id) {
+    public function prepareData($attribute_id, $action) {
         
-        $this->editMode = true;
+        $this->attribute_id = $attribute_id;
+        $this->action = $action;
 
-        $attribute = Attribute::findOrFail($attribute_id);
+        
+        if($this->action == 'edit') {
+            $this->editMode = true;
 
-        $this->attribute_id = $attribute->id;
-        $this->name = $attribute->name;
+            $this->dispatch('openForm');
+
+            $attribute = Attribute::findOrFail($attribute_id);
+
+            $this->attribute_id = $attribute->id;
+            $this->name = $attribute->name;
+        
+        } elseif($this->action == 'delete') {
+            $this->dispatch('openDeleteModal');
+
+        }  
 
     }
 
@@ -77,19 +91,13 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
-
+            $this->dispatch('closeForm');
             session()->flash('success', 'Age group updated successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
-
-    }
-
-    public function prepareDeleteAttribute($attribute_id) {
-
-        $this->attribute_id = $attribute_id;
 
     }
 
@@ -99,11 +107,11 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
-
+            $this->dispatch('closeForm');
             session()->flash('warning', 'Attribute deleted successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
         

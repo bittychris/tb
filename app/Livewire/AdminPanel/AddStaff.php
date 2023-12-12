@@ -68,7 +68,8 @@ class AddStaff extends Component
                     'last_name' => $validatedData['last_name'],
                     'phone' => $validatedData['phone'],
                     'email' => $validatedData['email'],
-                    'role_id' => $validatedData['role_id']
+                    'role_id' => $validatedData['role_id'],
+                    'password' => bcrypt('Admin')
                 ]);
 
                 if ($staff) {

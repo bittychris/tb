@@ -20,6 +20,7 @@ class PermissionsToRoleList extends Component
     public function prepareDeleteRolesInPermission($role_id) {
 
         $this->role_id = $role_id;
+        $this->dispatch('openDeleteModal');
 
     }
 
@@ -31,9 +32,11 @@ class PermissionsToRoleList extends Component
 
         if ($permission_ids_del) {
             $this->clearForm();
+            $this->dispatch('closeForm');
             session()->flash('warning', 'Permissions Assigned to role deleted successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
         

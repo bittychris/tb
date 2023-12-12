@@ -52,7 +52,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-sm text-white" style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
-                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" data-bs-toggle="modal" data-bs-target="#delete_admin_modal" title="Delete"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
+                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" title="Delete"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
                                     </td>
                                 </tr>
                             @empty
@@ -84,7 +84,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }}">{{ $status == true ? 'Yes, Delete' : 'Yes, Restore' }}</button>
+                <button type="submit" wire:loading.remove wire:target="DeleteAdmin" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }}">{{ $status == true ? 'Yes, Delete' : 'Yes, Restore' }}</button>
+                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteAdmin" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }}">{{ $status == true ? 'Deleting...' : 'Restoring...' }}</button>
             </div>
         </form>
 
@@ -98,10 +99,12 @@
 
 <script>
     // Delete modal
-    document.addEventListener('livewire:load', function () {
-        livewire.on('closeFrom', () => {
-            $('#delete_admin_modal').modal('hide')
-        });
+    window.addEventListener('openDeleteModal', event => {
+        $('#delete_admin_modal').modal('show');
+    });
+
+    window.addEventListener('closeForm', event => {
+        $('#delete_admin_modal').modal('hide');
     });
 </script>
     

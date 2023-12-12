@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Age groups</div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#add_age_group_modal" style="float: right;"><i class="mdi mdi-plus"></i> Add Age group</button>
+                                <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#age_group_form_modal" style="float: right;"><i class="mdi mdi-plus"></i> Add Age group</button>
                             </div>
                         </div>
                     </h4>
@@ -51,8 +51,8 @@
                                     <td>{{ $ageGroup->max }}</td>
                                     <td class="text-center">
                                         {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <button class="btn btn-warning btn-sm" wire:click="prepareEditAgeGroup('{{$ageGroup->id}}')" data-bs-toggle="modal" data-bs-target="#edit_age_group_modal" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAgeGroup('{{$ageGroup->id}}')" data-bs-toggle="modal" data-bs-target="#delete_age_group_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        <button class="btn btn-warning btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                        <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'delete')" titlee="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
                                 @empty
@@ -71,7 +71,7 @@
     </div>
   
   <!-- Add and Edit age group Modal -->
-  <div wire:ignore.self class="modal fade" id="{{ $editMode == true ? 'edit_age_group_modal' : 'add_age_group_modal' }}" tabindex="-1" aria-labelledby="add_age_group_modal_label" aria-hidden="true">
+  <div wire:ignore.self class="modal fade" id="age_group_form_modal" tabindex="-1" aria-labelledby="age_group_form_modal_label" aria-hidden="true">
     <div class="row justify-content-center mt-3 mb-0">
         <div class="col-5">
             @if (session()->has('already_exist'))
@@ -151,35 +151,20 @@
 @push('js')
 
 <script>
-    // View modal
-    // document.addEventListener('livewire:load', function () {
-    //     // livewire.on('prepareEditAgeGroup', () => {
-    //     //     $('#add_age_group_modal').modal('show')
-    //     // });
-    //     livewire.on('saveAgeGroup', () => {
-    //         $('#add_age_group_modal').modal('hide')
-    //     });
-    // });
-
-     // View modal
-     document.addEventListener('livewire:load', function () {
-        livewire.on('prepareEditAgeGroup', () => {
-            $('#edit_age_group_modal').modal('show')
-        });
-        livewire.on('updateAgeGroup', () => {
-            $('#edit_age_group_modal').modal('hide')
-        });
+    
+    window.addEventListener('openForm', event => {
+        $('#age_group_form_modal').modal('show');
     });
 
-    // Delete modal
-    document.addEventListener('livewire:load', function () {
-        livewire.on('prepareDeleteAgeGroup', () => {
-            $('#delete_age_group_modal').modal('show')
-        });
-        livewire.on('closeFrom', () => {
-            $('#delete_age_group_modal').modal('hide')
-        });
+    window.addEventListener('openDeleteModal', event => {
+        $('#delete_age_group_modal').modal('show');
     });
+
+    window.addEventListener('closeForm', event => {
+        $('#age_group_form_modal').modal('hide');
+        $('#delete_age_group_modal').modal('hide');
+    });
+
 </script>
     
 @endpush

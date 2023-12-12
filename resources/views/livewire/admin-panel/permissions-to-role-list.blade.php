@@ -89,7 +89,8 @@
            </div>
            <div class="modal-footer">
                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" class="btn btn-danger">Yes, Delete</button>
+               <button type="submit" wire:loading.remove wire:target="DeleteRolesInPermission" class="btn btn-danger">Yes, Delete</button>
+               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteRolesInPermission" class="btn btn-danger">Deleting...</button>
            </div>
        </form>
 
@@ -103,13 +104,12 @@
 
 <script>
     // Delete modal
-    document.addEventListener('livewire:load', function () {
-        // livewire.on('prepareDeletePermission', () => {
-        //     $('#delete_permission_modal').modal('show')
-        // });
-        livewire.on('closeFrom', () => {
-            $('#delete_permission_modal').modal('hide')
-        });
+    window.addEventListener('openDeleteModal', event => {
+        $('#delete_permissions_role_modal').modal('show');
+    });
+
+    window.addEventListener('closeForm', event => {
+        $('#delete_permissions_role_modal').modal('hide');
     });
 </script>
     
