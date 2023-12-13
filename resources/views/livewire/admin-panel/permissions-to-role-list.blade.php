@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Permissions in roles</div>
+                            <div class="col-6">Roles with Permissions</div>
                             <div class="col-6">
                                 <a href="{{ route('admin.add.permissions.role') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Assign Permissions to Role</a>
                             </div>
@@ -32,8 +32,8 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    {{-- <th>Group name</th> --}}
+                                    <th>Role</th>
+                                    <th>Permission(s)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -42,25 +42,33 @@
                                 @php
                                     $i = 1;
                                 @endphp
-                                @forelse ($PermissionsRoles as $PermissionsRole)
+                                @forelse ($Roles as $Role)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $PermissionsRole->role_id }}</td>
-                                    {{-- <td>{{ $permission->group_name }}</td> --}}
+                                    <td>{{ $Role->name }}</td>
+                                    <td>
+                                        @foreach ($RolesPermissions as $permission)
+                                            @if ($Role->id == $permission->role_id)
+                                                <span class="badge rounded bg-success">
+                                                {{ $permission->permission_name }}
+                                                </span>
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.edit.permissions.role', ['role_id' => $PermissionsRole->role_id ]) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-pen"></i></a>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeletePermission('{{$PermissionsRole->role_id}}')" data-bs-toggle="modal" data-bs-target="#delete_permission_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id ]) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-pen"></i></a>
+                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteRolesInPermission('{{$Role->id}}')" data-bs-toggle="modal" data-bs-target="#delete_permissions_role_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No Permission found</td>
+                                    <td colspan="5" class="text-center">No Role with Permissions found</td>
                                 </tr>
                                 @endforelse
                                
                             </tbody>
                         </table>
-                        {{ $PermissionsRoles->links() }}
+                        {{ $Roles->links() }}
                     </div>
                 </div>
             </div>
@@ -68,7 +76,7 @@
     </div>
   
   <!-- Delete age group Modal -->
-  <div wire:ignore.self class="modal fade" id="delete_permission_modal" tabindex="-1" aria-labelledby="delete_permission_modal_label" aria-hidden="true">
+  <div wire:ignore.self class="modal fade" id="delete_permissions_role_modal" tabindex="-1" aria-labelledby="delete_permissions_role_modal_label" aria-hidden="true">
     <div class="modal-dialog">
      <div class="modal-content">
        <form class="forms-sample" wire:submit.prevent="DeleteRolesInPermission">
@@ -81,7 +89,8 @@
            </div>
            <div class="modal-footer">
                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" class="btn btn-danger">Yes, Delete</button>
+               <button type="submit" wire:loading.remove wire:target="DeleteRolesInPermission" class="btn btn-danger">Yes, Delete</button>
+               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteRolesInPermission" class="btn btn-danger">Deleting...</button>
            </div>
        </form>
 
@@ -95,13 +104,12 @@
 
 <script>
     // Delete modal
-    document.addEventListener('livewire:load', function () {
-        // livewire.on('prepareDeletePermission', () => {
-        //     $('#delete_permission_modal').modal('show')
-        // });
-        livewire.on('closeFrom', () => {
-            $('#delete_permission_modal').modal('hide')
-        });
+    window.addEventListener('openDeleteModal', event => {
+        $('#delete_permissions_role_modal').modal('show');
+    });
+
+    window.addEventListener('closeForm', event => {
+        $('#delete_permissions_role_modal').modal('hide');
     });
 </script>
     

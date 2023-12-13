@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Update assigned Permissions to role')
+@section('title', 'Update Permissions assigned to role')
 
 @section('admin-content') 
 

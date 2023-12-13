@@ -12,7 +12,7 @@ class RoleList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $role_id, $role, $role_name;
+    public $action, $role_id, $role, $role_name;
 
     public $editMode = false;
     
@@ -45,9 +45,11 @@ class RoleList extends Component
 
             if ($role) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('success', 'Role saved successfully');
 
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -55,14 +57,23 @@ class RoleList extends Component
 
     }
 
-    public function prepareEditRole($role_id) {
+    public function prepareData($role_id, $action) {
 
-        $this->editMode = true;
+        $this->role_id = $role_id;
+        $this->action = $action;
 
-        $role = Role::findOrFail($role_id);
+        if($this->action == 'edit') {
+            $this->editMode = true;
 
-        $this->role_id = $role->id;
-        $this->role_name = $role->name;
+            $this->dispatch('openForm');
+            $role = Role::findOrFail($role_id);
+
+            $this->role_name = $role->name;
+
+        } elseif($this->action == 'delete') {
+            $this->dispatch('openDeleteModal');
+
+        }
 
     }
 
@@ -76,17 +87,13 @@ class RoleList extends Component
 
         if ($role) {
             $this->clearForm();
+            $this->dispatch('closeForm');
             session()->flash('success', 'Role updated successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
-
-    }
-
-    public function prepareDeleteRole($role_id) {
-
-        $this->role_id = $role_id;
 
     }
 
@@ -96,9 +103,11 @@ class RoleList extends Component
 
         if ($role) {
             $this->clearForm();
+            $this->dispatch('closeForm');
             session()->flash('warning', 'Role deleted successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
         
