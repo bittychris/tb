@@ -6,8 +6,8 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\ageGroupController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Exports\UsersExport;
 use App\Exports\FormAttributeExport;
 use App\Exports\FormDataExport;
 /*
@@ -60,9 +60,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
-Route::get('users/export', function(){
-    return Excel::download(new UsersExport, 'users.xlsx');
-})->name('user.export');
+Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
 Route::get('formattribute/export', function(){
     return Excel::download(new FormAttributeExport, 'formattribute.xlsx');
 })->name('formattribute.export');

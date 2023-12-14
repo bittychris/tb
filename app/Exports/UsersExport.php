@@ -3,15 +3,36 @@
 namespace App\Exports;
 
 use App\Models\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class UsersExport implements FromCollection
-{
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+
+class UsersExport implements FromArray, WithHeadings
+{   
+    protected $data;
+   
+    public function __construct($data)
     {
-        return User::all();
+        $this->data = $data;
     }
+    // public function collection()
+    // {
+    //     return User::all();
+    // }
+    public function headings(): array
+    {
+        return [
+            'sn',
+            'first name',
+            'last name',
+            'Email',
+            'Phone Number'
+        ];
+    }
+   
+    public function array(): array
+    {
+        return $this->data->toArray();
+    }
+
 }
