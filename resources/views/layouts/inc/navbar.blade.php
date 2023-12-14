@@ -158,8 +158,7 @@
         </li> --}}
         {{-- <li class="nav-item">
           <a href="{{ route('logout') }}"
-            onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();"
+            onclick="event.preventDefault();document.getElementById('logout-form').submit();"
             class="dropdown-item">
              <i class="mdi mdi-logout text-primary me-1"></i>
              <span>Logout</span>
