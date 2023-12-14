@@ -9,7 +9,7 @@ use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Exports\UsersExport;
 use App\Exports\FormAttributeExport;
-
+use App\Exports\FormDataExport;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,3 +66,6 @@ Route::get('users/export', function(){
 Route::get('formattribute/export', function(){
     return Excel::download(new FormAttributeExport, 'formattribute.xlsx');
 })->name('formattribute.export');
+Route::get('formdata/export', function(){
+    return Excel::download(new FormDataExport, 'formdata.xlsx');
+})->name('formdata.export');
