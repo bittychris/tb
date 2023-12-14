@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Reports</div>
+                            <div class="col-6">Field Data</div>
                             <div class="col-6">
                                 <a href="{{ route('formattribute.export') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-plus"></i> Download Report </a>
                             </div>
@@ -59,6 +59,7 @@
                             <tbody>
                             </tbody>
                         </table>
+                        {{ $reports->links() }}
                     </div>
                 </div>
             </div>

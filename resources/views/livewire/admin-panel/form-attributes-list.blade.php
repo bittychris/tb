@@ -23,7 +23,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Attributes</div>
                             <div class="col-6">
-                                <a href="{{route('admin.add_form_attributes')}}" class="btn btn-primary btn-sm" style="float: right;"><i class="mdi mdi-plus"></i></a>
+                                <a href="{{ route('admin.add_form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;"><i class="mdi mdi-plus"></i> Create From Attribute</a>
                             </div>
                         </div>
                     </h4>
@@ -46,7 +46,7 @@
                                     <td class="text-center">
                                         {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
                                         <a href="{{route('admin.edit_form_attributes', ['form_id' => $form_attribute->id])}}" class="btn btn-warning btn-sm" title="Edit"><i class="mdi mdi-pen"></i></a>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAttribute('{{$form_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#delete_attribute_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$form_attribute->id}}')" title="Delete"><i class="mdi mdi-delete"></i></button>
                                     </td>
                                 </tr>
                                 @empty
@@ -74,11 +74,12 @@
                <button type="button" wire:click="clearForm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
            </div>
            <div class="modal-body px-3">
-               Do you want to Delete this Attribute?
+               {{-- Do you want to Delete this Attribute? --}}
+               Not working for now. Close this Pop up
            </div>
            <div class="modal-footer">
                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Yes, Delete</button>
+               <button type="submit" disabled class="btn btn-danger" data-bs-dismiss="modal">Yes, Delete</button>
            </div>
        </form>
 
@@ -91,25 +92,15 @@
 @push('js')
 
 <script>
-    //  // View modal
-    //  document.addEventListener('livewire:load', function () {
-    //     livewire.on('prepareEditAgeGroup', () => {
-    //         $('#edit_age_group_modal').modal('show')
-    //     });
-    //     livewire.on('updateAgeGroup', () => {
-    //         $('#edit_age_group_modal').modal('hide')
-    //     });
-    // });
+    
+    window.addEventListener('openDeleteModal', event => {
+        $('#delete_form_attribute_modal').modal('show');
+    });
 
-    // // Delete modal
-    // document.addEventListener('livewire:load', function () {
-    //     livewire.on('prepareDeleteAgeGroup', () => {
-    //         $('#delete_age_group_modal').modal('show')
-    //     });
-    //     livewire.on('closeFrom', () => {
-    //         $('#delete_age_group_modal').modal('hide')
-    //     });
-    // });
+    window.addEventListener('closeForm', event => {
+        $('#delete_form_attribute_modal').modal('hide');
+    });
+
 </script>
 
 @endpush

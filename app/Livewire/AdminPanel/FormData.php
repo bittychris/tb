@@ -132,7 +132,7 @@ class FormData extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
-            $this->dispatch('failure_alert', $th->getMessage());
+            $this->dispatch('failure_alert', $this->getMessage());
         }
     }
 

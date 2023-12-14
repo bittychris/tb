@@ -12,7 +12,7 @@ class AgeGroupsList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $ageGroup_id, $ageGroup, $age_group_name, $min_age, $max_age;
+    public $action, $ageGroup_id, $ageGroup, $age_group_name, $min_age, $max_age;
 
     public $editMode = false;
     
@@ -49,9 +49,11 @@ class AgeGroupsList extends Component
 
             if ($ageGroup) {
                 $this->clearForm();
+                $this->dispatch('closeForm');
                 session()->flash('success', 'Age group saved successfully');
 
             } else {
+                $this->dispatch('closeForm');
                 session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -59,16 +61,26 @@ class AgeGroupsList extends Component
 
     }
 
-    public function prepareEditAgeGroup($ageGroup_id) {
+    public function prepareData($ageGroup_id, $action) {
 
-        $this->editMode = true;
+        $this->ageGroup_id = $ageGroup_id;
+        $this->action = $action;
 
-        $ageGroup = AgeGroup::findOrFail($ageGroup_id);
+        if($this->action == 'edit') {
+            $this->editMode = true;
 
-        $this->ageGroup_id = $ageGroup->id;
-        $this->age_group_name = $ageGroup->slug;
-        $this->min_age = $ageGroup->min;
-        $this->max_age = $ageGroup->max;
+            $this->dispatch('openForm');
+
+            $ageGroup = AgeGroup::findOrFail($ageGroup_id);
+
+            $this->age_group_name = $ageGroup->slug;
+            $this->min_age = $ageGroup->min;
+            $this->max_age = $ageGroup->max;
+
+        } elseif($this->action == 'delete') {
+            $this->dispatch('openDeleteModal');
+
+        }  
 
     }
 
@@ -84,19 +96,13 @@ class AgeGroupsList extends Component
 
         if ($ageGroup) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
-
+            $this->dispatch('closeForm');
             session()->flash('success', 'Age group updated successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
-
-    }
-
-    public function prepareDeleteAgeGroup($ageGroup_id) {
-
-        $this->ageGroup_id = $ageGroup_id;
 
     }
 
@@ -106,11 +112,13 @@ class AgeGroupsList extends Component
 
         if ($ageGroup) {
             $this->clearForm();
+            $this->dispatch('closeForm');
             // $this->dispatch('success', 'Age group updated successfully');
 
             session()->flash('warning', 'Age group deleted successfully');
 
         } else {
+            $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
         }
         

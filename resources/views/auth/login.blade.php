@@ -16,7 +16,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('assets/css/css/style.css') }}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" />
 </head>
 
 <body>
@@ -26,10 +26,11 @@
         <div class="row w-100 mx-0">
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo">
-                <img src="../../images/logo.svg" alt="logo">
+              <div class="brand-logo fw-bold text-center">
+                USAID Afya Shirikishi
+                {{-- <img src="../../images/logo.svg" alt="logo"> --}}
               </div>
-              <h4>Hello! let's get started</h4>
+              <h4>Welcome to Health Africa</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
               <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                 @csrf
@@ -43,22 +44,22 @@
                   <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
+                  {{-- <div class="form-check">
                     <label class="form-check-label text-muted">
                       <input type="checkbox" class="form-check-input">
                       Keep me signed in
                     </label>
-                  </div>
-                  <a href="#" class="auth-link text-black">Forgot password?</a>
+                  </div> --}}
+                  {{-- <a href="#" class="auth-link text-black">Forgot password?</a> --}}
                 </div>
-                <div class="mb-2">
+                {{-- <div class="mb-2">
                   <button type="button" class="btn btn-block btn-facebook auth-form-btn">
                     <i class="mdi mdi-facebook me-2"></i>Connect using website
                   </button>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
+                </div> --}}
+                {{-- <div class="text-center mt-4 font-weight-light">
                   Don't have an account? <a href="register.html" class="text-primary">Create</a>
-                </div>
+                </div> --}}
               </form>
             </div>
           </div>
@@ -70,12 +71,12 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="{{ asset('assets/vendor/vendors/base/vendor.bundle.base.js') }}"></script>
+  {{-- <script src="{{ asset('assets/vendor/vendors/base/vendor.bundle.base.js') }}"></script> --}}
   <!-- endinject -->
   <!-- inject:js -->
-  <script src="{{ asset('assets/js/js/off-canvas.js') }}"></script>
-  <script src="{{ asset('assets/js/js/hoverable-collapse.js') }}"></script>
-  <script src="{{ asset('assets/js/js/template.js') }}"></script>
+  {{-- <script src="{{ asset('assets/js/js/off-canvas.js') }}"></script> --}}
+  {{-- <script src="{{ asset('assets/js/js/hoverable-collapse.js') }}"></script> --}}
+  {{-- <script src="{{ asset('assets/js/js/template.js') }}"></script> --}}
   <!-- endinject -->
 </body>
 
