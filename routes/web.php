@@ -33,20 +33,35 @@ Route::get('/health.blade/dashboard', function () {
 
 
 Route::get('/', [indexController::class, 'index'])->name('index');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home',  [HomeController::class, 'index'])->name('home');
 
 Route::get('login', [LoginController::class, 'show_login'])->name('login');
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
-Route::group(['middleware' => 'auth'], function() {
+// Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
+
+Route::middleware(['auth'])->group(function() {
 
     //admin
-    Route::group(['prefix' => 'admin'], function() {
+    Route::group(['prefix' => 'admin'],function() {
+
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
         Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
+        // Route::get('admins', [adminController::class, 'admins'])->name('admin.admins')->middleware(['permission:all admins']);
+        Route::get('admins', [adminController::class, 'admins'])->name('admin.admins');
+
+        // Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin')->middleware(['permission:add admin']);
+        Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin');
+
+        Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin')->middleware(['permission:edit admin']);
+
+        Route::get('deleted_admins', [adminController::class, 'deactivatedAdmins'])->name('admin.deactivated.admins')->middleware(['permission:all deleted admins']);
+
         Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs');
+
+        Route::get('deleted_staffs', [adminController::class, 'deactivatedStaffs'])->name('admin.deactivated.staffs');
 
         Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff');
 
@@ -70,15 +85,23 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report');
 
+        Route::get('roles', [adminController::class, 'roles'])->name('admin.roles');
+
+        Route::get('permissions', [adminController::class, 'permissions'])->name('admin.permissions');
+
+        Route::get('permissions_to_roles', [adminController::class, 'permissionsToRoles'])->name('admin.permissions.roles');
+
+        Route::get('permissions_to_roles/add', [adminController::class, 'addPermissionsToRole'])->name('admin.add.permissions.role');
+
+        Route::get('permissions_to_roles/{role_id}/edit', [adminController::class, 'editPermissionsToRole'])->name('admin.edit.permissions.role');
+
     });
 
-    // //regional coordinator
-    // Route::group(['prefix' => 'rc'], function() {
-    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout1');
- 
-    //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-    //     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+    //regional coordinator
+    Route::group(['prefix' => 'rc'], function() {
+
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout1');
 
     //     Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
 
@@ -89,26 +112,28 @@ Route::group(['middleware' => 'auth'], function() {
     // });
 
 
-    //     //Amref
-    //     Route::group(['prefix' => 'amref'], function() {
-    //         Route::post('logout', [LoginController::class, 'logout'])->name('logout2');
+        //Amref
+    Route::group(['prefix' => 'amref'], function() {
 
-    //         Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout2');
 
-    //         Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-    //         Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+        Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
-    //         Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+        Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
 
-    //         Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+        Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
 
-    //     });
+        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+
+    });
 
 
-    //         //Health Facilitator
-    // Route::group(['prefix' => 'health'], function() {
-    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout3');
+    //Health Facilitator
+    Route::group(['prefix' => 'health'], function() {
+
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout3');
 
     //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
@@ -123,5 +148,3 @@ Route::group(['middleware' => 'auth'], function() {
     // });
 
 });
-
-
