@@ -52,7 +52,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-sm text-white"  style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
-                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteStaff('{{$staff->id}}')" title="Delete"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
+                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteStaff('{{$staff->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
                                     </td>
                                 </tr>
                             @empty
