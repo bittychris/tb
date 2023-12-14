@@ -3,15 +3,33 @@
 namespace App\Exports;
 
 use App\Models\FormData;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 
-class FormDataExport implements FromCollection
+class FormDataExport implements FromArray
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    protected $data;
+   
+    public function __construct($data)
     {
-        return FormData::all();
+        $this->data = $data;
+    }
+    // public function collection()
+    // {
+    //     return User::all();
+    // }
+    public function headings(): array
+    {
+        return [
+            'sn',
+            'first name',
+            'last name',
+            'Email',
+            'Phone Number'
+        ];
+    }
+   
+    public function array(): array
+    {
+        return $this->data->toArray();
     }
 }

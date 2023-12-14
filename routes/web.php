@@ -61,9 +61,10 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
+Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
 Route::get('formattribute/export', function(){
     return Excel::download(new FormAttributeExport, 'formattribute.xlsx');
 })->name('formattribute.export');
-Route::get('formdata/export', function(){
-    return Excel::download(new FormDataExport, 'formdata.xlsx');
-})->name('formdata.export');
+// Route::get('formdata/export', function(){
+//     return Excel::download(new FormDataExport, 'formdata.xlsx');
+// })->name('formdata.export');
