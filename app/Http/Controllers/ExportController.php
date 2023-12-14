@@ -7,7 +7,9 @@ use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
 use App\Exports\FormDataExport;
+use App\Exports\FormAttributeExport;
 use App\Models\FormData;
+use App\Models\FormAttribute;
 
 class ExportController extends Controller
 {
@@ -21,4 +23,10 @@ class ExportController extends Controller
         $form = FormData::all();
         return Excel::download(new FormDataExport($form), 'formdata.xlsx');
     }
+    public function formattribute()
+    {
+        $formdata = FormAttribute::all();
+        return Excel::download(new FormAttributeExport($formdata), 'formattributedata.xlsx');
+    }
+    
 }

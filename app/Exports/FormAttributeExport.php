@@ -3,15 +3,28 @@
 namespace App\Exports;
 
 use App\Models\FormAttribute;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class FormAttributeExport implements FromCollection
+class FormAttributeExport implements FromArray
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    protected $data;
+   
+    public function __construct($data)
     {
-        return FormAttribute::all();
+        $this->data = $data;
+    }
+   
+    public function headings(): array
+    {
+        return [
+            'Fields',
+            'Day visited',
+        ];
+    }
+   
+    public function array(): array
+    {
+        return $this->data->toArray();
     }
 }

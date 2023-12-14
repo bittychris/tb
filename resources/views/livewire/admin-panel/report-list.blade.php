@@ -22,7 +22,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Reports</div>
                             <div class="col-6">
-                                <a href="{{ route('admin.create_form_data') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-plus"></i> Create Report</a>
+                                <a href="{{ route('formattribute.export') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-plus"></i> Download Report </a>
                             </div>
                         </div>
                     </h4>

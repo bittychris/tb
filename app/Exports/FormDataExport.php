@@ -4,6 +4,8 @@ namespace App\Exports;
 
 use App\Models\FormData;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
 
 class FormDataExport implements FromArray
 {

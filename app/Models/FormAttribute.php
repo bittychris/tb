@@ -17,4 +17,17 @@ class FormAttribute extends BaseModal
         'attribute_ids'
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+
+    protected $hidden = [
+        'id',
+        'age_group_ids',
+        'attribute_ids',
+        'updated_at'
+    ];
+
 }
