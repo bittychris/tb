@@ -17,13 +17,13 @@
           </a>
           <div class="collapse" id="roles_permissions">
             <ul class="nav flex-column sub-menu ">
-              {{-- @if (auth()->user()->can('all roles')) --}}
+              @if (auth()->user()->can('all roles'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.roles') }}">All Roles</a></li>
-              {{-- @endif --}}
+              @endif
 
-              {{-- @if (auth()->user()->can('all permissions')) --}}
+              @if (auth()->user()->can('all permissions'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.permissions') }}">All Permissions</a></li>
-              {{-- @endif --}}
+              @endif
 
               {{-- @if (auth()->user()->can('roles with permissions')) --}}
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.permissions.roles') }}">Roles with Permissions</a></li>

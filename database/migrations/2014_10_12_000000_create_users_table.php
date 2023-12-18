@@ -19,10 +19,16 @@ return new class extends Migration
             $table->string('phone');
             $table->timestamp('email_verified_at')->now()->nullable();
             $table->string('password');
-            $table->foreignId('role_id')->unsigned()->constrained();
+            $table->foreignID('role_id')->nullable()->constarained();
             $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
+
+
+            $table->foreign('role_id')
+                ->references('id') // role id
+                ->on('roles')
+                ->cascadeOnDelete();
         });
     }
 

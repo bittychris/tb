@@ -51,7 +51,17 @@ class User extends Authenticatable
     ];
 
     public function role() {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
         
     }
+
+    /* protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = (string) Uuid::uuid4();
+        });
+    } */
+
 }

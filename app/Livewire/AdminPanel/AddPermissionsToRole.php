@@ -70,7 +70,7 @@ class AddPermissionsToRole extends Component
     protected function rules() {
 
         return [
-            'role_id' => ['required', 'integer'],
+            'role_id' => ['required', 'string'],
         ];
 
     }
@@ -107,7 +107,15 @@ class AddPermissionsToRole extends Component
                         $data['role_id'] = $validatedData['role_id'];
                         $data['permission_id'] = $permission_id;
 
-                        DB::table('role_has_permissions')->insert($data);
+                        $rolePermissions = DB::table('role_has_permissions')->insert($data);
+
+                        if($rolePermissions) {
+                            $role = Role::find($this->role_id);
+                            $permission = Permission::find($permission_id);
+                            // $permission->assignRole($role);
+                            // $rolePermissions->assignPermission($permission->name);
+                            auth()->user()->hasPermissionTo($permission->name);
+                        }
 
                     }
                 }
@@ -134,8 +142,15 @@ class AddPermissionsToRole extends Component
                         $data['role_id'] = $validatedData['role_id'];
                         $data['permission_id'] = $permission_id;
     
-                        DB::table('role_has_permissions')
-                            ->insert($data);
+                        $rolePermissions = DB::table('role_has_permissions')->insert($data);
+
+                        if($rolePermissions) {
+                            $role = Role::find($this->role_id);
+                            $permission = Permission::find($permission_id);
+                            // $permission->assignRole($role);
+                            // $rolePermissions->assignPermission($permission->name);
+                            auth()->user()->hasPermissionTo($permission->name);
+                        }
     
                     }
     

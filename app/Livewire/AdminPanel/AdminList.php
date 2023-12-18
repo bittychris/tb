@@ -5,6 +5,7 @@ namespace App\Livewire\AdminPanel;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
 class AdminList extends Component
 {
@@ -67,13 +68,15 @@ class AdminList extends Component
 
     public function render()
     {
+        $role  = Role::where('name', 'Admin')->get();
+
         if ($this->status == false) {
             $this->btn_display = 'none';
-            $admins = User::where('status', $this->status)->where('role_id', 1)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->where('role_id', $role->id)->latest()->paginate(10);
 
         } else {
             $this->btn_display = '';
-            $admins = User::where('status', $this->status)->where('role_id', 1)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->where('role_id', $role->id)->latest()->paginate(10);
 
         }
         

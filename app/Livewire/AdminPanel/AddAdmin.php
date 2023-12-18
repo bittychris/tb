@@ -40,7 +40,7 @@ class AddAdmin extends Component
             'last_name' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'role_id' => ['required', 'integer'],
+            'role_id' => ['required', 'string'],
         ];
 
     }
