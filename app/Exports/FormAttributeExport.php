@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class FormAttributeExport implements FromArray,WithHeadings, WithColumnFormatting, WithMapping, ShouldAutoSize
+class FormAttributeExport implements FromArray, WithHeadings, ShouldAutoSize
 {
     protected $data;
    
@@ -32,37 +32,13 @@ class FormAttributeExport implements FromArray,WithHeadings, WithColumnFormattin
         return $headings;
     }
 
-    public function columnFormats(): array
-    {
-        return [
-            'B' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'C' => NumberFormat::FORMAT_CURRENCY_EUR_INTEGER,
-        ];
-    }
-   
+
     public function array(): array
     {
         return $this->data->toArray();
     }
 
-    public function prepareRows($rows)
-    {
-        return $rows->transform(function ($user) {
-            $user->name .= ' (prepared)';
 
-            return $user;
-        });
-    }
-    /**
-     * @param  RowType  $row
-     * @return array
-     */
-    public function map($row): array
-    {
-        return [
-            $row->name,
-            Date::dateTimeToExcel($row->created_at)
-        ];
-    }
+    
 
 }
