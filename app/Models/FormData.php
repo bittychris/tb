@@ -18,4 +18,5 @@ class FormData extends BaseModal
         'male',
         'female'
     ];
+    
 }

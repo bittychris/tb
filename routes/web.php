@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Data\FormController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\ageGroupController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Exports\FormAttributeExport;
+use App\Exports\FormDataExport;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +30,10 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 
 // Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
 
+    Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
+    Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
+    Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
+    Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 Route::middleware(['auth'])->group(function() {
 
     //admin
@@ -104,7 +111,7 @@ Route::middleware(['auth'])->group(function() {
     });
 
 
-        //Amref
+
     Route::group(['prefix' => 'amref'], function() {
 
         Route::post('logout', [LoginController::class, 'logout'])->name('logout2');

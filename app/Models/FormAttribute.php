@@ -11,10 +11,28 @@ class FormAttribute extends BaseModal
 
     protected $table = 'form_attributes';
 
+    const HEADINGS = [
+        'name' => 'Name',
+        'created_at' => 'Visited at'
+    ];
+
     protected $fillable = [
         'name',
         'age_group_ids',
         'attribute_ids'
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+
+    protected $hidden = [
+        'id',
+        'age_group_ids',
+        'attribute_ids',
+        'updated_at'
     ];
 
 }
