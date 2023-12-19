@@ -11,6 +11,11 @@ class FormAttribute extends BaseModal
 
     protected $table = 'form_attributes';
 
+    const HEADINGS = [
+        'name' => 'Name',
+        'created_at' => 'Visited at'
+    ];
+
     protected $fillable = [
         'name',
         'age_group_ids',

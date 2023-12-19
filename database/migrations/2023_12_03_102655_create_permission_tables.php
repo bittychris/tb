@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->string('group_name'); 
             $table->timestamps();
-
             $table->unique(['name', 'guard_name']);
         });
 

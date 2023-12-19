@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Data\FormController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\ageGroupController;
@@ -29,6 +30,10 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 
 // Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
 
+    Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
+    Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
+    Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
+    Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 Route::middleware(['auth'])->group(function() {
 
     //admin
@@ -104,10 +109,6 @@ Route::middleware(['auth'])->group(function() {
 
     });
 
-
-Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
-Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
-Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
 
 
     Route::group(['prefix' => 'amref'], function() {
