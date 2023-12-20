@@ -27,7 +27,7 @@
             @endforeach
         </tr>
        <tr>
-            <td>0-5</td>
+            <td></td>
             @foreach ($formDatas as $formData)
                 <td>{{ $formData->male}}</td>
                 <td>{{ $formData->female}}</td>
