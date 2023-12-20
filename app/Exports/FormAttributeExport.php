@@ -10,10 +10,12 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
+
 class FormAttributeExport implements FromArray, WithHeadings, ShouldAutoSize
 {
     protected $data;
-   
+    
+    
     public function __construct($data)
     {
         $this->data = $data;
@@ -21,7 +23,6 @@ class FormAttributeExport implements FromArray, WithHeadings, ShouldAutoSize
     /**
      * @return array
      */
-   
     public function headings(): array
     {
         $headings = [];
