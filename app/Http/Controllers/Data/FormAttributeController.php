@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class FormAttributeController extends Controller
 {
-    //
+    public function index()
+    {
+        return FormAttribute::all();
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
+use App\Exports\FormExport;
 use App\Exports\FormDataExport;
 use App\Exports\FormAttributeExport;
 use App\Models\FormData;
@@ -20,13 +21,18 @@ class ExportController extends Controller
     }
     public function formdata()
     {
-        $form = FormData::all();
-        return Excel::download(new FormDataExport($form), 'formdata.xlsx');
+        return Excel::download(new FormDataExport, 'formdata.xlsx');
     }
     public function formattribute()
     {
         $formdata = FormAttribute::all();
         return Excel::download(new FormAttributeExport($formdata), 'formattributedata.xlsx');
     }
+
+    public function form()
+    {
+        return Excel::download(new FormExport, 'form.xlsx');
+    }
+   
     
 }

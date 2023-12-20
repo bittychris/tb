@@ -5,9 +5,9 @@ namespace App\Exports;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-
-class UsersExport implements FromArray, WithHeadings
+class UsersExport implements FromArray, WithHeadings, ShouldAutoSize
 {   
     protected $data;
    
