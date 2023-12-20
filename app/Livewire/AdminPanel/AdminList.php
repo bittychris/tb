@@ -68,15 +68,20 @@ class AdminList extends Component
 
     public function render()
     {
+        $role_id = '';
         $role  = Role::where('name', 'Admin')->get();
+        foreach($role as $rl) {
+            $role_id = $rl->id;
+
+        }
 
         if ($this->status == false) {
             $this->btn_display = 'none';
-            $admins = User::where('status', $this->status)->where('role_id', $role->id)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->latest()->paginate(10);
 
         } else {
             $this->btn_display = '';
-            $admins = User::where('status', $this->status)->where('role_id', $role->id)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->latest()->paginate(10);
 
         }
         

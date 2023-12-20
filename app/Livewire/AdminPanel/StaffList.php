@@ -68,16 +68,21 @@ class StaffList extends Component
 
     public function render()
     {
-        $role  = Role::whereNot('name', 'Admin',)->get();
+        $role_id = '';
+        $role  = Role::where('name', 'Admin',)->get();
+        foreach($role as $rl) {
+            $role_id = $rl->id;
+
+        }
 
         if ($this->status == false) {
             $this->btn_display = 'none';
 
-            $staffs = User::where('status', $this->status)->whereNot('role_id', $role->id)->latest()->paginate(10);
+            $staffs = User::where('status', $this->status)->whereNot('role_id', $role_id)->latest()->paginate(10);
 
         } else {
             $this->btn_display = '';
-            $staffs = User::where('status', $this->status)->whereNot('role_id', $role->id)->latest()->paginate(10);
+            $staffs = User::where('status', $this->status)->whereNot('role_id', $role_id)->latest()->paginate(10);
 
         }
 

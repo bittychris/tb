@@ -4,6 +4,7 @@ namespace App\Livewire\AdminPanel;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -112,9 +113,20 @@ class AddPermissionsToRole extends Component
                         if($rolePermissions) {
                             $role = Role::find($this->role_id);
                             $permission = Permission::find($permission_id);
-                            // $permission->assignRole($role);
-                            // $rolePermissions->assignPermission($permission->name);
-                            auth()->user()->hasPermissionTo($permission->name);
+                            $users = User::all();
+
+                            foreach($users as $user) {
+                                if($user->role->name == $role->name) {
+                                    // $user->hasPermissionTo($permission->name);
+                                    DB::table('model_has_permissions')->insert([
+                                        'permission_id' => $permission->id,
+                                        'model_id' => $user->id,
+                                        'model_type' => 'App\Models\User'
+                                    ]);
+
+                                }
+                            }
+                            
                         }
 
                     }
@@ -147,9 +159,27 @@ class AddPermissionsToRole extends Component
                         if($rolePermissions) {
                             $role = Role::find($this->role_id);
                             $permission = Permission::find($permission_id);
-                            // $permission->assignRole($role);
-                            // $rolePermissions->assignPermission($permission->name);
-                            auth()->user()->hasPermissionTo($permission->name);
+                            $users = User::all();
+
+                            foreach($users as $user) {
+                                if($user->role->name == $role->name) {
+                                    $role_permissions_del = DB::table('model_has_permissions')
+                                                            ->where('model_id', $user->id)
+                                                            ->delete();
+
+                                    if ($role_permissions_del) {
+                                        // $user->hasPermissionTo($permission->name);
+                                        DB::table('model_has_permissions')->insert([
+                                            'permission_id' => $permission->id,
+                                            'model_id' => $user->id,
+                                            'model_type' => 'App\Models\User'
+                                        ]);
+
+                                    }
+                                    
+                                }
+                            }
+                            
                         }
     
                     }

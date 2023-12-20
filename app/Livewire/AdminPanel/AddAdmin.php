@@ -103,9 +103,12 @@ class AddAdmin extends Component
             if ($admin) {
                 // clear admin data in model_has_role table to enter new one
                 $del_existing_role = DB::table('model_has_roles')->where('model_id', $this->admin_id)
-                                    ->delete();
+                                    ->get();
                 
                 if($del_existing_role) {
+                    DB::table('model_has_roles')->where('model_id', $this->admin_id)
+                        ->delete();
+
                     $role = Role::find($this->role_id);
                     $admin = User::find($this->admin_id);
                     $admin->assignRole($role->name);
@@ -114,6 +117,15 @@ class AddAdmin extends Component
                     session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
     
+                } else {
+                    $role = Role::find($this->role_id);
+                    $admin = User::find($this->admin_id);
+                    $admin->assignRole($role->name);
+
+                    $this->clearForm();
+                    session()->flash('success', 'Admin details updated successfully');
+                    return redirect(route('admin.admins'));
+
                 }
                
             } else {

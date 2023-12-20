@@ -102,9 +102,21 @@ class AddStaff extends Component
             if ($staff) {
                 // clear staff data in model_has_role table to enter new one
                 $del_existing_role = DB::table('model_has_roles')->where('model_id', $this->staff_id)
-                                    ->delete();
-
+                                    ->get();
+                
                 if($del_existing_role) {
+                    DB::table('model_has_roles')->where('model_id', $this->staff_id)
+                        ->delete();
+
+                    $role = Role::find($this->role_id);
+                    $staff = User::find($this->staff_id);
+                    $staff->assignRole($role->name);
+
+                    $this->clearForm();
+                    session()->flash('success', 'Staff details updated successfully');
+                    return redirect(route('admin.staffs'));
+
+                } else {
                     $role = Role::find($this->role_id);
                     $staff = User::find($this->staff_id);
                     $staff->assignRole($role->name);

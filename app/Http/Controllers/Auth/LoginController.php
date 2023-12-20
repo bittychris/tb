@@ -65,6 +65,7 @@ class LoginController extends Controller
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
         }
+        
     }
 
     public function logout(Request $request)

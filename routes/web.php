@@ -43,16 +43,17 @@ Route::middleware(['auth'])->group(function() {
 
         Route::get('dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
 
-        // Route::get('admins', [adminController::class, 'admins'])->name('admin.admins')->middleware(['permission:all admins']);
-        Route::get('admins', [adminController::class, 'admins'])->name('admin.admins');
+        Route::get('admins', [adminController::class, 'admins'])->name('admin.admins')->middleware(['permission:all admins']);
+        // Route::get('admins', [adminController::class, 'admins'])->name('admin.admins');
         
-        // Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin')->middleware(['permission:add admin']);
-        Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin');
+        Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin')->middleware(['permission:add admin']);
+        // Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin');
 
-        // Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin')->middleware(['permission:edit admin']);
-        Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin');
+        Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin')->middleware(['permission:edit admin']);
+        // Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin');
         
         Route::get('deleted_admins', [adminController::class, 'deactivatedAdmins'])->name('admin.deactivated.admins')->middleware(['permission:all deleted admins']);
+        // Route::get('deleted_admins', [adminController::class, 'deactivatedAdmins'])->name('admin.deactivated.admins');
 
         Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs');
 
