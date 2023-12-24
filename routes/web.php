@@ -43,6 +43,10 @@ Route::middleware(['auth'])->group(function() {
     Route::group(['prefix' => 'admin'],function() {
 
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+        
+        Route::get('my_profile', [LoginController::class, 'userProfile'])->name('user.profile');
+
+        Route::get('change_password', [LoginController::class, 'changePassword'])->name('user.change_password');
 
         Route::get('dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
 

@@ -68,6 +68,18 @@ class LoginController extends Controller
         
     }
 
+    public function userProfile() {
+        // $email = auth()->user()->email;
+
+        return view('admin_panel.user_profile');
+    }
+
+    public function changePassword() {
+        // $email = auth()->user()->email;
+
+        return view('auth.passwords.reset');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

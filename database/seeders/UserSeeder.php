@@ -24,14 +24,13 @@ class UserSeeder extends Seeder
         DB::table('users')->insert(array (
             0 =>
                 array (
-                    'id' => 1,
-
-                     'first_name'           => 'Juma',
-                     'last_name'           => 'John',
-                     'phone'           => '+255 789 435 676',
-                     'email'          => 'admin@gmail.com',
-                     'password'       => bcrypt('Admin'),
-                     'role_id'       => 1,
+                     'id' => 1,
+                    'first_name' => 'Juma',
+                     'last_name' => 'John',
+                     'phone' => '+255 789 435 676',
+                     'email' => 'admin@gmail.com',
+                     'password' => bcrypt('Admin'),
+                     'role_id' => 1,
                      'remember_token' => Str::random(60),
                      'created_at' => Carbon::now(),
                      'updated_at' => Carbon::now(),

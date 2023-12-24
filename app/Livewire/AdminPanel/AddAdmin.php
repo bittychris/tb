@@ -76,6 +76,19 @@ class AddAdmin extends Component
                 if ($admin) {
                     $role = Role::find($this->role_id);
                     $admin->assignRole($role->name);
+                    $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+                    $addedAdmin = User::latest()->first();
+
+                    foreach($permissions as $permission) {
+                        if($addedAdmin) {
+                            DB::table('model_has_permissions')->insert([
+                                'permission_id' => $permission->permission_id,
+                                'model_id' => $addedAdmin->id,
+                                'model_type' => 'App\Models\User'
+                            ]);
+    
+                        }
+                    }
                     
                     $this->clearForm();
                     session()->flash('success', 'New Admin saved successfully');
@@ -109,9 +122,22 @@ class AddAdmin extends Component
                     DB::table('model_has_roles')->where('model_id', $this->admin_id)
                         ->delete();
 
+                    DB::table('model_has_permissions')->where('model_id', $this->admin_id)
+                        ->delete();
+
                     $role = Role::find($this->role_id);
                     $admin = User::find($this->admin_id);
                     $admin->assignRole($role->name);
+                    $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+
+                    foreach($permissions as $permission) {
+                        DB::table('model_has_permissions')->insert([
+                            'permission_id' => $permission->permission_id,
+                            'model_id' => $this->admin_id,
+                            'model_type' => 'App\Models\User'
+                        ]);
+    
+                    }
 
                     $this->clearForm();
                     session()->flash('success', 'Admin details updated successfully');

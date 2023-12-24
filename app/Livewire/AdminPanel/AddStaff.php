@@ -69,12 +69,25 @@ class AddStaff extends Component
                     'phone' => $validatedData['phone'],
                     'email' => $validatedData['email'],
                     'role_id' => $validatedData['role_id'],
-                    'password' => bcrypt('Admin')
+                    'password' => bcrypt(12345)
                 ]);
 
                 if ($staff) {
                     $role = Role::find($this->role_id);
                     $staff->assignRole($role->name);
+                    $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+                    $addedStaff = User::latest()->first();
+
+                    foreach($permissions as $permission) {
+                        if($addedStaff) {
+                            DB::table('model_has_permissions')->insert([
+                                'permission_id' => $permission->permission_id,
+                                'model_id' => $addedStaff->id,
+                                'model_type' => 'App\Models\User'
+                            ]);
+    
+                        }
+                    }
 
                     $this->clearForm();
                     session()->flash('success', 'New Staff saved successfully');
@@ -107,10 +120,23 @@ class AddStaff extends Component
                 if($del_existing_role) {
                     DB::table('model_has_roles')->where('model_id', $this->staff_id)
                         ->delete();
+                    
+                    DB::table('model_has_permissions')->where('model_id', $this->staff_id)
+                        ->delete();
 
                     $role = Role::find($this->role_id);
                     $staff = User::find($this->staff_id);
                     $staff->assignRole($role->name);
+                    $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+
+                    foreach($permissions as $permission) {
+                        DB::table('model_has_permissions')->insert([
+                            'permission_id' => $permission->permission_id,
+                            'model_id' => $this->staff_id,
+                            'model_type' => 'App\Models\User'
+                        ]);
+    
+                    }
 
                     $this->clearForm();
                     session()->flash('success', 'Staff details updated successfully');
