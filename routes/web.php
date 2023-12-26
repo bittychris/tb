@@ -33,7 +33,7 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
 Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
 Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
-Route::get('form/export', [ExportController::class, 'form'])->name('formattribute.export');
+Route::get('form/export', [ExportController::class, 'form'])->name('form.export');
 Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 
@@ -81,7 +81,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('form_data/create', [adminController::class, 'createFormData'])->name('admin.create_form_data');
 
         Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report');
-
+        Route::get('report', [adminController::class, 'report'])->name('admin.reporting');
         Route::get('roles', [adminController::class, 'roles'])->name('admin.roles');
 
         Route::get('permissions', [adminController::class, 'permissions'])->name('admin.permissions');

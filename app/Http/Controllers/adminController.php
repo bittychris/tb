@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\FormData;
 use Illuminate\Http\Request;
 
 class adminController extends Controller
@@ -56,6 +57,18 @@ class adminController extends Controller
     public function reportList() {
 
         return view('admin_panel.report_list');
+    }
+    public function report() {
+        $formdata =  FormData::all();
+        $res =  Form::all();
+        $formdata = $formdata->groupBy('attribute_id')->map(function ($group) {
+            return $group->sortBy('age_group.min')->unique('age_group.min');
+        });
+
+        return view('admin_panel.report',[
+            'forms' => $res,
+            'formDatas' => $formdata
+        ]);
     }
 
     public function admins() {
