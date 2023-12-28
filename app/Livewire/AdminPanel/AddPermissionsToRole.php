@@ -244,4 +244,5 @@ class AddPermissionsToRole extends Component
             'roles' => $roles
         ]);
     }
+    
 }

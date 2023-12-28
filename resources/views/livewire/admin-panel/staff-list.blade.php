@@ -21,9 +21,13 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">{{ $status == true ? 'Staffs' : 'Deleted Staffs' }}</div>
-                            <div class="col-6" style="display: {{ $btn_display }};">
-                                <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Staff</a>
-                            </div>
+
+                            @if (auth()->user()->can('add staff'))
+                                <div class="col-6" style="display: {{ $btn_display }};">
+                                    <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Staff</a>
+                                </div>
+                            @endif
+
                         </div>
                     </h4>
 
@@ -36,7 +40,11 @@
                                 <th>Email</th>
                                 <th>Phone contact</th>
                                 <th>Position</th>
-                                <th>Action</th>
+
+                                @if ((auth()->user()->can('edit staff')) || (auth()->user()->can('delete staff')))
+                                    <th>Action</th>
+                                @endif
+
                             </tr>
                             </thead>
                             @forelse($staffs as $key => $staff)
@@ -50,10 +58,20 @@
                                             {{ $staff->role->name }}
                                         </span>
                                     </td>
-                                    <td>
-                                        <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-sm text-white"  style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
-                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteStaff('{{$staff->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
-                                    </td>
+                                    
+                                    @if ((auth()->user()->can('edit staff')) || (auth()->user()->can('delete staff')))
+                                        <td>
+                                            @if (auth()->user()->can('edit staff'))
+                                                <a href="{{ route('admin.edit_staff', ['staff_id' => $staff->id]) }}" class="btn btn-warning btn-sm text-white"  style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
+                                            @endif
+
+                                            @if (auth()->user()->can('delete staff'))
+                                                <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteStaff('{{$staff->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
+                                            @endif
+
+                                        </td>
+                                    @endif
+
                                 </tr>
                             @empty
                                 <tr>

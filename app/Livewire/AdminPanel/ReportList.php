@@ -4,6 +4,7 @@ namespace App\Livewire\AdminPanel;
 
 use App\Models\Form;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class ReportList extends Component
 {
@@ -15,6 +16,7 @@ class ReportList extends Component
                     $district->with('region');
                 }]);
             }])
+            ->where('created_by', Auth::user()->id)
             ->latest()
             ->paginate(15);
 

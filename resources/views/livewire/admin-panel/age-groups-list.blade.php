@@ -22,9 +22,13 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Age groups</div>
+
+                            @if (auth()->user()->can('add age group'))
                             <div class="col-6">
                                 <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#age_group_form_modal" style="float: right;"><i class="mdi mdi-plus"></i> Add Age group</button>
                             </div>
+                            @endif
+
                         </div>
                     </h4>
                     <div class="table-responsive">
@@ -35,7 +39,10 @@
                                     <th>Age group</th>
                                     <th>Min age</th>
                                     <th>Max age</th>
-                                    <th>Action</th>
+                                    @if ((auth()->user()->can('edit age group')) || (auth()->user()->can('delete age group')))
+                                        <th>Action</th>
+                                    @endif  
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,11 +56,21 @@
                                     <td>{{ $ageGroup->slug }}</td>
                                     <td>{{ $ageGroup->min }}</td>
                                     <td>{{ $ageGroup->max }}</td>
-                                    <td class="text-center">
-                                        {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <button class="btn btn-warning btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'delete')" titlee="Delete"><i class="mdi mdi-delete"></i></button>
-                                    </td>
+
+                                    @if ((auth()->user()->can('edit age group')) || (auth()->user()->can('delete age group')))
+                                        <td class="text-center">
+                                            {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
+                                            @if (auth()->user()->can('edit age group'))
+                                                <button class="btn btn-warning btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                            @endif  
+
+                                            @if (auth()->user()->can('delete age group'))
+                                                <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'delete')" titlee="Delete"><i class="mdi mdi-delete"></i></button>
+                                            @endif  
+
+                                        </td>
+                                    @endif  
+
                                 </tr>
                                 @empty
                                 <tr>
