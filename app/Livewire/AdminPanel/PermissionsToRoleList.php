@@ -2,10 +2,12 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class PermissionsToRoleList extends Component
 {
@@ -31,6 +33,19 @@ class PermissionsToRoleList extends Component
                             ->delete();
 
         if ($permission_ids_del) {
+            $role = Role::find($this->role_id);
+            // $permission = Permission::find($permission_id);
+            $users = User::all();
+
+            foreach($users as $user) {
+                if($user->role->name == $role->name) {
+                    DB::table('model_has_permissions')
+                                            ->where('model_id', $user->id)
+                                            ->delete();
+                    
+                }
+            }
+        
             $this->clearForm();
             $this->dispatch('closeForm');
             session()->flash('warning', 'Permissions Assigned to role deleted successfully');
@@ -38,6 +53,7 @@ class PermissionsToRoleList extends Component
         } else {
             $this->dispatch('closeForm');
             session()->flash('error', 'An error occurred. Try again later.');
+
         }
         
     }

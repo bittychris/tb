@@ -22,14 +22,18 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Permissions</div>
-                            <div class="col-6">
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                <button type="button" class="btn btn-success btn-sm text-white" data-bs-toggle="modal" data-bs-target="#export_permission_modal">Export</button>
-                                &nbsp;
-                                <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#import_permission_modal">Import</button>
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;">Add Permission</button>
-                            </div>
+
+                            @if (auth()->user()->can('add permission'))
+                                <div class="col-6">
+                                    {{--  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <button type="button" class="btn btn-success btn-sm text-white" data-bs-toggle="modal" data-bs-target="#export_permission_modal">Export</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#import_permission_modal">Import</button>
+                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  --}}
+                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;">Add Permission</button>
+                                </div>
+                            @endif
+
                         </div>
                     </h4>
                     <div class="table-responsive">
@@ -39,7 +43,10 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Group name</th>
-                                    <th>Action</th>
+                                    @if ((auth()->user()->can('edit permission')) || (auth()->user()->can('delete permission')))
+                                        <th>Action</th>
+                                    @endif
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,12 +59,22 @@
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $permission->name }}</td>
                                     <td>{{ $permission->group_name }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-warning btn-sm" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'edit')" wire:click="prepareData('{{$permission->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                        <button class="btn btn-warning btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'edit')"><i class="mdi mdi-autorenew"></i></button>
-                                        <button class="btn btn-danger btn-sm" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'delete')" wire:click="prepareData('{{$permission->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
-                                        <button class="btn btn-danger btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'delete')"><i class="mdi mdi-autorenew"></i></button>
-                                    </td>
+
+                                    @if ((auth()->user()->can('edit permission')) || (auth()->user()->can('delete permission')))
+                                        <td class="text-center">
+                                            @if (auth()->user()->can('edit permission'))
+                                                <button class="btn btn-warning btn-sm" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'edit')" wire:click="prepareData('{{$permission->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                                <button class="btn btn-warning btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'edit')"><i class="mdi mdi-autorenew"></i></button>
+                                            @endif
+
+                                            @if (auth()->user()->can('delete permission'))
+                                                <button class="btn btn-danger btn-sm" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'delete')" wire:click="prepareData('{{$permission->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                                <button class="btn btn-danger btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'delete')"><i class="mdi mdi-autorenew"></i></button>
+                                            @endif
+
+                                        </td>
+                                    @endif
+
                                 </tr>
                                 @empty
                                 <tr>

@@ -4,6 +4,7 @@ namespace App\Livewire\AdminPanel;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -45,6 +46,19 @@ class AddPermissionsToRole extends Component
         }
     }
 
+    // public function selectAllPermissionGroup() {
+
+    //     foreach($this->permissions as $permission) {
+    //         array_push($this->selectedPermissionIds, $permission->id);
+
+    //     }
+
+    //     $this->allPermissions = false;
+        
+    //     return $this->selectedPermissionIds;
+        
+    // }
+
     public function selectAllPermissions() {
 
         foreach($this->permissions as $permission) {
@@ -70,7 +84,7 @@ class AddPermissionsToRole extends Component
     protected function rules() {
 
         return [
-            'role_id' => ['required', 'integer'],
+            'role_id' => ['required', 'string'],
         ];
 
     }
@@ -108,6 +122,25 @@ class AddPermissionsToRole extends Component
                         $data['permission_id'] = $permission_id;
 
                         DB::table('role_has_permissions')->insert($data);
+                        // $rolePermissions = DB::table('role_has_permissions')->insert($data);
+
+                        // if($rolePermissions) {
+                        //     $role = Role::find($this->role_id);
+                        //     $permission = Permission::find($permission_id);
+                        //     $users = User::all();
+
+                        //     foreach($users as $user) {
+                        //         if($user->role->name == $role->name) {
+                        //             DB::table('model_has_permissions')->insert([
+                        //                 'permission_id' => $permission->id,
+                        //                 'model_id' => $user->id,
+                        //                 'model_type' => 'App\Models\User'
+                        //             ]);
+
+                        //         }
+                        //     }
+                            
+                        // }
 
                     }
                 }
@@ -127,15 +160,40 @@ class AddPermissionsToRole extends Component
                                         ->delete();
                 
                 if($role_permission_del) {
-
                     $data = array();
 
                     foreach($this->selectedPermissionIds as $permission_id) {
                         $data['role_id'] = $validatedData['role_id'];
                         $data['permission_id'] = $permission_id;
     
-                        DB::table('role_has_permissions')
-                            ->insert($data);
+                        $rolePermissions = DB::table('role_has_permissions')->insert($data);
+
+                        if($rolePermissions) {
+                            $role = Role::find($this->role_id);
+                            $users = User::all();
+                            $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+
+                            foreach($users as $user) {
+                                foreach($permissions as $permission) {
+                                    if($user->role->name == $role->name) {
+                                        $role_permissions_del = DB::table('model_has_permissions')
+                                                                ->where('model_id', $user->id)
+                                                                ->delete();
+
+                                        if ($role_permissions_del) {
+                                            DB::table('model_has_permissions')->insert([
+                                                'permission_id' => $permission->id,
+                                                'model_id' => $user->id,
+                                                'model_type' => 'App\Models\User'
+                                            ]);
+
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                            
+                        }
     
                     }
     
@@ -176,11 +234,15 @@ class AddPermissionsToRole extends Component
     {
         $roles = Role::all();
 
+        $permissionGroups = Permission::select('group_name')->distinct()->get();
+
         $this->permissions = Permission::all();
 
         return view('livewire.admin-panel.add-permissions-to-role', [
             'permissions' => $this->permissions,
+            'permissionGroups' => $permissionGroups,
             'roles' => $roles
         ]);
     }
+    
 }

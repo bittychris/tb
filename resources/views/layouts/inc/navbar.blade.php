@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-      <ul class="navbar-nav mr-lg-4 w-100">
+      {{--  <ul class="navbar-nav mr-lg-4 w-100">
         <li class="nav-item nav-search d-none d-lg-block w-75">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -24,7 +24,7 @@
             <input type="text" class="form-control" placeholder="Search now" aria-label="search" aria-describedby="search">
           </div>
         </li>
-      </ul>
+      </ul>  --}}
       <ul class="navbar-nav navbar-nav-right">
         {{-- <li class="nav-item dropdown me-1">
           <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-bs-toggle="dropdown">
@@ -125,11 +125,11 @@
             <span class="nav-profile-name">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-            <a class="dropdown-item">
-              <i class="mdi mdi-settings text-primary"></i>
+            <a href="{{ route('user.profile') }}" class="dropdown-item">
+              <i class="mdi mdi-account text-primary"></i>
               My profile
             </a>
-            <a class="dropdown-item" disabled="true">
+            <a href="{{ route('user.change_password') }}" class="dropdown-item" disabled="true">
               <i class="mdi mdi-lock text-primary"></i>
               Change password
             </a>
@@ -147,7 +147,7 @@
             </a>
           </div>
         </li>
-        <li class="nav-item">
+        {{--  <li class="nav-item">
         <a href="{{ route('logout') }}"
             onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();"
@@ -155,7 +155,7 @@
              <i class="mdi mdi-logout text-primary me-1"></i>
              <span>Logout</span>
         </a>
-        </li>
+        </li>  --}}
         {{-- <li class="nav-item">
           <a href="{{ route('logout') }}"
             onclick="event.preventDefault();document.getElementById('logout-form').submit();"

@@ -46,10 +46,38 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.dashboard'));
+
+             // User login successful
+            //  $user = User::whereEmail($request['email'])->first();
+            //  $roleData = role::find(Auth::user()->role_id);
+            //  $role = $roleData->name; 
+ 
+            //  if ($role == '') {
+            //      return redirect()->intended(route('admin.dashboard'));
+            //  }
+            //  elseif ($role == 'Regional coordinator') {
+            //      return redirect()->intended(route('admin.dashboard'));
+            //  }
+            //   elseif ($role == 'AMREF personnel') {
+            //      return redirect()->intended(route('admin.dashboard'));
+            //  }
             
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
         }
+        
+    }
+
+    public function userProfile() {
+        // $email = auth()->user()->email;
+
+        return view('admin_panel.user_profile');
+    }
+
+    public function changePassword() {
+        // $email = auth()->user()->email;
+
+        return view('auth.passwords.reset');
     }
 
     public function logout(Request $request)

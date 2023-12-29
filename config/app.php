@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        //Ramsey\Uuid\UuidServiceProvider::class,
 
     ])->toArray(),
 
@@ -188,6 +189,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         // 'Permission' => Spatie\Permission\Facades\Permission::class,
+        'Uuid' => Ramsey\Uuid\Uuid::class,
 
     ])->toArray(),
 

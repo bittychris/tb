@@ -25,6 +25,13 @@
       <div class="content-wrapper d-flex align-items-center auth px-0">
         <div class="row w-100 mx-0">
           <div class="col-lg-4 mx-auto">
+            @if (session()->has('success'))
+              @include('partial.alert')
+
+            @elseif (session()->has('error'))
+              @include('partial.alert')
+
+            @endif
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo fw-bold text-center">
                 USAID Afya Shirikishi
@@ -77,6 +84,7 @@
   {{-- <script src="{{ asset('assets/js/js/off-canvas.js') }}"></script> --}}
   {{-- <script src="{{ asset('assets/js/js/hoverable-collapse.js') }}"></script> --}}
   {{-- <script src="{{ asset('assets/js/js/template.js') }}"></script> --}}
+  <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
   <!-- endinject -->
 </body>
 
