@@ -90,12 +90,12 @@
         @endif
 
         {{--  @if (auth()->user()->can('all reports'))  --}}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.reporting')}}">
+        {{--  <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.report') }}">
               <i class="mdi mdi-file-chart menu-icon"></i>
               <span class="menu-title">Reports</span>
           </a>
-        </li>
+        </li>  --}}
         {{--  @endif  --}}
 
         @if (auth()->user()->can('recycle bin menu'))

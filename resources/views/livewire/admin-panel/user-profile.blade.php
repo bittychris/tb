@@ -28,6 +28,14 @@
                     </h4>
 
                     <div class="col-md-12">
+                        {{--  <div class="row"></div>  --}}
+                        <div class="form-group">
+                            <center>
+                                <img src="{{ asset('admin/images/faces/user_logo.jpg') }}" class="rounded border-primary" width="150px" alt="profile image" />
+                            </center>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="first_name">Full Name: <span class="mx-3 text-secondary">{{ $userDetails->first_name }} {{ $userDetails->last_name }}</span></label>
                         </div>
@@ -84,12 +92,23 @@
                             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="phone">Contact number</label>
-                            <input type="phone"  {{ $editMode == true ? '' : 'disabled' }} wire:model="phone" class="form-control form-control-sm" id="phone" placeholder="Enter phone number">
-                            @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Contact number</label>
+                                    <input type="phone"  {{ $editMode == true ? '' : 'disabled' }} wire:model="phone" class="form-control form-control-sm" id="phone" placeholder="Enter phone number">
+                                    @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="image">Profile image</label>
+                                    <input type="file" accept="image/*"  {{ $editMode == true ? '' : 'disabled' }} wire:model="image" class="form-control form-control-sm" id="image" />
+                                    @error('image') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
                         </div>
-
+                        
                         <div class="mt-3 mb-2">
                             <button type="submit"  {{ $editMode == true ? '' : 'disabled' }} wire:loading.remove wire:target="saveUserDatails" class="btn btn-success text-white" style="float: right;">Update</button>
                             <button type="button" wire:loading wire:target="saveUserDatails" class="btn btn-success text-white" style="float: right;" disabled="disabled">Updating...</button>

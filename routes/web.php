@@ -36,7 +36,6 @@ Route::get('formattribute/export', [ExportController::class, 'formattribute'])->
 Route::get('form/export', [ExportController::class, 'form'])->name('form.export');
 Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
-
 Route::middleware(['auth'])->group(function() {
 
     //admin
