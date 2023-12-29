@@ -77,11 +77,11 @@ class AdminList extends Component
 
         if ($this->status == false) {
             $this->btn_display = 'none';
-            $admins = User::where('status', $this->status)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->where('role_id', $role_id)->latest()->paginate(10);
 
         } else {
             $this->btn_display = '';
-            $admins = User::where('status', $this->status)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->where('role_id', $role_id)->latest()->paginate(10);
 
         }
         

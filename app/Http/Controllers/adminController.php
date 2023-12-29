@@ -63,6 +63,7 @@ class adminController extends Controller
 
         return view('admin_panel.report_list');
     }
+    
     public function report() {
         $formdata =  FormData::all();
         $res =  Form::all();

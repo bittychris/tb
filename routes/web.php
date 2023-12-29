@@ -82,6 +82,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data')->middleware(['permission:edit field data (report)']);
 
         Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report')->middleware(['permission:all field data']);
+        
+        Route::get('report', [adminController::class, 'report'])->name('admin.reporting');
 
         Route::get('roles', [adminController::class, 'roles'])->name('admin.roles')->middleware(['permission:all roles']);
 
