@@ -28,7 +28,9 @@
           <button type="button" class="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0">
             <i class="mdi mdi-plus text-muted"></i>
           </button>
-          <button class="btn btn-primary mt-2 mt-xl-0">Generate report</button>
+          <button class="btn btn-primary mt-2 mt-xl-0" >
+            <a href="{{ route('formdata.export') }}" style="text-decoration: none; font-weight:bold; color:white;">Generate report</a>
+          </button>
         </div>
       </div>
     </div>

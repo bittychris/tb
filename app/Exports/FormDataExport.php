@@ -3,15 +3,20 @@
 namespace App\Exports;
 
 use App\Models\FormData;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromView;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class FormDataExport implements FromCollection
+class FormDataExport implements FromView, ShouldAutoSize
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function view() : view
     {
-        return FormData::all();
+        $res =  FormData::all();
+        $res = $res->groupBy('attribute_id')->map(function ($group) {
+            return $group->sortBy('age_group.min')->unique('age_group.min');
+        });
+       return view('exports.formData', [
+        'formDatas' =>  $res
+       ]);
     }
 }

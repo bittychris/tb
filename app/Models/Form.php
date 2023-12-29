@@ -35,4 +35,5 @@ class Form extends BaseModal
     {
         return $this->belongsTo(FormAttribute::class, 'form_attribute_id');
     }
+    
 }
