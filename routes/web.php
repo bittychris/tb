@@ -40,10 +40,10 @@ Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi
 Route::middleware(['auth'])->group(function() {
 
     //admin
-    // Route::group(['prefix' => 'admin'],function() {
+    Route::group(['prefix' => 'admin'],function() {
 
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-        
+
         Route::get('my_profile', [LoginController::class, 'userProfile'])->name('user.profile');
 
         Route::get('change_password', [LoginController::class, 'changePassword'])->name('user.change_password');
@@ -51,17 +51,17 @@ Route::middleware(['auth'])->group(function() {
         Route::get('dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
 
         Route::get('admins', [adminController::class, 'admins'])->name('admin.admins')->middleware(['permission:all admins']);
-        
+
         Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin')->middleware(['permission:add admin']);
 
         Route::get('admins/{admin_id}/edit', [adminController::class, 'editAdmin'])->name('admin.edit_admin')->middleware(['permission:edit admin']);
-        
+
         Route::get('deleted_admins', [adminController::class, 'deactivatedAdmins'])->name('admin.deactivated.admins')->middleware(['permission:all deleted admins']);
 
         Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs')->middleware(['permission:all staffs']);
 
         Route::get('deleted_staffs', [adminController::class, 'deactivatedStaffs'])->name('admin.deactivated.staffs')->middleware(['permission:all deleted staffs']);
-        
+
         Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff')->middleware(['permission:add staff']);
 
         Route::get('staffs/{staff_id}/edit', [adminController::class, 'editStaff'])->name('admin.edit_staff')->middleware(['permission:edit staff']);
@@ -94,7 +94,7 @@ Route::middleware(['auth'])->group(function() {
 
         Route::get('permissions_to_roles/{role_id}/edit', [adminController::class, 'editPermissionsToRole'])->name('admin.edit.permissions.role')->middleware(['permission:edit assigned permissions to role']);
 
-    // });
+    });
 
 
     //regional coordinator
