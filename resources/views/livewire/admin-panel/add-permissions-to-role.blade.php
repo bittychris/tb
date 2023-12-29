@@ -57,21 +57,37 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @foreach ($permissions as $key => $permission)
-                                <div class="col-4">
-                                    <input class="form-check-input" type="checkbox" wire:model="selectedPermissionIds" value="{{ $permission->id }}" id="permission.{{$key}}">
-                                    <label class="form-check-label text-secondary" for="permission.{{$key}}">
-                                        {{ $permission->name }}
-                                    </label>
+                                @foreach ($permissionGroups as $groupKey => $permissionGroups)
+                                <div class="col-12 mb-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {{--  <input class="form-check-input" type="checkbox" wire:model="selectedPermissionIds" value="{{ $permissionGroups->id }}" id="permissionGroup.{{$groupKey}}">  --}}
+                                            <label class="form-check-label text-secondary fw-bold" for="permissionGroup.{{$groupKey}}">
+                                                {{ ucfirst($permissionGroups->group_name) }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                    @foreach ($permissions as $key => $permission)
+                                        @if ($permission->group_name == $permissionGroups->group_name)
+                                            <div class="col-4 px-4">
+                                                <input class="form-check-input" type="checkbox" wire:model="selectedPermissionIds" value="{{ $permission->id }}" id="permission.{{$key}}">
+                                                <label class="form-check-label text-secondary" for="permission.{{$key}}">
+                                                    {{ ucfirst($permission->name) }}
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    </div>
+
                                 </div>
                                 @endforeach
         
                             </div>
-                            {{-- @error('selectedAttributeIds') <small class="text-danger">{{ $message }}</small> @enderror --}}
                         </div>
                         <div class="mt-3 mb-2">
                             @if($editMode)
-                                <button type="submit" class="btn btn-primary text-white" style="float: right;">Update</button>
+                                <button type="submit" class="btn btn-success text-white" style="float: right;">Update</button>
                             @else
                                 <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
                             @endif

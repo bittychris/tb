@@ -2,6 +2,7 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Traits\Uuids;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;

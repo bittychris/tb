@@ -117,10 +117,10 @@
                                             <td>{{ $ageGroup->slug }}</td>
                                             @foreach($attributeList as $attribute)
                                                 <td>
-                                                    <input type="number" style="width: 60px"  wire:model="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                    <input type="number" style="width: 60px"  wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
                                                 </td>
                                                 <td>
-                                                    <input type="number" style="width: 60px" wire:model="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                    <input type="number" style="width: 60px" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
                                                 </td>
                                             @endforeach
                                         </tr>
@@ -139,6 +139,7 @@
                                         @foreach($attributeList as $attribute)
                                             <td colspan="2">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
                                         @endforeach
+                                        {{--  $attributeList->links();  --}}
                                     </tr>
                                     </tbody>
                                 </table>

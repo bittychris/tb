@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class adminController extends Controller
 {
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
+    
     //
     public function ageGroups() {
         return view('admin_panel.age_groups');

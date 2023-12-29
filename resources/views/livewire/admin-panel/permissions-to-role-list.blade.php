@@ -22,9 +22,13 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Roles with Permissions</div>
-                            <div class="col-6">
-                                <a href="{{ route('admin.add.permissions.role') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Assign Permissions to Role</a>
-                            </div>
+                            
+                            @if (auth()->user()->can('assign permissions to role'))
+                                <div class="col-6">
+                                    <a href="{{ route('admin.add.permissions.role') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Assign Permissions to Role</a>
+                                </div>
+                            @endif
+
                         </div>
                     </h4>
                     <div class="table-responsive">
@@ -34,7 +38,11 @@
                                     <th>#</th>
                                     <th>Role</th>
                                     <th>Permission(s)</th>
-                                    <th>Action</th>
+
+                                    @if ((auth()->user()->can('edit assigned permissions to role')) || (auth()->user()->can('delete roles permissions')))
+                                        <th>Action</th>
+                                    @endif
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,10 +63,20 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id ]) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-pen"></i></a>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteRolesInPermission('{{$Role->id}}')" data-bs-toggle="modal" data-bs-target="#delete_permissions_role_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
-                                    </td>
+                                    
+                                    @if ((auth()->user()->can('edit assigned permissions to role')) || (auth()->user()->can('delete roles permissions')))
+                                        <td class="text-center">
+                                            @if (auth()->user()->can('edit assigned permissions to role'))
+                                                <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id ]) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-pen"></i></a>
+                                            @endif
+
+                                            @if (auth()->user()->can('delete roles permissions'))
+                                                <button class="btn btn-danger btn-sm" wire:click="prepareDeleteRolesInPermission('{{$Role->id}}')" data-bs-toggle="modal" data-bs-target="#delete_permissions_role_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                            @endif
+
+                                        </td>
+                                    @endif
+                                    
                                 </tr>
                                 @empty
                                 <tr>
