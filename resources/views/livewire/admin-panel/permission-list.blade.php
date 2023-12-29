@@ -23,11 +23,11 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Permissions</div>
                             <div class="col-6">
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                {{--  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                 <button type="button" class="btn btn-success btn-sm text-white" data-bs-toggle="modal" data-bs-target="#export_permission_modal">Export</button>
                                 &nbsp;
                                 <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#import_permission_modal">Import</button>
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  --}}
                                 <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;">Add Permission</button>
                             </div>
                         </div>

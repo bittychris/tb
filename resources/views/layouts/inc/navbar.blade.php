@@ -125,11 +125,11 @@
             <span class="nav-profile-name">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-            <a class="dropdown-item">
-              <i class="mdi mdi-settings text-primary"></i>
+            <a href="{{ route('user.profile') }}" class="dropdown-item">
+              <i class="mdi mdi-account text-primary"></i>
               My profile
             </a>
-            <a class="dropdown-item" disabled="true">
+            <a href="{{ route('user.change_password') }}" class="dropdown-item" disabled="true">
               <i class="mdi mdi-lock text-primary"></i>
               Change password
             </a>
@@ -147,7 +147,7 @@
             </a>
           </div>
         </li>
-        <li class="nav-item">
+        {{--  <li class="nav-item">
         <a href="{{ route('logout') }}"
             onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();"
@@ -155,7 +155,7 @@
              <i class="mdi mdi-logout text-primary me-1"></i>
              <span>Logout</span>
         </a>
-        </li>
+        </li>  --}}
         {{-- <li class="nav-item">
           <a href="{{ route('logout') }}"
             onclick="event.preventDefault();document.getElementById('logout-form').submit();"
