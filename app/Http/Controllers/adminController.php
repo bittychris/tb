@@ -61,13 +61,14 @@ class adminController extends Controller
     public function report() {
         $formdata =  FormData::all();
         $res =  Form::all();
-        $formdata = $formdata->groupBy('attribute_id')->map(function ($group) {
+        $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
             return $group->sortBy('age_group.min')->unique('age_group.min');
         });
 
         return view('admin_panel.report',[
             'forms' => $res,
             'formDatas' => $formdata
+            
         ]);
     }
 
