@@ -6,7 +6,6 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        {{-- @can('roles and permissions menu') --}}
             
         @if (auth()->user()->can('roles and permissions menu'))
         <li class="nav-item">
@@ -33,7 +32,6 @@
           </div>
         </li>
         @endif
-        {{-- @endcan --}}
 
         @if (auth()->user()->can('admins and staffs menu'))
         <li class="nav-item">
@@ -50,7 +48,6 @@
               @if (auth()->user()->can('admins and staffs menu'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.staffs') }}">Staffs</a></li>
               @endif
-              {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('admin.permissions.roles') }}">Roles in Permissions</a></li> --}}
             </ul>
           </div>
         </li>
@@ -91,6 +88,7 @@
             </a>
         </li>
         @endif
+
         {{--  @if (auth()->user()->can('all reports'))  --}}
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.reporting')}}">
@@ -115,7 +113,6 @@
               @if (auth()->user()->can('all deleted staffs'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.deactivated.staffs') }}">Staffs</a></li>
               @endif
-              {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('admin.permissions.roles') }}">Roles in Permissions</a></li> --}}
             </ul>
           </div>
         </li>

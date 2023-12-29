@@ -21,9 +21,13 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">{{ $status == true ? 'Admins' : 'Deleted Admins' }}</div>
-                            <div class="col-6" style="display: {{ $btn_display }};">
-                                <a href="{{ route('admin.add_admin') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Admin</a>
-                            </div>
+
+                            @if (auth()->user()->can('add admin'))
+                                <div class="col-6" style="display: {{ $btn_display }};">
+                                    <a href="{{ route('admin.add_admin') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Admin</a>
+                                </div>
+                            @endif
+
                         </div>
                     </h4>
 
@@ -36,7 +40,10 @@
                                 <th>Email</th>
                                 <th>Phone contact</th>
                                 <th>Position</th>
-                                <th>Action</th>
+                                @if ((auth()->user()->can('edit admin')) || (auth()->user()->can('delete admin')))
+                                    <th>Action</th>
+                                @endif
+
                             </tr>
                             </thead>
                             @forelse($admins as $key => $admin)
@@ -50,10 +57,20 @@
                                             {{ $admin->role->name }}
                                         </span>
                                     </td>
-                                    <td>
-                                        <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-sm text-white" style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
-                                        <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
-                                    </td>
+
+                                    @if ((auth()->user()->can('edit admin')) || (auth()->user()->can('delete admin')))
+                                        <td>    
+                                            @if (auth()->user()->can('edit admin'))
+                                                <a href="{{ route('admin.edit_admin', ['admin_id' => $admin->id]) }}" class="btn btn-warning btn-sm text-white" style="display: {{ $btn_display }};"><i class="mdi mdi-pencil"></i></a>
+                                            @endif
+
+                                            @if (auth()->user()->can('delete admin'))
+                                                <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteAdmin('{{$admin->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
+                                            @endif
+
+                                        </td>
+                                    @endif
+
                                 </tr>
                             @empty
                                 <tr>

@@ -22,9 +22,13 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Attributes</div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#attribute_form_modal" style="float:  right;"><i class="mdi mdi-plus"></i> Add Attribute</button>
-                            </div>
+
+                            @if (auth()->user()->can('add attribute'))
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#attribute_form_modal" style="float:  right;"><i class="mdi mdi-plus"></i> Add Attribute</button>
+                                </div>
+                            @endif  
+
                         </div>
                     </h4>
                     <div class="table-responsive">
@@ -33,7 +37,10 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Action</th>
+                                    @if ((auth()->user()->can('edit attribute')) || (auth()->user()->can('delete attribute')))
+                                        <th>Action</th>
+                                    @endif  
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,11 +52,22 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $attribute->name }}</td>
-                                    <td class="text-center">
-                                        {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <button class="btn btn-warning btn-sm" wire:click="prepareData('{{$attribute->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$attribute->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
-                                    </td>
+
+                                    @if ((auth()->user()->can('edit attribute')) || (auth()->user()->can('delete attribute')))
+
+                                        <td class="text-center">
+                                            {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
+                                            @if (auth()->user()->can('edit attribute'))
+                                                <button class="btn btn-warning btn-sm" wire:click="prepareData('{{$attribute->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                            @endif  
+
+                                            @if (auth()->user()->can('edit attribute'))
+                                                <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$attribute->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                            @endif  
+
+                                        </td>
+                                    @endif  
+
                                 </tr>
                                 @empty
                                 <tr>

@@ -84,11 +84,10 @@
                                 @endforeach
         
                             </div>
-                            {{-- @error('selectedAttributeIds') <small class="text-danger">{{ $message }}</small> @enderror --}}
                         </div>
                         <div class="mt-3 mb-2">
                             @if($editMode)
-                                <button type="submit" class="btn btn-primary text-white" style="float: right;">Update</button>
+                                <button type="submit" class="btn btn-success text-white" style="float: right;">Update</button>
                             @else
                                 <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
                             @endif
