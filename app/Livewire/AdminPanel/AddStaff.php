@@ -6,10 +6,11 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class AddStaff extends Component
 {
-    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $roles, $role_id;
+    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $roles, $role_id, $region;
 
     public $editMode = false;
     
@@ -90,6 +91,10 @@ class AddStaff extends Component
                     }
 
                     $this->clearForm();
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Staff'));
+
                     session()->flash('success', 'New Staff saved successfully');
                     return redirect(route('admin.staffs'));
 
@@ -139,6 +144,10 @@ class AddStaff extends Component
                     }
 
                     $this->clearForm();
+                    
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details'));
+
                     session()->flash('success', 'Staff details updated successfully');
                     return redirect(route('admin.staffs'));
 
@@ -148,6 +157,10 @@ class AddStaff extends Component
                     $staff->assignRole($role->name);
 
                     $this->clearForm();
+                    
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details'));
+
                     session()->flash('success', 'Staff details updated successfully');
                     return redirect(route('admin.staffs'));
     

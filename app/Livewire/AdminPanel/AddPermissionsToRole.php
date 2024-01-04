@@ -2,11 +2,12 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Notifications\UserActionNotification;
 
 class AddPermissionsToRole extends Component
 {
@@ -149,9 +150,12 @@ class AddPermissionsToRole extends Component
 
                 $this->clearForm();
 
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Assigned permissions to a role'));
+                
                 redirect(route('admin.permissions.roles'));
 
-                session()->flash('success', 'Permissions of the Role saves successfully');
+                session()->flash('success', 'Permissions of the Role saved successfully');
 
             } else {
 
@@ -201,6 +205,9 @@ class AddPermissionsToRole extends Component
                     
                     $this->clearForm();
                    
+                    $acting_user = User::find(auth()->user()->id);
+                    $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permissions of a role'));
+                        
                     redirect(route('admin.permissions.roles'));
 
                     session()->flash('success', 'Permissions of the Role updated successfully');

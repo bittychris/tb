@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class AdminList extends Component
 {
@@ -35,6 +36,10 @@ class AdminList extends Component
     
             if ($admin) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Admin'));
+            
                 $this->dispatch('closeForm');
                 session()->flash('warning', 'Admin details deleted successfully');
     
@@ -50,6 +55,10 @@ class AdminList extends Component
     
             if ($admin) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Admin'));
+            
                 $this->dispatch('closeForm');
                 session()->flash('success', 'Admin details restored successfully');
     

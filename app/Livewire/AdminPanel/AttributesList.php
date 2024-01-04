@@ -2,9 +2,11 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\Attribute;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\Attribute;
 use Livewire\WithPagination;
+use App\Notifications\UserActionNotification;
 
 class AttributesList extends Component
 {
@@ -45,6 +47,10 @@ class AttributesList extends Component
 
             if ($attribute) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute'));
+            
                 $this->dispatch('closeForm');
                 session()->flash('success', 'Attribute saved successfully');
 
@@ -91,6 +97,10 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details'));
+            
             $this->dispatch('closeForm');
             session()->flash('success', 'Age group updated successfully');
 
@@ -107,6 +117,10 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute'));
+            
             $this->dispatch('closeForm');
             session()->flash('warning', 'Attribute deleted successfully');
 

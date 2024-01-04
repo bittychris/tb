@@ -16,7 +16,7 @@ class ReportList extends Component
                     $district->with('region');
                 }]);
             }])
-            ->where('created_by', Auth::user()->id)
+            // ->where('created_by', Auth::user()->id)
             ->latest()
             ->paginate(15);
 

@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class AddAdmin extends Component
 {
@@ -91,6 +92,10 @@ class AddAdmin extends Component
                     }
                     
                     $this->clearForm();
+                    
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Admin'));
+
                     session()->flash('success', 'New Admin saved successfully');
                     return redirect(route('admin.admins'));
                     
@@ -140,6 +145,10 @@ class AddAdmin extends Component
                     }
 
                     $this->clearForm();
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details'));
+
                     session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
     
@@ -149,6 +158,10 @@ class AddAdmin extends Component
                     $admin->assignRole($role->name);
 
                     $this->clearForm();
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details'));
+
                     session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
 

@@ -2,9 +2,11 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\AgeGroup;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\AgeGroup;
 use Livewire\WithPagination;
+use App\Notifications\UserActionNotification;
 
 class AgeGroupsList extends Component
 {
@@ -49,6 +51,10 @@ class AgeGroupsList extends Component
 
             if ($ageGroup) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'added new age group'));
+            
                 $this->dispatch('closeForm');
                 session()->flash('success', 'Age group saved successfully');
 
@@ -96,6 +102,10 @@ class AgeGroupsList extends Component
 
         if ($ageGroup) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details'));
+        
             $this->dispatch('closeForm');
             session()->flash('success', 'Age group updated successfully');
 
@@ -112,6 +122,10 @@ class AgeGroupsList extends Component
 
         if ($ageGroup) {
             $this->clearForm();
+            
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted age group'));
+        
             $this->dispatch('closeForm');
             // $this->dispatch('success', 'Age group updated successfully');
 

@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class StaffList extends Component
 {
@@ -35,6 +36,10 @@ class StaffList extends Component
     
             if ($staff) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Staff'));
+
                 $this->dispatch('closeForm');
                 session()->flash('warning', 'Staff details deleted successfully');
     
@@ -50,6 +55,10 @@ class StaffList extends Component
     
             if ($staff) {
                 $this->clearForm();
+                
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Staff'));
+            
                 $this->dispatch('closeForm');
                 session()->flash('success', 'Staff details restored successfully');
     

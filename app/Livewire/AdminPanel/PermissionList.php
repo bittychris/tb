@@ -2,9 +2,11 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
+use App\Notifications\UserActionNotification;
 
 class PermissionList extends Component
 {
@@ -52,6 +54,10 @@ class PermissionList extends Component
 
             if ($permission) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new permission'));
+            
                 $this->dispatch('closeForm');
                 session()->flash('success', 'Permission saved successfully');
 
@@ -97,6 +103,10 @@ class PermissionList extends Component
 
         if ($permission) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permission details'));
+                
             $this->dispatch('closeForm');
             session()->flash('success', 'Permission updated successfully');
 
@@ -113,6 +123,10 @@ class PermissionList extends Component
 
         if ($permission) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted permission'));
+            
             $this->dispatch('closeForm');
             session()->flash('warning', 'Permission deleted successfully');
 

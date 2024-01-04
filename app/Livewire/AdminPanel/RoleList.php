@@ -2,10 +2,12 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use App\Traits\Uuids;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class RoleList extends Component
 {
@@ -46,6 +48,10 @@ class RoleList extends Component
 
             if ($role) {
                 $this->clearForm();
+                   
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new role'));
+                
                 $this->dispatch('closeForm');
                 session()->flash('success', 'Role saved successfully');
 
@@ -88,6 +94,11 @@ class RoleList extends Component
 
         if ($role) {
             $this->clearForm();
+
+               
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated role details'));
+            
             $this->dispatch('closeForm');
             session()->flash('success', 'Role updated successfully');
 
@@ -104,6 +115,10 @@ class RoleList extends Component
 
         if ($role) {
             $this->clearForm();
+            
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted role'));
+            
             $this->dispatch('closeForm');
             session()->flash('warning', 'Role deleted successfully');
 

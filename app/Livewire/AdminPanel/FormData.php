@@ -2,16 +2,18 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\AgeGroup;
-use App\Models\Attribute;
-use App\Models\District;
 use App\Models\Form;
-use App\Models\FormAttribute;
-use App\Models\Region;
+use App\Models\User;
 use App\Models\Ward;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\Region;
 use Livewire\Component;
+use App\Models\AgeGroup;
+use App\Models\District;
+use App\Models\Attribute;
+use App\Models\FormAttribute;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\UserActionNotification;
 
 class FormData extends Component
 {
@@ -124,8 +126,14 @@ class FormData extends Component
 
             DB::commit();
             if ($this->form) {
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data'));
+                
                 $this->dispatch('message_alert', 'Data update.');
             } else {
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data'));
+                
                 return redirect(route('admin.report'))->with('success', 'Data saved.');
             }
 

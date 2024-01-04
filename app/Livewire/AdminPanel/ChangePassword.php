@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\UserActionNotification;
 
 class ChangePassword extends Component
 {
@@ -40,6 +41,10 @@ class ChangePassword extends Component
                 if($password) {
     
                     $this->clearForm();
+                    
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Changed password'));
+            
                     Auth::logout();
                     session()->invalidate();
                     session()->regenerateToken();
@@ -52,12 +57,12 @@ class ChangePassword extends Component
                 }
     
             } else {
-                return session()->flash('warning', 'Confirm the password correctly');
+                return session()->flash('error', 'Passwords mismatch');
                 
             }
 
         } else {
-            return session()->flash('warning', 'Current password is not correct');
+            return session()->flash('error', 'Current password is not correct');
 
         }
 

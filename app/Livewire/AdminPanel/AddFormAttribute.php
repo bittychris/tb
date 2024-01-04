@@ -2,10 +2,12 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use Livewire\Component;
 use App\Models\AgeGroup;
 use App\Models\Attribute;
 use App\Models\FormAttribute;
+use App\Notifications\UserActionNotification;
 
 class AddFormAttribute extends Component
 {
@@ -74,6 +76,9 @@ class AddFormAttribute extends Component
                         'attribute_ids' => $attribute_ids
                     ]);
 
+                    $acting_user = User::find(auth()->user()->id);
+                    $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Form Attribute details'));
+
                     session()->flash('success', 'From attribute updated successfully');
 
                 }else{
@@ -83,6 +88,9 @@ class AddFormAttribute extends Component
                         'attribute_ids' => $attribute_ids
                     ]);
 
+                    $acting_user = User::find(auth()->user()->id);
+                    $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute'));
+                    
                     session()->flash('success', 'From attribute saved successfully');
                     return redirect(route('admin.edit_form_attributes', ['form_id' => $form_attribute->id]));
                 }
