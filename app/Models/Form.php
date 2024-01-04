@@ -26,6 +26,17 @@ class Form extends BaseModal
         return $this->belongsTo(Ward::class, 'ward_id');
     }
 
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_id', 'id');
+    }
+    
+
     public function added_by(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -35,5 +46,6 @@ class Form extends BaseModal
     {
         return $this->belongsTo(FormAttribute::class, 'form_attribute_id');
     }
+    
     
 }
