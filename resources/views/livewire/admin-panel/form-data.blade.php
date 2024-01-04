@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            {{--  <div class="col-md-3">
                                 <div class="form-group">
                                     <label >Region</label>
                                     <select wire:model.live="region_id" class="form-control form-control-sm text-dark" >
@@ -61,8 +61,8 @@
                                     </select>
                                     @error('region_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
-                            </div>
-                            <div class="col-md-3">
+                            </div>  --}}
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="district_id">District</label>
                                     <select wire:model.live="district_id" class="form-control form-control-sm text-dark" >
@@ -74,7 +74,7 @@
                                     @error('district_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="district_id">Ward</label>
                                     <select wire:model="ward_id" class="form-control form-control-sm text-dark" >
@@ -86,7 +86,7 @@
                                     @error('ward_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="scanning_name">Address</label>
                                     <input type="text" wire:model="address" class="form-control form-control-sm">

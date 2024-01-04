@@ -3,6 +3,7 @@
 namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
+use App\Models\Region;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -10,7 +11,7 @@ use App\Notifications\UserActionNotification;
 
 class AddAdmin extends Component
 {
-    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $roles, $role_id;
+    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $roles, $role_id, $region_id, $regions;
 
     public $editMode = false;
     
@@ -27,6 +28,7 @@ class AddAdmin extends Component
             $this->last_name = $this->admin->last_name;
             $this->email = $this->admin->email;
             $this->phone = $this->admin->phone;
+            $this->region_id = $this->admin->region_id;
             $this->role_id = $this->admin->role_id;
             
         }else{
@@ -41,7 +43,8 @@ class AddAdmin extends Component
             'last_name' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'role_id' => ['required', 'string'],
+            'region_id' => ['required'],
+            'role_id' => ['required'],
         ];
 
     }
@@ -69,6 +72,7 @@ class AddAdmin extends Component
                     'last_name' => $validatedData['last_name'],
                     'phone' => $validatedData['phone'],
                     'email' => $validatedData['email'],
+                    'region_id' => $validatedData['region_id'],
                     'role_id' => $validatedData['role_id'],
                     'password' => bcrypt('Admin')
 
@@ -112,6 +116,7 @@ class AddAdmin extends Component
                 'last_name' => $validatedData['last_name'],
                 'phone' => $validatedData['phone'],
                 'email' => $validatedData['email'],
+                'region_id' => $validatedData['region_id'],
                 'role_id' => $validatedData['role_id']
 
             ]);
@@ -188,6 +193,7 @@ class AddAdmin extends Component
             'last_name',
             'phone',
             'email',
+            'region_id',
             'role_id',
         );
     }
@@ -196,8 +202,12 @@ class AddAdmin extends Component
     {
         $this->roles = Role::where('name', 'Admin')->get();
 
+        $this->regions = Region::orderBy('name', 'asc')->get();
+        
         return view('livewire.admin-panel.add-admin', [
             'roles' => $this->roles,
+            'regions' => $this->regions
+
         ]);
     }
 }

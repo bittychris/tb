@@ -3,6 +3,7 @@
 namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
+use App\Models\Region;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -10,7 +11,7 @@ use App\Notifications\UserActionNotification;
 
 class AddStaff extends Component
 {
-    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $roles, $role_id, $region;
+    public $staff, $staff_id, $first_name, $last_name, $phone, $email, $roles, $role_id, $region_id, $regions;
 
     public $editMode = false;
     
@@ -27,6 +28,7 @@ class AddStaff extends Component
             $this->last_name = $this->staff->last_name;
             $this->email = $this->staff->email;
             $this->phone = $this->staff->phone;
+            $this->region_id = $this->staff->region_id;
             $this->role_id = $this->staff->role_id;
             
         }else{
@@ -41,7 +43,8 @@ class AddStaff extends Component
             'last_name' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'role_id' => ['required', 'string'],
+            'region_id' => ['required'],
+            'role_id' => ['required'],
         ];
 
     }
@@ -69,6 +72,7 @@ class AddStaff extends Component
                     'last_name' => $validatedData['last_name'],
                     'phone' => $validatedData['phone'],
                     'email' => $validatedData['email'],
+                    'region_id' => $validatedData['region_id'],
                     'role_id' => $validatedData['role_id'],
                     'password' => bcrypt(12345)
                 ]);
@@ -111,6 +115,7 @@ class AddStaff extends Component
                 'last_name' => $validatedData['last_name'],
                 'phone' => $validatedData['phone'],
                 'email' => $validatedData['email'],
+                'region_id' => $validatedData['region_id'],
                 'role_id' => $validatedData['role_id']
 
             ]);
@@ -187,6 +192,7 @@ class AddStaff extends Component
             'last_name',
             'phone',
             'email',
+            'region_id',
             'role_id',
         );
     }
@@ -194,9 +200,12 @@ class AddStaff extends Component
     public function render()
     {
         $this->roles = Role::whereNot('name', 'Admin')->get();
+        
+        $this->regions = Region::orderBy('name', 'asc')->get();
 
         return view('livewire.admin-panel.add-staff', [
             'roles' => $this->roles,
+            'regions' => $this->regions
         ]);
     }
 }

@@ -77,7 +77,7 @@
 
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-            <img src="{{ asset('admin/images/faces/user_logo.jpg') }}" alt="profile"/>
+            <img src="{{ !empty(auth()->user()->image) ? asset('storage/user_images/'.auth()->user()->image) : asset('admin/images/faces/user_logo.jpg') }}" alt="profile image" />
             <span class="nav-profile-name">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">

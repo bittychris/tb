@@ -16,9 +16,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('image')->nullable();
             $table->string('phone');
             $table->timestamp('email_verified_at')->now()->nullable();
             $table->string('password');
+            $table->foreignId('region_id')->unsigned()->constrained()->nullable();
             // $table->foreignID('role_id')->nullable()->constarained();
             $table->char('role_id', 36)->nullable();
             $table->boolean('status')->default(true);

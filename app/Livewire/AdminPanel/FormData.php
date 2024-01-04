@@ -152,13 +152,15 @@ class FormData extends Component
         $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
     }
 
-    public function updatedRegionId()
-    {
-        $this->districts = District::where('region_id', $this->region_id)->get();
-    }
+    // public function updatedRegionId()
+    // {
+    //     $this->region_id = auth()->user()->region_id;
+
+    //     $this->districts = District::where('region_id', $this->region_id)->get();
+    // }
 
     public function updatedDistrictId()
-    {
+    {        
         $this->wards = Ward::where('district_id', $this->district_id)->get();
     }
 
@@ -172,10 +174,15 @@ class FormData extends Component
     public function render()
     {
         $formsAttributes = FormAttribute::all();
-        $regions = Region::all();
+        // $regions = Region::all();
+        
+        $this->region_id = auth()->user()->region_id;
+        $this->districts = District::where('region_id', $this->region_id)->get();
+        
         return view('livewire.admin-panel.form-data', [
             'formsAttributes' => $formsAttributes,
-            'regions' => $regions
+            // 'regions' => $regions
+            'districts' => $this->districts
         ]);
     }
 }

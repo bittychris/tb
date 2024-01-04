@@ -28,35 +28,54 @@
                     </h4>
 
                     <form class="forms-sample" wire:submit.prevent="saveAdmin">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="first_name">First ame</label>
                                     <input type="text" wire:model="first_name" class="form-control form-control-sm" id="first_name" placeholder="Enter First name">
                                     @error('first_name') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="last_name">Last name</label>
                                     <input type="text" wire:model="last_name" class="form-control form-control-sm" id="last_name" placeholder="Enter Last name">
                                     @error('last_name') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" wire:model="email" class="form-control form-control-sm" id="email" placeholder="Enter Email">
                                     @error('email') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone contact</label>
                                     <input type="text" wire:model="phone" class="form-control form-control-sm" id="phone" placeholder="Enter Phone contact">
                                     @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="region_id">Region</label>
+                                    <select wire:model="region_id" class="form-control form-control-sm text-dark" id="region_id">
+                                        <option value="" class="fw-bold">Select Position</option>
+                                        @foreach ($regions as $region)
+                                        
+                                            <option value="{{ $region->id }}">{{ $region->name }}</option>
+                
+                                        @endforeach
+                                    </select>
+                                    @error('region_id') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="role_id">Position</label>
                                     <select wire:model="role_id" class="form-control form-control-sm text-dark" id="role_id">
@@ -70,12 +89,12 @@
                                     @error('role_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-                        </div>
+                        </div>       
                         <div class="mt-3 mb-2">
                             @if($editMode)
                                 <button type="submit" class="btn btn-success text-white" style="float: right;">Update</button>
                             @else
-                                <button type="submit" class="btn btn-success text-white" style="float: right;">Save</button>
+                                <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
                             @endif
                         </div>
                     </form>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Traits\Uuids;
+use App\Models\Region;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -55,6 +56,11 @@ class User extends Authenticatable
 
     public function role() {
         return $this->belongsTo(Role::class);
+        
+    }
+
+    public function region() {
+        return $this->belongsTo(Region::class);
         
     }
 

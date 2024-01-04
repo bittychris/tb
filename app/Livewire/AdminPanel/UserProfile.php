@@ -4,14 +4,18 @@ namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\UserActionNotification;
 
 class UserProfile extends Component
 {
-    public $userDetails, $first_name, $last_name, $phone, $email, $image;
+    use WithFileUploads;
+    
+    public $userDetails, $first_name, $last_name, $phone, $email, $image, $imageName;
 
     public $editMode = false;
 
@@ -43,7 +47,8 @@ class UserProfile extends Component
                 'email',
                 Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
-            // 'image' => ['nullable', 'image', 'max:2048'],
+            
+            'image' => ['nullable', 'image', 'max:2048'],
         ];
 
     }
@@ -56,37 +61,41 @@ class UserProfile extends Component
     public function saveUserDetails() {
         $validatedData = $this->validate();
 
-        // if (!empty($this->image)) {
-        //     $path = 'storage/service_icons/'.$this->service->image;
+        if (!empty($validatedData['image'])) {
+            $path = 'storage/user_images/'.$this->userDetails->image;
 
-        //     if (File::exists($path)) {
-        //         File::delete($path);
+            if (File::exists($path)) {
+                File::delete($path);
 
-        //         // Get the original file name
-        //         $this->imageName = date('YmdHi').'-'.$this->name.'.'.$this->image->getClientOriginalExtension();
+                // Get the original file name
+                $this->imageName = date('YmdHi').'-'.$this->first_name.'_'.$this->last_name.'.'.$validatedData['image']->getClientOriginalExtension();
 
-        //         // Store the image in the storage folder with its original name
-        //         $this->image->storeAs('service_icons', $this->imageName, 'public');
+                // Store the image in the storage folder with its original name
+                $this->image->storeAs('user_images', $this->imageName, 'public');
                 
-        //     }
-        // } else {
-        //     $this->imageName = $this->service->image;
-        // }
+            } else {
+                // Get the original file name
+                $this->imageName = date('YmdHi').'-'.$this->first_name.'_'.$this->last_name.'.'.$validatedData['image']->getClientOriginalExtension();
+
+                // Store the image in the storage folder with its original name
+                $this->image->storeAs('user_images', $this->imageName, 'public');
+                
+            }
+            
+        } else {
+            $this->imageName = $this->userDetails->image;
+        }
         
         $user = User::where('id', $this->userDetails->id)->update([
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
             'phone' => $validatedData['phone'],
-            'email' => $validatedData['email']
+            'email' => $validatedData['email'],
+            'image' => $this->imageName
 
         ]);
 
         if($user) {
-            
-            // Notification::create([
-            //     'user_id' => auth()->user()->id,
-            //     'message' => 'Updated Profile data.',
-            // ]);
 
             $acting_user = User::find(auth()->user()->id);
             $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated profile details'));
@@ -107,12 +116,18 @@ class UserProfile extends Component
             'last_name',
             'phone',
             'email',
+            'image',
         );
     }
     
     public function render()
     {
         $this->userDetails = Auth::user();
+
+        // if (!empty($this->image)) {
+        //     $this->userDetails->image = $this->image;
+            
+        // }
 
         return view('livewire.admin-panel.user-profile', [
             'userDetails' => $this->userDetails

@@ -39,6 +39,7 @@
                                 <th>Full name</th>
                                 <th>Email</th>
                                 <th>Phone contact</th>
+                                <th>Region</th>
                                 <th>Position</th>
                                 @if ((auth()->user()->can('edit admin')) || (auth()->user()->can('delete admin')))
                                     <th>Action</th>
@@ -52,6 +53,7 @@
                                     <td>{{ $admin->first_name }} {{ $admin->last_name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->phone }}</td>
+                                    <td>{{ empty($admin->region->name) ? '' : $admin->region->name }}</td>
                                     <td>
                                         <span class="badge bg-success rounded">
                                             {{ $admin->role->name }}
