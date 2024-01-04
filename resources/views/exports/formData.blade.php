@@ -22,8 +22,6 @@
           
     </thead>
     <tbody>
-
-
         <tr rowspan=2 class="bg-slate-100 border-b">
             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">sn</th>
             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Scanning Name</th>
@@ -44,7 +42,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {{ $formData->form->scanning_name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{ $formData->form->added_by->last_name}}</td>
+                        {{ $formData->form->added_by->last_name}} {{ $formData->form->added_by->last_name}}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {{ $formData->attribute->name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

@@ -9,7 +9,6 @@
         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">ward</th>
         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">scanning name</th>
         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Created At</th>
-
     </tr>
     </thead>
     <tbody>

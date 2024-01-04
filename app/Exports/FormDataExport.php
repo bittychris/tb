@@ -11,7 +11,8 @@ class FormDataExport implements FromView, ShouldAutoSize
 {
     public function view() : view
     {
-        $res =  FormData::all();
+        $user = Auth::user();
+        $res =  $user->forms;
         $res = $res->groupBy('attribute_id')->map(function ($group) {
             $male = $group->sum('male');
             $female = $group->sum('female');
