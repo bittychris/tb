@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Notifications\UserActionNotification;
 
 class PermissionsToRoleList extends Component
 {
@@ -47,12 +48,19 @@ class PermissionsToRoleList extends Component
             }
         
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Permissions Assigned to role'));
+            
             $this->dispatch('closeForm');
-            session()->flash('warning', 'Permissions Assigned to role deleted successfully');
+            $this->dispatch('success_alert', 'Permissions Assigned to role deleted successfully');
+            // session()->flash('warning', 'Permissions Assigned to role deleted successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+            
+            // session()->flash('error', 'An error occurred. Try again later.');
 
         }
         

@@ -1,74 +1,76 @@
 <style>
-    th {
-        white-space: nowrap; /* Prevent text from wrapping */
-        overflow: hidden;    /* Hide the overflow */
-        text-overflow: ellipsis; /* Display ellipsis (...) when text overflows */
-        max-width: 200px;    /* Set a maximum width for the th */
+    td {
+       width: max-content;
     }
 </style>
 <table>
-    
+
     <thead>
-        <tr></tr>
         <tr>
-            <th colspan="2" rowspan="2"></th>
-            @foreach($formDatas as $formData)
-                    <th colspan="2" rowspan="2">{{ $formData->attribute->name}}</th>
-            @endforeach
-        </tr>   
+            @php
+                $i = 1;
+                $x = 0;
+                $alreadyExecuted = false;
+            @endphp
+          
     </thead>
     <tbody>
-        <tr></tr>
-        <tr style="font-weight:bold;">
-            <td>Age</td>
-            @foreach ($formDatas as $formData)
-            <td>M</td>
-            <td>F</td>
-            @endforeach
+        
+       
+        @foreach ($formDatas as $formD => $group)
+        
+            @if(!$alreadyExecuted)<tr style="background-color: greenyellow;">
+                <!-- Your code to run only once goes here -->
+                <td style="background-color: blue; color:white; font-weight:bold;" colspan="6" > {{ $group[0]->form->scanning_name}} - {{ $group[0]->form->ward->name}} {{ $group[0]->form->ward->district->name}} {{ $group[0]->form->ward->district->region->name}} </td>
+            </tr>
+            <tr>
+                <td style="background-color: blue; color:white; font-weight:bold; text-align:center;" colspan="6" >by: {{ $group[0]->form->added_by->last_name}} At {{ $group[0]->form->added_by->first_name}} ({{ $group[0]->form->created_at}})</td>
+            </tr>
+                <!-- Set the flag to true after executing the code -->
+                @php
+                    $alreadyExecuted = true;
+                @endphp
+            @endif 
+        @endforeach
+       <tr></tr>
+        @foreach ($formDatas as $formD => $group)
+            <tr>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >{{ $i++ }}</td>
+            <td style="background-color: greenyellow; " colspan="5">{{ $group[0]->attribute->name}}</td>
         </tr>
-       <tr>
+        <tr rowspan=2 class="bg-slate-100 border-b">
             <td></td>
-            @foreach ($formDatas as $formData)
-                <td>{{ $formData->male}}</td>
-                <td>{{ $formData->female}}</td>
-            @endforeach       
+            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: blue; color:white;">Age</th>
+            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: orange;">male</th>
+            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: orange;" >female</th>
         </tr>
-        {{-- <tr>
-            <td>Age</td> 
-         </tr>
-         <tr>
-            <td>0-5</td> 
-         </tr>
-         <tr>
-            <td>6-14</td> 
-         </tr>
-         <tr>
-            <td>15 & above</td> 
-         </tr> --}}
-    @foreach($formDatas as $formData)
-        {{-- <tr>
-            <td>{{ $formData->attribute->name}}</td>
-        </tr> --}}
-        <tr>
-            {{-- <td>{{ $i++ }}</td> --}}
-            {{-- <td>{{ $formData->id }}</td> --}}
-            {{-- <td>{{ $formData->form->scanning_name }}</td>
-            <td>{{ $formData->age_group->slug }}</td>
-            
-            <td>{{ $formData->male}}</td>
-            <td>{{ $formData->female}}</td> --}}
-
-
-            {{-- <td>{{ $formData->scanning_name}}</td> --}}
-        </tr>
-    @endforeach
+            @foreach ($group as $formData)
+                <tr class="border-b">
+                   
+                    {{-- <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ $formData->form->scanning_name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ $formData->form->added_by->last_name}} {{ $formData->form->added_by->last_name}}</td> --}}
+                    {{-- <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ $formData->attribute->name }}</td> --}}
+                        <td></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ $formData->age_group->slug }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $formData->male ?: 0 }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $formData->female ?: 0 }}
+                    </td>
+                </tr>
+            @endforeach
+        @endforeach
     </tbody>
 </table>
 <style>
-    th{
+    th {
         width: fit-content;
     }
-    td{
+
+    td {
         width: min-content;
     }
 </style>

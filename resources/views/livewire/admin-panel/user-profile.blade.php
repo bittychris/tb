@@ -29,23 +29,29 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="first_name">Full Name: <span class="mx-3 text-secondary">{{ $userDetails->first_name }} {{ $userDetails->last_name }}</span></label>
+                            <center>
+                                <img wire:ignore.self id="showImage" src="{{ !empty($userDetails->image) ? asset('storage/user_images/'.$userDetails->image) : asset('admin/images/faces/user_logo.jpg') }}" class="rounded border-primary border-secondary border rounded-circle img" width="150px" height="150px" style="object-fit: cover;" align="center" alt="profile image" />
+                            </center>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="last_name">Email: <span class="mx-3 text-secondary">{{ $userDetails->email }}</span></label>
-                        </div>
+                        <p>Full Name: <span class="mx-4 text-secondary">{{ $userDetails->first_name }} {{ $userDetails->last_name }}</span></spa>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="last_name">Contact number: <span class="mx-3 text-secondary">{{ $userDetails->phone }}</span></label>
-                        </div>
+                        <p>Email: <span class="mx-4 text-secondary">{{ $userDetails->email }}</span></p>
+                    </div>
+
+                    <div class="col-md-12">
+                        <p>Contact number: <span class="mx-4 text-secondary">{{ $userDetails->phone }}</span></p>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <p>Region: <span class="mx-4 text-secondary">{{ empty($userDetails->region->name) ? '' : $userDetails->region->name }}</span></p>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Position: <span class="badge bg-success rounded mx-3">{{ $userDetails->role->name }}</span></label>
+                        <p>Position: <span class="badge bg-success rounded mx-4">{{ $userDetails->role->name }}</span></p>
                     </div>
                 </div>
             </div>
@@ -60,7 +66,7 @@
                         </div>
                     </h4>
 
-                    <form class="forms-sample" wire:submit.prevent="saveUserDetails">
+                    <form class="forms-sample" wire:submit.prevent="saveUserDetails" wire:ignore.self>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -84,12 +90,23 @@
                             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="phone">Contact number</label>
-                            <input type="phone"  {{ $editMode == true ? '' : 'disabled' }} wire:model="phone" class="form-control form-control-sm" id="phone" placeholder="Enter phone number">
-                            @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Contact number</label>
+                                    <input type="phone"  {{ $editMode == true ? '' : 'disabled' }} wire:model="phone" class="form-control form-control-sm" id="phone" placeholder="Enter phone number">
+                                    @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="image">Profile image</label>
+                                    <input type="file" accept="image/*"  {{ $editMode == true ? '' : 'disabled' }} wire:model.live="image" class="form-control form-control-sm" id="image" />
+                                    @error('image') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
                         </div>
-
+                        
                         <div class="mt-3 mb-2">
                             <button type="submit"  {{ $editMode == true ? '' : 'disabled' }} wire:loading.remove wire:target="saveUserDatails" class="btn btn-success text-white" style="float: right;">Update</button>
                             <button type="button" wire:loading wire:target="saveUserDatails" class="btn btn-success text-white" style="float: right;" disabled="disabled">Updating...</button>
@@ -100,3 +117,23 @@
         </div>
     </div>
 </div>
+
+@push('js')
+    
+    {{-- js to show selected image in real time --}}
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(e.target.files['0']);
+            });
+        });
+
+    </script>
+
+@endpush

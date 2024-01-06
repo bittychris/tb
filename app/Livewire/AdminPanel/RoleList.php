@@ -2,10 +2,12 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use App\Traits\Uuids;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class RoleList extends Component
 {
@@ -36,7 +38,9 @@ class RoleList extends Component
         $checkRoleExists = Role::where('name', $validatedData['role_name'])->exists();
 
         if ($checkRoleExists) {
-            session()->flash('already_exist', 'The Role already exists.');
+            $this->dispatch('message_alert', 'The Role already exists.');
+
+            // session()->flash('already_exist', 'The Role already exists.');
 
         } else {
         
@@ -46,12 +50,20 @@ class RoleList extends Component
 
             if ($role) {
                 $this->clearForm();
+                   
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new role'));
+                
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Role saved successfully');
+                $this->dispatch('success_alert', 'Role saved successfully');
+
+                // session()->flash('success', 'Role saved successfully');
 
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
@@ -88,12 +100,21 @@ class RoleList extends Component
 
         if ($role) {
             $this->clearForm();
+
+               
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated role details'));
+            
             $this->dispatch('closeForm');
-            session()->flash('success', 'Role updated successfully');
+            $this->dispatch('success_alert', 'Role updated successfully');
+
+            // session()->flash('success', 'Role updated successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
 
     }
@@ -104,12 +125,20 @@ class RoleList extends Component
 
         if ($role) {
             $this->clearForm();
+            
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted role'));
+            
             $this->dispatch('closeForm');
-            session()->flash('warning', 'Role deleted successfully');
+            $this->dispatch('success_alert', 'Role deleted successfully');
+            
+            // session()->flash('warning', 'Role deleted successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
         
     }

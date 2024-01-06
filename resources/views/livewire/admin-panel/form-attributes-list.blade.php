@@ -57,9 +57,9 @@
                                                 <a href="{{route('admin.edit_form_attributes', ['form_id' => $form_attribute->id])}}" class="btn btn-warning btn-sm" title="Edit"><i class="mdi mdi-pen"></i></a>
                                             @endif  
 
-                                            @if (auth()->user()->can('delete form attribute'))
+                                            {{--  @if (auth()->user()->can('delete form attribute'))
                                                 <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$form_attribute->id}}')" title="Delete"><i class="mdi mdi-delete"></i></button>
-                                            @endif  
+                                            @endif    --}}
 
                                         </td>
                                     @endif  

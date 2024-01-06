@@ -39,6 +39,7 @@
                                 <th>Full name</th>
                                 <th>Email</th>
                                 <th>Phone contact</th>
+                                <th>Region</th>
                                 <th>Position</th>
 
                                 @if ((auth()->user()->can('edit staff')) || (auth()->user()->can('delete staff')))
@@ -53,6 +54,7 @@
                                     <td>{{ $staff->first_name }} {{ $staff->last_name }}</td>
                                     <td>{{ $staff->email }}</td>
                                     <td>{{ $staff->phone }}</td>
+                                    <td>{{ empty($staff->region->name) ? '' : $staff->region->name }}</td>
                                     <td>
                                         <span class="badge bg-success rounded">
                                             {{ $staff->role->name }}

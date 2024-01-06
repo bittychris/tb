@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class AdminList extends Component
 {
@@ -35,12 +36,20 @@ class AdminList extends Component
     
             if ($admin) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Admin'));
+            
                 $this->dispatch('closeForm');
-                session()->flash('warning', 'Admin details deleted successfully');
+                $this->dispatch('success_alert', 'Admin details deleted successfully');
+
+                // session()->flash('warning', 'Admin details deleted successfully');
     
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         } else {
@@ -50,12 +59,20 @@ class AdminList extends Component
     
             if ($admin) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Admin'));
+            
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Admin details restored successfully');
+                $this->dispatch('success_alert', 'Admin details restored successfully');
+
+                // session()->flash('success', 'Admin details restored successfully');
     
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
@@ -77,11 +94,11 @@ class AdminList extends Component
 
         if ($this->status == false) {
             $this->btn_display = 'none';
-            $admins = User::where('status', $this->status)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->where('role_id', $role_id)->latest()->paginate(10);
 
         } else {
             $this->btn_display = '';
-            $admins = User::where('status', $this->status)->latest()->paginate(10);
+            $admins = User::where('status', $this->status)->where('role_id', $role_id)->latest()->paginate(10);
 
         }
         

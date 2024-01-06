@@ -35,4 +35,9 @@ class FormData extends BaseModal
         return $this->belongsTo(Attribute::class);
     }
     
+    public static function getGroupedData()
+    {
+        return self::with('id', 'form','age_group', 'attribute')
+            ->groupBy('attribute_id');
+    }
 }

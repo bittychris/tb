@@ -2,9 +2,11 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\Attribute;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\Attribute;
 use Livewire\WithPagination;
+use App\Notifications\UserActionNotification;
 
 class AttributesList extends Component
 {
@@ -35,7 +37,9 @@ class AttributesList extends Component
         $checkAttributeExists = Attribute::where('name', $validatedData['name'])->exists();
 
         if ($checkAttributeExists) {
-            session()->flash('already_exist', 'The Attribute already exists.');
+            $this->dispatch('message_alert', 'The Attribute already exists.');
+
+            // session()->flash('already_exist', 'The Attribute already exists.');
 
         } else {
         
@@ -45,12 +49,20 @@ class AttributesList extends Component
 
             if ($attribute) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute'));
+            
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Attribute saved successfully');
+                $this->dispatch('success_alert', 'Attribute saved successfully');
+
+                // session()->flash('success', 'Attribute saved successfully');
 
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
@@ -91,12 +103,20 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details'));
+            
             $this->dispatch('closeForm');
-            session()->flash('success', 'Age group updated successfully');
+            $this->dispatch('success_alert', 'Attribute updated successfully');
+
+            // session()->flash('success', 'Attribute updated successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
 
     }
@@ -107,12 +127,20 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
+
+            $acting_user = User::find(auth()->user()->id);
+            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute'));
+            
             $this->dispatch('closeForm');
-            session()->flash('warning', 'Attribute deleted successfully');
+            $this->dispatch('success_alert', 'Attribute deleted successfully');
+            
+            // session()->flash('warning', 'Attribute deleted successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
         
     }

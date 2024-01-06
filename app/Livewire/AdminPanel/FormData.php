@@ -2,16 +2,18 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\AgeGroup;
-use App\Models\Attribute;
-use App\Models\District;
 use App\Models\Form;
-use App\Models\FormAttribute;
-use App\Models\Region;
+use App\Models\User;
 use App\Models\Ward;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\Region;
 use Livewire\Component;
+use App\Models\AgeGroup;
+use App\Models\District;
+use App\Models\Attribute;
+use App\Models\FormAttribute;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\UserActionNotification;
 
 class FormData extends Component
 {
@@ -124,14 +126,27 @@ class FormData extends Component
 
             DB::commit();
             if ($this->form) {
-                $this->dispatch('message_alert', 'Data update.');
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data'));
+                
+                redirect(route('admin.report'));
+
+                $this->dispatch('success_alert', 'Data update successfully.');
+                
             } else {
-                return redirect(route('admin.report'))->with('success', 'Data saved.');
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data'));
+                
+                redirect(route('admin.report'));
+                
+                $this->dispatch('success_alert', 'Data saved successfully.');
+                
             }
 
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
+            
             $this->dispatch('failure_alert', $this->getMessage());
         }
     }
@@ -144,13 +159,15 @@ class FormData extends Component
         $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
     }
 
-    public function updatedRegionId()
-    {
-        $this->districts = District::where('region_id', $this->region_id)->get();
-    }
+    // public function updatedRegionId()
+    // {
+    //     $this->region_id = auth()->user()->region_id;
+
+    //     $this->districts = District::where('region_id', $this->region_id)->get();
+    // }
 
     public function updatedDistrictId()
-    {
+    {        
         $this->wards = Ward::where('district_id', $this->district_id)->get();
     }
 
@@ -164,10 +181,15 @@ class FormData extends Component
     public function render()
     {
         $formsAttributes = FormAttribute::all();
-        $regions = Region::all();
+        // $regions = Region::all();
+        
+        $this->region_id = auth()->user()->region_id;
+        $this->districts = District::where('region_id', $this->region_id)->get();
+        
         return view('livewire.admin-panel.form-data', [
             'formsAttributes' => $formsAttributes,
-            'regions' => $regions
+            // 'regions' => $regions
+            'districts' => $this->districts
         ]);
     }
 }

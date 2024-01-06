@@ -33,9 +33,9 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
 Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
 Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
-Route::get('form/export', [ExportController::class, 'form'])->name('formattribute.export');
+Route::get('form/export', [ExportController::class, 'form'])->name('form.export');
+Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
 Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
-
 
 Route::middleware(['auth'])->group(function() {
 
@@ -83,6 +83,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data')->middleware(['permission:edit field data (report)']);
 
         Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report')->middleware(['permission:all field data']);
+        
+        Route::get('report', [adminController::class, 'report'])->name('admin.reporting');
 
         Route::get('roles', [adminController::class, 'roles'])->name('admin.roles')->middleware(['permission:all roles']);
 
@@ -98,56 +100,56 @@ Route::middleware(['auth'])->group(function() {
 
 
     //regional coordinator
-    Route::group(['prefix' => 'rc'], function() {
+    // Route::group(['prefix' => 'rc'], function() {
 
-        Route::post('logout', [LoginController::class, 'logout'])->name('logout1');
+    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout1');
 
-        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+    //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-        Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+    //     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
-        Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+    //     Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
 
-        Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+    //     Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
 
-        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+    //     Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
 
-    });
+    // });
 
 
 
-    Route::group(['prefix' => 'amref'], function() {
+    // Route::group(['prefix' => 'amref'], function() {
 
-        Route::post('logout', [LoginController::class, 'logout'])->name('logout2');
+    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout2');
 
-        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+    //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-        Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+    //     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
-        Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+    //     Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
 
-        Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+    //     Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
 
-        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+    //     Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
 
-    });
+    // });
 
 
     //Health Facilitator
-    Route::group(['prefix' => 'health'], function() {
+    // Route::group(['prefix' => 'health'], function() {
 
-        Route::post('logout', [LoginController::class, 'logout'])->name('logout3');
+    //     Route::post('logout', [LoginController::class, 'logout'])->name('logout3');
 
-        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+    //     Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-        Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
+    //     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups');
 
-        Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
+    //     Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes');
 
-        Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
+    //     Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes');
 
-        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+    //     Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
 
-    });
+    // });
 
 });

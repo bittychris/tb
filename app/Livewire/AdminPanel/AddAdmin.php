@@ -3,13 +3,15 @@
 namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
+use App\Models\Region;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class AddAdmin extends Component
 {
-    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $roles, $role_id;
+    public $admin, $admin_id, $first_name, $last_name, $phone, $email, $roles, $role_id, $region_id, $regions;
 
     public $editMode = false;
     
@@ -26,6 +28,7 @@ class AddAdmin extends Component
             $this->last_name = $this->admin->last_name;
             $this->email = $this->admin->email;
             $this->phone = $this->admin->phone;
+            $this->region_id = $this->admin->region_id;
             $this->role_id = $this->admin->role_id;
             
         }else{
@@ -40,7 +43,8 @@ class AddAdmin extends Component
             'last_name' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'role_id' => ['required', 'string'],
+            'region_id' => ['required'],
+            'role_id' => ['required'],
         ];
 
     }
@@ -54,12 +58,13 @@ class AddAdmin extends Component
         $validatedData = $this->validate();
 
         if($this->editMode == false) {
-            // $this->user->password = bcrypt($this->user_password);
 
             $checkAdminExists = User::where('email', $validatedData['email'])->exists();
 
             if ($checkAdminExists) {
-                session()->flash('already_exist', 'The Email already exists.');
+                $this->dispatch('message_alert', 'The Email already exists.');
+
+                // session()->flash('already_exist', 'The Email already exists.');
 
             } else {
             
@@ -68,6 +73,7 @@ class AddAdmin extends Component
                     'last_name' => $validatedData['last_name'],
                     'phone' => $validatedData['phone'],
                     'email' => $validatedData['email'],
+                    'region_id' => $validatedData['region_id'],
                     'role_id' => $validatedData['role_id'],
                     'password' => bcrypt('Admin')
 
@@ -91,11 +97,19 @@ class AddAdmin extends Component
                     }
                     
                     $this->clearForm();
-                    session()->flash('success', 'New Admin saved successfully');
+                    
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Admin'));
+
+                    $this->dispatch('success_alert', 'New Admin saved successfully');
+
+                    // session()->flash('success', 'New Admin saved successfully');
                     return redirect(route('admin.admins'));
                     
                 } else {
-                    session()->flash('error', 'An error occurred. Try again later.');
+                    $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                    // session()->flash('error', 'An error occurred. Try again later.');
                 }
 
             }
@@ -107,6 +121,7 @@ class AddAdmin extends Component
                 'last_name' => $validatedData['last_name'],
                 'phone' => $validatedData['phone'],
                 'email' => $validatedData['email'],
+                'region_id' => $validatedData['region_id'],
                 'role_id' => $validatedData['role_id']
 
             ]);
@@ -140,7 +155,13 @@ class AddAdmin extends Component
                     }
 
                     $this->clearForm();
-                    session()->flash('success', 'Admin details updated successfully');
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details'));
+
+                    $this->dispatch('success_alert', 'Admin details updated successfully');
+
+                    // session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
     
                 } else {
@@ -149,13 +170,21 @@ class AddAdmin extends Component
                     $admin->assignRole($role->name);
 
                     $this->clearForm();
-                    session()->flash('success', 'Admin details updated successfully');
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details'));
+
+                    $this->dispatch('success_alert', 'Admin details updated successfully');
+                    
+                    // session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
 
                 }
                
             } else {
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
             
         }
@@ -175,6 +204,7 @@ class AddAdmin extends Component
             'last_name',
             'phone',
             'email',
+            'region_id',
             'role_id',
         );
     }
@@ -183,8 +213,12 @@ class AddAdmin extends Component
     {
         $this->roles = Role::where('name', 'Admin')->get();
 
+        $this->regions = Region::orderBy('name', 'asc')->get();
+        
         return view('livewire.admin-panel.add-admin', [
             'roles' => $this->roles,
+            'regions' => $this->regions
+
         ]);
     }
 }

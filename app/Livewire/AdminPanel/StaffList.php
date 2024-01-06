@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use App\Notifications\UserActionNotification;
 
 class StaffList extends Component
 {
@@ -35,12 +36,20 @@ class StaffList extends Component
     
             if ($staff) {
                 $this->clearForm();
+
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Staff'));
+
                 $this->dispatch('closeForm');
-                session()->flash('warning', 'Staff details deleted successfully');
+                $this->dispatch('success_alert', 'Staff details deleted successfully');
+                
+                // session()->flash('warning', 'Staff details deleted successfully');
     
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+                
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         } else {
@@ -50,12 +59,20 @@ class StaffList extends Component
     
             if ($staff) {
                 $this->clearForm();
+                
+                $acting_user = User::find(auth()->user()->id);
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Staff'));
+            
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Staff details restored successfully');
+                $this->dispatch('success_alert', 'Staff details restored successfully');
+                
+                // session()->flash('success', 'Staff details restored successfully');
     
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
