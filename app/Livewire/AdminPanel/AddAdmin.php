@@ -58,12 +58,13 @@ class AddAdmin extends Component
         $validatedData = $this->validate();
 
         if($this->editMode == false) {
-            // $this->user->password = bcrypt($this->user_password);
 
             $checkAdminExists = User::where('email', $validatedData['email'])->exists();
 
             if ($checkAdminExists) {
-                session()->flash('already_exist', 'The Email already exists.');
+                $this->dispatch('message_alert', 'The Email already exists.');
+
+                // session()->flash('already_exist', 'The Email already exists.');
 
             } else {
             
@@ -100,11 +101,15 @@ class AddAdmin extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Admin'));
 
-                    session()->flash('success', 'New Admin saved successfully');
+                    $this->dispatch('success_alert', 'New Admin saved successfully');
+
+                    // session()->flash('success', 'New Admin saved successfully');
                     return redirect(route('admin.admins'));
                     
                 } else {
-                    session()->flash('error', 'An error occurred. Try again later.');
+                    $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                    // session()->flash('error', 'An error occurred. Try again later.');
                 }
 
             }
@@ -154,7 +159,9 @@ class AddAdmin extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details'));
 
-                    session()->flash('success', 'Admin details updated successfully');
+                    $this->dispatch('success_alert', 'Admin details updated successfully');
+
+                    // session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
     
                 } else {
@@ -167,13 +174,17 @@ class AddAdmin extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details'));
 
-                    session()->flash('success', 'Admin details updated successfully');
+                    $this->dispatch('success_alert', 'Admin details updated successfully');
+                    
+                    // session()->flash('success', 'Admin details updated successfully');
                     return redirect(route('admin.admins'));
 
                 }
                
             } else {
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
             
         }

@@ -53,15 +53,22 @@ class AddFormAttribute extends Component
         $checkAttributeExists = FormAttribute::where('name', $validatedData['name'])->exists();
 
         if ($checkAttributeExists && !$this->editMode) {
-            session()->flash('already_exist', 'The From Attributes already exists.');
+            $this->dispatch('message_alert', 'The From Attributes already exists.');
+            
+            // session()->flash('already_exist', 'The From Attributes already exists.');
 
         } else {
 
             if (count($this->selectedAgeGroupIds) == 0) {
-                session()->flash('warning', 'No Age Group selected');
+                $this->dispatch('message_alert', 'No Age Group selected.');
+
+                // session()->flash('warning', 'No Age Group selected');
+                
                 return;
             } elseif (count($this->selectedAttributeIds) == 0) {
-                session()->flash('warning', 'No Attribute selected');
+                $this->dispatch('message_alert', 'No Attribute selected.');
+
+                // session()->flash('warning', 'No Attribute selected');
                 return;
             } else {
 
@@ -79,9 +86,12 @@ class AddFormAttribute extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Form Attribute details'));
 
-                    session()->flash('success', 'From attribute updated successfully');
+                    $this->dispatch('success_alert', 'From attribute updated successfully');
 
-                }else{
+                    // session()->flash('success', 'From attribute updated successfully');
+                    return redirect(route('admin.form_attributes'));
+
+                } else{
                     $form_attribute = FormAttribute::create([
                         'name' => $this->name,
                         'age_group_ids' => $age_group_ids,
@@ -91,8 +101,11 @@ class AddFormAttribute extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute'));
                     
-                    session()->flash('success', 'From attribute saved successfully');
-                    return redirect(route('admin.edit_form_attributes', ['form_id' => $form_attribute->id]));
+                    $this->dispatch('success_alert', 'From attribute saved successfully');
+
+                    // session()->flash('success', 'From attribute saved successfully');
+                    return redirect(route('admin.form_attributes'));
+                    // return redirect(route('admin.edit_form_attributes', ['form_id' => $form_attribute->id]));
                 }
 
             }

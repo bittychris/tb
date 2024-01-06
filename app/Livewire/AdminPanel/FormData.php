@@ -129,17 +129,24 @@ class FormData extends Component
                 $acting_user = User::find(auth()->user()->id);
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data'));
                 
-                $this->dispatch('message_alert', 'Data update.');
+                redirect(route('admin.report'));
+
+                $this->dispatch('success_alert', 'Data update successfully.');
+                
             } else {
                 $acting_user = User::find(auth()->user()->id);
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data'));
                 
-                return redirect(route('admin.report'))->with('success', 'Data saved.');
+                redirect(route('admin.report'));
+                
+                $this->dispatch('success_alert', 'Data saved successfully.');
+                
             }
 
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
+            
             $this->dispatch('failure_alert', $this->getMessage());
         }
     }

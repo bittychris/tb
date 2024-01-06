@@ -29,7 +29,7 @@ class UserProfile extends Component
             $this->last_name = $this->userDetails->last_name;
             $this->email = $this->userDetails->email;
             $this->phone = $this->userDetails->phone;
-            $this->image = $this->userDetails->phone;
+            // $this->image = $this->userDetails->image;
 
         }
         
@@ -48,7 +48,7 @@ class UserProfile extends Component
                 Rule::unique('users', 'email')->ignore(auth()->user()->id),
             ],
             
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable'],
         ];
 
     }
@@ -61,8 +61,9 @@ class UserProfile extends Component
     public function saveUserDetails() {
         $validatedData = $this->validate();
 
-        if (!empty($validatedData['image'])) {
-            $path = 'storage/user_images/'.$this->userDetails->image;
+        // Delete the old image if it exists
+        if (!empty($this->image)) {
+            $path = 'storage/user_images/'.$this->image;
 
             if (File::exists($path)) {
                 File::delete($path);
@@ -84,6 +85,7 @@ class UserProfile extends Component
             
         } else {
             $this->imageName = $this->userDetails->image;
+            
         }
         
         $user = User::where('id', $this->userDetails->id)->update([
@@ -102,8 +104,13 @@ class UserProfile extends Component
 
             $this->clearForm();
             redirect(route('user.profile'));
-            session()->flash('success', 'Profile details updated successfully');
+            $this->dispatch('success_alert', 'Profile details updated successfully');
 
+            // session()->flash('success', 'Profile details updated successfully');
+
+        } else {
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+            
         }
 
     }

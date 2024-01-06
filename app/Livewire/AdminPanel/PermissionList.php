@@ -43,7 +43,9 @@ class PermissionList extends Component
         $checkPermissionExists = Permission::where('name', $validatedData['permission_name'])->exists();
 
         if ($checkPermissionExists) {
-            session()->flash('already_exist', 'The Permission already exists.');
+            $this->dispatch('message_alert', 'The Permission already exists.');
+            
+            // session()->flash('already_exist', 'The Permission already exists.');
 
         } else {
         
@@ -59,11 +61,15 @@ class PermissionList extends Component
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new permission'));
             
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Permission saved successfully');
+                $this->dispatch('success_alert', 'Permission saved successfully');
+
+                // session()->flash('success', 'Permission saved successfully');
 
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+                
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
@@ -108,11 +114,15 @@ class PermissionList extends Component
             $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permission details'));
                 
             $this->dispatch('closeForm');
-            session()->flash('success', 'Permission updated successfully');
+            $this->dispatch('success_alert', 'Permission updated successfully');
+
+            // session()->flash('success', 'Permission updated successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
 
     }
@@ -128,11 +138,15 @@ class PermissionList extends Component
             $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted permission'));
             
             $this->dispatch('closeForm');
-            session()->flash('warning', 'Permission deleted successfully');
+            $this->dispatch('message_alert', 'Permission deleted successfully.');
+
+            // session()->flash('warning', 'Permission deleted successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
         
     }

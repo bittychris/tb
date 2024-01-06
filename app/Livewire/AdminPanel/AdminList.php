@@ -41,11 +41,15 @@ class AdminList extends Component
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Admin'));
             
                 $this->dispatch('closeForm');
-                session()->flash('warning', 'Admin details deleted successfully');
+                $this->dispatch('success_alert', 'Admin details deleted successfully');
+
+                // session()->flash('warning', 'Admin details deleted successfully');
     
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         } else {
@@ -60,11 +64,15 @@ class AdminList extends Component
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Admin'));
             
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Admin details restored successfully');
+                $this->dispatch('success_alert', 'Admin details restored successfully');
+
+                // session()->flash('success', 'Admin details restored successfully');
     
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }

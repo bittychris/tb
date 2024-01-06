@@ -39,7 +39,9 @@ class AgeGroupsList extends Component
         $checkAgeGroupExists = AgeGroup::where('slug', $validatedData['age_group_name'])->exists();
 
         if ($checkAgeGroupExists) {
-            session()->flash('already_exist', 'The Age group already exists.');
+            $this->dispatch('message_alert', 'The Age group already exists.');
+
+            // session()->flash('already_exist', 'The Age group already exists.');
 
         } else {
         
@@ -56,11 +58,15 @@ class AgeGroupsList extends Component
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'added new age group'));
             
                 $this->dispatch('closeForm');
-                session()->flash('success', 'Age group saved successfully');
+                $this->dispatch('success_alert', 'Age group saved successfully');
+
+                // session()->flash('success', 'Age group saved successfully');
 
             } else {
                 $this->dispatch('closeForm');
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
@@ -107,11 +113,15 @@ class AgeGroupsList extends Component
             $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details'));
         
             $this->dispatch('closeForm');
-            session()->flash('success', 'Age group updated successfully');
+            $this->dispatch('success_alert', 'Age group updated successfully');
+
+            // session()->flash('success', 'Age group updated successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
 
     }
@@ -127,13 +137,15 @@ class AgeGroupsList extends Component
             $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted age group'));
         
             $this->dispatch('closeForm');
-            // $this->dispatch('success', 'Age group updated successfully');
+            $this->dispatch('success_alert', 'Age group deleted successfully');
 
-            session()->flash('warning', 'Age group deleted successfully');
+            // session()->flash('warning', 'Age group deleted successfully');
 
         } else {
             $this->dispatch('closeForm');
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
         
     }

@@ -4,11 +4,10 @@ namespace App\Livewire\AdminPanel;
 
 use App\Models\User;
 use Livewire\Component;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Notifications extends Component
-{
+{    
     public $notificationCounter, $notifications;
 
     public function notificationCount() {
@@ -50,7 +49,7 @@ class Notifications extends Component
         
         $this->notifications = auth()->user()->unreadNotifications;
 
-        return view('livewire.admin-panel.notifications', [
+               return view('livewire.admin-panel.notifications', [
             'notificationCounter' => $this->notificationCounter,
             'notifications' => $this->notifications
         ]);

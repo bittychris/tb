@@ -42,10 +42,16 @@
               <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                 @csrf
                 <div class="form-group">
-                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+                  <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Username">
                 </div>
                 <div class="form-group">
-                  <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                  <div class="input-group mb-3">
+                      <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Password">
+                      <span class="input-group-text">
+                          <i class="mdi mdi-eye" onclick="myFunction()" id="togglePassword"
+                          style="cursor: pointer"></i>
+                      </span>
+                  </div>
                 </div>
                 <div class="mt-3">
                   <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
@@ -86,6 +92,18 @@
   {{-- <script src="{{ asset('assets/js/js/template.js') }}"></script> --}}
   <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
   <!-- endinject -->
+
+  {{--  Show and hide password js  --}}
+  <script>
+    function myFunction() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    } 
+  </script>
 </body>
 
 </html>

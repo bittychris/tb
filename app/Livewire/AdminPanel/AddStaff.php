@@ -58,12 +58,13 @@ class AddStaff extends Component
         $validatedData = $this->validate();
 
         if($this->editMode == false) {
-            // $this->user->password = bcrypt($this->user_password);
 
             $checkStaffExists = User::where('email', $validatedData['email'])->exists();
 
             if ($checkStaffExists) {
-                session()->flash('already_exist', 'The Email already exists.');
+                $this->dispatch('message_alert', 'The Email already exists..');
+
+                // session()->flash('already_exist', 'The Email already exists.');
 
             } else {
             
@@ -99,11 +100,15 @@ class AddStaff extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Staff'));
 
-                    session()->flash('success', 'New Staff saved successfully');
+                    $this->dispatch('success_alert', 'New Staff saved successfully');
+
+                    // session()->flash('success', 'New Staff saved successfully');
                     return redirect(route('admin.staffs'));
 
                 } else {
-                    session()->flash('error', 'An error occurred. Try again later.');
+                    $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                    // session()->flash('error', 'An error occurred. Try again later.');
                 }
 
             }
@@ -128,32 +133,37 @@ class AddStaff extends Component
                                     ->get();
                 
                 if($del_existing_role) {
-                    DB::table('model_has_roles')->where('model_id', $this->staff_id)
+                    
+                    $unassign_existing_role = DB::table('model_has_roles')->where('model_id', $this->staff_id)
                         ->delete();
                     
-                    DB::table('model_has_permissions')->where('model_id', $this->staff_id)
+                    if($unassign_existing_role) {
+                        DB::table('model_has_permissions')->where('model_id', $this->staff_id)
                         ->delete();
 
-                    $role = Role::find($this->role_id);
-                    $staff = User::find($this->staff_id);
-                    $staff->assignRole($role->name);
-                    $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+                        $role = Role::find($this->role_id);
+                        $staff = User::find($this->staff_id);
+                        $staff->assignRole($role->name);
+                        $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+                         
+                        foreach($permissions as $permission) {
+                            DB::table('model_has_permissions')->insert([
+                                'permission_id' => $permission->permission_id,
+                                'model_id' => $this->staff_id,
+                                'model_type' => 'App\Models\User'
+                            ]);
+        
+                        }
 
-                    foreach($permissions as $permission) {
-                        DB::table('model_has_permissions')->insert([
-                            'permission_id' => $permission->permission_id,
-                            'model_id' => $this->staff_id,
-                            'model_type' => 'App\Models\User'
-                        ]);
-    
-                    }
-
+                    }            
                     $this->clearForm();
                     
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details'));
+                    
+                    $this->dispatch('success_alert', 'Staff details updated successfully');
 
-                    session()->flash('success', 'Staff details updated successfully');
+                    // session()->flash('success', 'Staff details updated successfully');
                     return redirect(route('admin.staffs'));
 
                 } else {
@@ -166,13 +176,17 @@ class AddStaff extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details'));
 
-                    session()->flash('success', 'Staff details updated successfully');
+                    $this->dispatch('success_alert', 'Staff details updated successfully');
+
+                    // session()->flash('success', 'Staff details updated successfully');
                     return redirect(route('admin.staffs'));
     
                 }
                
             } else {
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+                
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
             
         }
