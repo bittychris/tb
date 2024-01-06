@@ -7,6 +7,8 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use App\Models\FormData;
+use Illuminate\Support\Facades\Auth;
+
 
 class FormDataOneExport implements FromView, ShouldAutoSize
 {
@@ -23,14 +25,15 @@ class FormDataOneExport implements FromView, ShouldAutoSize
     */
     public function view() : view
     {   
-        
+        $user = Auth::user()->get();
         $res =  FormData::where('form_id', $this->data)->get();
         $res = $res->groupBy('attribute_id')->map(function ($group) {
             return $group->sortBy('age_group.min')->unique('age_group.min');
         });
         
        return view('exports.formData', [
-        'formDatas' =>  $res
+        'formDatas' =>  $res,
+        'user' => $user
        ]);
     }
 }

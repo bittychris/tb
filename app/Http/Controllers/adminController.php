@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Form;
 use App\Models\FormData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class adminController extends Controller
 {
@@ -60,10 +62,17 @@ class adminController extends Controller
     }
     public function report() {
         $formdata =  FormData::all();
+        
         $res =  Form::all();
-        $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
-            return $group->sortBy('age_group.min')->unique('age_group.min');
-        });
+        // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
+        //     return $group->sortBy('age_group.min')->unique('age_group.min');
+        // });
+        $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
+        ->select('attribute_id', 'age_group_id', 
+            DB::raw('SUM(male) as male'), 
+            DB::raw('SUM(female) as female')
+        )
+        ->get();
 
         return view('admin_panel.report',[
             'forms' => $res,
