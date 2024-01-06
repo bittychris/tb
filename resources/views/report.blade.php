@@ -1,4 +1,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    
+</style>
 <div>
     <div class="row">
         <div class="col-lg-12">
@@ -35,7 +38,7 @@
                         @include('exports.form')
 
                         <div class="flex justify-between items-center my-6">
-                            <div class="font-medium">Form Data</div>
+                            <div class="font-medium">Total Form Data</div>
                             <div class="">
                                 <a href="{{ route('formdata.export') }}" class="bg-blue-500 text-white font-medium px-3 py-2 w-fit flex items-center" style="float: right;">
                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
@@ -44,7 +47,7 @@
                                     Download Report </a>
                             </div>
                         </div>
-                        form data From ADDO
+                        {{-- All form data
                         <table>
 
                             <thead>
@@ -99,7 +102,72 @@
                             @endforeach </tr>
                         @endforeach
                             </tbody>
-                        </table>
+                        </table> --}}
+
+
+
+
+
+                       {{-- @foreach ($formDatas as $formData)
+                       <div>{{ $formData->attribute->name }}</div>
+                       <div>{{ $formData->age_group->slug }}</div>
+                       <div>{{ $formData->male }}</div>
+                       <div>{{ $formData->female }}</div>
+    
+                       @endforeach --}}
+
+                       <table>
+
+                        <thead>
+                            <tr></tr>
+                            <tr>
+                                @php
+                                    $i = 1;
+                                    $x = 0;
+                                @endphp
+                              
+                        </thead>
+                        <tbody>
+                        @php
+                            $x=0;
+                            $i=0;
+                        @endphp
+
+                        <tr class="border-b">
+                            @foreach ($formDatas as $formData)
+                                
+                                    @if($x == 0)
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 bg-slate-300 border-b" colspan="3">
+                                        {{ $formData->attribute->name }}</td></tr>
+                                        <tr class="bg-slate-100">
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">Age</td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">male</td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2"> Female</td>
+                                        </tr>
+                                        
+                                    @endif
+                                    @php
+                                            $x++;
+                                            if($x==3)
+                                                $x = 0; 
+                                    @endphp
+
+                                    <tr>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
+                                        {{ $formData->age_group->slug }}</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">{{ $formData->male }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">{{ $formData->female ?: 0}}
+                                        </td>
+                                    </tr>
+
+
+                                    @endforeach </tr>
+                                </table>
+
+                            </div>
+                
+
                     </div>
                 </div>
             </div>

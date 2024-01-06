@@ -73,4 +73,10 @@ class User extends Authenticatable
         });
     } */
 
+
+    public function forms()
+    {
+        return $this->hasMany(Form::class);
+    }
+    
 }

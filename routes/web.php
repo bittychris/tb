@@ -34,6 +34,7 @@ Route::get('users/export', [ExportController::class, 'export'])->name('user.expo
 Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
 Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
 Route::get('form/export', [ExportController::class, 'form'])->name('form.export');
+Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
 Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 Route::middleware(['auth'])->group(function() {

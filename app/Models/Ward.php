@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Ward extends Model
 {
     use HasFactory;
-
+    public function form()
+    {
+        return $this->hasOne(Form::class);
+    }
     public function district(): BelongsTo
     {
-        return $this->belongsTo(District::class, 'ward_id');
+        return $this->belongsTo(District::class, 'district_id');
     }
 }
