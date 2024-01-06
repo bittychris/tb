@@ -50,7 +50,7 @@ class PermissionsToRoleList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Permissions Assigned to role'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Permissions Assigned to role'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Permissions Assigned to role deleted successfully');

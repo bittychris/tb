@@ -42,7 +42,7 @@
                     <div class="form-group">
                       <label for="new_password">New password</label>
                       <div class="input-group mb-3">
-                          <input type="password" wire:model="newPassword" class="form-control form-control-sm" id="new_password" placeholder="Enter New password">
+                          <input type="password" wire:model="new_password" class="form-control form-control-sm" id="new_password" placeholder="Enter New password">
                           <span class="input-group-text">
                               <i class="mdi mdi-eye" onclick="newPassword()" id="togglePassword"
                               style="cursor: pointer"></i>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                       <div class="input-group mb-3">
-                          <input type="password" wire:model="confirmPassword" class="form-control form-control-sm" id="confirm_password" placeholder="Retype new password">
+                          <input type="password" wire:model="confirm_password" class="form-control form-control-sm" id="confirm_password" placeholder="Retype new password">
                           <span class="input-group-text">
                               <i class="mdi mdi-eye" onclick="confirmPassword()" id="togglePassword"
                               style="cursor: pointer"></i>

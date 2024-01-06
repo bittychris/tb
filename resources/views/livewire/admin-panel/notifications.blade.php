@@ -1,4 +1,4 @@
-{{--  <div class="d-inline">  --}}
+<div class="d-inline">
   @if (auth()->user()->role->name == 'Admin')
 
     <li class="nav-item dropdown me-4">
@@ -80,4 +80,4 @@
       
       @endif              
 
-{{--  </div>  --}}
+</div>

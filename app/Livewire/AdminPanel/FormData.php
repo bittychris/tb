@@ -127,7 +127,7 @@ class FormData extends Component
             DB::commit();
             if ($this->form) {
                 $acting_user = User::find(auth()->user()->id);
-                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data'));
                 
                 redirect(route('admin.report'));
 
@@ -147,7 +147,7 @@ class FormData extends Component
             DB::rollBack();
             report($th);
             
-            $this->dispatch('failure_alert', $this->getMessage());
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
         }
     }
 
