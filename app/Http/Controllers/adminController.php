@@ -77,7 +77,6 @@ class adminController extends Controller
         return view('admin_panel.report',[
             'forms' => $res,
             'formDatas' => $formdata
-            
         ]);
     }
 
