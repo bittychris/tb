@@ -25,7 +25,7 @@ class FormDataOneExport implements FromView, ShouldAutoSize
     */
     public function view() : view
     {   
-        $user = Auth::user()->get();
+        $user = Auth::user();
         $res =  FormData::where('form_id', $this->data)->get();
         $res = $res->groupBy('attribute_id')->map(function ($group) {
             return $group->sortBy('age_group.min')->unique('age_group.min');

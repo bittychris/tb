@@ -17,19 +17,33 @@
             @php
                 $i = 1;
                 $x = 0;
+                $alreadyExecuted = false;
             @endphp
           
     </thead>
     <tbody>
         
-        <tr style="background-color: greenyellow;">{{ $user }}</tr>
+       
+        @foreach ($formDatas as $formD => $group)
+        
+            @if(!$alreadyExecuted)<tr style="background-color: greenyellow;">
+                <!-- Your code to run only once goes here -->
+                <td style="background-color: blue; color:white; font-weight:bold;" colspan="4" > {{ $group[0]->form->scanning_name}} - {{ $group[0]->form->ward->name}} {{ $group[0]->form->ward->district->name}} {{ $group[0]->form->ward->district->region->name}} </td>
+            </tr>
+            <tr>
+                <td style="background-color: blue; color:white; font-weight:bold; text-align:center;" colspan="4" >by: {{ $group[0]->form->added_by->last_name}} At {{ $group[0]->form->added_by->first_name}} ({{ $group[0]->form->created_at}})</td>
+            </tr>
+                <!-- Set the flag to true after executing the code -->
+                @php
+                    $alreadyExecuted = true;
+                @endphp
+            @endif 
+        @endforeach
+       <tr></tr>
         @foreach ($formDatas as $formD => $group)
             <tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >{{ $i++ }}</td>
             <td style="background-color: greenyellow; " colspan="3">{{ $group[0]->attribute->name}}</td>
-            
-                
-            
         </tr>
         <tr rowspan=2 class="bg-slate-100 border-b">
             <td></td>
