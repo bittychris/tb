@@ -1,13 +1,6 @@
 <style>
     td {
-        /* white-space: nowrap; */
-        /* Prevent text from wrapping */
-        /* overflow: scroll; */ */
-        /* Hide the overflow */
-        /* text-overflow: ellipsis; */
-        /* Display ellipsis (...) when text overflows */
-        /* max-width: 200px;  */
-        /* Set a maximum width for the th */
+       width: max-content;
     }
 </style>
 <table>
@@ -28,10 +21,10 @@
         
             @if(!$alreadyExecuted)<tr style="background-color: greenyellow;">
                 <!-- Your code to run only once goes here -->
-                <td style="background-color: blue; color:white; font-weight:bold;" colspan="4" > {{ $group[0]->form->scanning_name}} - {{ $group[0]->form->ward->name}} {{ $group[0]->form->ward->district->name}} {{ $group[0]->form->ward->district->region->name}} </td>
+                <td style="background-color: blue; color:white; font-weight:bold;" colspan="6" > {{ $group[0]->form->scanning_name}} - {{ $group[0]->form->ward->name}} {{ $group[0]->form->ward->district->name}} {{ $group[0]->form->ward->district->region->name}} </td>
             </tr>
             <tr>
-                <td style="background-color: blue; color:white; font-weight:bold; text-align:center;" colspan="4" >by: {{ $group[0]->form->added_by->last_name}} At {{ $group[0]->form->added_by->first_name}} ({{ $group[0]->form->created_at}})</td>
+                <td style="background-color: blue; color:white; font-weight:bold; text-align:center;" colspan="6" >by: {{ $group[0]->form->added_by->last_name}} At {{ $group[0]->form->added_by->first_name}} ({{ $group[0]->form->created_at}})</td>
             </tr>
                 <!-- Set the flag to true after executing the code -->
                 @php
@@ -43,13 +36,13 @@
         @foreach ($formDatas as $formD => $group)
             <tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >{{ $i++ }}</td>
-            <td style="background-color: greenyellow; " colspan="3">{{ $group[0]->attribute->name}}</td>
+            <td style="background-color: greenyellow; " colspan="5">{{ $group[0]->attribute->name}}</td>
         </tr>
         <tr rowspan=2 class="bg-slate-100 border-b">
             <td></td>
             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: blue; color:white;">Age</th>
             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: orange;">male</th>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: orange;">female</th>
+            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" style="background-color: orange;" >female</th>
         </tr>
             @foreach ($group as $formData)
                 <tr class="border-b">
