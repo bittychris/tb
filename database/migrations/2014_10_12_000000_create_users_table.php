@@ -27,11 +27,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            // $table->foreign('region_id')
-            //     ->references('id') // role id
-            //     ->on('regions')
-            //     ->cascadeOnDelete();
-
             $table->foreign('role_id')
                 ->references('id') // role id
                 ->on('roles')
