@@ -92,8 +92,9 @@
                                     <input type="text" wire:model="address" class="form-control form-control-sm">
                                     @error('address') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
+                            
                             </div>
-
+                            @foreach
                             <div class="col-md-12 table-responsive" >
                                 <table class="formData table table-bordered table-sm">
                                     <thead>
@@ -150,6 +151,8 @@
                             <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
 {{--                            <button type="button" wire:loading wire:target="saveForm" class="btn btn-success text-white" style="float: right;" disabled="disabled">Saving...</button>--}}
                         </div>
+
+                        
                     </form>
                 </div>
             </div>

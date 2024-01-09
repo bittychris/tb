@@ -72,10 +72,10 @@
           </div>
         </li>  --}}
         
-        @if (auth()->user()->can('view notifications'))
+        {{--  @if (auth()->user()->can('view notifications'))  --}}
           {{--  notification  --}}
           <livewire:admin-panel.notifications />
-        @endif
+        {{--  @endif  --}}
 
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">

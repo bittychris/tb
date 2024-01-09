@@ -170,7 +170,7 @@ class AddPermissionsToRole extends Component
                                         ->delete();
                 
                 if($role_permission_del) {
-                    dd('done');
+                    // dd('done');
                     $data = array();
 
                     foreach($this->selectedPermissionIds as $permission_id) {

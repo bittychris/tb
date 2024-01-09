@@ -67,9 +67,9 @@
                                             @if (auth()->user()->can('edit field data (report)'))
                                                 <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}" class="btn btn-warning btn-xs text-white"><i class="mdi mdi-pencil"></i></a>
                                             @endif
-                                            @if (auth()->user()->can('edit field data (report)'))
+                                            {{--  @if (auth()->user()->can('edit field data (report)'))
                                                 <a href="" class="btn btn-success btn-xs text-white"><i class="mdi mdi-download"></i></a>
-                                            @endif
+                                            @endif  --}}
                                         </td>
                                     @endif
 
