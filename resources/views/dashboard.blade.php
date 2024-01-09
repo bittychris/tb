@@ -157,6 +157,7 @@
                       <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium" href="#" role="button" id="dropdownMenuLinkA" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <h5 class="mb-0 d-inline-block">26 Jul 2018</h5>
                       </a>
+
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
                         <a class="dropdown-item" href="#">12 Aug 2018</a>
                         <a class="dropdown-item" href="#">22 Sep 2018</a>
