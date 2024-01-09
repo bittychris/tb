@@ -24,7 +24,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+<<<<<<< HEAD
          $this->call(PermissionSeeder::class);
+=======
+        $this->call(PermissionSeeder::class);
+>>>>>>> origin/last-merge
         $this->call(RoleSeeder::class);
         $this->call(RegionSeeder::class);
         $this->call(DistrictSeeder::class);

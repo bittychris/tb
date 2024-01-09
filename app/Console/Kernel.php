@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 
+    // Command to change migration order to avoid foreign key errors
     protected $commands = [
         Commands\MigrateInOrder::class,
     ];
