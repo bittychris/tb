@@ -19,7 +19,8 @@ class PermissionSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('permissions')->delete();            
             
-        DB::table('permissions')->insert(array(
+        // DB::table('permissions')->insert(array(
+        $data = array(
             0 =>
                 array(
                     //'id' => 1,
@@ -425,8 +426,15 @@ class PermissionSeeder extends Seeder
             //         'created_at' => Carbon::now(),
             //         'updated_at' => Carbon::now(),
             //     ),      
-        ));
+        // ));
+
+            );
         
+        foreach ($data as $item) {
+
+            Permission::create($item);
+
+        }
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
