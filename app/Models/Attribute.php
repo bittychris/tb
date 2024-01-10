@@ -12,7 +12,8 @@ class Attribute extends BaseModal
     protected $table = 'attributes';
 
     protected $fillable = [
-        'name'
+        'name',
+        'attribute_no'
     ];
     
 }

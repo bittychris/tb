@@ -36,15 +36,13 @@ class PermissionsToRoleList extends Component
         if ($permission_ids_del) {
             $role = Role::find($this->role_id);
             // $permission = Permission::find($permission_id);
-            $users = User::all();
+            $users = User::where('role_id', $this->role_id )->get();
 
             foreach($users as $user) {
-                if($user->role->name == $role->name) {
-                    DB::table('model_has_permissions')
-                                            ->where('model_id', $user->id)
-                                            ->delete();
-                    
-                }
+                DB::table('model_has_permissions')
+                                        ->where('model_id', $user->id)
+                                        ->delete();
+                
             }
         
             $this->clearForm();

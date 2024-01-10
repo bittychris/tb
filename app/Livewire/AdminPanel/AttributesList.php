@@ -14,14 +14,15 @@ class AttributesList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $action, $attribute_id, $attribute, $name;
+    public $action, $attribute_id, $attribute, $name, $attribute_no;
 
     public $editMode = false;
     
     protected function rules() {
 
         return [
-            'name' => ['required', 'string']
+            'name' => ['required', 'string'],
+            'attribute_no' => ['required', 'integer'],
         ];
 
     }
@@ -44,7 +45,8 @@ class AttributesList extends Component
         } else {
         
             $attribute = Attribute::create([
-                'name' => $validatedData['name']
+                'name' => $validatedData['name'],
+                'attribute_no' => $validatedData['attribute_no']
             ]);
 
             if ($attribute) {
@@ -84,6 +86,7 @@ class AttributesList extends Component
 
             $this->attribute_id = $attribute->id;
             $this->name = $attribute->name;
+            $this->attribute_no = $attribute->attribute_no;
         
         } elseif($this->action == 'delete') {
             $this->dispatch('openDeleteModal');
@@ -97,7 +100,8 @@ class AttributesList extends Component
         $validatedData = $this->validate();
         
         $attribute = Attribute::where('id', $this->attribute_id)->update([
-            'name' => $validatedData['name']
+            'name' => $validatedData['name'],
+            'attribute_no' => $validatedData['attribute_no']
 
         ]);
 
@@ -151,13 +155,14 @@ class AttributesList extends Component
         $this->attribute_id = '';
 
         $this->reset(
-            'name'
+            'name',
+            'attribute_no'
         );
     }
 
     public function render()
     {
-        $attributes = Attribute::latest()->paginate(10);
+        $attributes = Attribute::orderBy('attribute_no', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.attributes-list', ['attributes' => $attributes]);
     }

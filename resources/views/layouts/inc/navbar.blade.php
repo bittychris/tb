@@ -74,7 +74,9 @@
         
         {{--  @if (auth()->user()->can('view notifications'))  --}}
           {{--  notification  --}}
-          <livewire:admin-panel.notifications />
+          <div class="mt-2">
+            <livewire:admin-panel.notifications />
+          </div>
         {{--  @endif  --}}
 
         <li class="nav-item nav-profile dropdown">

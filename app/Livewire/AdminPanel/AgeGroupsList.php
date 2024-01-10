@@ -164,7 +164,7 @@ class AgeGroupsList extends Component
 
     public function render()
     {
-        $ageGroups = AgeGroup::latest()->paginate(10);
+        $ageGroups = AgeGroup::orderBy('min', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.age-groups-list', ['ageGroups' => $ageGroups]);
     }

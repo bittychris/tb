@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\AgeGroup;
 use App\Models\District;
 use App\Models\Attribute;
+use Livewire\WithPagination;
 use App\Models\FormAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,10 @@ use App\Notifications\UserActionNotification;
 
 class FormData extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+    
     public $form;
     public $form_id;
     public $scanning_name;
@@ -31,6 +36,7 @@ class FormData extends Component
     public $attributeList = [];
 
     public $formData = [];
+    public $formData2 = [];
 
 
     public function mount($form)
@@ -155,8 +161,8 @@ class FormData extends Component
     {
         $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 
-        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->get();
-        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
+        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->orderBy('min', 'asc')->get();
+        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('attribute_no', 'asc')->get();
     }
 
     // public function updatedRegionId()
@@ -177,6 +183,55 @@ class FormData extends Component
             return $ageGroup[$attributeId][$gender] ?? 0;
         });
     }
+
+    // public function updatedFormData($value, $ageGroupId, $attributeId, $gender) {
+
+    //     $this->formData2[$ageGroupId][$attributeId][$gender] = $value;
+
+
+    //     // For the first age group, get the total sum for all inputs
+
+    //     if ($ageGroupId == 1) {
+
+    //         $totalSum = array_sum(array_map(function ($data) use ($gender) {
+
+    //             return $data[$gender];
+
+    //         }, $this->formData2[1]));
+
+    //     }
+
+
+    //     // For all age groups except the first one, calculate the remaining sum
+
+    //     foreach ($this->formData2 as $ageGroupId => $attributes) {
+
+    //         if ($ageGroupId != 1) {
+
+    //             $remainingSum = $totalSum;
+
+    //             foreach ($attributes as $attributeId => $genders) {
+
+    //                 $remainingSum -= $genders['F'] + $genders['M'];
+
+    //             }
+
+
+    //             // Distribute the remaining sum across all attributes and genders
+
+    //             foreach ($attributes as $attributeId => $genders) {
+
+    //                 $this->formData2[$ageGroupId][$attributeId]['F'] = max(0, $remainingSum / 2);
+
+    //                 $this->formData2[$ageGroupId][$attributeId]['M'] = max(0, $remainingSum / 2);
+
+    //             }
+
+    //         }
+
+    //     }
+
+    // }
 
     public function render()
     {

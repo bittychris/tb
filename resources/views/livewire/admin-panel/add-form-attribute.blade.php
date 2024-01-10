@@ -50,7 +50,7 @@
                             <label for="name">Select Attributes</label>
                             <div class="row">
                                 @foreach ($attributes as $key => $attribute)
-                                <div class="col-4">
+                                <div class="col-6">
                                     <input class="form-check-input" type="checkbox" wire:model="selectedAttributeIds" value="{{ $attribute->id }}" id="attribute.{{$key}}">
                                     <label class="form-check-label text-secondary" for="attribute.{{$key}}">
                                         {{ $attribute->name }}

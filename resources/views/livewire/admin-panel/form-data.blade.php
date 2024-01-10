@@ -35,7 +35,6 @@
                                     <select wire:model.live="form_id" class="form-control form-control-sm text-dark" >
                                         <option value="" class="fw-bold">Select Form</option>
                                         @foreach ($formsAttributes as $formsAttribute)
-
                                             <option value="{{ $formsAttribute->id }}">{{ $formsAttribute->name }}</option>
                                         @endforeach
                                     </select>
@@ -94,7 +93,6 @@
                                 </div>
                             
                             </div>
-                            @foreach
                             <div class="col-md-12 table-responsive" >
                                 <table class="formData table table-bordered table-sm">
                                     <thead>
@@ -118,10 +116,10 @@
                                             <td>{{ $ageGroup->slug }}</td>
                                             @foreach($attributeList as $attribute)
                                                 <td>
-                                                    <input type="number" style="width: 60px"  wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                    <input type="number" style="width: 60px" min="0"  wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
                                                 </td>
                                                 <td>
-                                                    <input type="number" style="width: 60px" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                    <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
                                                 </td>
                                             @endforeach
                                         </tr>
@@ -140,7 +138,10 @@
                                         @foreach($attributeList as $attribute)
                                             <td colspan="2">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
                                         @endforeach
-                                        {{--  $attributeList->links();  --}}
+                                        {{--  @if(!empty($attributeList))
+                                            {{ $attributeList->links() }}
+                                            
+                                        @endif  --}}
                                     </tr>
                                     </tbody>
                                 </table>
@@ -151,7 +152,6 @@
                             <button type="submit" class="btn btn-primary text-white" style="float: right;">Save</button>
 {{--                            <button type="button" wire:loading wire:target="saveForm" class="btn btn-success text-white" style="float: right;" disabled="disabled">Saving...</button>--}}
                         </div>
-
                         
                     </form>
                 </div>
