@@ -1,12 +1,11 @@
 <table>
 
     <thead>
-        <tr></tr>
         <tr>
-            @php
-                $i = 1;
-                $x = 0;
-            @endphp
+            <td style="background-color:blue; font-weight:bold; color:white; text-align:center;" colspan="3">Amref 2024</td>
+        </tr>
+        <tr>
+            
           
     </thead>
     <tbody>
@@ -15,10 +14,12 @@
         $i=0;
     @endphp
 
-    <tr class="border-b">
+    
         @foreach ($formDatas as $formData)
-            
+               z
                 
+                @if ($x==0)
+                    <tr class="border-b" rowspan="3">
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 bg-slate-300 border-b" colspan="3">
                     {{ $formData->attribute->name }}</td></tr>
                     <tr class="bg-slate-100">
@@ -26,11 +27,11 @@
                         <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">male</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2"> Female</td>
                     </tr>
-                    
-          
-                
 
-                <tr>
+                    <tr>
+                @endif
+
+                
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
                     {{ $formData->age_group->slug }}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">{{ $formData->male }}
@@ -40,5 +41,6 @@
                 </tr>
 
 
-                @endforeach
-            </table>
+        @endforeach
+    </tbody>
+    </table>
