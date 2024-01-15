@@ -17,7 +17,7 @@ class FormDataExport implements FromView, ShouldAutoSize
         ->select('attribute_id', 'age_group_id', 
             DB::raw('SUM(male) as male'), 
             DB::raw('SUM(female) as female')
-        )->orderBy(age_group->min)
+        )->orderBy(age_groups->min)
         ->get(age->min);
 
         $formattedData = [];
