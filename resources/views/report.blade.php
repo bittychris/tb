@@ -75,9 +75,8 @@
                                         
                                         <select placeholder="by user">
                                             @foreach ($users as $user)
-                                                 <option>{{ $user->first_name }} {{ $user->last_name }}</option>
+                                                 <option value="{{ $user.id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
                                             @endforeach
-                                           
                                         </select>
                                     </div>
                                     <div class="">
