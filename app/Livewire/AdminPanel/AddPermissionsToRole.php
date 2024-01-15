@@ -155,7 +155,7 @@ class AddPermissionsToRole extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Assigned permissions to a role'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Assigned permissions to a role', 'admin'));
                 
                 redirect(route('admin.permissions.roles'));
 
@@ -212,7 +212,7 @@ class AddPermissionsToRole extends Component
                     $this->clearForm();
                    
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permissions of a role'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permissions of a role', 'admin'));
                         
                     redirect(route('admin.permissions.roles'));
 

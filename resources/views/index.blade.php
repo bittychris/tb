@@ -92,7 +92,7 @@
           <div class="col-lg-6 text-center">
             <h2 data-aos="fade-down">Welcome to <span>USAID Afya Shirikishi</span></h2>
             <p data-aos="fade-up">One Stop centre for TB treatment & Family Planning.</p>
-            <a data-aos="fade-up" data-aos-delay="200" href="{{route('login')}}" class="btn-get-started">Sign In</a>
+            <a data-aos="fade-up" data-aos-delay="200" href="{{ route('login') }}" class="btn-get-started">Sign In</a>
           </div>
         </div>
       </div>

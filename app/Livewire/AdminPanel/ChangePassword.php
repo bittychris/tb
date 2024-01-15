@@ -43,7 +43,7 @@ class ChangePassword extends Component
                     $this->clearForm();
                     
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Changed password'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Changed password', 'admin'));
             
                     Auth::logout();
                     session()->invalidate();

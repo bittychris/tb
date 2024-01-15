@@ -1,16 +1,17 @@
 <?php
 
+use App\Exports\FormDataExport;
+use App\Exports\FormAttributeExport;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Data\FormController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\indexController;
-use App\Http\Controllers\ageGroupController;
-use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ExportController;
+// use App\Http\Controllers\ageGroupController;
+use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\Data\FormController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Exports\FormAttributeExport;
-use App\Exports\FormDataExport;
+use App\Http\Controllers\Auth\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +26,8 @@ use App\Exports\FormDataExport;
 Route::get('/', [indexController::class, 'index'])->name('index');
 Route::get('/home',  [HomeController::class, 'index'])->name('home');
 
+// Route::post('admin_registration', [RegisterController::class, 'create'])->name('register');
+// Route::get('admin_registration', [RegisterController::class, 'show_admin_registration'])->name('admin_registration');
 Route::get('login', [LoginController::class, 'show_login'])->name('login');
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 

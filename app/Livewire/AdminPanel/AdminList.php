@@ -38,7 +38,7 @@ class AdminList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Admin'));
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Admin', 'admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Admin details deleted successfully');
@@ -61,7 +61,7 @@ class AdminList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Admin', 'admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Admin details restored successfully');

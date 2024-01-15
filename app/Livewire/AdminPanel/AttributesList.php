@@ -53,7 +53,7 @@ class AttributesList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute', 'admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Attribute saved successfully');
@@ -63,7 +63,6 @@ class AttributesList extends Component
             } else {
                 $this->dispatch('closeForm');
                 $this->dispatch('failure_alert', 'An error occurred. Try again later.');
-
                 // session()->flash('error', 'An error occurred. Try again later.');
             }
 
@@ -109,7 +108,7 @@ class AttributesList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details', 'admin'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Attribute updated successfully');
@@ -133,7 +132,7 @@ class AttributesList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute', 'admin'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Attribute deleted successfully');

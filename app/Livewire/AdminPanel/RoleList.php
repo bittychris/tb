@@ -52,7 +52,7 @@ class RoleList extends Component
                 $this->clearForm();
                    
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new role'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new role', ''));
                 
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Role saved successfully');
@@ -103,7 +103,7 @@ class RoleList extends Component
 
                
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated role details'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated role details', ''));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Role updated successfully');
@@ -127,7 +127,7 @@ class RoleList extends Component
             $this->clearForm();
             
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted role'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted role', 'admin'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Role deleted successfully');

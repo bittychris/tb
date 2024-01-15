@@ -11,17 +11,17 @@ class UserActionNotification extends Notification
 {
     use Queueable;
 
-    public $user, $message;
+    public $user, $message, $role;
     
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $message)
+    public function __construct($user, $message, $role)
     {
         //
         $this->user = $user;
         $this->message = $message;
-        // $this->role = $role;
+        $this->role = $role;
     }
 
     /**
@@ -58,7 +58,7 @@ class UserActionNotification extends Notification
             'name' => $this->user->first_name.' '.$this->user->last_name,
             'image' => $this->user->image,
             'message' => $this->message,
-            // 'user_role' => $this->role,
+            'user_role' => $this->role,
 
         ];
     }

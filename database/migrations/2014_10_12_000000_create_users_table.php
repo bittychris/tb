@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('region_id')->unsigned()->nullable()->constrained();
             // $table->foreignID('role_id')->nullable()->constarained();
-            $table->char('role_id', 36)->nullable();
+            $table->char('role_id', 36);
             $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();

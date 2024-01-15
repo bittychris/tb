@@ -133,7 +133,7 @@ class FormData extends Component
             DB::commit();
             if ($this->form) {
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'admin'));
                 
                 redirect(route('admin.report'));
 
@@ -141,7 +141,7 @@ class FormData extends Component
                 
             } else {
                 $acting_user = User::find(auth()->user()->id);
-                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data'));
+                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'admin'));
                 
                 redirect(route('admin.report'));
                 

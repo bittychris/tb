@@ -79,7 +79,7 @@
                                 <div class="form-group">
                                     <label for="role_id">Position</label>
                                     <select wire:model="role_id" class="form-control form-control-sm text-dark" id="role_id">
-                                        <option value="" class="fw-bold">Select Position</option>
+                                        <option value="" class="fw-bold">Select Region</option>
                                         @foreach ($roles as $role)
                                         
                                             <option value="{{ $role->id }}">{{ $role->name }}</option>

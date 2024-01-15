@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -30,7 +30,15 @@ class LoginController extends Controller
 
     public function show_login()
     {
-        return view('auth.login');
+        // $users = User::count();
+        
+        // if($users == 0) {
+        //     return redirect()->route('admin_registration');
+            
+        // } else {
+            return view('auth.login');
+            
+        // }
         
     }
 
@@ -48,21 +56,6 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.dashboard'));
-
-             // User login successful
-            //  $user = User::whereEmail($request['email'])->first();
-            //  $roleData = role::find(Auth::user()->role_id);
-            //  $role = $roleData->name; 
- 
-            //  if ($role == '') {
-            //      return redirect()->intended(route('admin.dashboard'));
-            //  }
-            //  elseif ($role == 'Regional coordinator') {
-            //      return redirect()->intended(route('admin.dashboard'));
-            //  }
-            //   elseif ($role == 'AMREF personnel') {
-            //      return redirect()->intended(route('admin.dashboard'));
-            //  }
             
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');

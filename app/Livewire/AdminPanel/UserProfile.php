@@ -8,7 +8,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Notification;
+// use Illuminate\Support\Facades\Notification;
 use App\Notifications\UserActionNotification;
 
 class UserProfile extends Component
@@ -100,7 +100,7 @@ class UserProfile extends Component
         if($user) {
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated profile details'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated profile details', 'admin'));
 
             $this->clearForm();
             redirect(route('user.profile'));
