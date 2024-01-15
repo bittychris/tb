@@ -6,7 +6,7 @@ use App\Models\Form;
 use App\Models\FormData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\User;
 
 class adminController extends Controller
 {
@@ -74,9 +74,12 @@ class adminController extends Controller
         )
         ->get();
 
+        $users = User::all();
+
         return view('admin_panel.report',[
             'forms' => $res,
-            'formDatas' => $formdata
+            'formDatas' => $formdata,
+            'users' => $users
         ]);
     }
 

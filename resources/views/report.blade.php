@@ -74,9 +74,10 @@
                                         <input type="checkbox">
                                         
                                         <select placeholder="by user">
-                                            <option>juma john</option>
-                                            <option>juma john</option>
-                                            <option>juma john</option>
+                                            @foreach ($users as $user)
+                                                 <option>{{ $user->first_name }} {{ $user->last_name }}</option>
+                                            @endforeach
+                                           
                                         </select>
                                     </div>
                                     <div class="">

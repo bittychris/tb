@@ -17,8 +17,10 @@ class FormExport implements FromView, ShouldAutoSize
         $user = Auth::user();
         $userforms = $user->forms;
         $res =  $userforms;
+        $users = User::all();
        return view('exports.form', [
-        'forms' =>  $res
+        'forms' =>  $res,
+        'users' => $users
        ]);
     }
 }
