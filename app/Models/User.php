@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     public function forms()
     {
-        return $this->hasMany(Form::class);
+        return $this->hasMany(Form::class, 'created_by');
     }
     
 }

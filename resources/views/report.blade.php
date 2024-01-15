@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Form</div>
+                            <div class="col-6">Forms</div>
                             <div class="col-6">
                                 <a href="{{ route('form.export') }}" class="bg-blue-500 text-white font-medium px-3 py-2 w-fit flex items-center" style="float: right;">
                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
@@ -38,7 +38,7 @@
                         @include('exports.form')
 
                         <div class="flex justify-between items-center my-6">
-                            <div class="font-medium">Total Form Data</div>
+                            <div class="font-bold">Overall Form Data</div>
                             <div class="">
                                 <a href="{{ route('formdata.export') }}" class="bg-blue-500 text-white font-medium px-3 py-2 w-fit flex items-center" style="float: right;">
                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">

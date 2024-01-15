@@ -24,7 +24,7 @@
                 <td style="background-color: blue; color:white; font-weight:bold;" colspan="6" > {{ $group[0]->form->scanning_name}} - {{ $group[0]->form->ward->name}} {{ $group[0]->form->ward->district->name}} {{ $group[0]->form->ward->district->region->name}} </td>
             </tr>
             <tr>
-                <td style="background-color: blue; color:white; font-weight:bold; text-align:center;" colspan="6" >by: {{ $group[0]->form->added_by->last_name}} At {{ $group[0]->form->added_by->first_name}} ({{ $group[0]->form->created_at}})</td>
+                <td style="background-color: blue; color:white; font-weight:bold; text-align:center;" colspan="6">by: {{ $group[0]->form->added_by->last_name}} At {{ $group[0]->form->added_by->first_name}} ({{ $group[0]->form->created_at}})</td>
             </tr>
                 <!-- Set the flag to true after executing the code -->
                 @php
