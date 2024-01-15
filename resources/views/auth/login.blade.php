@@ -42,11 +42,11 @@
               <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                 @csrf
                 <div class="form-group">
-                  <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Username">
+                  <input type="email" name="email" class="form-control form-control-lg" value="{{ old('email') }}" id="email" placeholder="Username" equired autocomplete="email" autofocus>
                 </div>
                 <div class="form-group">
                   <div class="input-group mb-3">
-                      <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Password">
+                      <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Password" required autocomplete="current-password">
                       <span class="input-group-text">
                           <i class="mdi mdi-eye" onclick="myFunction()" id="togglePassword"
                           style="cursor: pointer"></i>

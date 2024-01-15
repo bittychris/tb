@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -21,6 +22,8 @@ class UserSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('users')->delete();
 
+        $role = Role::latest()->first();
+
         DB::table('users')->insert(array (
             0 =>
                 array (
@@ -30,7 +33,7 @@ class UserSeeder extends Seeder
                      'phone' => '+255 789 435 676',
                      'email' => 'admin@gmail.com',
                      'password' => bcrypt('Admin'),
-                     'role_id' => 1,
+                     'role_id' => $role->id,
                      'remember_token' => Str::random(60),
                      'created_at' => Carbon::now(),
                      'updated_at' => Carbon::now(),
@@ -84,6 +87,3 @@ class UserSeeder extends Seeder
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }
     }
-
-
-

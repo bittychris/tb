@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
@@ -30,6 +31,7 @@ class LoginController extends Controller
     public function show_login()
     {
         return view('auth.login');
+        
     }
 
     public function authenticate(Request $request): RedirectResponse

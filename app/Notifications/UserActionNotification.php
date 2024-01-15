@@ -21,6 +21,7 @@ class UserActionNotification extends Notification
         //
         $this->user = $user;
         $this->message = $message;
+        // $this->role = $role;
     }
 
     /**
@@ -57,6 +58,7 @@ class UserActionNotification extends Notification
             'name' => $this->user->first_name.' '.$this->user->last_name,
             'image' => $this->user->image,
             'message' => $this->message,
+            // 'user_role' => $this->role,
 
         ];
     }

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\User;
+use App\Models\User; 
 use Livewire\Component;
 use App\Models\AgeGroup;
 use App\Models\Attribute;
