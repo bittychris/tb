@@ -49,17 +49,17 @@ class Notifications extends Component
             
             $this->notificationCounter = $this->notificationCount();
             
-            // $this->notifications = auth()->user()->unreadNotifications;
-            
-            $this->notifications = DB::table('notifications')->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(data, "$.role")) = ?', ['admin'])
-                ->get();
+            $this->notifications = auth()->user()->unreadNotifications;
             
         } elseif(auth()->user()->role->name == 'AMREF personnel') {
             
+            $this->notifications = DB::table('notifications')->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(data, "$.role")) = ?', ['AMREF personnel'])
+                ->get();
+            
+            $this->notificationCounter = $this->notifications->count();
         }
         
-
-               return view('livewire.admin-panel.notifications', [
+        return view('livewire.admin-panel.notifications', [
             'notificationCounter' => $this->notificationCounter,
             'notifications' => $this->notifications
         ]);

@@ -47,5 +47,9 @@ class Form extends BaseModal
         return $this->belongsTo(FormAttribute::class, 'form_attribute_id');
     }
     
+    // public function form_data(): BelongsTo
+    // {
+    //     return $this->belongsTo(FormData::class, 'form_id');
+    // }
     
 }

@@ -16,8 +16,6 @@
 
     
         @foreach ($formDatas as $formData)
-               z
-                
                 @if ($x==0)
                     <tr class="border-b" rowspan="3">
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 bg-slate-300 border-b" colspan="3">
@@ -39,6 +37,10 @@
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">{{ $formData->female ?: 0}}
                     </td>
                 </tr>
+                
+                @php
+                    
+                @endphp
 
 
         @endforeach

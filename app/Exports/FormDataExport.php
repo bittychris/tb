@@ -29,6 +29,13 @@ class FormDataExport implements FromView, ShouldAutoSize
         //     DB::raw('SUM(female) as female')
         // )->orderBy(age_groups->min)
         // ->get(age->min);
+        
+        // $res =  FormData::groupBy(['attribute_id', 'age_group_id'])
+        // ->select('attribute_id', 'age_group_id', 
+        //     DB::raw('SUM(male) as male'), 
+        //     DB::raw('SUM(female) as female')
+        // )
+        // ->get();
 
         $formattedData = [];
         $x = 0;
@@ -53,7 +60,7 @@ class FormDataExport implements FromView, ShouldAutoSize
                 'female' => $formData['female'] ?: 0,
             ];
     
-            if ($x == 3) {
+            if ($x == 2) {
                 $x = 0;
             }
         }

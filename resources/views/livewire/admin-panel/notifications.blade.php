@@ -1,7 +1,7 @@
 <div class="d-inline">
   @if (auth()->user()->role->name == 'Admin')
 
-  <li class="nav-item dropdown me-4">
+  <li class="nav-item dropdown me-0">
     <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
       <i class="mdi mdi-bell mx-0"></i>
       
@@ -13,32 +13,6 @@
     </a>
     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
       <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications <span wire:click="markAllRead" class="text-primary" style="float: right; cursor: pointer;">Mark all as read</span></p>
-      {{--  <a class="dropdown-item">
-        <div class="item-thumbnail">
-          <div class="item-icon bg-success">
-            <i class="mdi mdi-information mx-0"></i>
-          </div>
-        </div>
-        <div class="item-content">
-          <h6 class="font-weight-normal">Application Error</h6>
-          <p class="font-weight-light small-text mb-0 text-muted">
-            Just now
-          </p>
-        </div>
-      </a>  --}}
-      {{--  <a class="dropdown-item">
-        <div class="item-thumbnail">
-          <div class="item-icon bg-warning">
-            <i class="mdi mdi-settings mx-0"></i>
-          </div>
-        </div>
-        <div class="item-content">
-          <h6 class="font-weight-normal">Settings</h6>
-          <p class="font-weight-light small-text mb-0 text-muted">
-            Private message
-          </p>
-        </div>
-      </a>  --}}
           
         @forelse ($notifications as $notifacation)
 
@@ -46,7 +20,6 @@
             <div class="item-thumbnail">
               <div class="item-icon bg-info">
                 <img src="{{ !empty($notifacation->data['image']) ? asset('storage/user_images/'.$notifacation->data['image']) : asset('admin/images/faces/user_logo.jpg') }}" alt="profile image" />
-
                 {{-- <i class="mdi mdi-account-box mx-0"></i> --}}
               </div>
             </div>

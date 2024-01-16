@@ -17,7 +17,8 @@ class FormData extends BaseModal
         'age_group_id',
         'attribute_id',
         'male',
-        'female'
+        'female',
+        'status'
     ];
 
     public function form(): BelongsTo
