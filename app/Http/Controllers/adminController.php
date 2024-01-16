@@ -67,11 +67,13 @@ class adminController extends Controller
         // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
         //     return $group->sortBy('age_group.min')->unique('age_group.min');
         // });
+
+        $quartile = ['2023-12-07 10:20:34', '2023-12-07 10:20:37'];
         $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
         ->select('attribute_id', 'age_group_id', 
             DB::raw('SUM(male) as male'), 
             DB::raw('SUM(female) as female')
-        )
+        )->whereBetween('created_at', $quartile)
         ->get();
 
         $users = User::all();
