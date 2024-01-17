@@ -15,7 +15,7 @@ class RoleList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $action, $role_id, $role, $role_name;
+    public $action, $role_id, $role, $role_name, $keywords;
 
     public $editMode = false;
     
@@ -155,7 +155,11 @@ class RoleList extends Component
 
     public function render()
     {
-        $roles = Role::latest()->paginate(10);
+        $roles = Role::when($this->keywords, function ($query) {
+
+            $query->where('name', 'like', '%'.$this->keywords.'%');
+    
+        })->latest()->paginate(10);
 
         return view('livewire.admin-panel.role-list', ['roles' => $roles]);
     }

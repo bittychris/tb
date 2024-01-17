@@ -22,7 +22,7 @@
                     <div class="row justify-content-between align-items-center">
                       <div class="col-6">Change Password</div>
                       <div class="col-6">
-                          <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Back to Dashboard</a>
+                          <a href="{{ route('admin.dashboard') }}" class="btn btn-danger btn-sm text-white" style="float: right;">Back to Dashboard</a>
                       </div>
                   </div>
                   </div>
@@ -61,8 +61,8 @@
                       @error('confirm_password') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="mt-3">
-                      <button type="submit" wire:loading.remove wire:target="changePassword" wire:loading.attr="disabled" class="btn w-100 btn-primary btn-sm text-white font-weight-medium auth-form-btn">Save</button>
-                      <button type="button" wire:loading wire:target="changePassword" wire:loading.attr="disabled" class="btn w-100 btn-primary btn-sm text-white font-weight-medium auth-form-btn">Saving...</button>
+                      <button type="submit" wire:loading.remove wire:target="changePassword" wire:loading.attr="disabled" class="btn w-100 btn-danger btn-sm text-white font-weight-medium auth-form-btn">Save</button>
+                      <button type="button" wire:loading wire:target="changePassword" wire:loading.attr="disabled" class="btn w-100 btn-danger btn-sm text-white font-weight-medium auth-form-btn">Saving...</button>
                     </div>
                   </form>
                 </div>

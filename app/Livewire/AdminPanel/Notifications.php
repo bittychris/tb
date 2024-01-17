@@ -5,6 +5,7 @@ namespace App\Livewire\AdminPanel;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Notifications\Notification;
 
 class Notifications extends Component
 {    
@@ -45,19 +46,12 @@ class Notifications extends Component
     
     public function render()
     {
-        if(auth()->user()->role->name == 'Admin') {
             
-            $this->notificationCounter = $this->notificationCount();
+        $this->notificationCounter = $this->notificationCount();
             
-            $this->notifications = auth()->user()->unreadNotifications;
-            
-        } elseif(auth()->user()->role->name == 'AMREF personnel') {
-            
-            $this->notifications = DB::table('notifications')->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(data, "$.role")) = ?', ['AMREF personnel'])
-                ->get();
-            
-            $this->notificationCounter = $this->notifications->count();
-        }
+        $this->notifications = auth()->user()->unreadNotifications;
+
+        // $this->notifications = Notification::all();
         
         return view('livewire.admin-panel.notifications', [
             'notificationCounter' => $this->notificationCounter,

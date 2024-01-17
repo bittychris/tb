@@ -21,16 +21,18 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Permissions</div>
-
+                            <div class="col-4">Permissions</div>
+                            <div class="col-5">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by permission name or group name">
+                            </div>
                             @if (auth()->user()->can('add permission'))
-                                <div class="col-6">
+                                <div class="col-3">
                                     {{--  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                     <button type="button" class="btn btn-success btn-sm text-white" data-bs-toggle="modal" data-bs-target="#export_permission_modal">Export</button>
                                     &nbsp;
                                     <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#import_permission_modal">Import</button>
                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  --}}
-                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;">Add Permission</button>
+                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Permission</button>
                                 </div>
                             @endif
 
@@ -78,7 +80,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No Permission found</td>
+                                    <td colspan="5" class="text-center">No Permission found!</td>
                                 </tr>
                                 @endforelse
                                

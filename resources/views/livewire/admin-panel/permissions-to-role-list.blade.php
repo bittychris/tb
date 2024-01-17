@@ -55,13 +55,23 @@
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $Role->name }}</td>
                                     <td>
-                                        @foreach ($RolesPermissions as $permission)
-                                            @if ($Role->id == $permission->role_id)
+                                        {{-- @foreach ($RolesPermissions as $permission) --}}
+                                            @if ($Role->name == 'Admin')
                                                 <span class="badge rounded bg-success">
-                                                {{ $permission->permission_name }}
+                                                Administrate the system
+                                                </span>
+
+                                            @elseif ($Role->name == 'AMREF personnel')
+                                                <span class="badge rounded bg-success">
+                                                Access reports only
+                                                </span>
+
+                                            @elseif ($Role->name == 'Regional coordinator')
+                                                <span class="badge rounded bg-success">
+                                                Access and field field data
                                                 </span>
                                             @endif
-                                        @endforeach
+                                        {{-- @endforeach --}}
                                     </td>
                                     
                                     @if ((auth()->user()->can('edit assigned permissions to role')) || (auth()->user()->can('delete roles permissions')))
@@ -86,7 +96,7 @@
                                
                             </tbody>
                         </table>
-                        {{ $Roles->links() }}
+                        {{-- {{ $Roles->links() }} --}}
                     </div>
                 </div>
             </div>

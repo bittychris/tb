@@ -21,11 +21,15 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Roles</div>
+                            <div class="col-4">Roles</div>
+
+                            <div class="col-4">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by role name">
+                            </div>
 
                             @if (auth()->user()->can('add role'))
-                                <div class="col-6">
-                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#role_form_modal" style="float: right;"><i class="mdi mdi-plus"></i> Add Role</button>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#role_form_modal" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Role</button>
                                 </div>
                             @endif
 
@@ -71,7 +75,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No Role found</td>
+                                    <td colspan="5" class="text-center">No Role found!</td>
                                 </tr>
                                 @endforelse
                                

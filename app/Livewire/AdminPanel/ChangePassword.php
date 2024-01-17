@@ -57,7 +57,7 @@ class ChangePassword extends Component
                 }
     
             } else {
-                return session()->flash('error', 'Passwords mismatch');
+                return session()->flash('error', 'New password mismatch');
                 
             }
 

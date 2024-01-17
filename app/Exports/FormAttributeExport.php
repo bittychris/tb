@@ -33,13 +33,9 @@ class FormAttributeExport implements FromArray, WithHeadings, ShouldAutoSize
         return $headings;
     }
 
-
     public function array(): array
     {
         return $this->data->toArray();
-    }
-
-
-    
+    } 
 
 }

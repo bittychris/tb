@@ -108,11 +108,11 @@
                     <input type="text" wire:model="name" class="form-control form-control-sm" id="name" placeholder="Enter Attribute name">
                     @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="attribute_no">Attribute number</label>
                     <input type="number" wire:model="attribute_no" class="form-control form-control-sm" id="attribute_no" placeholder="Specify Attribute number(position)">
                     @error('attribute_no') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Close</button>

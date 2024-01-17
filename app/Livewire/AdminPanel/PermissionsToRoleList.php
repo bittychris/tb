@@ -76,17 +76,17 @@ class PermissionsToRoleList extends Component
                             ->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
                             ->select('roles.*')
                             ->distinct()
-                            ->latest()->paginate(10);
+                            ->latest()->get();
 
-        $RolesPermissions = DB::table('role_has_permissions')
-                            ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-                            ->select('role_has_permissions.*', 'permissions.name as permission_name')
-                            ->distinct()
-                            ->get();
+        // $RolesPermissions = DB::table('role_has_permissions')
+        //                     ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
+        //                     ->select('role_has_permissions.*', 'permissions.name as permission_name')
+        //                     ->distinct()
+        //                     ->get();
 
         return view('livewire.admin-panel.permissions-to-role-list', [
             'Roles' => $Roles,
-            'RolesPermissions' => $RolesPermissions
+            // 'RolesPermissions' => $RolesPermissions
         ]);
     }
 }

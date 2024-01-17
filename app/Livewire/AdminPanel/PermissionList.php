@@ -14,7 +14,7 @@ class PermissionList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $action, $permission_id, $permission, $permission_name, $group_name;
+    public $action, $permission_id, $permission, $permission_name, $group_name, $keywords;
 
     protected $listeners = [
         'closeForm',
@@ -164,7 +164,12 @@ class PermissionList extends Component
 
     public function render()
     {
-        $permissions = Permission::latest()->paginate(10);
+        $permissions = Permission::when($this->keywords, function ($query) {
+
+            $query->where('name', 'like', '%'.$this->keywords.'%')
+                ->orWhere('group_name', 'like', '%'.$this->keywords.'%');
+    
+        })->latest()->paginate(10);
 
         return view('livewire.admin-panel.permission-list', ['permissions' => $permissions]);
     }

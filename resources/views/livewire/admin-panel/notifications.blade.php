@@ -1,6 +1,4 @@
 <div class="d-inline">
-  @if (auth()->user()->role->name == 'Admin')
-
   <li class="nav-item dropdown me-0">
     <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
       <i class="mdi mdi-bell mx-0"></i>
@@ -52,7 +50,4 @@
         @endforelse
     </div>
   </li>
-  
-  @endif              
-
 </div>

@@ -25,6 +25,7 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">Forms</div>
+                            @if (auth()->user()->can('download reports'))
                             <div class="col-6">
                                 <a href="{{ route('form.export') }}" class="bg-blue-500 text-white font-medium px-3 py-2 w-fit flex items-center" style="float: right;">
                                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
@@ -32,6 +33,7 @@
                                     </svg>
                                     Download Report </a>
                             </div>
+                            @endif
                         </div>
                     </h4>
                     <div class="table-responsive">
@@ -79,6 +81,7 @@
                                             <option>juma john</option>
                                         </select>
                                     </div>
+                                    @if (auth()->user()->can('download reports'))
                                     <div class="">
                                         <a href="{{ route('formdata.export') }}" class="bg-blue-500 text-white font-medium px-2 py-2 w-fit flex items-center" style="float: right;">
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
@@ -86,6 +89,7 @@
                                             </svg>
                                             Download Report </a>
                                     </div>
+                                    @endif
                                     
                                 </form>
                             </div>

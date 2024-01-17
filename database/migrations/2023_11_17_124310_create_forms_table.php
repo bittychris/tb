@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('scanning_name');
             $table->foreignId('ward_id')->unsigned()->constrained()->nullable();
             $table->string('address');
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('form_attribute_id')

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->uuid('attribute_id');
             $table->integer('male')->nullable();
             $table->integer('female')->nullable();
-            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('form_id')

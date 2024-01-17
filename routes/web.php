@@ -81,9 +81,9 @@ Route::middleware(['auth'])->group(function() {
 
         Route::get('create_form/{form_attributes_id}', [adminController::class, 'createForm'])->name('admin.create_form')->middleware(['permission:all deleted admins']);
 
-        Route::get('form_data/create', [adminController::class, 'createFormData'])->name('admin.create_form_data')->middleware(['permission:add field data (report)']);
+        Route::get('form_data/create', [adminController::class, 'createFormData'])->name('admin.create_form_data')->middleware(['permission:add field data']);
 
-        Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data')->middleware(['permission:edit field data (report)']);
+        Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data')->middleware(['permission:edit field data']);
 
         Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report')->middleware(['permission:all field data']);
         

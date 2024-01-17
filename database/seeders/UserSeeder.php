@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -22,7 +21,7 @@ class UserSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('users')->delete();
 
-        $role = Role::latest()->first();
+        $role = Role::findByName('Admin');
 
         DB::table('users')->insert(array (
             0 =>
@@ -84,6 +83,21 @@ class UserSeeder extends Seeder
 
 
             ));
+            
+            $user = User::latest()->first();
+            $user->assignRole($role->name);
+
+            $permissions = DB::table('role_has_permissions')->where('role_id', $role->id)->get();
+
+            foreach($permissions as $permission) {
+                DB::table('model_has_permissions')->insert([
+                    'permission_id' => $permission->permission_id,
+                    'model_id' => $user->id,
+                    'model_type' => 'App\Models\User'
+                ]);
+
+            }
+            
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }
     }
