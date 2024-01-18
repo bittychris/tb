@@ -161,8 +161,8 @@ class FormData extends Component
     {
         $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 
-        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->get();
-        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
+        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->orderBy('created_at', 'asc')->get();
+        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('created_at', 'asc')->get();
     }
 
     // public function updatedRegionId()
@@ -170,7 +170,7 @@ class FormData extends Component
     //     $this->region_id = auth()->user()->region_id;
 
     //     $this->districts = District::where('region_id', $this->region_id)->get();
-    // }
+    // }Attribute::
 
     public function updatedDistrictId()
     {        

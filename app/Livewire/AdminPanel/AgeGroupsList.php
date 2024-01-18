@@ -14,7 +14,7 @@ class AgeGroupsList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $action, $ageGroup_id, $ageGroup, $age_group_name, $min_age, $max_age;
+    public $action, $ageGroup_id, $ageGroup, $age_group_name, $min_age, $max_age, $keywords;
 
     public $editMode = false;
     
@@ -110,7 +110,7 @@ class AgeGroupsList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $$acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details', 'admin'));
         
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Age group updated successfully');
@@ -164,7 +164,17 @@ class AgeGroupsList extends Component
 
     public function render()
     {
-        $ageGroups = AgeGroup::paginate(10);
+        $ageGroups = AgeGroup::when($this->keywords, function ($query) {
+
+            $query->where('slug', 'like', '%'.$this->keywords.'%')
+                ->orWhere(function ($query) {
+
+                    $query->whereBetween('min', [0, $this->keywords])
+                            ->whereBetween('max', [$this->keywords, 1000]);
+
+                });
+                
+        })->orderBy('created_at', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.age-groups-list', ['ageGroups' => $ageGroups]);
     }

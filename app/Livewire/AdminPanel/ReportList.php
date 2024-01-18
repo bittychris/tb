@@ -37,7 +37,7 @@ class ReportList extends Component
             $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new role', ''));
 
             $this->dispatch('closeModel');
-            $this->dispatch('message_alert', 'The Role already exists.');
+            $this->dispatch('success_alert', 'The Role already exists.');
                         
         } else {
             $this->dispatch('failure_alert', 'An error occurred. Try again later.');

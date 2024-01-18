@@ -16,7 +16,9 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('assets/css/css/style.css') }}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" />
+  {{-- <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" /> --}}
+  <link rel="icon" href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=32%2C32&amp;ssl=1" sizes="32x32">
+
 </head>
 
 <body>
@@ -36,11 +38,20 @@
 
               <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                 <div class="brand-logo fw-bold text-center text-danger">
-                  USAID Afya Shirikishi
+                  <div class="row mb-4 mt-0">
+                    <div class="col-12">
+                      <center>
+                        <a href="{{ route('index') }}">
+                          <img src="{{ asset('admin/images/amref logo.png') }}" alt="amref logo" style="object-fit: ; width: 120px !important; height: 65px !important;"/>
+                        </a>
+                      </center>
+                    </div>
+                  </div>
+                  {{-- USAID Afya Shirikishi --}}
                   {{-- <img src="../../images/logo.svg" alt="logo"> --}}
                 </div>
-                  <h4>Welcome to USAID Afya Shirikishi</h4>
-                  <h6 class="font-weight-light">Sign in to continue.</h6>
+                  <h4 class="text-center mb-4">Welcome to USAID Afya Shirikishi</h4>
+                  {{-- <h6 class="font-weight-light">Sign in to continue.</h6> --}}
                   <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                     @csrf
                     <div class="form-group">
@@ -68,6 +79,9 @@
                       {{-- <a href="#" class="auth-link text-black">Forgot password?</a> --}}
                     </div>
                   </form>
+                  <span class="mt-2" style="float: right; font-size: 15px; font-weight: 400;"><span class="text-danger"><- Return</span>
+                    <a href="{{ route('index') }}" class="text-danger"><small>Home</small></a>
+                  </span>
                 </div>
               </div>
             </div>

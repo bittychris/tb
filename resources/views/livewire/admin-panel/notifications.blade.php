@@ -9,7 +9,7 @@
       @endif
       
     </a>
-    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
+    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown" style="margin-top: -15px;">
       <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications <span wire:click="markAllRead" class="text-primary" style="float: right; cursor: pointer;">Mark all as read</span></p>
           
         @forelse ($notifications as $notifacation)

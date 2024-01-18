@@ -20291,8 +20291,8 @@ code {
 
 .nav-tabs .nav-item .nav-link.active {
   border: 0;
-  border-bottom: 3px solid #5646ff;
-  color: #4d83ff;
+  border-bottom: 3px solid #ff4747;
+  color: #ff4747;
 }
 
 #proBanner {
@@ -22549,7 +22549,7 @@ dl li {
 .sidebar .nav .nav-item.active > .nav-link i,
 .sidebar .nav .nav-item.active > .nav-link .menu-title,
 .sidebar .nav .nav-item.active > .nav-link .menu-arrow {
-  color: #4d83ff;
+  color: #ff4747;
 }
 
 .sidebar .nav:not(.sub-menu) {
@@ -22567,7 +22567,7 @@ dl li {
 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
   background: transparent;
-  color: #4d83ff;
+  color: #ff4747;
 }
 
 .sidebar .nav.sub-menu {

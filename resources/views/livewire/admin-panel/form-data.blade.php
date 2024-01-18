@@ -93,58 +93,102 @@
                                 </div>
                             
                             </div>
-                            <div class="col-md-12 table-responsive" >
-                                <table class="formData table table-bordered table-sm">
-                                    <thead>
-                                    <tr>
+                            <div class="col-md-12 table-responsive">
+                                <table wire:ignore.self class="formData table table-bordered table-sm">
+                                    <thead wire:ignore.self>
+                                    <tr wire:ignore.self>
                                         <th>Age Group</th>
                                         @foreach($attributeList as $attribute)
-                                            <th colspan="2">{{ $attribute->name }}</th>
+                                            <th colspan="2" wire:ignore>{{ $attribute->name }}</th>
                                         @endforeach
                                     </tr>
-                                    <tr>
+                                    <tr wire:ignore.self>
                                         <th></th>
                                         @foreach($attributeList as $attribute)
-                                            <th>F</th>
-                                            <th>M</th>
+                                            <th wire:ignone>F</th>
+                                            <th wire:ignone>M</th>
                                         @endforeach
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody wire:ignore.self>
                                     @foreach($ageGroups as $ageGroup)
-                                        <tr>
+                                        <tr wire:ignore>
                                             <td>{{ $ageGroup->slug }}</td>
                                             @foreach($attributeList as $attribute)
-                                                <td>
-                                                    <input type="number" style="width: 60px" min="0"  wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                <td wire:ignore.self>
+                                                    <input type="number" style="width: 60px" min="0" id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
                                                 </td>
-                                                <td>
+                                                <td wire:ignore.self>
                                                     <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
                                                 </td>
                                             @endforeach
                                         </tr>
                                     @endforeach
-                                    <tr>
+                                    <tr wire:ignone.self>
                                         <td>Total</td>
-                                        @foreach($attributeList as $attribute)
-                                            <td>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
-                                            <td>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                        @foreach($attributeList as $index => $attribute)
+                                            <td wire:key="{{ $index }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
+                                            <td wire:key="{{ $index }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
                                         @endforeach
                                     </tr>
 
                                     <!-- Add Grand Total row -->
-                                    <tr>
+                                    <tr wire:ignore.self>
                                         <td>Grand Total</td>
-                                        @foreach($attributeList as $attribute)
-                                            <td colspan="2">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
+                                        @foreach($attributeList as $index => $attribute)
+                                            <td colspan="2" wire:key="{{ $index }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
                                         @endforeach
-                                        {{--  @if(!empty($attributeList))
-                                            {{ $attributeList->links() }}
-                                            
-                                        @endif  --}}
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                {{-- <table wire:ignore.self class="formData table table-bordered table-sm">
+                                    <thead wire:ignore.self>
+                                        <tr wire:ignore.self>
+                                            <th>Age Group</th>
+                                            @foreach($attributeList as $attribute)
+                                                <th colspan="2" wire:ignore>{{ $attribute->name }}</th>
+                                            @endforeach
+                                        </tr>
+                                        <tr wire:ignore.self>
+                                            <th></th>
+                                            @foreach($attributeList as $attribute)
+                                                <th wire:key="{{ 'F-' . $attribute->id }}" wire:ignore>F</th>
+                                                <th wire:key="{{ 'M-' . $attribute->id }}" wire:ignore>M</th>
+                                            @endforeach
+                                        </tr>
+                                    </thead>
+                                    <tbody wire:ignore.self>
+                                        @foreach($ageGroups as $ageGroup)
+                                            <tr wire:ignore>
+                                                <td>{{ $ageGroup->slug }}</td>
+                                                @foreach($attributeList as $attribute)
+                                                    <td wire:key="{{ 'F-' . $ageGroup->id . '-' . $attribute->id }}" wire:ignore.self>
+                                                        <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                    </td>
+                                                    <td wire:key="{{ 'M-' . $ageGroup->id . '-' . $attribute->id }}" wire:ignore.self>
+                                                        <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                    </td>
+                                                @endforeach
+                                            </tr>
+                                        @endforeach
+                                        <tr wire:ignore.self>
+                                            <td>Total</td>
+                                            @foreach($attributeList as $index => $attribute)
+                                                <td wire:key="{{ 'F-total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
+                                                <td wire:key="{{ 'M-total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                            @endforeach
+                                        </tr>
+                                        
+                                        <!-- Add Grand Total row -->
+                                        <tr wire:ignore.self>
+                                            <td>Grand Total</td>
+                                            @foreach($attributeList as $index => $attribute)
+                                                <td colspan="2" wire:key="{{ 'total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
+                                            @endforeach
+                                        </tr>
+                                    </tbody>
+                                </table> --}}
                             </div>
                         </div>
 
@@ -161,4 +205,33 @@
 
 </div>
 
+@push('script')
+    <script>
+ $(document).ready(function() {
+
+// Check the value of the input field every second
+
+setInterval(function() {
+
+    // Loop through all number inputs
+
+    $("[type='number']").each(function() {
+
+        var inputValue = $(this).val();
+
+        if (inputValue === "") {
+
+            // If the input field is empty, set its value to 0
+
+            $(this).val(0);
+
+        }
+
+    });
+
+}, 0.5);
+
+});
+    </script>
+@endpush
 

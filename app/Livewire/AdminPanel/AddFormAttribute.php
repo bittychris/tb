@@ -122,9 +122,9 @@ class AddFormAttribute extends Component
 
     public function render()
     {
-        $ageGroups = AgeGroup::all();
+        $ageGroups = AgeGroup::orderBy('created_at','asc')->get();
 
-        $attributes = Attribute::all();
+        $attributes = Attribute::orderBy('created_at','asc')->get();
 
         return view('livewire.admin-panel.add-form-attribute',
             [

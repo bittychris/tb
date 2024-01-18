@@ -16,7 +16,7 @@ class PermissionsToRoleList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $role_id;
+    public $role_id, $keywords;
 
     public $listen = 'closeFrom';
 
@@ -73,10 +73,15 @@ class PermissionsToRoleList extends Component
     {
         
         $Roles = DB::table('roles')
-                            ->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
-                            ->select('roles.*')
-                            ->distinct()
-                            ->latest()->get();
+                    ->when($this->keywords, function ($query) {
+
+                        $query->where('name', 'like', '%'.$this->keywords.'%');
+                
+                    })
+                    ->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
+                    ->select('roles.*')
+                    ->distinct()
+                    ->latest()->get();
 
         // $RolesPermissions = DB::table('role_has_permissions')
         //                     ->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')

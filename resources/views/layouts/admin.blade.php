@@ -39,7 +39,12 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
+  {{-- <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" /> --}}
+  <link rel="icon" href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=32%2C32&amp;ssl=1" sizes="32x32">
+
+  <link rel="icon" href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=32%2C32&#038;ssl=1" sizes="32x32" />
+<link rel="icon" href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=192%2C192&#038;ssl=1" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=180%2C180&#038;ssl=1" />
 
     <style>
         .formData tr th {
@@ -63,7 +68,7 @@
             @include('layouts.inc.sidebar')
 
             <div class="main-panel">
-              <div class="content-wrapper">
+              <div class="content-wrapper" style="padding: 1.04rem 1.04rem !important;">
 
                 @yield('admin-content')
 
@@ -72,7 +77,7 @@
                 <!-- Footer start -->
                 <footer class="footer">
                   <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="{{ route('index') }}" target="_blank">USAID Afya Shirikishi </a>2023</span>
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="{{ route('index') }}" class="text-danger" target="_blank" style="text-decoration: none;">USAID Afya Shirikishi </a>{{ date('Y') }}</span>
                   </div>
                 </footer>
                 <!-- Footer end-->

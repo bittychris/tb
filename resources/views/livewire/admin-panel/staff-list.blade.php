@@ -20,11 +20,15 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">{{ $status == true ? 'Staffs' : 'Deleted Staffs' }}</div>
+                            <div class="col-5">{{ $status == true ? 'Staffs' : 'Deleted Staffs' }}</div>
+
+                            <div class="col-5">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by names, email, contact number, region, or position">
+                            </div>
 
                             @if (auth()->user()->can('add staff'))
-                                <div class="col-6" style="display: {{ $btn_display }};">
-                                    <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><i class="mdi mdi-account-multiple-plus"></i> Add Staff</a>
+                                <div class="col-2" style="display: {{ $btn_display }};">
+                                    <a href="{{ route('admin.add_staff') }}" class="btn btn-primary text-white btn-sm" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Staff</a>
                                 </div>
                             @endif
 
@@ -68,7 +72,7 @@
                                             @endif
 
                                             @if (auth()->user()->can('delete staff'))
-                                                <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success text-white' }} btn-sm" wire:click="prepareDeleteStaff('{{$staff->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
+                                                <button class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }} btn-sm text-white" wire:click="prepareDeleteStaff('{{$staff->id}}')" title="{{ $status == true ? 'Delete' : 'Restore' }}"><i class="{{ $status == true ? 'mdi mdi-delete' : 'mdi mdi-recycle' }}"></i></button>
                                             @endif
 
                                         </td>
@@ -77,7 +81,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No Staff added!</td>
+                                    <td colspan="7" class="text-center">No Staff added!</td>
                                 </tr>
                             @endforelse
                             <tbody>
@@ -103,9 +107,9 @@
                 {{ $status == true ? 'Do you want to Delete this Staff?' : 'Do you want to Restore this Staff Details?' }}
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" wire:loading.remove wire:target="DeleteStaff" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }}">{{ $status == true ? 'Yes, Delete' : 'Yes, Restore' }}</button>
-                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteStaff" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }}">{{ $status == true ? 'Deleting...' : 'Restoring...' }}</button>
+                <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" wire:loading.remove wire:target="DeleteStaff" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }} text-white">{{ $status == true ? 'Yes, Delete' : 'Yes, Restore' }}</button>
+                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteStaff" class="btn {{ $status == true ? 'btn-danger' : 'btn-success' }} text-white">{{ $status == true ? 'Deleting...' : 'Restoring...' }}</button>
             </div>
         </form>
 

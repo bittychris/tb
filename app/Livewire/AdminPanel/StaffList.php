@@ -14,7 +14,7 @@ class StaffList extends Component
     
     protected $paginationTheme = 'bootstrap';
     
-    public $staff_id, $status, $btn_display;
+    public $staff_id, $status, $btn_display, $keywords;
 
     public function mount($staffs_status) {
         $this->status = $staffs_status;
@@ -95,11 +95,39 @@ class StaffList extends Component
         if ($this->status == false) {
             $this->btn_display = 'none';
 
-            $staffs = User::where('status', $this->status)->whereNot('role_id', $role_id)->latest()->paginate(10);
+            $staffs = User::select('users.*', 'regions.name', 'roles.name')
+                    ->join('regions', 'users.region_id', '=', 'regions.id')
+                    ->join('roles', 'users.role_id', '=', 'roles.id')
+                    ->when($this->keywords, function ($query) {
+            
+                        $query->where('regions.name', 'like', '%'.$this->keywords.'%')        
+                            ->orWhere('roles.name', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.first_name', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.last_name', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.phone', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.email', 'like', '%'.$this->keywords.'%');
+            
+                })->where('users.status', $this->status)->whereNot('users.role_id', $role_id)
+                    ->orderBy('users.created_at', 'desc')->paginate(10);
+
 
         } else {
             $this->btn_display = '';
-            $staffs = User::where('status', $this->status)->whereNot('role_id', $role_id)->latest()->paginate(10);
+            $staffs = User::select('users.*', 'regions.name', 'roles.name')
+                    ->join('regions', 'users.region_id', '=', 'regions.id')
+                    ->join('roles', 'users.role_id', '=', 'roles.id')       
+                    ->when($this->keywords, function ($query) {
+            
+                        $query->where('regions.name', 'like', '%'.$this->keywords.'%') 
+                            ->orWhere('roles.name', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.first_name', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.last_name', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.phone', 'like', '%'.$this->keywords.'%')            
+                            ->orWhere('users.email', 'like', '%'.$this->keywords.'%');
+            
+                })->where('users.status', $this->status)->whereNot('users.role_id', $role_id)
+                    ->orderBy('users.created_at', 'desc')->paginate(10);
+
 
         }
 

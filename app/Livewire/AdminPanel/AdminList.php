@@ -14,7 +14,7 @@ class AdminList extends Component
     
     protected $paginationTheme = 'bootstrap';
     
-    public $admin_id, $status, $btn_display;
+    public $admin_id, $status, $btn_display, $keywords;
 
     public function mount($admins_status) {
         $this->status = $admins_status;
@@ -94,11 +94,33 @@ class AdminList extends Component
 
         if ($this->status == false) {
             $this->btn_display = 'none';
-            $admins = User::where('status', $this->status)->where('role_id', $role_id)->latest()->paginate(10);
+            $admins = User::select('users.*', 'regions.name')
+                ->join('regions', 'users.region_id', '=', 'regions.id')
+                ->when($this->keywords, function ($query) {
+        
+                    $query->where('regions.name', 'like', '%'.$this->keywords.'%')        
+                        ->orWhere('users.first_name', 'like', '%'.$this->keywords.'%')        
+                        ->orWhere('users.last_name', 'like', '%'.$this->keywords.'%')        
+                        ->orWhere('users.phone', 'like', '%'.$this->keywords.'%')        
+                        ->orWhere('users.email', 'like', '%'.$this->keywords.'%');
+        
+            })->where('users.status', $this->status)->where('users.role_id', $role_id)
+                ->orderBy('users.created_at', 'desc')->paginate(10);
 
         } else {
-            $this->btn_display = '';
-            $admins = User::where('status', $this->status)->where('role_id', $role_id)->latest()->paginate(10);
+            $this->btn_display = '';            
+            $admins = User::select('users.*', 'regions.name')
+                ->join('regions', 'users.region_id', '=', 'regions.id')
+                ->when($this->keywords, function ($query) {
+        
+                    $query->where('regions.name', 'like', '%'.$this->keywords.'%')        
+                        ->orWhere('users.first_name', 'like', '%'.$this->keywords.'%')            
+                        ->orWhere('users.last_name', 'like', '%'.$this->keywords.'%')            
+                        ->orWhere('users.phone', 'like', '%'.$this->keywords.'%')            
+                        ->orWhere('users.email', 'like', '%'.$this->keywords.'%');
+        
+            })->where('users.status', $this->status)->where('users.role_id', $role_id)
+                ->orderBy('users.created_at', 'desc')->paginate(10);
 
         }
         

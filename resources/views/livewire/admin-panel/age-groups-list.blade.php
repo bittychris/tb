@@ -21,11 +21,13 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Age groups</div>
-
+                            <div class="col-5">Age groups</div>
+                            <div class="col-4">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by age group, or age value">
+                            </div>
                             @if (auth()->user()->can('add age group'))
-                            <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#age_group_form_modal" style="float: right;"><i class="mdi mdi-plus"></i> Add Age group</button>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary btn-sm text-white text-uppercase" data-bs-toggle="modal" data-bs-target="#age_group_form_modal" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Age group</button>
                             </div>
                             @endif
 
@@ -61,11 +63,11 @@
                                         <td class="text-center">
                                             {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
                                             @if (auth()->user()->can('edit age group'))
-                                                <button class="btn btn-warning btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                                <button class="btn btn-warning btn-sm text-white" wire:click="prepareData('{{$ageGroup->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
                                             @endif  
 
                                             @if (auth()->user()->can('delete age group'))
-                                                <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$ageGroup->id}}', 'delete')" titlee="Delete"><i class="mdi mdi-delete"></i></button>
+                                                <button class="btn btn-danger btn-sm text-white" wire:click="prepareData('{{$ageGroup->id}}', 'delete')" titlee="Delete"><i class="mdi mdi-delete"></i></button>
                                             @endif  
 
                                         </td>
@@ -128,11 +130,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Close</button>
                 @if($editMode)
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-success text-white">Update</button>
                 @else
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-success text-white">Save</button>
                 @endif
             </div>
         </form>
@@ -154,8 +156,8 @@
                Do you want to Delete this Age group?
            </div>
            <div class="modal-footer">
-               <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Yes, Delete</button>
+               <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" class="btn btn-danger text-white" data-bs-dismiss="modal">Yes, Delete</button>
            </div>
        </form>
 

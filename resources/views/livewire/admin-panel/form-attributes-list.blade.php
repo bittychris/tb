@@ -21,11 +21,15 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Attributes</div>
+                            <div class="col-4">Forms</div>
+
+                            <div class="col-5">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by form name">
+                            </div>
 
                             @if (auth()->user()->can('add form attribute'))
-                                <div class="col-6">
-                                    <a href="{{ route('admin.add_form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;"><i class="mdi mdi-plus"></i> Create From Attribute</a>
+                                <div class="col-3">
+                                    <a href="{{ route('admin.add_form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add From</a>
                                 </div>
                             @endif  
 
@@ -36,7 +40,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
+                                    <th>Form name</th>
                                     @if ((auth()->user()->can('edit form attribute')) || (auth()->user()->can('delete form attribute')))
                                         <th>Action</th>
                                     @endif  
@@ -52,9 +56,9 @@
                                     </td>
                                     @if ((auth()->user()->can('edit form attribute')) || (auth()->user()->can('delete form attribute')))
                                         <td class="text-center">
-                                            {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
+                                            {{-- <button class="btn btn-primary btn-sm text-white" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
                                             @if (auth()->user()->can('edit form attribute'))
-                                                <a href="{{route('admin.edit_form_attributes', ['form_id' => $form_attribute->id])}}" class="btn btn-warning btn-sm" title="Edit"><i class="mdi mdi-pen"></i></a>
+                                                <a href="{{route('admin.edit_form_attributes', ['form_id' => $form_attribute->id])}}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="mdi mdi-pen"></i></a>
                                             @endif  
 
                                             {{--  @if (auth()->user()->can('delete form attribute'))
@@ -94,8 +98,8 @@
                Not working for now. Close this Pop up
            </div>
            <div class="modal-footer">
-               <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" disabled class="btn btn-danger" data-bs-dismiss="modal">Yes, Delete</button>
+               <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" disabled class="btn btn-danger text-white" data-bs-dismiss="modal">Yes, Delete</button>
            </div>
        </form>
 

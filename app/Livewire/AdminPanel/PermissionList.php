@@ -138,7 +138,7 @@ class PermissionList extends Component
             $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted permission', 'admin'));
             
             $this->dispatch('closeForm');
-            $this->dispatch('message_alert', 'Permission deleted successfully.');
+            $this->dispatch('success_alert', 'Permission deleted successfully.');
 
             // session()->flash('warning', 'Permission deleted successfully');
 

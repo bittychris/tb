@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
@@ -22,6 +23,8 @@ class UserSeeder extends Seeder
         DB::table('users')->delete();
 
         $role = Role::findByName('Admin');
+        
+        $region = Region::find(2);
 
         DB::table('users')->insert(array (
             0 =>
@@ -33,6 +36,7 @@ class UserSeeder extends Seeder
                      'email' => 'admin@gmail.com',
                      'password' => bcrypt('Admin'),
                      'role_id' => $role->id,
+                     'region_id' => $region->id,
                      'remember_token' => Str::random(60),
                      'created_at' => Carbon::now(),
                      'updated_at' => Carbon::now(),

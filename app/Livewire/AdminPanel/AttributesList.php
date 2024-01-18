@@ -14,7 +14,7 @@ class AttributesList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $action, $attribute_id, $attribute, $name, $attribute_no;
+    public $action, $attribute_id, $attribute, $name, $attribute_no, $keywords;
 
     public $editMode = false;
     
@@ -161,7 +161,11 @@ class AttributesList extends Component
 
     public function render()
     {
-        $attributes = Attribute::paginate(10);
+        $attributes = Attribute::when($this->keywords, function ($query) {
+
+            $query->where('name', 'like', '%'.$this->keywords.'%');
+    
+        })->orderBy('created_at', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.attributes-list', ['attributes' => $attributes]);
     }

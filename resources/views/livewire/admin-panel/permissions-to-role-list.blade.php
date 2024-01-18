@@ -21,10 +21,14 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Roles with Permissions</div>
+                            <div class="col-5">Roles with Permissions</div>
                             
+                            <div class="col-4">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by role name">
+                            </div>
+
                             @if (auth()->user()->can('assign permissions to role'))
-                                <div class="col-6">
+                                <div class="col-3">
                                     <a href="{{ route('admin.add.permissions.role') }}" class="btn btn-primary btn-sm text-white" style="float: right;">Assign Permissions to Role</a>
                                 </div>
                             @endif
@@ -37,7 +41,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Role</th>
-                                    <th>Permission(s)</th>
+                                    <th>Overall Permission</th>
 
                                     @if ((auth()->user()->can('edit assigned permissions to role')) || (auth()->user()->can('delete roles permissions')))
                                         <th>Action</th>
@@ -58,17 +62,17 @@
                                         {{-- @foreach ($RolesPermissions as $permission) --}}
                                             @if ($Role->name == 'Admin')
                                                 <span class="badge rounded bg-success">
-                                                Administrate the system
+                                                Administrate the whole system
                                                 </span>
 
                                             @elseif ($Role->name == 'AMREF personnel')
                                                 <span class="badge rounded bg-success">
-                                                Access reports only
+                                                Access report processes
                                                 </span>
 
                                             @elseif ($Role->name == 'Regional coordinator')
                                                 <span class="badge rounded bg-success">
-                                                Access and field field data
+                                                Access field data processes
                                                 </span>
                                             @endif
                                         {{-- @endforeach --}}
@@ -77,11 +81,11 @@
                                     @if ((auth()->user()->can('edit assigned permissions to role')) || (auth()->user()->can('delete roles permissions')))
                                         <td class="text-center">
                                             @if (auth()->user()->can('edit assigned permissions to role'))
-                                                <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id ]) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-pen"></i></a>
+                                                <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id ]) }}" class="btn btn-warning btn-sm text-white"><i class="mdi mdi-pen"></i></a>
                                             @endif
 
                                             @if (auth()->user()->can('delete roles permissions'))
-                                                <button class="btn btn-danger btn-sm" wire:click="prepareDeleteRolesInPermission('{{$Role->id}}')" data-bs-toggle="modal" data-bs-target="#delete_permissions_role_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                                <button class="btn btn-danger btn-sm text-white" wire:click="prepareDeleteRolesInPermission('{{$Role->id}}')" data-bs-toggle="modal" data-bs-target="#delete_permissions_role_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
                                             @endif
 
                                         </td>
@@ -116,9 +120,9 @@
                Do you want to Delete this Data?
            </div>
            <div class="modal-footer">
-               <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" wire:loading.remove wire:target="DeleteRolesInPermission" class="btn btn-danger">Yes, Delete</button>
-               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteRolesInPermission" class="btn btn-danger">Deleting...</button>
+               <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" wire:loading.remove wire:target="DeleteRolesInPermission" class="btn btn-danger text-white">Yes, Delete</button>
+               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteRolesInPermission" class="btn btn-danger text-white">Deleting...</button>
            </div>
        </form>
 

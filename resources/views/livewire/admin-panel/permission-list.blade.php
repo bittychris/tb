@@ -32,7 +32,7 @@
                                     &nbsp;
                                     <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#import_permission_modal">Import</button>
                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  --}}
-                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Permission</button>
+                                    <button type="button" class="btn btn-primary btn-sm text-white text-uppercase" data-bs-toggle="modal" data-bs-target="#permission_form_modal"  style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Permission</button>
                                 </div>
                             @endif
 
@@ -65,13 +65,13 @@
                                     @if ((auth()->user()->can('edit permission')) || (auth()->user()->can('delete permission')))
                                         <td class="text-center">
                                             @if (auth()->user()->can('edit permission'))
-                                                <button class="btn btn-warning btn-sm" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'edit')" wire:click="prepareData('{{$permission->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                                <button class="btn btn-warning btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'edit')"><i class="mdi mdi-autorenew"></i></button>
+                                                <button class="btn btn-warning btn-sm text-white" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'edit')" wire:click="prepareData('{{$permission->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                                <button class="btn btn-warning btn-sm text-white" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'edit')"><i class="mdi mdi-autorenew"></i></button>
                                             @endif
 
                                             @if (auth()->user()->can('delete permission'))
-                                                <button class="btn btn-danger btn-sm" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'delete')" wire:click="prepareData('{{$permission->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
-                                                <button class="btn btn-danger btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'delete')"><i class="mdi mdi-autorenew"></i></button>
+                                                <button class="btn btn-danger btn-sm text-white" wire:loading.remove wire:target="prepareData('{{$permission->id}}', 'delete')" wire:click="prepareData('{{$permission->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                                <button class="btn btn-danger btn-sm text-white" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$permission->id}}', 'delete')"><i class="mdi mdi-autorenew"></i></button>
                                             @endif
 
                                         </td>
@@ -123,12 +123,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Close</button>
                 @if($editMode)
-                <button type="submit" wire:loading.remove wire:target="updatePermission" class="btn btn-primary">Update</button>
+                <button type="submit" wire:loading.remove wire:target="updatePermission" class="btn btn-primary text-white">Update</button>
                 <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="updatePermission" class="btn btn-primary">Updating...</button>
                 @else
-                <button type="submit" wire:loading.remove wire:target="savePermission" class="btn btn-primary">Save</button>
+                <button type="submit" wire:loading.remove wire:target="savePermission" class="btn btn-primary text-white">Save</button>
                 <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="savePermission" class="btn btn-primary">Saving...</button>
                 @endif
             </div>
@@ -151,9 +151,9 @@
                Do you want to Delete this Permission?
            </div>
            <div class="modal-footer">
-               <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" wire:loading.remove wire:target="DeletePermission" class="btn btn-danger">Yes, Delete</button>
-               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeletePermission" class="btn btn-danger">Deleting...</button>
+               <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" wire:loading.remove wire:target="DeletePermission" class="btn btn-danger text-white">Yes, Delete</button>
+               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeletePermission" class="btn btn-danger text-white">Deleting...</button>
            </div>
        </form>
 

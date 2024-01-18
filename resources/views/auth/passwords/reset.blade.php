@@ -16,7 +16,9 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('assets/css/css/style.css') }}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" />
+  {{-- <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" /> --}}
+  <link rel="icon" href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=32%2C32&amp;ssl=1" sizes="32x32">
+
 </head>
 
 @livewireStyles

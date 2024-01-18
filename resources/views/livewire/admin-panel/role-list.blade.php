@@ -29,7 +29,7 @@
 
                             @if (auth()->user()->can('add role'))
                                 <div class="col-4">
-                                    <button type="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#role_form_modal" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Role</button>
+                                    <button type="button" class="btn btn-primary btn-sm text-white text-uppercase" data-bs-toggle="modal" data-bs-target="#role_form_modal" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add Role</button>
                                 </div>
                             @endif
 
@@ -60,13 +60,13 @@
                                     @if ((auth()->user()->can('edit role')) || (auth()->user()->can('delete role')))
                                         <td class="text-center">
                                             @if (auth()->user()->can('edit role'))
-                                                <button class="btn btn-warning btn-sm" wire:loading.remove wire:target="prepareData('{{$role->id}}', 'edit')" wire:click="prepareData('{{$role->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                                <button class="btn btn-warning btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$role->id}}', 'edit')"><i class="mdi mdi-autorenew"></i></button>
+                                                <button class="btn btn-warning btn-sm text-white" wire:loading.remove wire:target="prepareData('{{$role->id}}', 'edit')" wire:click="prepareData('{{$role->id}}', 'edit')" title="Edit"><i class="mdi mdi-pen"></i></button>
+                                                <button class="btn btn-warning btn-sm text-white" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$role->id}}', 'edit')"><i class="mdi mdi-autorenew"></i></button>
                                             @endif
 
                                             @if (auth()->user()->can('delete role'))
-                                                <button class="btn btn-danger btn-sm" wire:loading.remove wire:target="prepareData('{{$role->id}}', 'delete')" wire:click="prepareData('{{$role->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
-                                                <button class="btn btn-danger btn-sm" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$role->id}}', 'delete')"><i class="mdi mdi-autorenew"></i></button>
+                                                <button class="btn btn-danger btn-sm text-white" wire:loading.remove wire:target="prepareData('{{$role->id}}', 'delete')" wire:click="prepareData('{{$role->id}}', 'delete')" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                                <button class="btn btn-danger btn-sm text-white" wire:loading wire:loading.attr="disabled" wire:target="prepareData('{{$role->id}}', 'delete')"><i class="mdi mdi-autorenew"></i></button>
                                             @endif
 
                                         </td>
@@ -112,13 +112,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Close</button>
                 @if($editMode)
-                <button type="submit" wire:loading.remove wire:target="updateRole" class="btn btn-primary">Update</button>
-                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="updateRole" class="btn btn-primary">Updating...</button>
+                <button type="submit" wire:loading.remove wire:target="updateRole" class="btn btn-success text-white">Update</button>
+                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="updateRole" class="btn btn-success text-white">Updating...</button>
                 @else
-                <button type="submit" wire:loading.remove wire:target="saveRole" class="btn btn-primary">Save</button>
-                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="saveRole" class="btn btn-primary">Saving...</button>
+                <button type="submit" wire:loading.remove wire:target="saveRole" class="btn btn-primary text-white">Save</button>
+                <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="saveRole" class="btn btn-primary text-white">Saving...</button>
                 @endif
             </div>
         </form>
@@ -140,9 +140,9 @@
                Do you want to Delete this Role?
            </div>
            <div class="modal-footer">
-               <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" wire:loading.remove wire:target="DeleteRole" class="btn btn-danger">Yes, Delete</button>
-               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteRole" class="btn btn-danger">Deleting...</button>
+               <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" wire:loading.remove wire:target="DeleteRole" class="btn btn-danger text-white">Yes, Delete</button>
+               <button type="submit" wire:loading wire:loading.attr="disabled" wire:target="DeleteRole" class="btn btn-danger text-white">Deleting...</button>
            </div>
        </form>
 

@@ -11,6 +11,8 @@ class FormAttributesList extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+
+    public $keywords;
     
     // public $formAttribute_id;
 
@@ -31,7 +33,11 @@ class FormAttributesList extends Component
 
     public function render()
     {
-        $form_attributes = FormAttribute::latest()->paginate(10);
+        $form_attributes = FormAttribute::when($this->keywords, function ($query) {
+
+            $query->where('name', 'like', '%'.$this->keywords.'%');
+    
+        })->latest()->paginate(10);
 
         return view('livewire.admin-panel.form-attributes-list', ['form_attributes' => $form_attributes]);
     }

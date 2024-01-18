@@ -42,10 +42,10 @@
           </a>
           <div class="collapse" id="admins_staffs">
             <ul class="nav flex-column sub-menu ">
-              @if (auth()->user()->can('admins and staffs menu'))
+              @if (auth()->user()->can('all admins'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.admins') }}">Admins</a></li>
               @endif
-              @if (auth()->user()->can('admins and staffs menu'))
+              @if (auth()->user()->can('all staffs'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.staffs') }}">Staffs</a></li>
               @endif
             </ul>
@@ -100,12 +100,12 @@
 
         @if (auth()->user()->can('recycle bin menu'))
         <li class="nav-item mt-3">
-          <a class="nav-link text-danger" data-bs-toggle="collapse" href="#recycle_bi" aria-expanded="false" aria-controls="recycle_bi">
+          <a class="nav-link" data-bs-toggle="collapse" href="#recycle_bin" aria-expanded="false" aria-controls="recycle_bin">
             <i class="mdi mdi-delete menu-icon"></i>
             <span class="menu-title">Recycle bin</span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="recycle_bi">
+          <div class="collapse" id="recycle_bin">
             <ul class="nav flex-column sub-menu ">
               @if (auth()->user()->can('all deleted admins'))
               <li class="nav-item"> <a class="nav-link" href="{{ route('admin.deactivated.admins') }}">Admins</a></li>

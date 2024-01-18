@@ -19,10 +19,22 @@
                 @endif
                 <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                   <div class="brand-logo fw-bold">
+                    <div class="row mb-4 mt-0">
+                      <div class="col-12">
+                        <center>
+                          <a href="{{ route('admin.dashboard') }}">
+                            <img src="{{ asset('admin/images/amref logo.png') }}" alt="amref logo" style="object-fit: ; width: 120px !important; height: 65px !important;"/>
+                          </a>
+                        </center>
+                      </div>
+                    </div>
                     <div class="row justify-content-between align-items-center">
                       <div class="col-6">Change Password</div>
                       <div class="col-6">
-                          <a href="{{ route('admin.dashboard') }}" class="btn btn-danger btn-sm text-white" style="float: right;">Back to Dashboard</a>
+                        <span class="mt-2" style="float: right; font-size: 15px; font-weight: 400;"><span class="text-danger"><-</span>
+                          <a href="{{ route('admin.dashboard') }}" class="text-danger"><small>Dashboard</small></a>
+                        </span>
+                          {{-- <a href="{{ route('admin.dashboard') }}" class="text-danger" style="float: right; font-size: 15px; font-weight: 400;"><small>Dashboard</small></a> --}}
                       </div>
                   </div>
                   </div>
@@ -51,7 +63,7 @@
                       @error('new_password') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="form-group">
-                      <div class="input-group mb-3">
+                      <div class="input-group mb-4">
                           <input type="password" wire:model="confirm_password" class="form-control form-control-sm" id="confirm_password" placeholder="Retype new password">
                           <span class="input-group-text">
                               <i class="mdi mdi-eye" onclick="confirmPassword()" id="togglePassword"
