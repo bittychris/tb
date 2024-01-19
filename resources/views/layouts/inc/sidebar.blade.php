@@ -74,7 +74,7 @@
         @if (auth()->user()->can('all form attributes'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.form_attributes') }}">
-                <i class="mdi mdi-note menu-icon"></i>
+                <i class="mdi mdi-chart-gantt menu-icon"></i>
                 <span class="menu-title">Form Attributes</span>
             </a>
         </li>
@@ -83,7 +83,7 @@
         @if (auth()->user()->can('all field data'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.report') }}">
-                <i class="mdi mdi-chart-gantt menu-icon"></i>
+                <i class="mdi mdi-note menu-icon"></i>
                 <span class="menu-title">Field data</span>
             </a>
         </li>

@@ -22,7 +22,7 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">My Profile</div>
                             <div class="col-6">
-                                <button type="button" wire:click="{{ $editMode == true ? 'clearForm' : 'prepareData' }}" class="btn btn-{{ $editMode == true ? 'warning' : 'primary' }} btn-sm text-{{ $editMode == true ? 'dark' : 'white' }}" style="float: right;">{{ $editMode == true ? 'Cancel' : 'Edit' }}</button>
+                                <button type="button" wire:click="{{ $editMode == true ? 'clearForm' : 'prepareData' }}" class="btn btn-{{ $editMode == true ? 'warning' : 'danger' }} btn-sm text-{{ $editMode == true ? 'dark' : 'white' }}" style="float: right;">{{ $editMode == true ? 'Cancel' : 'Edit' }}</button>
                             </div>
                         </div>
                     </h4>
@@ -30,7 +30,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <center>
-                                <img wire:ignore.self id="showImage" src="{{ !empty($userDetails->image) ? asset('storage/user_images/'.$userDetails->image) : asset('admin/images/faces/user_logo.jpg') }}" class="rounded border-primary border-secondary border rounded-circle img" width="150px" height="150px" style="object-fit: cover;" align="center" alt="profile image" />
+                                <img wire:ignore.self id="showImage" src="{{ !empty($userDetails->image) ? asset('storage/user_images/'.$userDetails->image) : asset('admin/images/faces/user_logo.jpg') }}" class="rounded border-danger border-secondary border border-2 rounded-circle img" width="150px" height="150px" style="object-fit: cover;" align="center" alt="profile image" />
                             </center>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="form-group">
-                        <p>Position: <span class="badge bg-success rounded mx-4">{{ $userDetails->role->name }}</span></p>
+                        <p>Position: <span class="badge bg-danger rounded mx-4">{{ $userDetails->role->name }}</span></p>
                     </div>
                 </div>
             </div>

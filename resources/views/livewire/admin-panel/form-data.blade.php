@@ -94,55 +94,88 @@
                             
                             </div>
                             <div class="col-md-12 table-responsive">
-                                <table wire:ignore.self class="formData table table-bordered table-sm">
-                                    <thead wire:ignore.self>
-                                    <tr wire:ignore.self>
+                                <table class="formData table table-bordered table-sm">=
+                                    @php
+                                        $main_attr = 'Number of individual received TB health Education (estimated number in hot spot arae)';
+                                        $text_color = '';
+                                    @endphp
+                                    <thead>
+                                    <tr>
                                         <th>Age Group</th>
                                         @foreach($attributeList as $attribute)
-                                            <th colspan="2" wire:ignore>{{ $attribute->name }}</th>
+                                            @if ($attribute->attribute_no == 1)
+                                                <th colspan="2" class="text-danger" style="border-bottom-color: {{ $color }};">{{ $attribute->name }}</th>
+                                            @else
+                                                <th colspan="2">{{ $attribute->name }}</>
+                                            @endif
                                         @endforeach
                                     </tr>
-                                    <tr wire:ignore.self>
+                                    <tr>
                                         <th></th>
                                         @foreach($attributeList as $attribute)
-                                            <th wire:ignone>F</th>
-                                            <th wire:ignone>M</th>
+                                            @if ($attribute->attribute_no == 1)
+                                                <th class="text-danger" style="border-bottom-color: {{ $color }};">F</th>
+                                                <th class="text-danger" style="border-bottom-color: {{ $color }};">M</th>
+                                            @else
+                                                <th>F</th>
+                                                <th>M</th>
+                                            @endif
                                         @endforeach
                                     </tr>
                                     </thead>
-                                    <tbody wire:ignore.self>
+                                    <tbody>
                                     @foreach($ageGroups as $ageGroup)
-                                        <tr wire:ignore>
+                                        <tr>
                                             <td>{{ $ageGroup->slug }}</td>
                                             @foreach($attributeList as $attribute)
-                                                <td wire:ignore.self>
-                                                    <input type="number" style="width: 60px" min="0" id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
-                                                </td>
-                                                <td wire:ignore.self>
-                                                    <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
-                                                </td>
+                                                @if ($attribute->attribute_no == 1)
+                                                    <td style="border-right-color: {{ $color }};">
+                                                        <input type="number" style="width: 60px;" min="0" id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                    </td>
+                                                    <td style="border-left-color: {{ $color }};">
+                                                        <input type="number" style="width: 60px;" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <input type="number" style="width: 60px;" min="0" id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" style="width: 60px;" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                    </td>
+                                                @endif
+                                                
                                             @endforeach
                                         </tr>
                                     @endforeach
-                                    <tr wire:ignone.self>
+                                    <tr>
                                         <td>Total</td>
-                                        @foreach($attributeList as $index => $attribute)
-                                            <td wire:key="{{ $index }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
-                                            <td wire:key="{{ $index }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                        @foreach($attributeList as $attribute)
+                                            @if ($attribute->attribute_no == 1)
+                                                <td style="color: {{ $color }};">{{ $this->calculateTotal($attribute->id, 'F') }}</td>
+                                                <td style="color: {{ $color }};">{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                            @else
+                                                <td>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
+                                                <td>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                            @endif
+                                            
                                         @endforeach
                                     </tr>
 
                                     <!-- Add Grand Total row -->
-                                    <tr wire:ignore.self>
+                                    <tr>
                                         <td>Grand Total</td>
-                                        @foreach($attributeList as $index => $attribute)
-                                            <td colspan="2" wire:key="{{ $index }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
+                                        @foreach($attributeList as $attribute)
+                                            @if ($attribute->attribute_no == 1)
+                                                <td colspan="2" style="color: {{ $color }};">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
+                                            @else
+                                                <td colspan="2">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
+                                            @endif
                                         @endforeach
                                     </tr>
                                     </tbody>
                                 </table>
 
-                                {{-- <table wire:ignore.self class="formData table table-bordered table-sm">
+                                {{-- <table wire:ignore.self class="formData table table-borde   table-sm">
                                     <thead wire:ignore.self>
                                         <tr wire:ignore.self>
                                             <th>Age Group</th>

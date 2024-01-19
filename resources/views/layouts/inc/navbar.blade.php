@@ -40,11 +40,11 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
             <a href="{{ route('user.profile') }}" class="dropdown-item">
-              <i class="mdi mdi-account text-primary"></i>
+              <i class="mdi mdi-account text-danger"></i>
               My profile
             </a>
             <a href="{{ route('user.change_password') }}" class="dropdown-item" disabled="true">
-              <i class="mdi mdi-lock text-primary"></i>
+              <i class="mdi mdi-lock text-danger"></i>
               Change password
             </a>
             <!-- item-->
@@ -56,7 +56,7 @@
               onclick="event.preventDefault();
                       document.getElementById('logout-form').submit();"
               class="dropdown-item">
-              <i class="mdi mdi-logout text-primary me-1"></i>
+              <i class="mdi mdi-logout text-danger me-1"></i>
               <span>Logout</span>
             </a>
           </div>

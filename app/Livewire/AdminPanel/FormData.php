@@ -32,6 +32,10 @@ class FormData extends Component
     public $ward_id;
     public $address;
 
+    public $main_attr;
+    
+    public $color = 'red';
+
     public $ageGroups = [];
     public $attributeList = [];
 
@@ -161,8 +165,8 @@ class FormData extends Component
     {
         $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 
-        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->orderBy('created_at', 'asc')->get();
-        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('created_at', 'asc')->get();
+        $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->get();
+        $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
     }
 
     // public function updatedRegionId()
@@ -235,6 +239,9 @@ class FormData extends Component
 
     public function render()
     {
+        $this->main_attr = Attribute::where('attribute_no', 1)->get();
+        
+        // dd($this->main_attr);
         $formsAttributes = FormAttribute::all();
         // $regions = Region::all();
         

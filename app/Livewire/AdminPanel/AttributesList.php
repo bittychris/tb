@@ -22,7 +22,7 @@ class AttributesList extends Component
 
         return [
             'name' => ['required', 'string'],
-            // 'attribute_no' => ['required', 'integer'],
+            'attribute_no' => ['required', 'integer'],
         ];
 
     }
@@ -46,7 +46,7 @@ class AttributesList extends Component
         
             $attribute = Attribute::create([
                 'name' => $validatedData['name'],
-                // 'attribute_no' => $validatedData['attribute_no']
+                'attribute_no' => $validatedData['attribute_no']
             ]);
 
             if ($attribute) {
@@ -85,7 +85,7 @@ class AttributesList extends Component
 
             $this->attribute_id = $attribute->id;
             $this->name = $attribute->name;
-            // $this->attribute_no = $attribute->attribute_no;
+            $this->attribute_no = $attribute->attribute_no;
         
         } elseif($this->action == 'delete') {
             $this->dispatch('openDeleteModal');
@@ -100,7 +100,7 @@ class AttributesList extends Component
         
         $attribute = Attribute::where('id', $this->attribute_id)->update([
             'name' => $validatedData['name'],
-            // 'attribute_no' => $validatedData['attribute_no']
+            'attribute_no' => $validatedData['attribute_no']
 
         ]);
 
@@ -155,7 +155,7 @@ class AttributesList extends Component
 
         $this->reset(
             'name',
-            // 'attribute_no'
+            'attribute_no'
         );
     }
 

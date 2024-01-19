@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::get('admins', [adminController::class, 'admins'])->name('admin.admins')->middleware(['permission:all admins']);
+    Route::get('administrators', [adminController::class, 'admins'])->name('admin.admins')->middleware(['permission:all admins']);
 
     Route::get('add_admin', [adminController::class, 'addAdmin'])->name('admin.add_admin')->middleware(['permission:add admin']);
 
@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('deleted_admins', [adminController::class, 'deactivatedAdmins'])->name('admin.deactivated.admins')->middleware(['permission:all deleted admins']);
 
-    Route::get('staffs', [adminController::class, 'staffs'])->name('admin.staffs')->middleware(['permission:all staffs']);
+    Route::get('all_staffs', [adminController::class, 'staffs'])->name('admin.staffs')->middleware(['permission:all staffs']);
 
     Route::get('deleted_staffs', [adminController::class, 'deactivatedStaffs'])->name('admin.deactivated.staffs')->middleware(['permission:all deleted staffs']);
 
@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups')->middleware(['permission:all age groups']);
 
-    Route::get('attributes', [adminController::class, 'attributes'])->name('admin.attributes')->middleware(['permission:all attributes']);
+    Route::get('attributes/list', [adminController::class, 'attributes'])->name('admin.attributes')->middleware(['permission:all attributes']);
 
     Route::get('form_attributes', [adminController::class, 'formAttributes'])->name('admin.form_attributes')->middleware(['permission:all form attributes']);
 
@@ -82,9 +82,9 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data')->middleware(['permission:edit field data']);
 
-    Route::get('report/list', [adminController::class, 'reportList'])->name('admin.report')->middleware(['permission:all field data']);
+    Route::get('filed_data', [adminController::class, 'reportList'])->name('admin.report')->middleware(['permission:all field data']);
     
-    Route::get('report', [adminController::class, 'report'])->name('admin.reporting')->middleware(['permission:all reports']);
+    Route::get('reports', [adminController::class, 'report'])->name('admin.reporting')->middleware(['permission:all reports']);
 
     Route::get('roles', [adminController::class, 'roles'])->name('admin.roles')->middleware(['permission:all roles']);
 
