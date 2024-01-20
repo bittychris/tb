@@ -94,7 +94,7 @@
                             
                             </div>
                             <div class="col-md-12 table-responsive">
-                                <table class="formData table table-bordered table-sm">=
+                                <table class="formData table table-bordered table-sm">
                                     @php
                                         $main_attr = 'Number of individual received TB health Education (estimated number in hot spot arae)';
                                         $text_color = '';
@@ -129,11 +129,12 @@
                                             <td>{{ $ageGroup->slug }}</td>
                                             @foreach($attributeList as $attribute)
                                                 @if ($attribute->attribute_no == 1)
+                                                {{-- @if ($attribute->attribute_no == 1) --}}
                                                     <td style="border-right-color: {{ $color }};">
-                                                        <input type="number" style="width: 60px;" min="0" id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                        <input type="number" style="width: 60px;" min="0" {{ $ageGroup->slug == '0-5' ? 'disabled' : '' }} wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
                                                     </td>
                                                     <td style="border-left-color: {{ $color }};">
-                                                        <input type="number" style="width: 60px;" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                        <input type="number" style="width: 60px;" min="0" {{ $ageGroup->slug == '0-5' ? 'disabled' : '' }} wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
                                                     </td>
                                                 @else
                                                     <td>

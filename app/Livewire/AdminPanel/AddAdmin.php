@@ -22,7 +22,7 @@ class AddAdmin extends Component
         if ($admin_id){
             $this->editMode = true;
 
-            $this->admin = User::findOrFail($admin_id);
+            $this->admin = User::find($admin_id);
 
             $this->first_name = $this->admin->first_name;
             $this->last_name = $this->admin->last_name;
@@ -101,10 +101,10 @@ class AddAdmin extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Admin', 'admin'));
 
-                    $this->dispatch('success_alert', 'New Admin saved successfully');
+                    $this->dispatch('admin_success_alert', 'New Admin saved successfully');
 
                     // session()->flash('success', 'New Admin saved successfully');
-                    return redirect(route('admin.admins'));
+                    // return redirect(route('admin.admins'));
                     
                 } else {
                     $this->dispatch('failure_alert', 'An error occurred. Try again later.');
@@ -159,10 +159,10 @@ class AddAdmin extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details', 'admin'));
 
-                    $this->dispatch('success_alert', 'Admin details updated successfully');
+                    $this->dispatch('admin_success_alert', 'Admin details updated successfully');
 
                     // session()->flash('success', 'Admin details updated successfully');
-                    return redirect(route('admin.admins'));
+                    // return redirect(route('admin.admins'));
     
                 } else {
                     $role = Role::find($this->role_id);
@@ -174,10 +174,10 @@ class AddAdmin extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details', 'admin'));
 
-                    $this->dispatch('success_alert', 'Admin details updated successfully');
+                    $this->dispatch('admin_success_alert', 'Admin details updated successfully');
                     
                     // session()->flash('success', 'Admin details updated successfully');
-                    return redirect(route('admin.admins'));
+                    // return redirect(route('admin.admins'));
 
                 }
                

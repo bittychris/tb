@@ -1,5 +1,5 @@
 <div class="d-inline">
-  <li class="nav-item dropdown me-0">
+  <li wire:ignore.self class="nav-item dropdown me-0">
     <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
       <i class="mdi mdi-bell mx-0"></i>
       
@@ -9,7 +9,7 @@
       @endif
       
     </a>
-    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown" style="margin-top: -15px;">
+    <div wire:ignore.self class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown" style="margin-top: -15px;">
       <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications <span wire:click="markAllRead" class="text-primary" style="float: right; cursor: pointer;">Mark all as read</span></p>
           
         @forelse ($notifications as $notifacation)

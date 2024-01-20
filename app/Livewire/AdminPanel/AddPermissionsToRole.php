@@ -157,9 +157,9 @@ class AddPermissionsToRole extends Component
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Assigned permissions to a role', 'admin'));
                 
-                redirect(route('admin.permissions.roles'));
+                // redirect(route('admin.permissions.roles'));
 
-                $this->dispatch('success_alert', 'Permissions of the Role saved successfully');
+                $this->dispatch('perm_success_alert', 'Permissions of the Role saved successfully');
 
                 // session()->flash('success', 'Permissions of the Role saved successfully');
 
@@ -170,7 +170,6 @@ class AddPermissionsToRole extends Component
                                         ->delete();
                 
                 if($role_permission_del) {
-                    // dd('done');
                     $data = array();
 
                     foreach($this->selectedPermissionIds as $permission_id) {
@@ -216,7 +215,7 @@ class AddPermissionsToRole extends Component
                         
                     redirect(route('admin.permissions.roles'));
 
-                    $this->dispatch('success_alert', 'ermissions of the Role updated successfully');
+                    $this->dispatch('perm_success_alert', 'Permissions of the Role updated successfully');
 
                     // session()->flash('success', 'Permissions of the Role updated successfully');
 

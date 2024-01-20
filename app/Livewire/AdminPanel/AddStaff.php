@@ -100,10 +100,10 @@ class AddStaff extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Staff', 'admin'));
 
-                    $this->dispatch('success_alert', 'New Staff saved successfully');
+                    $this->dispatch('staff_success_alert', 'New Staff saved successfully');
 
                     // session()->flash('success', 'New Staff saved successfully');
-                    return redirect(route('admin.staffs'));
+                    // return redirect(route('admin.staffs'));
 
                 } else {
                     $this->dispatch('failure_alert', 'An error occurred. Try again later.');
@@ -161,10 +161,10 @@ class AddStaff extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details', 'admin'));
                     
-                    $this->dispatch('success_alert', 'Staff details updated successfully');
+                    $this->dispatch('staff_success_alert', 'Staff details updated successfully');
 
                     // session()->flash('success', 'Staff details updated successfully');
-                    return redirect(route('admin.staffs'));
+                    // return redirect(route('admin.staffs'));
 
                 } else {
                     $role = Role::find($this->role_id);
@@ -176,10 +176,10 @@ class AddStaff extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details', 'admin'));
 
-                    $this->dispatch('success_alert', 'Staff details updated successfully');
+                    $this->dispatch('staff_success_alert', 'Staff details updated successfully');
 
                     // session()->flash('success', 'Staff details updated successfully');
-                    return redirect(route('admin.staffs'));
+                    // return redirect(route('admin.staffs'));
     
                 }
                

@@ -120,6 +120,7 @@ class FormData extends Component
                         }
                     }
                 }
+                
             } else {
                 foreach ($this->formData as $groupId => $age_group) {
                     foreach ($age_group as $attributeId => $value) {
@@ -139,17 +140,17 @@ class FormData extends Component
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'admin'));
                 
-                redirect(route('admin.report'));
+                // redirect(route('admin.report'));
 
-                $this->dispatch('success_alert', 'Data update successfully.');
+                $this->dispatch('field_data_success_alert', 'Data update successfully.');
                 
             } else {
                 $acting_user = User::find(auth()->user()->id);
                 $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'admin'));
                 
-                redirect(route('admin.report'));
+                // redirect(route('admin.report'));
                 
-                $this->dispatch('success_alert', 'Data saved successfully.');
+                $this->dispatch('field_data_success_alert', 'Data saved successfully.');
                 
             }
 

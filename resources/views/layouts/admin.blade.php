@@ -117,19 +117,22 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         window.addEventListener('message_alert', message => {
+
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: message.detail,
+                text: message.detail,
             })
-        })
+                  
+        })        
+        
         window.addEventListener('success_alert', message => {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: message.detail,
+                text: message.detail,
                 showConfirmButton: false,
-                timer: 2500
+                timer: 1500
             })
         })
 
@@ -137,10 +140,121 @@
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: message.detail,
+                text: message.detail,
                 showConfirmButton: true,
             })
         })
+
+        // permissions and roles alert on add and update
+        window.addEventListener('perm_success_alert', message => {
+          Swal.fire({
+                text: message.detail,
+                icon: 'success',
+                showCancelButton: false,
+                // confirmButtonColor: '#ff4747',
+                // cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Swal.fire(
+                  //   'Deleted!',
+                  //   'Your imaginary file has been deleted.',
+                  //   'success'
+                  // )
+                  // Redirect to a new page
+                  window.location.href = '{{ route('admin.permissions.roles') }}';
+                }
+              })    
+        })
+
+         // field data alert on add and update
+         window.addEventListener('field_data_success_alert', message => {
+          Swal.fire({
+                text: message.detail,
+                icon: 'success',
+                showCancelButton: false,
+                // confirmButtonColor: '#ff4747',
+                // cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Swal.fire(
+                  //   'Deleted!',
+                  //   'Your imaginary file has been deleted.',
+                  //   'success'
+                  // )
+                  // Redirect to a new page
+                  window.location.href = '{{ route('admin.report') }}';
+                }
+              })    
+          })
+
+        // form attribute alert on add and update
+         window.addEventListener('form_attr_success_alert', message => {
+          Swal.fire({
+                text: message.detail,
+                icon: 'success',
+                showCancelButton: false,
+                // confirmButtonColor: '#ff4747',
+                // cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Swal.fire(
+                  //   'Deleted!',
+                  //   'Your imaginary file has been deleted.',
+                  //   'success'
+                  // )
+                  // Redirect to a new page
+                  window.location.href = '{{ route('admin.form_attributes') }}';
+                }
+              })    
+          })
+
+        // admin alert on add and update
+         window.addEventListener('admin_success_alert', message => {
+          Swal.fire({
+                text: message.detail,
+                icon: 'success',
+                showCancelButton: false,
+                // confirmButtonColor: '#ff4747',
+                // cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Swal.fire(
+                  //   'Deleted!',
+                  //   'Your imaginary file has been deleted.',
+                  //   'success'
+                  // )
+                  // Redirect to a new page
+                  window.location.href = '{{ route('admin.admins') }}';
+                }
+              })    
+          })
+
+          // staff alert on add and update
+          window.addEventListener('staff_success_alert', message => {
+          Swal.fire({
+                text: message.detail,
+                icon: 'success',
+                showCancelButton: false,
+                // confirmButtonColor: '#ff4747',
+                // cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Swal.fire(
+                  //   'Deleted!',
+                  //   'Your imaginary file has been deleted.',
+                  //   'success'
+                  // )
+                  // Redirect to a new page
+                  window.location.href = '{{ route('admin.staffs') }}';
+                }
+              })    
+          })
+
     </script>
   @livewireScripts
 

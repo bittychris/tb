@@ -86,10 +86,10 @@ class AddFormAttribute extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Form Attribute details', 'admin'));
 
-                    $this->dispatch('success_alert', 'From attribute updated successfully');
+                    $this->dispatch('form_attr_success_alert', 'From attribute updated successfully');
 
                     // session()->flash('success', 'From attribute updated successfully');
-                    return redirect(route('admin.form_attributes'));
+                    // return redirect(route('admin.form_attributes'));
 
                 } else{
                     $form_attribute = FormAttribute::create([
@@ -101,10 +101,10 @@ class AddFormAttribute extends Component
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute', ''));
                     
-                    $this->dispatch('success_alert', 'From attribute saved successfully');
+                    $this->dispatch('form_attr_success_alert', 'From attribute saved successfully');
 
                     // session()->flash('success', 'From attribute saved successfully');
-                    return redirect(route('admin.form_attributes'));
+                    // return redirect(route('admin.form_attributes'));
                     // return redirect(route('admin.edit_form_attributes', ['form_id' => $form_attribute->id]));
                 }
 

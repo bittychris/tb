@@ -113,8 +113,8 @@
                     @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
                 <div class="form-group">
-                    <label for="attribute_no">Attribute number</label>
-                    <input type="number" wire:model="attribute_no" class="form-control form-control-sm" id="attribute_no" placeholder="Specify Attribute number(position)">
+                    <label for="attribute_no">possition (Number)</label>
+                    <input type="number" wire:model="attribute_no" class="form-control form-control-sm" id="attribute_no" placeholder="Specify Attribute position (number)">
                     @error('attribute_no') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
             </div>
