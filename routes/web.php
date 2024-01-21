@@ -31,7 +31,7 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 // Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
 
 Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
-Route::get('formdata/export', [ExportController::class, 'formdata'])->name('formdata.export');
+Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
 Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
 Route::get('form/export', [ExportController::class, 'form'])->name('form.export');
 Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
