@@ -9,7 +9,12 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Support\Facades\DB;
 
 class FormDataExport implements FromView, ShouldAutoSize
-{
+{   
+    protected $range;
+    public function __construct($range)
+    {
+        $this->range= $range;
+    }
     public function view() : view
     {
         $res = FormData::join('age_groups', 'age_groups.id', '=', 'age_group_id')
@@ -36,6 +41,13 @@ class FormDataExport implements FromView, ShouldAutoSize
         //     DB::raw('SUM(female) as female')
         // )
         // ->get();
+        $range = explode(',', $this->range);
+        $res =  FormData::groupBy(['attribute_id', 'age_group_id'])
+        ->select('attribute_id', 'age_group_id', 
+            DB::raw('SUM(male) as male'), 
+            DB::raw('SUM(female) as female')
+        )->whereBetween('created_at', $range)
+        ->get();
 
         $formattedData = [];
         $x = 0;

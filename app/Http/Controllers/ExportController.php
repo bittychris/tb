@@ -20,9 +20,9 @@ class ExportController extends Controller
         $user = User::all();
         return Excel::download(new UsersExport($user), 'users.xlsx');
     }
-    public function formdata()
+    public function formdata($range)
     {
-        return Excel::download(new FormDataExport(), 'formdata.xlsx');
+        return Excel::download(new FormDataExport($range), 'formdata.xlsx');
     }
     public function formOne($formdata)
     {
