@@ -13,7 +13,9 @@
       <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications <span wire:click="markAllRead" class="text-primary" style="float: right; cursor: pointer;">Mark all as read</span></p>
           
         @forelse ($notifications as $notifacation)
-
+          {{-- @if ((auth()->user()->role->name == 'Admin') && ($notifacation->data['user_role'] == ))
+              
+          @endif --}}
           <a class="dropdown-item">
             <div class="item-thumbnail">
               <div class="item-icon bg-info">

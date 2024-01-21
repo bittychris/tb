@@ -53,7 +53,7 @@ class AttributesList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute', 'Admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Attribute saved successfully');
@@ -108,7 +108,7 @@ class AttributesList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details', 'Admin'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Attribute updated successfully');
@@ -132,7 +132,7 @@ class AttributesList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute', 'Admin'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Attribute deleted successfully');

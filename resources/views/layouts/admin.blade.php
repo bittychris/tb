@@ -41,10 +41,6 @@
         <link rel="icon"
             href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=32%2C32&amp;ssl=1"
             sizes="32x32">
-
-        <link rel="icon"
-            href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=32%2C32&#038;ssl=1"
-            sizes="32x32" />
         <link rel="icon"
             href="https://i0.wp.com/amref.org/wp-content/uploads/2017/09/cropped-favicon.png?fit=192%2C192&#038;ssl=1"
             sizes="192x192" />

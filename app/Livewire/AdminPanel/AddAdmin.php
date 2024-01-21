@@ -99,7 +99,7 @@ class AddAdmin extends Component
                     $this->clearForm();
                     
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Admin', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Admin', 'Admin'));
 
                     $this->dispatch('admin_success_alert', 'New Admin saved successfully');
 
@@ -157,7 +157,7 @@ class AddAdmin extends Component
                     $this->clearForm();
 
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details', 'Admin'));
 
                     $this->dispatch('admin_success_alert', 'Admin details updated successfully');
 
@@ -172,7 +172,7 @@ class AddAdmin extends Component
                     $this->clearForm();
 
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Admin details', 'Admin'));
 
                     $this->dispatch('admin_success_alert', 'Admin details updated successfully');
                     

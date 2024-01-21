@@ -84,7 +84,7 @@ class AddFormAttribute extends Component
                     ]);
 
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Form Attribute details', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Form Attribute details', 'Admin'));
 
                     $this->dispatch('form_attr_success_alert', 'From attribute updated successfully');
 
@@ -99,7 +99,7 @@ class AddFormAttribute extends Component
                     ]);
 
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute', ''));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute', 'Admin'));
                     
                     $this->dispatch('form_attr_success_alert', 'From attribute saved successfully');
 

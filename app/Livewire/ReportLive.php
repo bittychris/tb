@@ -88,7 +88,7 @@ class ReportLive extends Component
                 $query->with(['district' => function($district){
                                 $district->with('region');
                             }]);
-            }])
+            }])->where('status', true)
             ->latest()
             ->paginate(10);
             

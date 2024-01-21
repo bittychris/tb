@@ -55,7 +55,7 @@ class AgeGroupsList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'added new age group', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'added new age group', 'Admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Age group saved successfully');
@@ -110,7 +110,7 @@ class AgeGroupsList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details', 'Admin'));
         
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Age group updated successfully');
@@ -134,7 +134,7 @@ class AgeGroupsList extends Component
             $this->clearForm();
             
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted age group', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted age group', 'Admin'));
         
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Age group deleted successfully');

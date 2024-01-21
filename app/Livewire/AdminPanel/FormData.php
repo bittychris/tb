@@ -139,7 +139,7 @@ class FormData extends Component
             DB::commit();
             if ($this->form) {
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'Admin'));
                 
                 // redirect(route('admin.report'));
 
@@ -147,7 +147,7 @@ class FormData extends Component
                 
             } else {
                 $acting_user = User::find(auth()->user()->id);
-                $$acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'Admin'));
                 
                 // redirect(route('admin.report'));
                 
@@ -158,8 +158,9 @@ class FormData extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
+            $this->dispatch('failure_alert', $th->getMessage());
             
-            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+            // $this->dispatch('failure_alert', 'An error occurred. Try again later.');
         }
     }
 

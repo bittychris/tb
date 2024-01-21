@@ -58,7 +58,7 @@ class PermissionList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new permission', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new permission', 'Admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Permission saved successfully');
@@ -111,7 +111,7 @@ class PermissionList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permission details', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated permission details', 'Admin'));
                 
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Permission updated successfully');
@@ -135,7 +135,7 @@ class PermissionList extends Component
             $this->clearForm();
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted permission', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted permission', 'Admin'));
             
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Permission deleted successfully.');

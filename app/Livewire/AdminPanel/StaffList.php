@@ -38,7 +38,7 @@ class StaffList extends Component
                 $this->clearForm();
 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Staff', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Staff', 'Admin'));
 
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Staff details deleted successfully');
@@ -61,7 +61,7 @@ class StaffList extends Component
                 $this->clearForm();
                 
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Staff', 'admin'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Restored deleted Staff', 'Admin'));
             
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Staff details restored successfully');

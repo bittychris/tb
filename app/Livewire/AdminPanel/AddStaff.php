@@ -98,7 +98,7 @@ class AddStaff extends Component
                     $this->clearForm();
 
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Staff', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Staff', 'Admin'));
 
                     $this->dispatch('staff_success_alert', 'New Staff saved successfully');
 
@@ -159,7 +159,7 @@ class AddStaff extends Component
                     $this->clearForm();
                     
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details', 'Admin'));
                     
                     $this->dispatch('staff_success_alert', 'Staff details updated successfully');
 
@@ -174,7 +174,7 @@ class AddStaff extends Component
                     $this->clearForm();
                     
                     $acting_user = User::find(auth()->user()->id);
-                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details', 'admin'));
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Staff details', 'Admin'));
 
                     $this->dispatch('staff_success_alert', 'Staff details updated successfully');
 

@@ -100,7 +100,7 @@ class UserProfile extends Component
         if($user) {
 
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated profile details', 'admin'));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated profile details', 'Admin'));
 
             $this->clearForm();
             redirect(route('user.profile'));

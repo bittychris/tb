@@ -34,10 +34,10 @@ class ReportList extends Component
 
         if ($submit_report) {
             $acting_user = User::find(auth()->user()->id);
-            $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new role', ''));
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Submitted field data', 'Admin and AMREF personnel'));
 
             $this->dispatch('closeModel');
-            $this->dispatch('success_alert', 'The Role already exists.');
+            $this->dispatch('success_alert', 'Field data submitted successfully.');
                         
         } else {
             $this->dispatch('failure_alert', 'An error occurred. Try again later.');
