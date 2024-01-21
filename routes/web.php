@@ -24,7 +24,7 @@ use App\Http\Controllers\Auth\RegisterController;
 */
 
 Route::get('/', [indexController::class, 'index'])->name('index');
-Route::get('/home',  [HomeController::class, 'index'])->name('home');
+// Route::get('/home',  [HomeController::class, 'index'])->name('home');
 
 // Route::post('admin_registration', [RegisterController::class, 'create'])->name('register');
 // Route::get('admin_registration', [RegisterController::class, 'show_admin_registration'])->name('admin_registration');

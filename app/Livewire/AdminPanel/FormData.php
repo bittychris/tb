@@ -34,7 +34,8 @@ class FormData extends Component
 
     public $main_attr;
     
-    public $color = 'red';
+    public $color = '';
+    // public $color = 'red';
 
     public $ageGroups = [];
     public $attributeList = [];
@@ -240,7 +241,18 @@ class FormData extends Component
 
     public function render()
     {
-        $this->main_attr = Attribute::where('attribute_no', 1)->get();
+        if(!empty($this->form_id)) {
+            $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
+
+            $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->orderBy('created_at', 'asc')->get();
+            $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('created_at', 'asc')->get();
+        
+        } 
+        // else {
+        //     $formsAttributes = FormAttribute::all();
+        // }
+        
+        // $this->main_attr = Attribute::where('attribute_no', 1)->get();
         
         // dd($this->main_attr);
         $formsAttributes = FormAttribute::all();
