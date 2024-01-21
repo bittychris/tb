@@ -62,67 +62,89 @@ class ReportLive extends Component
 
     public function render()
     {   
+        // $formdata =  FormData::all();
+            
+        // // $res =  Form::all();
+        //     // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
+        //     //     return $group->sortBy('age_group.min')->unique('age_group.min');
+        //     // });
+
+        // $res = Form::query()
+        //     ->when($this->keywords, function ($query) {
+        //         return $query->where(function ($query) {
+        //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+        //                 // ->orWhere('created_at', $this->date)
+        //                 ->orWhereHas('ward', function ($query) {
+        //                     $query->where('name', 'like', '%' . $this->keywords . '%');
+        //                 })
+        //                 ->orWhereHas('added_by', function ($query) {
+        //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
+        //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+        //                 });
+        //         });
+        //     })
+        //     ->when($this->date, function ($query) {
+
+        //         $query->whereBetween('created_at', $this->date);
+        
+        //     })
+        //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
+        //         $query->with(['district' => function($district){
+        //                         $district->with('region');
+        //                     }]);
+        //     }])->where('status', true)
+        //     ->latest()
+        //     ->paginate(10);
+            
+            
+        // $quartiles = $this->quartiles;
+
+        // //when 2025 change year or use getyear to keep it automatic
+        // foreach($quartiles as $quartile => $key){
+        //     if($quartile == 'all'){
+        //         // $this->from_date = date('Y-m-d', strtotime($this->date));
+                            
+        //         $this->quartRange = ['2022-12-07 10:20:34', '2027-12-07 10:20:37'];
+                
+        //         $this->from_date = $this->quartRange[0];
+        //         $this->to_date = $this->quartRange[1];
+        //     }
+        // }
+
+        
+        // $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
+        // ->select('attribute_id', 'age_group_id', 
+        //         DB::raw('SUM(male) as male'), 
+        //         DB::raw('SUM(female) as female')
+        // )
+        // ->when($this->from_date, $this->to_date, function ($query) {
+
+        //     $query->whereBetween('created_at', [$this->from_date, $this->to_date]);
+    
+        // })
+        // // ->whereBetween('created_at', $this->quartRange)
+        // ->get();
+
+        // $users = User::all();
+        // return view('livewire.report-live',[
+        //     'forms' => $res,
+        //     'formDatas' => $formdata,
+        //     'users' => $users
+        // ]);
+
         $formdata =  FormData::all();
             
-        // $res =  Form::all();
+        $res =  Form::all();
             // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
             //     return $group->sortBy('age_group.min')->unique('age_group.min');
             // });
-
-        $res = Form::query()
-            ->when($this->keywords, function ($query) {
-                return $query->where(function ($query) {
-                    $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-                        // ->orWhere('created_at', $this->date)
-                        ->orWhereHas('ward', function ($query) {
-                            $query->where('name', 'like', '%' . $this->keywords . '%');
-                        })
-                        ->orWhereHas('added_by', function ($query) {
-                            $query->where('first_name', 'like', '%' . $this->keywords . '%')
-                                ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
-                        });
-                });
-            })
-            ->when($this->date, function ($query) {
-
-                $query->whereBetween('created_at', $this->date);
-        
-            })
-            ->with(['added_by', 'form_attribute', 'ward' => function($query){
-                $query->with(['district' => function($district){
-                                $district->with('region');
-                            }]);
-            }])->where('status', true)
-            ->latest()
-            ->paginate(10);
-            
-            
-        $quartiles = $this->quartiles;
-
-        //when 2025 change year or use getyear to keep it automatic
-        foreach($quartiles as $quartile => $key){
-            if($quartile == 'all'){
-                // $this->from_date = date('Y-m-d', strtotime($this->date));
-                            
-                $this->quartRange = ['2022-12-07 10:20:34', '2027-12-07 10:20:37'];
-                
-                $this->from_date = $this->quartRange[0];
-                $this->to_date = $this->quartRange[1];
-            }
-        }
 
         
         $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
         ->select('attribute_id', 'age_group_id', 
                 DB::raw('SUM(male) as male'), 
                 DB::raw('SUM(female) as female')
-        )
-        ->when($this->from_date, $this->to_date, function ($query) {
-
-            $query->whereBetween('created_at', [$this->from_date, $this->to_date]);
-    
-        })
-        // ->whereBetween('created_at', $this->quartRange)
+        )->whereBetween('created_at', $this->quartRange)
         ->get();
 
         $users = User::all();
