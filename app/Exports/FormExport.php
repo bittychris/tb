@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Form;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FormController;

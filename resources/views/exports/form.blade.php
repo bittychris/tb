@@ -17,17 +17,19 @@
             $i = 1;
         @endphp
         @forelse($forms as $form)
-            <tr> 
+            <tr>
                 <td>{{ $i++ }}</td>
-                <td><a href="{{ route('formOne.export', ['formdata_id'=>$form->id ]) }}" style="text-decoration: none;">{{ $form->form_attribute->name }}</a></td>
+                <td><a href="{{ route('formOne.export', ['formdata_id' => $form->id]) }}"
+                        style="text-decoration: none;">{{ $form->scanning_name }}</a></td>
                 <td>{{ $form->ward->district->region->name }}</td>
                 <td>{{ $form->ward->district->name }}</td>
-                <td>{{ $form->ward->name}}</td>
+                <td>{{ $form->ward->name }}</td>
                 <td>{{ $form->added_by->first_name }} {{ $form->added_by->last_name }}</td>
-                {{-- <td>{{ $form->scanning_name}}</td> --}}
-                <td>{{ $form->updated_at->format('d M, Y') }}</td>
+                <td>{{ $form->updated_at->format('M d, Y') }}</td>
                 <td>
-                    <a href="{{ route('formOne.export', ['formdata_id'=>$form->id ]) }}" class="btn btn-danger btn-sm text-white" style="text-decoration: none;"><i class="mdi mdi-cloud-download"></i></a>
+                    <a href="{{ route('formOne.export', ['formdata_id' => $form->id]) }}"
+                        class="btn btn-danger btn-sm text-white" style="text-decoration: none;"><i
+                            class="mdi mdi-download"></i></a>
                 </td>
             </tr>
         @empty

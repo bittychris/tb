@@ -14,30 +14,39 @@
             <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications <span wire:click="markAllRead"
                     class="text-primary" style="float: right; cursor: pointer;">Mark all as read</span></p>
 
-            @forelse ($notifications as $notifacation)
+            @forelse ($notifications as $notification)
+                @php
+                    $data = json_decode($notification->data);
+
+                    $createdAt = \Carbon\Carbon::parse($notification->created_at);
+
+                    // Format the created_at value as per your requirement
+                    $formattedCreatedAt = $createdAt->format('M d, Y - H:i');
+
+                @endphp
                 <a class="dropdown-item">
                     <div class="item-thumbnail">
                         <div class="item-icon bg-info">
-                            <img src="{{ !empty($notifacation->data['image']) ? asset('storage/user_images/' . $notifacation->data['image']) : asset('admin/images/faces/user_logo.jpg') }}"
+                            <img src="{{ !empty($data->image) ? asset('storage/user_images/' . $data->image) : asset('admin/images/faces/user_logo.jpg') }}"
                                 alt="profile image" />
                             {{-- <i class="mdi mdi-account-box mx-0"></i> --}}
                         </div>
                     </div>
                     <div class="item-content">
-                        <h6 class="font-weight-normal">{{ $notifacation->data['name'] }}</h6>
+                        <h6 class="font-weight-normal">{{ $data->name }}</h6>
                         <p class="font-weight-light small-text mb-0 text-muted">
-                            {{ $notifacation->data['message'] }}
+                            {{ $data->message }}
                         </p>
                         <small class="font-weight-light small-text mb-0 text-muted">
-                            <span
-                                class="me-5 text-success">{{ $notifacation->created_at->format('M d, Y - H:i') }}</span>
-                            <span wire:click="markRead( '{{ $notifacation->id }}' )" class="text-primary mark-read-btn"
+                            <span class="me-5 text-success">{{ $formattedCreatedAt }}</span>
+                            <span wire:click="markRead( '{{ $notification->id }}' )" class="text-primary mark-read-btn"
                                 style="cursor: pointer;">Mark as read</span>
                         </small>
                     </div>
                 </a>
 
             @empty
+
                 <a class="dropdown-item">
                     <div class="item-thumbnail">
                         <div class="item-icon bg-danger">
