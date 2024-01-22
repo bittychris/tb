@@ -80,19 +80,19 @@
                                         @if (auth()->user()->can('edit assigned permissions to role') ||
                                                 auth()->user()->can('delete roles permissions'))
                                             <td class="text-center">
-                                                {{-- @if (auth()->user()->can('edit assigned permissions to role'))
+                                                @if (auth()->user()->can('edit assigned permissions to role'))
                                                     <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id]) }}"
-                                                        class="btn btn-warning btn-sm text-white" disabled><i
-                                                            class="mdi mdi-pen"></i></a>
-                                                @endif --}}
+                                                        class="btn btn-info btn-sm text-white" disabled
+                                                        title="View"><i class="mdi mdi-eye"></i></a>
+                                                @endif
 
-                                                @if (auth()->user()->can('delete roles permissions'))
+                                                {{-- @if (auth()->user()->can('delete roles permissions'))
                                                     <button class="btn btn-danger btn-sm text-white"
                                                         wire:click="prepareDeleteRolesInPermission('{{ $Role->id }}')"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#delete_permissions_role_modal" title="Delete"
                                                         disabled><i class="mdi mdi-delete"></i></button>
-                                                @endif
+                                                @endif --}}
 
                                             </td>
                                         @endif
