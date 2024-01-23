@@ -16,26 +16,36 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <div class="row">
-                            <div class="col-8">Field Data</div>
+                        <div class="row d-flex align-items-center">
+                            <div class="col-3">Field Data</div>
+                            <div class="col-3">Region: <span class="text-danger">{{ auth()->user()->region->name }}</span></div>
+                            <div class="col-3">RC: <span class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }} {{ ucfirst(auth()->user()->last_name) }}</span></div>
                             @if (auth()->user()->can('add field data'))
-                                <div class="col-4">
+                                <div class="col-3">
                                     <a href="{{ route('admin.create_form_data') }}"
-                                        class="btn btn-primary text-white btn-sm" style="float: right;"><span
+                                        class="btn btn-primary text-white btn-sm mt-0 " style="float: right;"><span
                                             class="me-2" style="font-size: 18px;">+</span> Add Field data</a>
                                 </div>
                             @endif
                         </div>
                         <div class="row justify-content-between align-items-center mt-4">
-                            <div class="col-6">
+                            <div class="col-5">
                                 <input type="text" wire:model.live="keywords" class="form-control form-control-sm"
                                     id="keywords"
                                     placeholder="Search by form name, ward, or Reginal coordinator names">
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <input type="date" wire:model.live="date" class="form-control form-control-sm"
                                     id="date" placeholder="Filter by date" style="float: left;">
                             </div>
+                            <div class="col-3">
+                                <select wire:model.live="submition_status" class="form-control form-control-sm text-dark pt-3" id="role_id">
+                                    <option value="all" class="fw-bold" selected>All Form data</option>
+                                    <option value="submitted" class="fw-bold">Submitted Form data</option>
+                                    <option value="not_submitted" class="fw-bold">Unsubmitted Form data</option>
+                            </select>
+                            </div>
+                            
                             {{-- @if (auth()->user()->can('download reports'))
                                 <div class="col-4">
                                     <a href="{{ route('formattribute.export') }}"
@@ -59,8 +69,10 @@
                                     <th>#</th>
                                     <th>Form</th>
                                     <th>Scanning name</th>
+                                    <th>District</th>
+                                    <th>Ward</th>
                                     <th>Address</th>
-                                    <th>Created By</th>
+                                    {{-- <th>Created By</th> --}}
                                     <th>Status</th>
                                     @if (auth()->user()->can('edit field data') &&
                                             auth()->user()->can('submit field data'))
@@ -74,8 +86,10 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $report->form_attribute->name }}</td>
                                     <td>{{ $report->scanning_name }}</td>
-                                    <td>{{ $report->ward->name }}, {{ $report->address }}</td>
-                                    <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td>
+                                    <td>{{ $report->ward->district->name }}</td>
+                                    <td>{{ $report->ward->name }}</td>
+                                    <td>{{ $report->address }}</td>
+                                    {{-- <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td> --}}
                                     <td>
                                         <span
                                             class="badge rounded bg-{{ $report->status == 0 ? 'danger' : 'success' }}">
@@ -87,9 +101,11 @@
                                             auth()->user()->can('submit field data'))
                                         <td>
                                             @if (auth()->user()->can('edit field data'))
-                                                <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}"
-                                                    class="btn btn-warning btn-xs text-white"><i
-                                                        class="mdi mdi-pencil"></i></a>
+                                                @if ($report->status == 0)
+                                                    <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}"
+                                                        class="btn btn-warning btn-xs text-white"><i
+                                                            class="mdi mdi-pencil"></i></a>
+                                                @endif
                                             @endif
                                             @if (auth()->user()->can('submit field data'))
                                                 <button type="button"
