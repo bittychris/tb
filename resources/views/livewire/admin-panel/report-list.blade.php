@@ -17,11 +17,14 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row d-flex align-items-center">
-                            <div class="col-3">Field Data</div>
-                            <div class="col-3">Region: <span class="text-danger">{{ auth()->user()->region->name }}</span></div>
-                            <div class="col-3">RC: <span class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }} {{ ucfirst(auth()->user()->last_name) }}</span></div>
+                            <div class="col-4">Field Data</div>
+                            <div class="col-4">Region: <span
+                                    class="text-danger">{{ auth()->user()->region->name }}</span></div>
+                            {{-- <div class="col-3">RC: <span
+                                    class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }}
+                                    {{ ucfirst(auth()->user()->last_name) }}</span></div> --}}
                             @if (auth()->user()->can('add field data'))
-                                <div class="col-3">
+                                <div class="col-4">
                                     <a href="{{ route('admin.create_form_data') }}"
                                         class="btn btn-primary text-white btn-sm mt-0 " style="float: right;"><span
                                             class="me-2" style="font-size: 18px;">+</span> Add Field data</a>
@@ -39,13 +42,14 @@
                                     id="date" placeholder="Filter by date" style="float: left;">
                             </div>
                             <div class="col-3">
-                                <select wire:model.live="submition_status" class="form-control form-control-sm text-dark pt-3" id="role_id">
-                                    <option value="all" class="fw-bold" selected>All Form data</option>
-                                    <option value="submitted" class="fw-bold">Submitted Form data</option>
-                                    <option value="not_submitted" class="fw-bold">Unsubmitted Form data</option>
-                            </select>
+                                <select wire:model.live="submission_status"
+                                    class="form-control form-control-sm text-dark pt-3" id="role_id">
+                                    <option value="all" class="fw-bold" selected>All Field data</option>
+                                    <option value="submitted" class="fw-bold">Submitted Field data</option>
+                                    <option value="not_submitted" class="fw-bold">Unsubmitted Field data</option>
+                                </select>
                             </div>
-                            
+
                             {{-- @if (auth()->user()->can('download reports'))
                                 <div class="col-4">
                                     <a href="{{ route('formattribute.export') }}"

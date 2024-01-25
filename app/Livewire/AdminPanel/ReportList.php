@@ -16,9 +16,9 @@ class ReportList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $form_id, $report_name, $submit_status, $keywords, $date, $submition_status;
+    public $form_id, $report_name, $submit_status, $keywords, $date, $submission_status;
 
-    // public $submition_status = 'all';
+    // public $submission_status = 'all';
 
     public function getFormData($report_id) {
         $this->form_id = $report_id;
@@ -72,8 +72,8 @@ class ReportList extends Component
     public function render()
     {
 
-        // if(empty($this->submition_status)) {
-        //     dd($this->submition_status);
+        // if(empty($this->submission_status)) {
+        //     dd($this->submission_status);
         // }
 
         if((auth()->user()->role->name == 'Admin') || (auth()->user()->role->name == 'AMREF personnel')) {
@@ -125,19 +125,19 @@ class ReportList extends Component
                         });
                 });
             })
-            ->when($this->submition_status, function ($query) {
+            ->when($this->submission_status, function ($query) {
     
                 $query->where(function ($query) {
 
-                    if ($this->submition_status == 'submitted') {
+                    if ($this->submission_status == 'submitted') {
                 
                         $query->where('status', 1);
                 
-                    } elseif ($this->submition_status == 'not_submitted') {
+                    } elseif ($this->submission_status == 'not_submitted') {
                 
                         $query->where('status', 0);
                 
-                    } elseif ($this->submition_status == 'all') {
+                    } elseif ($this->submission_status == 'all') {
                 
                         $query->whereIn('status', [0, 1]);
                 
@@ -149,8 +149,8 @@ class ReportList extends Component
                 
                 });
 
-                // $query->where('status', $this->submition_status == 'submitted' ? 1 : ($this->submition_status == 'not_submitted' ? 0 : ($this->submition_status == 'all' ? [0, 1] : 0)))
-                // $query->where('status', $this->submition_status == 'submitted' ? 1 : ($this->submition_status == 'not_submitted' ? 0 : [0, 1]));
+                // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
+                // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
         
             })
             ->when($this->date, function ($query) {
@@ -216,9 +216,9 @@ class ReportList extends Component
                             });
                     });
                 })
-                ->when($this->submition_status, function ($query) {
+                ->when($this->submission_status, function ($query) {
     
-                    $query->where('status', 'like', '%' .$this->submition_status. '%');
+                    $query->where('status', 'like', '%' .$this->submission_status. '%');
             
                 })
                 ->when($this->date, function ($query) {

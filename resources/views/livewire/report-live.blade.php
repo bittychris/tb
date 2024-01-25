@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Forms</div>
+                            <div class="col-6">Reports</div>
                         </div>
                         <div class="row justify-content-between align-items-center mt-4">
                             <div class="col-5">
@@ -46,6 +46,7 @@
                     </h4>
                     <div class="table-responsive">
                         @include('exports.form')
+                        {{ $forms->links() }}
 
                     </div>
 

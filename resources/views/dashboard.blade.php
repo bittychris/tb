@@ -4,6 +4,10 @@
 
 @section('admin-content')
 
-  <livewire:admin-panel.dashboard-live />
+    @if (auth()->user()->role->name == 'Admin' || auth()->user()->role->name == 'AMREF personnel')
+        <livewire:admin-panel.dashboard-live />
+    @elseif (auth()->user()->role->name == 'Regional coordinator')
+        <livewire:admin-panel.rc-dashboard-live />
+    @endif
 
 @endsection

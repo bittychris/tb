@@ -8,10 +8,15 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\FormData;
 use Illuminate\Http\Request;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
 class ReportLive extends Component
 {
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
+    
     public $keywords, $date, $from_date, $to_date;
     
     public $quartiles = [];

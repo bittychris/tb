@@ -187,7 +187,7 @@ class FormData extends Component
     public function calculateTotal($attributeId, $gender)
     {
         return collect($this->formData)->sum(function ($ageGroup) use ($attributeId, $gender) {
-            return $ageGroup[$attributeId][$gender] ?? 0;
+            return intval($ageGroup[$attributeId][$gender] ?? 0);
         });
     }
 

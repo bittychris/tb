@@ -47,6 +47,7 @@ class MigrateInOrder extends Command
             '2023_11_17_124310_create_forms_table.php',
             '2023_11_17_124841_create_form_data_table.php',
             '2023_12_31_110958_create_notifications_table.php',
+            '2024_01_25_083709_create_comments_table.php',
         ];
 
         foreach($migrations as $migration)
