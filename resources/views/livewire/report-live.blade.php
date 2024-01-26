@@ -202,3 +202,15 @@
         </div>
     </div>
 </div>
+
+@push('js')
+    <script>
+        window.addEventListener('openCommentModel', event => {
+            $('#commentsModal').modal('show');
+        });
+
+        window.addEventListener('closeCommentModel', event => {
+            $('#commentsModal').modal('hide');
+        });
+    </script>
+@endpush

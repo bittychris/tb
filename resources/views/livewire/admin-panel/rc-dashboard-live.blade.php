@@ -209,7 +209,7 @@
                     <h4 class="card-title">
                         <div class="row d-flex align-items-center">
                             <div class="col-4">Recent Field Data</div>
-                            <div class="col-4">Region: <span
+                            <div class="col-4 text-center">Region: <span
                                     class="text-danger">{{ auth()->user()->region->name }}</span></div>
                             {{-- <div class="col-3">RC: <span
                                     class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }}

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Livewire;
+
+use App\Models\comments;
 use DateTime;
 use Carbon\Carbon;
 use App\Models\Form;
@@ -18,10 +20,128 @@ class ReportLive extends Component
     protected $paginationTheme = 'bootstrap';
     
     public $keywords, $date, $from_date, $to_date;
-    
+
+    public $form_id, $report_name, $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
+
+    public $comments = [];
+   
     public $quartiles = [];
     public $currentDateTime;
     public $quartRange = [];
+
+      // Comments part
+    protected function rules() {
+
+        return [
+            'content' => ['required', 'string']
+        ];
+
+    }
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields);
+    }
+    
+    public function getReportDetails($form_id) {
+        $this->form_id = $form_id;
+        
+        $report_details = Form::find($this->form_id);
+
+        $this->report_name = $report_details->scanning_name;
+        $this->rc = $report_details->added_by->first_name. ' ' .$report_details->added_by->last_name;
+        $this->rc_image = $report_details->added_by->image;
+        $this->receiver_id = $report_details->added_by->id;
+
+        $this->dispatch('openCommentModel');
+        
+    }
+
+    public function sendComment() {
+        $validatedData = $this->validate();
+
+        $comment = comments::create([
+            'form_id' => $this->form_id,
+            'sender_id' => auth()->user()->id,
+            'receiver_id' => $this->receiver_id,
+            'content' => $validatedData['content'],
+        ]);
+
+        if($comment) {
+            $this->clearForm();
+
+        }
+        
+    }
+
+    public function clearForm() {
+        $this->reset(
+            'content'
+        );
+    }
+
+    public function reloadComments() {
+        $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
+
+        $this->comments = comments::where(function ($query) {
+
+            $query->where('form_id', $this->form_id)
+        
+                  ->where(function ($query) {
+        
+                      $query->where('sender_id', auth()->user()->id)
+        
+                            ->orWhere('receiver_id', auth()->user()->id);
+        
+                  });
+        
+        })->orderBy('created_at', 'asc')->get();
+
+
+    }
+
+    public function sendEditLink()
+    {
+        $content = "edit_report-" .$this->form_id. "";
+
+        $edit_link = comments::create([
+            'form_id' => $this->form_id,
+            'sender_id' => auth()->user()->id,
+            'receiver_id' => $this->receiver_id,
+            'content' => $content,
+        ]);
+
+        if($edit_link) {
+            $this->clearForm();
+
+        }
+
+    }
+
+    public function closeCommentModel() {
+        $this->dispatch('closeCommentModel');
+
+        $remove_unread_status = comments::where(function ($query) {
+
+            $query->where('form_id', $this->form_id)
+        
+                  ->where(function ($query) {
+        
+                      $query->where('receiver_id', auth()->user()->id);
+                
+                  });
+        
+        })->update([
+            'read_at' => Carbon::now()
+        ]);
+        
+        $this->reset(
+            'form_id',
+            'receiver_id',
+            'content'
+        );
+
+    }
 
     public function __construct(){
         $this->currentDateTime = Carbon::now()->toDateTimeString();
@@ -30,7 +150,6 @@ class ReportLive extends Component
 
     }
     
-
     public function submit()
     {
 
@@ -57,17 +176,29 @@ class ReportLive extends Component
                 }
             }
 
-        }
-
-      
-      
-     
+        }  
        
     }
 
-
     public function render()
     {   
+        // Comments
+        $this->comments = comments::where(function ($query) {
+
+            $query->where('form_id', $this->form_id)
+        
+                  ->where(function ($query) {
+        
+                      $query->where('sender_id', auth()->user()->id)
+        
+                            ->orWhere('receiver_id', auth()->user()->id);
+        
+                  });
+        
+        })->orderBy('created_at', 'asc')->get();
+
+        $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
+        
         // $formdata =  FormData::all();
             
         // // $res =  Form::all();
@@ -165,7 +296,7 @@ class ReportLive extends Component
             ->latest()
             ->paginate(10);
             
-            
+        
         // $quartiles = $this->quartiles;
 
         // //when 2025 change year or use getyear to keep it automatic

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('form_id');
-            $table->uuid('as_personnel_id');
+            $table->uuid('sender_id');
+            $table->uuid('receiver_id');
             $table->text('content');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
@@ -24,10 +25,16 @@ return new class extends Migration
                 ->on('forms')
                 ->cascadeOnDelete();
 
-            $table->foreign('as_personnel_id')
+            $table->foreign('sender_id')
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
+
+            $table->foreign('receiver_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+
             });
     }
 

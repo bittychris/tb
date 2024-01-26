@@ -18,7 +18,7 @@
                     <h4 class="card-title">
                         <div class="row d-flex align-items-center">
                             <div class="col-4">Field Data</div>
-                            <div class="col-4">Region: <span
+                            <div class="col-4 text-center">Region: <span
                                     class="text-danger">{{ auth()->user()->region->name }}</span></div>
                             {{-- <div class="col-3">RC: <span
                                     class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }}
@@ -104,13 +104,34 @@
                                     @if (auth()->user()->can('edit field data') &&
                                             auth()->user()->can('submit field data'))
                                         <td>
+                                            @php
+                                                $unread_form_comment_count = $report
+                                                    ->comments()
+                                                    ->where('receiver_id', auth()->user()->id)
+                                                    ->whereNull('read_at')
+                                                    ->count();
+
+                                                $form_comment_count = $report
+                                                    ->comments()
+                                                    ->where('receiver_id', auth()->user()->id)
+                                                    ->count();
+                                            @endphp
                                             @if (auth()->user()->can('edit field data'))
                                                 @if ($report->status == 0)
                                                     <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}"
                                                         class="btn btn-warning btn-xs text-white"><i
                                                             class="mdi mdi-pencil"></i></a>
                                                 @endif
+                                                @if ($report->status == 1)
+                                                    <button type="button"
+                                                        wire:click="getReportDetails('{{ $report->id }}')"
+                                                        class="btn {{ $unread_form_comment_count > 0 ? 'btn-success' : 'btn-info' }} btn-xs text-white"
+                                                        {{ $form_comment_count > 0 ? '' : 'disabled' }}>
+                                                        <i class="mdi mdi-message-text" title="Comment"></i>
+                                                    </button>
+                                                @endif
                                             @endif
+
                                             @if (auth()->user()->can('submit field data'))
                                                 <button type="button"
                                                     class="btn btn-{{ $report->status == 0 ? 'danger' : 'success' }} btn-xs text-white"
@@ -162,6 +183,121 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Comment Modal -->
+                    <div wire:ignore.self class="modal fade" id="commentsModal" tabindex="-1" data-bs-backdrop="static"
+                        aria-labelledby="commentsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header d-flex justify-content-between align-items-center p-3"
+                                    style="border-top: 4px solid #ff4747;">
+                                    <h5 class="mb-0" id="commentsModalLabel">
+                                        <span class="text-uppercase text-danger">
+                                            {{-- {{ $report_name }}
+                                        </span> Report  --}}
+                                            Comments
+                                    </h5>
+                                    <div class="d-flex flex-row align-items-center">
+                                        <span wire:poll.1000ms="reloadComments"
+                                            class="badge bg-danger text-white rounded-3 me-5" title="Refresh"
+                                            style="font-size: 15px; display: none;"><i class="mdi mdi-refresh"></i>
+                                        </span>
+                                        @if ($unread_comment_count > 0)
+                                            <span class="badge bg-danger rounded-3 me-5"
+                                                style="font-size: 15px;">{{ $unread_comment_count }}</span>
+                                        @endif
+                                        <button type="button" class="btn-close"
+                                            wire:click="closeCommentModel"></button>
+                                    </div>
+                                </div>
+                                <div class="modal-body mx-1 comment-box border" data-mdb-perfect-scrollbar="true"
+                                    style="position: relative; height: 450px; overflow-y: auto; background: #dad9d9f8;">
+                                    <div class="mx-2" data-mdb-perfect-scrollbar="true">
+
+                                        @foreach ($comments as $comment)
+                                            @if ($comment->sender->id == auth()->user()->id)
+                                                <div class="d-flex flex-row justify-content-end mb-1 pt-1">
+                                                    <div>
+                                                        <div class="row border-danger border-right border-3 small p-2 ms-2 mb-3 rounded-3 bg-white"
+                                                            style="background-color: #f5f6f7;">
+                                                            <div class="col-12 border-dark border-bottom pb-1 small"
+                                                                style="font-size: 12px;">
+                                                                <span style="float: right;">You</span>
+                                                                {{-- RC:
+                                            {{ $comment->sender->first_name }}
+                                            {{ $comment->sender->last_name }} --}}
+                                                            </div>
+                                                            <div class="col-12 mt-2">
+                                                                {{ $comment->content }}
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <p class="small text-muted mt-1"
+                                                                    style="font-size: 12px; float: right; margin-bottom: -5px;">
+
+                                                                    {{ $comment->created_at->format('d M, h:m a') }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- <img src="{{ !empty($comment->sender->image) ? asset('storage/user_images/' . $comment->sender->image) : asset('admin/images/faces/user_logo.jpg') }}"
+                                    alt="profile image" style="width: 45px; height: 45px; border-radius: 100%;" /> --}}
+                                                </div>
+                                            @elseif ($comment->receiver_id == auth()->user()->id)
+                                                <div class="d-flex flex-row justify-content-start mb-1">
+                                                    {{-- <img src="{{ !empty($comment->sender->image) ? asset('storage/user_images/' . $comment->sender->image) : asset('admin/images/faces/user_logo.jpg') }}"
+                                    alt="profile image" style="width: 45px; height: 45px; border-radius: 100%;" /> --}}
+                                                    <div>
+                                                        <div class="row border-dark border-left border-3 small p-2 me-2 mb-3 rounded-3"
+                                                            style="background-color: #f5f6f7;">
+                                                            <div class="col-12 border-secondary border-bottom pb-1 small"
+                                                                style="font-size: 12px;">
+                                                                <span class="text-danger fw-bold">ASP: </span>
+                                                                {{ $comment->sender->first_name }}
+                                                                {{ $comment->sender->last_name }}
+                                                            </div>
+                                                            <div class="col-12 mt-2">
+                                                                @if ($comment->content === 'edit_report-' . $comment->form_id . '')
+                                                                    <a href="{{ route('admin.edit_form_data', ['form_id' => $comment->form_id]) }}"
+                                                                        class="text-danger"
+                                                                        style="font-size: 13px;">Click to edit
+                                                                        report</a>
+                                                                @else
+                                                                    {{ $comment->content }}
+                                                                @endif
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <p class="small text-muted mt-1"
+                                                                    style="font-size: 12px; float: right; margin-bottom: -5px;">
+
+                                                                    {{ $comment->created_at->format('d M, h:m a') }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <form class="typing-area" wire:submit.prevent="sendComment">
+                                    @csrf
+                                    <div
+                                        class="modal-footer text-muted d-flex justify-content-start align-items-center">
+                                        <div class="input-group mb-0">
+                                            <input type="text" wire:model="content"
+                                                class="form-control input-field" placeholder="Type comment"
+                                                aria-label="Recipient's username" aria-describedby="button-addon2"
+                                                style="border: 1px solid #ccc;" />
+                                            <button class="btn btn-danger text-white send-btn" type="submit"
+                                                id="button-addon2" style="padding-top: ;">
+                                                <i class="mdi mdi-send" title="Send"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -176,6 +312,15 @@
 
         window.addEventListener('closeModel', event => {
             $('#submit_data_model').modal('hide');
+        });
+
+        // Report modal
+        window.addEventListener('openCommentModel', event => {
+            $('#commentsModal').modal('show');
+        });
+
+        window.addEventListener('closeCommentModel', event => {
+            $('#commentsModal').modal('hide');
         });
     </script>
 @endpush
