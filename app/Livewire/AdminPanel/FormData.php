@@ -43,10 +43,13 @@ class FormData extends Component
     public $formData = [];
     public $formData2 = [];
 
+    public $editMode = false;
 
     public function mount($form)
     {
         if ($this->form) {
+            $this->editMode = true;
+            
             $this->form = $form;
             $this->scanning_name = $form->scanning_name;
             $this->form_id = $form->form_attribute_id;
@@ -158,9 +161,9 @@ class FormData extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
-            $this->dispatch('failure_alert', $th->getMessage());
+            // $this->dispatch('failure_alert', $th->getMessage());
             
-            // $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later or Check fill the empty fields.');
         }
     }
 

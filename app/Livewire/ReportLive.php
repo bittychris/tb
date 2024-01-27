@@ -19,6 +19,8 @@ class ReportLive extends Component
     
     protected $paginationTheme = 'bootstrap';
     
+    public $navigate_to = 'report';
+
     public $keywords, $date, $from_date, $to_date;
 
     public $form_id, $report_name, $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
@@ -29,7 +31,12 @@ class ReportLive extends Component
     public $currentDateTime;
     public $quartRange = [];
 
-      // Comments part
+    public function navigateTo($show) {
+        $this->navigate_to = $show;
+        
+    }
+
+    // Comments part
     protected function rules() {
 
         return [

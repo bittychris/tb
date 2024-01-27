@@ -2,11 +2,13 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\Attribute;
 use App\Models\Form;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\comments;
 use Livewire\WithPagination;
+use App\Models\FormAttribute;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +24,10 @@ class ReportList extends Component
 
     public $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
 
+    public $unavailable_data_attr = [];
+
+    public $unavailable_attributes_data = [];
+    
     public $comments = [];
 
     // public $submission_status = 'all';
@@ -36,14 +42,102 @@ class ReportList extends Component
     }
     
     public function submitData() {
+
+        $special_attributes = Attribute::where('attribute_no', 1)->orWhere('attribute_no', 10)->get();
+
+        foreach($special_attributes as $attribute) {
+            if($attribute->attribute_no == 1) {
+                $first_attr_id = $attribute->id;
+            }
+
+            if($attribute->attribute_no == 10) {
+                $tenth_attr_id = $attribute->id;
+            }
+        }
+
+        $form = Form::find($this->form_id);
+        $form_attribute = FormAttribute::find($form->form_attribute_id);
         $form_data = DB::table('form_data')
-                        ->where('form_id', $this->form_id)
-                        ->where('male', null)
-                        ->orWhere('female', null)
+                        ->where('form_id', $this->form_id)           
                         ->get();
+                        
+        // $form_attribute_age_group_ids = json_decode($form_attribute->age_group_ids, true);
+        $form_attribute_attribute_ids = json_decode($form_attribute->attribute_ids, true);
+
+        // foreach($form_attribute_age_group_ids as $age_group_id) {
+            
+        //     foreach($form_data as $available_data) {
+
+        //         if($available_data->age_group_id != $age_group_id) {
+        //             // if($available_data->attribute_id != $first_attr_id || $available_data->attribute_id != $tenth_attr_id) {
+        //                 // array_push($this->unavailable_age_groups_data, $age_group_id);
+
+        //             // }
+
+        //         } 
+        //         // elseif($available_data->age_group_id == $age_group_id) {
+
+        //         //     // if($available_data->attribute_id != $first_attr_id || $available_data->attribute_id != $tenth_attr_id) {
+
+        //         //     //     if($available_data->female == null || $available_data->male = null) {
+        //         //             array_push($this->unavailable_age_groups_data, $age_group_id);
+        //         //         }
+                        
+        //         // //     }
+
+        //         // // }
+
+        //     }
+        // }
+
+        foreach($form_data as $available_data) {
+
+            foreach($form_attribute_attribute_ids as $attribute_id) {
+            
+
+                $form_data = DB::table('form_data')
+                        ->where('form_id', $this->form_id)           
+                        ->where('attribute_id', $attribute_id)           
+                        ->get();
+                    
+                if(count($form_data) == 0) {
+                    array_push($this->unavailable_attributes_data, $attribute_id);
+
+                } else {
+                    $form_data = DB::table('form_data')
+                        ->where('form_id', $this->form_id)           
+                        ->where('attribute_id', $attribute_id)
+                        ->where(function ($query) {
         
-        if(count($form_data) > 0) {
-            $this->dispatch('failure_alert', 'Failed to submit data, some parts of the form are empty');
+                            $query->where('male', null)
+                                    ->orWhere('female', null);
+                      
+                        })        
+                        ->get();
+                    
+                    if(count($form_data) != 0) {
+                        array_push($this->unavailable_data_attr, $attribute_id); 
+
+                    }
+
+                }
+
+            }
+        }
+        // dd(count(array_unique($this->unavailable_data_attr)));
+        
+        if(count(array_unique($this->unavailable_attributes_data)) != 0) {
+            $this->dispatch('closeModel');
+            $this->dispatch('failure_alert', 'Can\'t submit the form, some fields of the form are empty');
+
+            $this->unavailable_attributes_data = [];
+
+
+        } elseif(count(array_unique($this->unavailable_data_attr)) != 0) {
+            $this->dispatch('closeModel');
+            $this->dispatch('failure_alert', 'Can\'t submit the form, some fields of the form are empty');
+
+            $this->unavailable_data_attr = [];
 
         } else {
             $submit_report = DB::table('forms')
@@ -162,14 +256,6 @@ class ReportList extends Component
 
 
     }
-
-
-    // public function mount()
-    // {
-
-    //     $this->timer(500, $this->reloadComments());
-
-    // }
 
     public function closeCommentModel() {
         $this->dispatch('closeCommentModel');

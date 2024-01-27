@@ -269,9 +269,13 @@
                         </div>
 
                         <div class="mt-3 mb-2">
-                            <button type="submit" class="btn btn-primary text-white"
-                                style="float: right;">Save</button>
-                            {{--                            <button type="button" wire:loading wire:target="saveForm" class="btn btn-success text-white" style="float: right;" disabled="disabled">Saving...</button> --}}
+                            <button type="submit" wire:loading.remove wire:loading.attr="disabled"
+                                wire:target="saveForm"
+                                class="btn btn-{{ $editMode == true ? 'success' : 'primary' }} text-white"
+                                style="float: right;">{{ $editMode == true ? 'Update' : 'Save' }}</button>
+                            <button type="button" wire:loading wire:loading.attr="disabled" wire:target="saveForm"
+                                class="btn btn-success text-white" style="float: right;"
+                                disabled="disabled">{{ $editMode == true ? 'Updating..' : 'Saving...' }}</button>
                         </div>
 
                     </form>
