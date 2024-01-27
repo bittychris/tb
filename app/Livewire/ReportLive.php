@@ -12,7 +12,8 @@ use Livewire\Component;
 class ReportLive extends Component
 {
     public $keywords, $date, $from_date, $to_date;
-    
+    public $startdate = "";
+    public $enddate = "";
     public $quartiles = [];
     public $currentDateTime;
     public $quartRange = [];
@@ -26,15 +27,11 @@ class ReportLive extends Component
 
     public function submit()
     {
-       
-      
-
-        //when 2025 change year or use getyear to keep it automatic
         foreach($this->quartiles as $quartile => $key){
             if ($key) {
                 switch ($quartile) {
                     case 'all':
-                        $this->quartRange = ['2022-01-07 10:20:34', '2028-12-07 10:20:37'];
+                        $this->quartRange = ['2022-01-07 10:20:34', $this->currentDateTime];
                         break;
                     case 'q1':
                         $this->quartRange = ['2024-01-01 10:20:01', '2024-03-01 10:20:00'];
@@ -48,17 +45,26 @@ class ReportLive extends Component
                     case 'q4':
                         $this->quartRange = ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
                         break;
+                    case 'range':
+
+                        $this->quartRange = ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
+                        break;
                 }
             }
 
         }
 
-      
-      
-     
-       
+          
+    }
+    public function updateStartDate()
+    {
+        $this->quartRange = [$this->startdate, $this->enddate];
     }
 
+    public function updateEndDate()
+    {
+        $this->quartRange = [$this->startdate, $this->enddate];
+    }
 
     public function render()
     {   
@@ -134,7 +140,9 @@ class ReportLive extends Component
 
         $formdata =  FormData::all();
             
-        $res =  Form::all();
+        $res =  Form::where('status', true)
+            ->latest()
+            ->paginate(10);
             // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
             //     return $group->sortBy('age_group.min')->unique('age_group.min');
             // });
