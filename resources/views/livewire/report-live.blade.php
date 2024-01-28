@@ -19,12 +19,12 @@
                         <div class="row">
                             <div class="col-12">
                                 <button
-                                    class="btn border-{{ $navigate_to == 'report' ? 'danger border-2 text-danger' : 'white text-dark' }} fw-bold text-uppercase me-3"
+                                    class="btn border-{{ $navigate_to == 'report' ? 'danger border-2 text-danger' : 'dark text-dark' }} fw-bold text-uppercase me-3"
                                     wire:click="navigateTo('report')" type="button">
                                     Reports
                                 </button>
                                 <button
-                                    class="btn border-{{ $navigate_to == 'overall-report' ? 'danger border-2 text-danger' : 'white text-dark' }} fw-bold text-uppercase"
+                                    class="btn border-{{ $navigate_to == 'overall-report' ? 'danger border-2 text-danger' : 'dark text-dark' }} fw-bold text-uppercase"
                                     wire:click="navigateTo('overall-report')">
                                     Overall Field Data
                                 </button>
