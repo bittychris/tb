@@ -33,9 +33,8 @@
                     <div class="table-responsive">
                         @include('exports.form')
 
-                        <div class="flex justify-between items-center my-6">
-                            <div class="font-bold">Overall Form Data</div>
-                            
+                        <div class="d-flex justify-content-between my-5">
+                            <h4 class="font-weight-bold">Download the overall form data report for the selected quartile range and year.</h4>
                         </div>
                         <div class=" justify-between items-center mt-4 mb-4">
                             <div class="font-bold flex">
@@ -55,7 +54,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="d-flex mt-4">
+                                    <div class="d-flex my-5 justify-content-between">
                                         <div class="mx-2">
                                             <input type="radio" name="group1" class="mx-2" wire:model="quartiles.{{'q1'}}" value="q1" class="quartile-checkbox" wire:change="submit">
                                             <label>1st Quartile</label>
@@ -75,16 +74,28 @@
                                             <input type="radio" name="group1" class="mx-3" wire:model="quartiles.{{'q4'}}" value="q4" class="quartile-checkbox" wire:change="submit">
                                             <label>4th Quartile</label>
                                         </div>
-                                        <div class="d-flex">
-                                            <label for="selectedYear">Year: </label>
-                                            <select id="selectedYear" wire:model="selectedYear" class="form-control">
+                                        <div class="d-flex mx-3 justify-content-center">
+                                            <label for="selectedYear" class="mr-2">Year: </label>
+                                            <select id="selectedYear" wire:model="selectedYear" class="form-control" placeholder="year">
                                                 @for ($year = date('Y'); $year >= (date('Y') - 10); $year--)
                                                     <option value="{{ $year }}">{{ $year }}</option>
                                                 @endfor
                                             </select> 
                                         </div>
                                         
-                                        {{-- <button type="submit" class="bg-blue-500 text-white py-1 px-2 rounded-lg btn btn-primary">SEE REPORT</button> --}}
+                                        {{-- <button type="submit" class="bg-blue-500 text-white py-1 px-2 rounded-lg btn btn-primary" wire:click='submit($quartRange)'>SEE REPORT</button> --}}
+
+                                        <div class="mx-6" style="">
+                                            @php    
+                                                $newRange = implode(',', $quartRange);
+                                            @endphp
+                                            <a href="{{ route('formdata.export', ['range'=> $newRange]) }}" class="bg-green-500 text-white font-medium w-fit flex items-center btn btn-danger" style="float: right;">
+                                                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
+                                                <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                                DOWNLOAD REPORT 
+                                            </a>
+                                    </div>
                                     </div>
                                     
 
@@ -104,18 +115,8 @@
                                    
                                     
                                 </form>
-                                <div class="mx-6" style="">
-                                        @php    
-                                            $newRange = implode(',', $quartRange);
-                                        @endphp
-                                        <a href="{{ route('formdata.export', ['range'=> $newRange]) }}" class="bg-green-500 text-white font-medium w-fit flex items-center btn btn-danger" style="float: right;">
-                                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
-                                            <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            DOWNLOAD REPORT 
-                                        </a>
-                                </div>
                                 
+                                <p>Selected Quartile: <span class="font-weight-bold">{{ $newRange }}</span></p>
                             </div>
                             
                         </div>
@@ -159,10 +160,6 @@
                                                 $x = 0; 
                                     @endphp
                                     
-                               
-                                
-                                    
-                                    
                                     <tr>
                                         <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
                                         {{ $formData->age_group->slug }}</td>
@@ -198,6 +195,7 @@
                                 @php
                                     $i = 1;
                                     $x = 0;
+                                    
                                 @endphp
                               
                         </thead>
