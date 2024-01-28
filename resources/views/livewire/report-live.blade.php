@@ -173,8 +173,8 @@
 
                                         </form>
 
-                                        <p>Selected Quartile: <span
-                                                class="font-weight-bold">{{ $newRange }}</span></p>
+                                        <p class="fw-bold">Selected Quartile: <span
+                                                class="fw-normal">{{ $newRange }}</span></p>
                                     </div>
                                 </div>
 
