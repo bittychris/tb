@@ -2,13 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\comments;
 use DateTime;
 use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\FormData;
+use App\Models\comments;
 use Illuminate\Http\Request;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
@@ -28,8 +28,16 @@ class ReportLive extends Component
     public $comments = [];
    
     public $quartiles = [];
+
     public $currentDateTime;
-    public $quartRange = [];
+
+    public $quartRange;
+
+    public $selectedYear = '2024';
+
+    public $startdate = "";
+
+    public $enddate = "";
 
     public function navigateTo($show) {
         $this->navigate_to = $show;
@@ -104,7 +112,6 @@ class ReportLive extends Component
         
         })->orderBy('created_at', 'asc')->get();
 
-
     }
 
     public function sendEditLink()
@@ -150,41 +157,51 @@ class ReportLive extends Component
 
     }
 
-    public function __construct(){
-        $this->currentDateTime = Carbon::now()->toDateTimeString();
+    public function mount(){
+        $this->currentDateTime = now()->toDateTimeString();
         $this->quartRange = ['2022-12-07 10:20:34', $this->currentDateTime];
-        $this->quartiles['all'] = true;
 
     }
     
     public function submit()
-    {
-
-        //when 2025 change year or use getyear to keep it automatic
-        foreach($this->quartiles as $quartile => $key){
-            if ($key) {
-                switch ($quartile) {
-                    case 'all':
-                        // $this->quartRange = ['2022-01-07 10:20:34', '2028-12-07 10:20:37'];
-                        $this->quartRange = ['2022-01-07 10:20:34',  $this->currentDateTime];
-                        break;
-                    case 'q1':
-                        $this->quartRange = ['2024-01-01 10:20:01', '2024-03-01 10:20:00'];
-                        break;
-                    case 'q2':
-                        $this->quartRange = ['2024-03-01 10:20:01', '2024-06-01 10:20:00'];
-                        break;
-                    case 'q3':
-                        $this->quartRange = ['2024-06-01 10:20:01', '2024-09-01 10:20:00'];
-                        break;
-                    case 'q4':
-                        $this->quartRange = ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
-                        break;
-                }
+    {   
+        
+        foreach ($this->quartiles as $quartile => $isSelected) {
+            if ($isSelected) {
+                $this->quartRange = $this->getQuartileRange($quartile);
             }
+        }
+        
+    }
 
-        }  
-       
+    private function getQuartileRange($quartile)
+    {
+        switch ($quartile) {
+            case 'all':
+                return ['2022-01-07 10:20:34', $this->currentDateTime];
+            case 'q1':
+                return [$this->selectedYear.'-01-01 10:20:01', $this->selectedYear.'-03-01 10:20:00'];
+            case 'q2':
+                return [$this->selectedYear.'-03-01 10:20:01', $this->selectedYear.'-06-01 10:20:00'];
+            case 'q3':
+                return [$this->selectedYear.'-06-01 10:20:01', $this->selectedYear.'-09-01 10:20:00'];
+            case 'q4':
+                return ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
+            case 'range':
+                return ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
+            default:
+                return null;
+        }
+    }
+
+    public function updateStartDate()
+    {
+        $this->quartRange = [$this->startdate, $this->enddate];
+    }
+
+    public function updateEndDate()
+    {
+        $this->quartRange = [$this->startdate, $this->enddate];
     }
 
     public function render()
@@ -205,70 +222,6 @@ class ReportLive extends Component
         })->orderBy('created_at', 'asc')->get();
 
         $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
-        
-        // $formdata =  FormData::all();
-            
-        // // $res =  Form::all();
-        //     // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
-        //     //     return $group->sortBy('age_group.min')->unique('age_group.min');
-        //     // });
-
-        // $res = Form::query()
-        //     ->when($this->keywords, function ($query) {
-        //         return $query->where(function ($query) {
-        //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-        //                 // ->orWhere('created_at', $this->date)
-        //                 ->orWhereHas('ward', function ($query) {
-        //                     $query->where('name', 'like', '%' . $this->keywords . '%');
-        //                 })
-        //                 ->orWhereHas('added_by', function ($query) {
-        //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
-        //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
-        //                 });
-        //         });
-        //     })
-        //     ->when($this->date, function ($query) {
-
-        //         $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-        
-        //     })
-        //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
-        //         $query->with(['district' => function($district){
-        //                         $district->with('region');
-        //                     }]);
-        //     }])->where('status', true)
-        //     ->latest()
-        //     ->paginate(10);
-
-        // $res = Form::query()
-        //     ->when($this->keywords, function ($query) {
-        //         return $query->where(function ($query) {
-        //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-        //                 // ->orWhere('created_at', $this->date)
-        //                 ->orWhereHas('ward', function ($query) {
-        //                     $query->where('name', 'like', '%' . $this->keywords . '%');
-        //                 })
-        //                 ->orWhereHas('added_by', function ($query) {
-        //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
-        //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
-        //                 })
-        //                 ->orWhereHas('ward.district.region', function ($query) {
-        //                     $query->where('name', 'like', '%' . $this->keywords . '%');
-        //                 });
-        //         });
-        //     })
-        //     ->when($this->date, function ($query) {
-
-        //         $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-        
-        //     })
-        //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
-        //         $query->with(['district' => function($district){
-        //                         $district->with('region');
-        //                     }]);
-        //     }])->where('status', true)
-        //     ->latest()
-        //     ->paginate(10);
 
         $res = Form::query()
             ->when($this->keywords, function ($query) {
@@ -302,64 +255,20 @@ class ReportLive extends Component
             }])->where('status', true)
             ->latest()
             ->paginate(10);
-            
-        
-        // $quartiles = $this->quartiles;
 
-        // //when 2025 change year or use getyear to keep it automatic
-        // foreach($quartiles as $quartile => $key){
-        //     if($quartile == 'all'){
-        //         // $this->from_date = date('Y-m-d', strtotime($this->date));
-                            
-        //         $this->quartRange = ['2022-12-07 10:20:34', '2027-12-07 10:20:37'];
-                
-        //         $this->from_date = $this->quartRange[0];
-        //         $this->to_date = $this->quartRange[1];
-        //     }
-        // }
-
-        
-        // $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
-        // ->select('attribute_id', 'age_group_id', 
-        //         DB::raw('SUM(male) as male'), 
-        //         DB::raw('SUM(female) as female')
-        // )
-        // ->when($this->from_date, $this->to_date, function ($query) {
-
-        //     $query->whereBetween('created_at', [$this->from_date, $this->to_date]);
-    
-        // })
-        // // ->whereBetween('created_at', $this->quartRange)
-        // ->get();
-
-        // $users = User::all();
-        // return view('livewire.report-live',[
-        //     'forms' => $res,
-        //     'formDatas' => $formdata,
-        //     'users' => $users
-        // ]);
-
-        $formdata =  FormData::all();
-            
-        // $res =  Form::all();
-            // $formdata = $formdata->groupBy('attribute_id','form_id')->map(function ($group) {
-            //     return $group->sortBy('age_group.min')->unique('age_group.min');
-            // });
-
-        
         $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
-        ->select('attribute_id', 'age_group_id', 
-                DB::raw('SUM(male) as male'), 
-                DB::raw('SUM(female) as female')
-        )->whereBetween('created_at', $this->quartRange)
-        ->get();
-
+            ->select('attribute_id', 'age_group_id', 
+                    DB::raw('SUM(male) as male'), 
+                    DB::raw('SUM(female) as female')
+            )->whereBetween('created_at', $this->quartRange)
+            ->get();
+        $this->quartiles = [];
         $users = User::all();
-        return view('livewire.report-live',[
+
+        return view('livewire.report-live', [
             'forms' => $res,
             'formDatas' => $formdata,
-            'users' => $users
+            'users' => $users,
         ]);
     }
-
 }
