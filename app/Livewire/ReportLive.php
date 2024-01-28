@@ -1,16 +1,26 @@
 <?php
 
 namespace App\Livewire;
+
+use App\Models\comments;
+use DateTime;
+use Carbon\Carbon;
 use App\Models\Form;
+use App\Models\User;
+use Livewire\Component;
 use App\Models\FormData;
 use Illuminate\Http\Request;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use Carbon\Carbon;
-use Livewire\Component;
 
 class ReportLive extends Component
 {
+    use WithPagination;
+    
+    protected $paginationTheme = 'bootstrap';
+    
+    public $navigate_to = 'report';
+
     public $keywords, $date, $from_date, $to_date;
     public $startdate = "";
     public $enddate = "";
@@ -18,13 +28,132 @@ class ReportLive extends Component
     public $currentDateTime;
     public $quartRange = [];
 
+    public function navigateTo($show) {
+        $this->navigate_to = $show;
+        
+    }
+
+    // Comments part
+    protected function rules() {
+
+        return [
+            'content' => ['required', 'string']
+        ];
+
+    }
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields);
+    }
+    
+    public function getReportDetails($form_id) {
+        $this->form_id = $form_id;
+        
+        $report_details = Form::find($this->form_id);
+
+        $this->report_name = $report_details->scanning_name;
+        $this->rc = $report_details->added_by->first_name. ' ' .$report_details->added_by->last_name;
+        $this->rc_image = $report_details->added_by->image;
+        $this->receiver_id = $report_details->added_by->id;
+
+        $this->dispatch('openCommentModel');
+        
+    }
+
+    public function sendComment() {
+        $validatedData = $this->validate();
+
+        $comment = comments::create([
+            'form_id' => $this->form_id,
+            'sender_id' => auth()->user()->id,
+            'receiver_id' => $this->receiver_id,
+            'content' => $validatedData['content'],
+        ]);
+
+        if($comment) {
+            $this->clearForm();
+
+        }
+        
+    }
+
+    public function clearForm() {
+        $this->reset(
+            'content'
+        );
+    }
+
+    public function reloadComments() {
+        $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
+
+        $this->comments = comments::where(function ($query) {
+
+            $query->where('form_id', $this->form_id)
+        
+                  ->where(function ($query) {
+        
+                      $query->where('sender_id', auth()->user()->id)
+        
+                            ->orWhere('receiver_id', auth()->user()->id);
+        
+                  });
+        
+        })->orderBy('created_at', 'asc')->get();
+
+
+    }
+
+    public function sendEditLink()
+    {
+        $content = "edit_report-" .$this->form_id. "";
+
+        $edit_link = comments::create([
+            'form_id' => $this->form_id,
+            'sender_id' => auth()->user()->id,
+            'receiver_id' => $this->receiver_id,
+            'content' => $content,
+        ]);
+
+        if($edit_link) {
+            $this->clearForm();
+
+        }
+
+    }
+
+    public function closeCommentModel() {
+        $this->dispatch('closeCommentModel');
+
+        $remove_unread_status = comments::where(function ($query) {
+
+            $query->where('form_id', $this->form_id)
+        
+                  ->where(function ($query) {
+        
+                      $query->where('receiver_id', auth()->user()->id);
+                
+                  });
+        
+        })->update([
+            'read_at' => Carbon::now()
+        ]);
+        
+        $this->reset(
+            'form_id',
+            'receiver_id',
+            'content'
+        );
+
+    }
+
     public function __construct(){
         $this->currentDateTime = Carbon::now()->toDateTimeString();
         $this->quartRange = ['2022-12-07 10:20:34', $this->currentDateTime];
+        $this->quartiles['all'] = true;
 
     }
     
-
     public function submit()
     {
         foreach($this->quartiles as $quartile => $key){
@@ -68,6 +197,23 @@ class ReportLive extends Component
 
     public function render()
     {   
+        // Comments
+        $this->comments = comments::where(function ($query) {
+
+            $query->where('form_id', $this->form_id)
+        
+                  ->where(function ($query) {
+        
+                      $query->where('sender_id', auth()->user()->id)
+        
+                            ->orWhere('receiver_id', auth()->user()->id);
+        
+                  });
+        
+        })->orderBy('created_at', 'asc')->get();
+
+        $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
+        
         // $formdata =  FormData::all();
             
         // // $res =  Form::all();
@@ -91,7 +237,7 @@ class ReportLive extends Component
         //     })
         //     ->when($this->date, function ($query) {
 
-        //         $query->whereBetween('created_at', $this->date);
+        //         $query->whereBetween('created_at', ['2022-01-07', $this->date]);
         
         //     })
         //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
@@ -101,8 +247,71 @@ class ReportLive extends Component
         //     }])->where('status', true)
         //     ->latest()
         //     ->paginate(10);
+
+        // $res = Form::query()
+        //     ->when($this->keywords, function ($query) {
+        //         return $query->where(function ($query) {
+        //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+        //                 // ->orWhere('created_at', $this->date)
+        //                 ->orWhereHas('ward', function ($query) {
+        //                     $query->where('name', 'like', '%' . $this->keywords . '%');
+        //                 })
+        //                 ->orWhereHas('added_by', function ($query) {
+        //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
+        //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+        //                 })
+        //                 ->orWhereHas('ward.district.region', function ($query) {
+        //                     $query->where('name', 'like', '%' . $this->keywords . '%');
+        //                 });
+        //         });
+        //     })
+        //     ->when($this->date, function ($query) {
+
+        //         $query->whereBetween('created_at', ['2022-01-07', $this->date]);
+        
+        //     })
+        //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
+        //         $query->with(['district' => function($district){
+        //                         $district->with('region');
+        //                     }]);
+        //     }])->where('status', true)
+        //     ->latest()
+        //     ->paginate(10);
+
+        $res = Form::query()
+            ->when($this->keywords, function ($query) {
+                return $query->where(function ($query) {
+                    $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+                        // ->orWhere('created_at', $this->date)
+                        ->orWhereHas('ward', function ($query) {
+                            $query->where('name', 'like', '%' . $this->keywords . '%');
+                        })
+                        ->orWhereHas('added_by', function ($query) {
+                            $query->where('first_name', 'like', '%' . $this->keywords . '%')
+                                ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+                        })
+                        ->orWhereHas('ward.district', function ($query) {
+                            $query->where('name', 'like', '%' . $this->keywords . '%');
+                        })
+                        ->orWhereHas('ward.district.region', function ($query) {
+                            $query->where('name', 'like', '%' . $this->keywords . '%');
+                        });
+                });
+            })
+            ->when($this->date, function ($query) {
+
+                $query->whereBetween('created_at', ['2022-01-07', $this->date]);
+        
+            })
+            ->with(['added_by', 'form_attribute', 'ward' => function($query){
+                $query->with(['district' => function($district){
+                                $district->with('region');
+                            }]);
+            }])->where('status', true)
+            ->latest()
+            ->paginate(10);
             
-            
+        
         // $quartiles = $this->quartiles;
 
         // //when 2025 change year or use getyear to keep it automatic

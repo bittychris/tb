@@ -38,11 +38,5 @@ class ExportController extends Controller
     {
         return Excel::download(new FormExport, 'form.xlsx');
     }
-   
-        
-    public function testExport(){
 
-        return Excel::download(new TBReportExport, 'tb_report.xlsx');
-
-    }
 }

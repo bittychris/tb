@@ -34,9 +34,13 @@
             @if (auth()->user()->role->name == 'Regional coordinator')
                 <div class="mt-2">
                 </div>
-            @else
+            @elseif (auth()->user()->role->name == 'Admin')
                 <div class="mt-2">
                     <livewire:admin-panel.notifications />
+                </div>
+            @elseif (auth()->user()->role->name == 'AMREF personnel')
+                <div class="mt-2">
+                    <livewire:admin-panel.amref-personnel-notifications />
                 </div>
             @endif
             {{-- @endif  --}}

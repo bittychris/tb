@@ -11,30 +11,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('form_attribute_id');
-            $table->uuid('created_by');
-            $table->uuid('completed_by')->nullable();
-            $table->string('scanning_name');
-            $table->foreignId('ward_id')->unsigned()->constrained()->nullable();
-            $table->string('address');
-            $table->boolean('status')->default(false); // show if form is submitted (1) or not (0)
+            $table->uuid('form_id');
+            $table->uuid('sender_id');
+            $table->uuid('receiver_id');
+            $table->text('content');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('form_attribute_id')
+            $table->foreign('form_id')
                 ->references('id')
-                ->on('form_attributes')
+                ->on('forms')
                 ->cascadeOnDelete();
-            $table->foreign('created_by')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
-            $table->foreign('completed_by')
+
+            $table->foreign('sender_id')
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
-        });
+
+            $table->foreign('receiver_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+
+            });
     }
 
     /**
@@ -42,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('comments');
     }
 };

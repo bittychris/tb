@@ -356,14 +356,14 @@ class PermissionSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ),
-            42 =>
-                array(
-                    'name' => 'view notifications',
-                    'guard_name' => 'web',
-                    'group_name' => 'notifications',
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),     
+            // 42 =>
+            //     array(
+            //         'name' => 'view notifications',
+            //         'guard_name' => 'web',
+            //         'group_name' => 'notifications',
+            //         'created_at' => Carbon::now(),
+            //         'updated_at' => Carbon::now(),
+            //     ),     
             43 =>
                 array(
                     'name' => 'all reports',

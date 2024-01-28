@@ -59,8 +59,8 @@
                                 @forelse ($permissions as $permission)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>{{ $permission->group_name }}</td>
+                                    <td>{{ ucfirst($permission->name) }}</td>
+                                    <td>{{ ucfirst($permission->group_name) }}</td>
 
                                     @if ((auth()->user()->can('edit permission')) || (auth()->user()->can('delete permission')))
                                         <td class="text-center">

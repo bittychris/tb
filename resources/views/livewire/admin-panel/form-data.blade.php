@@ -145,14 +145,16 @@
                                                                 class="{{ $ageGroup->slug == '0-5' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '0-5' ? 'disabled' : '' }}
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td style="border-left-color: {{ $color }};">
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '0-5' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '0-5' ? 'disabled' : '' }}
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
                                                     @elseif ($attribute->attribute_no == 10)
                                                         <td style="border-right-color: {{ $color }};">
@@ -160,24 +162,28 @@
                                                                 class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td style="border-left-color: {{ $color }};">
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
                                                     @else
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
                                                     @endif
                                                 @endforeach
@@ -263,9 +269,13 @@
                         </div>
 
                         <div class="mt-3 mb-2">
-                            <button type="submit" class="btn btn-primary text-white"
-                                style="float: right;">Save</button>
-                            {{--                            <button type="button" wire:loading wire:target="saveForm" class="btn btn-success text-white" style="float: right;" disabled="disabled">Saving...</button> --}}
+                            <button type="submit" wire:loading.remove wire:loading.attr="disabled"
+                                wire:target="saveForm"
+                                class="btn btn-{{ $editMode == true ? 'success' : 'primary' }} text-white"
+                                style="float: right;">{{ $editMode == true ? 'Update' : 'Save' }}</button>
+                            <button type="button" wire:loading wire:loading.attr="disabled" wire:target="saveForm"
+                                class="btn btn-success text-white" style="float: right;"
+                                disabled="disabled">{{ $editMode == true ? 'Updating..' : 'Saving...' }}</button>
                         </div>
 
                     </form>
