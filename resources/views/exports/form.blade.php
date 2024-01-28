@@ -100,7 +100,7 @@
                                         <div class="col-12 mt-2">
                                             @if ($comment->content === 'edit_report-' . $comment->form_id . '')
                                                 <a href="{{ route('admin.edit_form_data', ['form_id' => $comment->form_id]) }}"
-                                                    class="text-danger" style="font-size: 13px;">Click to edit
+                                                    class="text-danger" style="font-size: 13px;">RC can now edit this
                                                     report</a>
                                             @else
                                                 {{ $comment->content }}
