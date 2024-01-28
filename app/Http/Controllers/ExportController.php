@@ -31,7 +31,13 @@ class ExportController extends Controller
     public function formattribute()
     {
         $formdata = FormAttribute::all();
-        return Excel::download(new FormAttributeExport($formdata), 'formattributedata.xlsx');
+        return Excel::download(new FormAttributeExport($formdata), 'formattributedata.xlsx',[
+            'beforeSheet' => function (\Maatwebsite\Excel\Writer $writer) {
+                $writer->getActiveSheet()->getColumnDimension('A')->setWidth(35); // Set width for column A
+                $writer->getActiveSheet()->getColumnDimension('B')->setWidth(35); // Set width for column B
+             
+            },
+        ]);
     }
 
     public function form()
