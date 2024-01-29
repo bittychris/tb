@@ -456,7 +456,30 @@ class ReportList extends Component
                 })
                 ->when($this->submission_status, function ($query) {
     
-                    $query->where('status', 'like', '%' .$this->submission_status. '%');
+                    $query->where(function ($query) {
+    
+                        if ($this->submission_status == 'submitted') {
+                    
+                            $query->where('status', 1);
+                    
+                        } elseif ($this->submission_status == 'not_submitted') {
+                    
+                            $query->where('status', 0);
+                    
+                        } elseif ($this->submission_status == 'all') {
+                    
+                            $query->whereIn('status', [0, 1]);
+                    
+                        } else {
+                    
+                            $query->where('status', [0, 1]);
+                    
+                        }
+                    
+                    });
+    
+                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
+                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
             
                 })
                 ->when($this->date, function ($query) {

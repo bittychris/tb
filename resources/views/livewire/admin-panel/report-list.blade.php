@@ -35,7 +35,7 @@
                             <div class="col-5">
                                 <input type="text" wire:model.live="keywords" class="form-control form-control-sm"
                                     id="keywords"
-                                    placeholder="Search by form name, ward, or Reginal coordinator names">
+                                    placeholder="Search by form name, district, ward, or Reginal coordinator names">
                             </div>
                             <div class="col-3">
                                 <input type="date" wire:model.live="date" class="form-control form-control-sm"
@@ -145,7 +145,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No field data found!</td>
+                                    <td colspan="8" class="text-center">No field data found!</td>
                                 </tr>
                             @endforelse
                             <tbody>
