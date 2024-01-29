@@ -70,7 +70,7 @@
                 <div class="d-flex flex-row align-items-center">
                     <span wire:click="sendEditLink" class="badge bg-danger text-white rounded-3 me-5" title="Refresh"
                         style="font-size: 12px; cursor: pointer;">Send edit link</span>
-                    <span wire:poll.100ms="reloadComments" class="badge bg-danger text-white rounded-3 me-5"
+                    <span wire:poll.1000ms="reloadComments" class="badge bg-danger text-white rounded-3 me-5"
                         title="Refresh" style="font-size: 15px; display: none;"><i class="mdi mdi-refresh"></i>
                     </span>
                     @if ($unread_comment_count > 0)
