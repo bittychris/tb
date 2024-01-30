@@ -159,7 +159,7 @@ class ReportLive extends Component
 
     public function mount(){
         $this->currentDateTime = now()->toDateTimeString();
-        $this->quartRange = ['2022-12-07 10:20:34', $this->currentDateTime];
+        $this->quartRange = ['2024-01-01 00:00:00', $this->currentDateTime];
 
     }
     
@@ -178,19 +178,21 @@ class ReportLive extends Component
     {
         switch ($quartile) {
             case 'all':
-                return ['2022-01-07 10:20:34', $this->currentDateTime];
+                return ['2024-01-01 00:00:00', $this->currentDateTime];
+                break;
             case 'q1':
-                return [$this->selectedYear.'-01-01 10:20:01', $this->selectedYear.'-03-01 10:20:00'];
+                return [$this->selectedYear.'-01-01 00:00:01', $this->selectedYear.'-03-01 23:59:59'];
+                break;
             case 'q2':
-                return [$this->selectedYear.'-03-01 10:20:01', $this->selectedYear.'-06-01 10:20:00'];
+                return [$this->selectedYear.'-03-01 00:00:01', $this->selectedYear.'-06-01 23:59:59'];
+                break;
             case 'q3':
-                return [$this->selectedYear.'-06-01 10:20:01', $this->selectedYear.'-09-01 10:20:00'];
+                return [$this->selectedYear.'-06-01 00:00:01', $this->selectedYear.'-09-01 23:59:59'];
             case 'q4':
-                return ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
-            case 'range':
-                return ['2024-09-01 10:20:01', '2024-12-01 10:20:00'];
+                return [$this->selectedYear.'-09-01 00:00:01', $this->selectedYear.'-12-01 23:59:59'];
             default:
                 return null;
+                
         }
     }
 
