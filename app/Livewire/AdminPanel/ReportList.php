@@ -20,14 +20,14 @@ class ReportList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $form_id, $report_name, $submit_status, $keywords, $date, $submission_status;
+    public $form_id, $report_name, $submit_status, $keywords, $startDate, $endDate, $submission_status;
 
     public $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
 
     public $unavailable_data_attr = [];
 
     public $unavailable_attributes_data = [];
-    
+
     public $comments = [];
 
     // public $submission_status = 'all';
@@ -36,11 +36,11 @@ class ReportList extends Component
         $this->form_id = $report_id;
         $report = Form::find($this->form_id);
         $this->report_name = $report->form_attribute->name;
-        
+
         $this->dispatch('openSubmitDataModel');
 
     }
-    
+
     public function submitData() {
 
         $special_attributes = Attribute::where('attribute_no', 1)->orWhere('attribute_no', 10)->get();
@@ -58,14 +58,14 @@ class ReportList extends Component
         $form = Form::find($this->form_id);
         $form_attribute = FormAttribute::find($form->form_attribute_id);
         $form_data = DB::table('form_data')
-                        ->where('form_id', $this->form_id)           
+                        ->where('form_id', $this->form_id)
                         ->get();
-                        
+
         // $form_attribute_age_group_ids = json_decode($form_attribute->age_group_ids, true);
         $form_attribute_attribute_ids = json_decode($form_attribute->attribute_ids, true);
 
         // foreach($form_attribute_age_group_ids as $age_group_id) {
-            
+
         //     foreach($form_data as $available_data) {
 
         //         if($available_data->age_group_id != $age_group_id) {
@@ -74,7 +74,7 @@ class ReportList extends Component
 
         //             // }
 
-        //         } 
+        //         }
         //         // elseif($available_data->age_group_id == $age_group_id) {
 
         //         //     // if($available_data->attribute_id != $first_attr_id || $available_data->attribute_id != $tenth_attr_id) {
@@ -82,7 +82,7 @@ class ReportList extends Component
         //         //     //     if($available_data->female == null || $available_data->male = null) {
         //         //             array_push($this->unavailable_age_groups_data, $age_group_id);
         //         //         }
-                        
+
         //         // //     }
 
         //         // // }
@@ -93,30 +93,30 @@ class ReportList extends Component
         foreach($form_data as $available_data) {
 
             foreach($form_attribute_attribute_ids as $attribute_id) {
-            
+
 
                 $form_data = DB::table('form_data')
-                        ->where('form_id', $this->form_id)           
-                        ->where('attribute_id', $attribute_id)           
+                        ->where('form_id', $this->form_id)
+                        ->where('attribute_id', $attribute_id)
                         ->get();
-                    
+
                 if(count($form_data) == 0) {
                     array_push($this->unavailable_attributes_data, $attribute_id);
 
                 } else {
                     $form_data = DB::table('form_data')
-                        ->where('form_id', $this->form_id)           
+                        ->where('form_id', $this->form_id)
                         ->where('attribute_id', $attribute_id)
                         ->where(function ($query) {
-        
+
                             $query->where('male', null)
                                     ->orWhere('female', null);
-                      
-                        })        
+
+                        })
                         ->get();
-                    
+
                     if(count($form_data) != 0) {
-                        array_push($this->unavailable_data_attr, $attribute_id); 
+                        array_push($this->unavailable_data_attr, $attribute_id);
 
                     }
 
@@ -125,7 +125,7 @@ class ReportList extends Component
             }
         }
         // dd(count(array_unique($this->unavailable_data_attr)));
-        
+
         if(count(array_unique($this->unavailable_attributes_data)) != 0) {
             $this->dispatch('closeModel');
             $this->dispatch('failure_alert', 'Can\'t submit the form, some fields of the form are empty');
@@ -150,17 +150,17 @@ class ReportList extends Component
             if ($submit_report) {
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Submitted field data', 'Admin and AMREF personnel'));
-    
+
                 $this->dispatch('closeModel');
                 $this->dispatch('success_alert', 'Field data submitted successfully.');
-                            
+
             } else {
                 $this->dispatch('failure_alert', 'An error occurred. Try again later.');
-                
-            }         
+
+            }
 
         }
-        
+
     }
 
      // Comments part
@@ -176,10 +176,10 @@ class ReportList extends Component
     {
         $this->validateOnly($fields);
     }
-    
+
     public function getReportDetails($form_id) {
         $this->form_id = $form_id;
-        
+
         $report_details = Form::find($this->form_id);
 
         $this->report_name = $report_details->scanning_name;
@@ -205,9 +205,9 @@ class ReportList extends Component
                 $this->receiver_id = $comment->receiver_id;
 
             }
-            
+
         }
-        
+
         $comment = comments::create([
             'form_id' => $this->form_id,
             'sender_id' => auth()->user()->id,
@@ -223,18 +223,18 @@ class ReportList extends Component
             $this->comments = comments::where(function ($query) {
 
                 $query->where('form_id', $this->form_id)
-            
+
                       ->where(function ($query) {
-            
+
                           $query->where('sender_id', auth()->user()->id)
-            
+
                                 ->orWhere('receiver_id', auth()->user()->id);
-            
+
                       });
-            
+
             })->orderBy('created_at', 'asc')->get();
         }
-        
+
     }
 
     public function reloadComments() {
@@ -243,15 +243,15 @@ class ReportList extends Component
         $this->comments = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
-        
+
                   ->where(function ($query) {
-        
+
                       $query->where('sender_id', auth()->user()->id)
-        
+
                             ->orWhere('receiver_id', auth()->user()->id);
-        
+
                   });
-        
+
         })->orderBy('created_at', 'asc')->get();
 
 
@@ -263,17 +263,17 @@ class ReportList extends Component
         $remove_unread_status = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
-        
+
                   ->where(function ($query) {
-        
+
                       $query->where('receiver_id', auth()->user()->id);
-                
+
                   });
-        
+
         })->update([
             'read_at' => Carbon::now()
         ]);
-        
+
         $this->reset(
             'form_id',
             'receiver_id',
@@ -289,7 +289,7 @@ class ReportList extends Component
             'content'
         );
     }
-    
+
     public function render()
     {
 
@@ -297,19 +297,19 @@ class ReportList extends Component
         $this->comments = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
-        
+
                   ->where(function ($query) {
-        
+
                       $query->where('sender_id', auth()->user()->id)
-        
+
                             ->orWhere('receiver_id', auth()->user()->id);
-        
+
                   });
-        
+
         })->orderBy('created_at', 'asc')->get();
 
         $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
-        
+
         // if(empty($this->submission_status)) {
         //     dd($this->submission_status);
         // }
@@ -333,7 +333,7 @@ class ReportList extends Component
             //     ->when($this->date, function ($query) {
 
             //         $query->where('created_at', 'like', '%'.$this->date.'%');
-            
+
             //     })
             //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
             //         $query->with(['district' => function($district){
@@ -364,37 +364,37 @@ class ReportList extends Component
                 });
             })
             ->when($this->submission_status, function ($query) {
-    
+
                 $query->where(function ($query) {
 
                     if ($this->submission_status == 'submitted') {
-                
+
                         $query->where('status', 1);
-                
+
                     } elseif ($this->submission_status == 'not_submitted') {
-                
+
                         $query->where('status', 0);
-                
+
                     } elseif ($this->submission_status == 'all') {
-                
+
                         $query->whereIn('status', [0, 1]);
-                
+
                     } else {
-                
+
                         $query->where('status', [0, 1]);
-                
+
                     }
-                
+
                 });
 
                 // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
                 // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
-        
-            })
-            ->when($this->date, function ($query) {
 
-                $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-        
+            })
+            ->when($this->startDate && $this->endDate, function ($query) {
+
+                $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
             })
             ->with(['added_by', 'form_attribute', 'ward' => function($query){
                 $query->with(['district' => function($district){
@@ -403,9 +403,9 @@ class ReportList extends Component
             }])
             ->latest()
             ->paginate(10);
-            
+
         } else {
-           
+
             // $reports = Form::query()
             //     ->when($this->keywords, function ($query) {
             //         return $query->where(function ($query) {
@@ -423,7 +423,7 @@ class ReportList extends Component
             //     ->when($this->date, function ($query) {
 
             //         $query->where('created_at', 'like', '%'.$this->date.'%');
-            
+
             //     })
             //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
             //         $query->with(['district' => function($district){
@@ -433,7 +433,7 @@ class ReportList extends Component
             //     ->where('created_by', Auth::user()->id)
             //     ->latest()
             //     ->paginate(10);
-            
+
             $reports = Form::query()
                 ->when($this->keywords, function ($query) {
                     return $query->where(function ($query) {
@@ -455,37 +455,37 @@ class ReportList extends Component
                     });
                 })
                 ->when($this->submission_status, function ($query) {
-    
+
                     $query->where(function ($query) {
-    
+
                         if ($this->submission_status == 'submitted') {
-                    
+
                             $query->where('status', 1);
-                    
+
                         } elseif ($this->submission_status == 'not_submitted') {
-                    
+
                             $query->where('status', 0);
-                    
+
                         } elseif ($this->submission_status == 'all') {
-                    
+
                             $query->whereIn('status', [0, 1]);
-                    
+
                         } else {
-                    
+
                             $query->where('status', [0, 1]);
-                    
+
                         }
-                    
+
                     });
-    
+
                     // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
                     // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
-            
+
                 })
-                ->when($this->date, function ($query) {
-    
-                    $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-            
+                ->when($this->startDate && $this->endDate, function ($query) {
+
+                    $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
                 })
                 ->with(['added_by', 'form_attribute', 'ward' => function($query){
                     $query->with(['district' => function($district){
@@ -495,9 +495,9 @@ class ReportList extends Component
                 ->where('created_by', Auth::user()->id)
                 ->latest()
                 ->paginate(10);
-        
+
         }
-        
+
         return view('livewire.admin-panel.report-list', ['reports' => $reports]);
     }
 }

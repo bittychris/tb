@@ -13,7 +13,7 @@ class FormAttributesList extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $keywords;
-    
+
     // public $formAttribute_id;
 
     // public function prepareData($formAttribute_id) {
@@ -23,7 +23,7 @@ class FormAttributesList extends Component
     // }
 
     // public function deleteFormAttribute() {
-        
+
     // }
 
     // public function clearForm() {
@@ -36,8 +36,8 @@ class FormAttributesList extends Component
         $form_attributes = FormAttribute::when($this->keywords, function ($query) {
 
             $query->where('name', 'like', '%'.$this->keywords.'%');
-    
-        })->latest()->paginate(10);
+
+        })->orderBy('created_at', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.form-attributes-list', ['form_attributes' => $form_attributes]);
     }

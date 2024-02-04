@@ -16,17 +16,17 @@ use Illuminate\Support\Facades\DB;
 class ReportLive extends Component
 {
     use WithPagination;
-    
+
     protected $paginationTheme = 'bootstrap';
-    
+
     public $navigate_to = 'report';
 
-    public $keywords, $date, $from_date, $to_date;
+    public $keywords, $date, $from_date, $to_date, $startDate, $endDate;
 
     public $form_id, $report_name, $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
 
     public $comments = [];
-   
+
     public $quartiles = [];
 
     public $currentDateTime;
@@ -41,7 +41,7 @@ class ReportLive extends Component
 
     public function navigateTo($show) {
         $this->navigate_to = $show;
-        
+
     }
 
     // Comments part
@@ -57,10 +57,10 @@ class ReportLive extends Component
     {
         $this->validateOnly($fields);
     }
-    
+
     public function getReportDetails($form_id) {
         $this->form_id = $form_id;
-        
+
         $report_details = Form::find($this->form_id);
 
         $this->report_name = $report_details->scanning_name;
@@ -69,7 +69,7 @@ class ReportLive extends Component
         $this->receiver_id = $report_details->added_by->id;
 
         $this->dispatch('openCommentModel');
-        
+
     }
 
     public function sendComment() {
@@ -86,7 +86,7 @@ class ReportLive extends Component
             $this->clearForm();
 
         }
-        
+
     }
 
     public function clearForm() {
@@ -101,15 +101,15 @@ class ReportLive extends Component
         $this->comments = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
-        
+
                   ->where(function ($query) {
-        
+
                       $query->where('sender_id', auth()->user()->id)
-        
+
                             ->orWhere('receiver_id', auth()->user()->id);
-        
+
                   });
-        
+
         })->orderBy('created_at', 'asc')->get();
 
     }
@@ -138,17 +138,17 @@ class ReportLive extends Component
         $remove_unread_status = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
-        
+
                   ->where(function ($query) {
-        
+
                       $query->where('receiver_id', auth()->user()->id);
-                
+
                   });
-        
+
         })->update([
             'read_at' => Carbon::now()
         ]);
-        
+
         $this->reset(
             'form_id',
             'receiver_id',
@@ -162,16 +162,16 @@ class ReportLive extends Component
         $this->quartRange = ['2022-12-07 10:20:34', $this->currentDateTime];
 
     }
-    
+
     public function submit()
-    {   
-        
+    {
+
         foreach ($this->quartiles as $quartile => $isSelected) {
             if ($isSelected) {
                 $this->quartRange = $this->getQuartileRange($quartile);
             }
         }
-        
+
     }
 
     private function getQuartileRange($quartile)
@@ -205,20 +205,20 @@ class ReportLive extends Component
     }
 
     public function render()
-    {   
+    {
         // Comments
         $this->comments = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
-        
+
                   ->where(function ($query) {
-        
+
                       $query->where('sender_id', auth()->user()->id)
-        
+
                             ->orWhere('receiver_id', auth()->user()->id);
-        
+
                   });
-        
+
         })->orderBy('created_at', 'asc')->get();
 
         $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
@@ -243,10 +243,10 @@ class ReportLive extends Component
                         });
                 });
             })
-            ->when($this->date, function ($query) {
+            ->when($this->startDate && $this->endDate, function ($query) {
 
-                $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-        
+                $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+
             })
             ->with(['added_by', 'form_attribute', 'ward' => function($query){
                 $query->with(['district' => function($district){
@@ -257,8 +257,8 @@ class ReportLive extends Component
             ->paginate(10);
 
         $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
-            ->select('attribute_id', 'age_group_id', 
-                    DB::raw('SUM(male) as male'), 
+            ->select('attribute_id', 'age_group_id',
+                    DB::raw('SUM(male) as male'),
                     DB::raw('SUM(female) as female')
             )->whereBetween('created_at', $this->quartRange)
             ->get();

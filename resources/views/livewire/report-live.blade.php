@@ -36,16 +36,25 @@
                         @if ($navigate_to == 'report')
                             <div class="col-12">
                                 <div class="row justify-content-between align-items-center mt-4 mb-4">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         <input type="text" wire:model.live="keywords"
                                             class="form-control form-control-sm" id="keywords"
-                                            placeholder="Search by report name, ward, or Reginal coordinator names">
+                                            placeholder="Search by report name, ward, or RC names">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-md-5 d-flex align-items-center">
+                                        <label for="startDate">From:</label>
+                                        <input type="date" class="form-control form-control-sm ms-2 me-3"
+                                            id="startDate" wire:model="startDate" wire:change="updateStartDate">
+
+                                        <label for="endDate">To:</label>
+                                        <input type="date" class="form-control form-control-sm ms-2" id="endDate"
+                                            wire:model="endDate" wire:change="updateEndDate">
+                                    </div>
+                                    {{-- <div class="col-3">
                                         <input type="date" wire:model.live="date"
                                             class="form-control form-control-sm" id="date"
                                             placeholder="Filter by date">
-                                    </div>
+                                    </div> --}}
                                     @if (auth()->user()->can('download reports'))
                                         <div class="col-4">
                                             <a href="{{ route('form.export', []) }}"
@@ -163,7 +172,7 @@
 
                                             {{-- <div class="mx-2 flex inline">
                                         <input type="checkbox" class="mx-2" wire:model="quartiles.{{'user'}}" value="user" class="quartile-checkbox">
-                                        
+
                                         <select placeholder="by user" >
                                             @foreach ($users as $user)
                                                  <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>

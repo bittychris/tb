@@ -32,15 +32,23 @@
                             @endif
                         </div>
                         <div class="row justify-content-between align-items-center mt-4">
-                            <div class="col-5">
+                            <div class="col-4">
                                 <input type="text" wire:model.live="keywords" class="form-control form-control-sm"
-                                    id="keywords"
-                                    placeholder="Search by form name, district, ward, or Reginal coordinator names">
+                                    id="keywords" placeholder="Search by form name, district, ward, or RC names">
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-5 d-flex align-items-center">
+                                <label for="startDate">From:</label>
+                                <input type="date" class="form-control form-control-sm ms-2 me-3" id="startDate"
+                                    wire:model="startDate" wire:change="updateStartDate">
+
+                                <label for="endDate">To:</label>
+                                <input type="date" class="form-control form-control-sm ms-2" id="endDate"
+                                    wire:model="endDate" wire:change="updateEndDate">
+                            </div>
+                            {{-- <div class="col-3">
                                 <input type="date" wire:model.live="date" class="form-control form-control-sm"
                                     id="date" placeholder="Filter by date" style="float: left;">
-                            </div>
+                            </div> --}}
                             <div class="col-3">
                                 <select wire:model.live="submission_status"
                                     class="form-control form-control-sm text-dark pt-3" id="role_id">

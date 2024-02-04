@@ -139,7 +139,7 @@
                                             <tr>
                                                 <td>{{ $ageGroup->slug }}</td>
                                                 @foreach ($attributeList as $attribute)
-                                                    @if ($attribute->attribute_no == 1)
+                                                    @if ($attribute->attribute_no == 1.0)
                                                         <td style="border-right-color: {{ $color }};">
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '0-5' ? 'bg-dark' : '' }}"
@@ -156,7 +156,7 @@
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
-                                                    @elseif ($attribute->attribute_no == 10)
+                                                    @elseif ($attribute->attribute_no == 10.0)
                                                         <td style="border-right-color: {{ $color }};">
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
@@ -255,7 +255,7 @@
                                                 <td wire:key="{{ 'M-total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
                                             @endforeach
                                         </tr>
-                                        
+
                                         <!-- Add Grand Total row -->
                                         <tr wire:ignore.self>
                                             <td>Grand Total</td>

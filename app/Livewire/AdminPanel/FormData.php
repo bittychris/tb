@@ -21,7 +21,7 @@ class FormData extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    
+
     public $form;
     public $form_id;
     public $scanning_name;
@@ -33,7 +33,7 @@ class FormData extends Component
     public $address;
 
     public $main_attr;
-    
+
     public $color = '';
     // public $color = 'red';
 
@@ -49,7 +49,7 @@ class FormData extends Component
     {
         if ($this->form) {
             $this->editMode = true;
-            
+
             $this->form = $form;
             $this->scanning_name = $form->scanning_name;
             $this->form_id = $form->form_attribute_id;
@@ -124,7 +124,7 @@ class FormData extends Component
                         }
                     }
                 }
-                
+
             } else {
                 foreach ($this->formData as $groupId => $age_group) {
                     foreach ($age_group as $attributeId => $value) {
@@ -143,26 +143,26 @@ class FormData extends Component
             if ($this->form) {
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'Admin'));
-                
+
                 // redirect(route('admin.report'));
 
                 $this->dispatch('field_data_success_alert', 'Data update successfully.');
-                
+
             } else {
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'Admin'));
-                
+
                 // redirect(route('admin.report'));
-                
+
                 $this->dispatch('field_data_success_alert', 'Data saved successfully.');
-                
+
             }
 
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
             // $this->dispatch('failure_alert', $th->getMessage());
-            
+
             $this->dispatch('failure_alert', 'An error occurred. Try again later or Check fill the empty fields.');
         }
     }
@@ -170,7 +170,7 @@ class FormData extends Component
     public function updatedFormId()
     {
         $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
-
+        $this->scanning_name = $formsAttributes->name;
         $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->get();
         $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->get();
     }
@@ -183,7 +183,7 @@ class FormData extends Component
     // }Attribute::
 
     public function updatedDistrictId()
-    {        
+    {
         $this->wards = Ward::where('district_id', $this->district_id)->get();
     }
 
@@ -249,22 +249,22 @@ class FormData extends Component
             $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 
             $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->orderBy('created_at', 'asc')->get();
-            $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('created_at', 'asc')->get();
-        
-        } 
+            $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('attribute_no', 'asc')->get();
+
+        }
         // else {
         //     $formsAttributes = FormAttribute::all();
         // }
-        
+
         // $this->main_attr = Attribute::where('attribute_no', 1)->get();
-        
+
         // dd($this->main_attr);
-        $formsAttributes = FormAttribute::all();
+        $formsAttributes = FormAttribute::orderBy('created_at','asc')->get();
         // $regions = Region::all();
-        
+
         $this->region_id = auth()->user()->region_id;
         $this->districts = District::where('region_id', $this->region_id)->get();
-        
+
         return view('livewire.admin-panel.form-data', [
             'formsAttributes' => $formsAttributes,
             // 'regions' => $regions

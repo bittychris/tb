@@ -17,12 +17,12 @@ class AttributesList extends Component
     public $action, $attribute_id, $attribute, $name, $attribute_no, $keywords;
 
     public $editMode = false;
-    
+
     protected function rules() {
 
         return [
             'name' => ['required', 'string'],
-            'attribute_no' => ['required', 'integer'],
+            'attribute_no' => ['required', 'numeric'],
         ];
 
     }
@@ -43,7 +43,7 @@ class AttributesList extends Component
             // session()->flash('already_exist', 'The Attribute already exists.');
 
         } else {
-        
+
             $attribute = Attribute::create([
                 'name' => $validatedData['name'],
                 'attribute_no' => $validatedData['attribute_no']
@@ -54,7 +54,7 @@ class AttributesList extends Component
 
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute', 'Admin'));
-            
+
                 $this->dispatch('closeForm');
                 $this->dispatch('success_alert', 'Attribute saved successfully');
 
@@ -71,11 +71,11 @@ class AttributesList extends Component
     }
 
     public function prepareData($attribute_id, $action) {
-        
+
         $this->attribute_id = $attribute_id;
         $this->action = $action;
 
-        
+
         if($this->action == 'edit') {
             $this->editMode = true;
 
@@ -86,18 +86,18 @@ class AttributesList extends Component
             $this->attribute_id = $attribute->id;
             $this->name = $attribute->name;
             $this->attribute_no = $attribute->attribute_no;
-        
+
         } elseif($this->action == 'delete') {
             $this->dispatch('openDeleteModal');
 
-        }  
+        }
 
     }
 
     public function updateAttribute() {
 
         $validatedData = $this->validate();
-        
+
         $attribute = Attribute::where('id', $this->attribute_id)->update([
             'name' => $validatedData['name'],
             'attribute_no' => $validatedData['attribute_no']
@@ -109,7 +109,7 @@ class AttributesList extends Component
 
             $acting_user = User::find(auth()->user()->id);
             $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details', 'Admin'));
-            
+
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Attribute updated successfully');
 
@@ -133,10 +133,10 @@ class AttributesList extends Component
 
             $acting_user = User::find(auth()->user()->id);
             $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute', 'Admin'));
-            
+
             $this->dispatch('closeForm');
             $this->dispatch('success_alert', 'Attribute deleted successfully');
-            
+
             // session()->flash('warning', 'Attribute deleted successfully');
 
         } else {
@@ -145,7 +145,7 @@ class AttributesList extends Component
 
             // session()->flash('error', 'An error occurred. Try again later.');
         }
-        
+
     }
 
     public function clearForm() {
@@ -164,8 +164,8 @@ class AttributesList extends Component
         $attributes = Attribute::when($this->keywords, function ($query) {
 
             $query->where('name', 'like', '%'.$this->keywords.'%');
-    
-        })->orderBy('created_at', 'asc')->paginate(10);
+
+        })->orderBy('attribute_no', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.attributes-list', ['attributes' => $attributes]);
     }

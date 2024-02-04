@@ -2,7 +2,7 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\User; 
+use App\Models\User;
 use Livewire\Component;
 use App\Models\AgeGroup;
 use App\Models\Attribute;
@@ -14,7 +14,7 @@ class AddFormAttribute extends Component
     public $fromAttribute, $name;
 
     public $editMode = false;
-    
+
     public $form_id;
 
     public $selectedAgeGroupIds = [];
@@ -54,7 +54,7 @@ class AddFormAttribute extends Component
 
         if ($checkAttributeExists && !$this->editMode) {
             $this->dispatch('message_alert', 'The From Attributes already exists.');
-            
+
             // session()->flash('already_exist', 'The From Attributes already exists.');
 
         } else {
@@ -63,7 +63,7 @@ class AddFormAttribute extends Component
                 $this->dispatch('message_alert', 'No Age Group selected.');
 
                 // session()->flash('warning', 'No Age Group selected');
-                
+
                 return;
             } elseif (count($this->selectedAttributeIds) == 0) {
                 $this->dispatch('message_alert', 'No Attribute selected.');
@@ -100,7 +100,7 @@ class AddFormAttribute extends Component
 
                     $acting_user = User::find(auth()->user()->id);
                     $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute', 'Admin'));
-                    
+
                     $this->dispatch('form_attr_success_alert', 'From attribute saved successfully');
 
                     // session()->flash('success', 'From attribute saved successfully');
@@ -124,7 +124,7 @@ class AddFormAttribute extends Component
     {
         $ageGroups = AgeGroup::orderBy('created_at','asc')->get();
 
-        $attributes = Attribute::orderBy('created_at','asc')->get();
+        $attributes = Attribute::orderBy('attribute_no','asc')->get();
 
         return view('livewire.admin-panel.add-form-attribute',
             [
