@@ -81,7 +81,6 @@
                                 </div>
                             </div>
                         @endif
-
                         @if ($navigate_to == 'overall-report')
                             <div class="col-12">
                                 <div class=" justify-between align-items-center mb-4">
@@ -103,117 +102,7 @@
 
                                                     <label for="endDate">To:</label>
                                                     <input type="date" class="form-control form-control-sm ms-2"
-                                                        id="endDate" wire:model="date" wire:change="updateEndDate">
-                                                </div>
-
-                                                {{-- <div class="col-md-4">
-                                                    <div class="" style="">
-
-                                                        <a href="{{ route('formdata.export', ['range' => $newRange]) }}"
-                                                            class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
-                                                            style="float: right;">
-                                                            <i class="mdi mdi-download me-2 mt-1"></i>
-                                                            DOWNLOAD REPORT
-                                                        </a>
-                                                    </div>
-                                                </div> --}}
-                                            </div>
-
-                                            <div class="d-flex my-5 justify-content-between align-items-center">
-                                                <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q1' }}" value="q1"
-                                                        class="quartile-checkbox" wire:change="submit">
-                                                    <label>1st Quartile</label>
-                                                </div>
-
-                                                <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q2' }}" value="q2"
-                                                        class="quartile-checkbox" wire:change="submit">
-                                                    <label>2nd Quartile</label>
-                                                </div>
-
-                                                <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q3' }}" value="q3"
-                                                        class="quartile-checkbox" wire:change="submit">
-                                                    <label>3rd Quartile</label>
-                                                </div>
-
-                                                <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q4' }}" value="q4"
-                                                        class="quartile-checkbox" wire:change="submit">
-                                                    <label>4th Quartile</label>
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <label for="selectedYear" class="me-2">Year: </label>
-                                                    <select id="selectedYear" wire:model="selectedYear"
-                                                        class="form-control" placeholder="year">
-                                                        @for ($year = date('Y'); $year >= date('Y') - 10; $year--)
-                                                            <option value="{{ $year }}">{{ $year }}
-                                                            </option>
-                                                        @endfor
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <p class="fw-bold">Selected Quartile: <span
-                                                class="fw-normal">{{ $newRange }}</span></p>
-                                    </div>
-                                </div>
-                                <div class="table-responsive">
-
-                                    @include('exports.form')
-                                    {{ $forms->links() }}
-
-                                </div>
-                            </div>
-
-                        @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        @if ($navigate_to == 'overall-report')
-                            <div class="col-12">
-                                <div class=" justify-between align-items-center mb-4">
-                                    <div class="font-bold flex">
-                                        <form class="px-2 py-2" wire:submit.prevent="submit">
-                                            @csrf
-                                            <div class="row d-flex justify-content-between align-items-center">
-                                                <div class="col-md-4 align-items-center">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'all' }}" value="All"
-                                                        class="quartile-checkbox" wire:change="submit">
-                                                    <label class="mx-2">All</label>
-                                                </div>
-                                                <div class="col-md-4 d-flex align-items-center">
-                                                    <label for="startDate">From:</label>
-                                                    <input type="date"
-                                                        class="form-control form-control-sm ms-2 me-3" id="startDate"
-                                                        wire:model="startdate" wire:change="updateStartDate">
-
-                                                    <label for="endDate">To:</label>
-                                                    <input type="date" class="form-control form-control-sm ms-2"
-                                                        id="endDate" wire:model="enddate"
-                                                        wire:change="updateEndDate">
+                                                        id="endDate" wire:model="enddate" wire:change="updateEndDate">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="" style="">
@@ -234,22 +123,22 @@
                                             <div class="d-flex my-5 justify-content-between align-items-center">
                                                 <div class="">
                                                     <input type="checkbox" name="group1" class="me-2"
-                                                        wire:model="quartiles" value="q1"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                        wire:model="quartiles" value="q1" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label>1st Quartile</label>
                                                 </div>
 
                                                 <div class="">
                                                     <input type="checkbox" name="group1" class="me-2"
-                                                        wire:model="quartiles" value="q2"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                        wire:model="quartiles" value="q2" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label>2nd Quartile</label>
                                                 </div>
 
                                                 <div class="">
                                                     <input type="checkbox" name="group1" class="me-2"
-                                                        wire:model="quartiles" value="q3"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                        wire:model="quartiles" value="q3" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label>3rd Quartile</label>
                                                 </div>
 

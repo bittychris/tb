@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body dashboard-tabs p-0">
@@ -201,7 +201,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-md-12 stretch-card">
             <div class="card">

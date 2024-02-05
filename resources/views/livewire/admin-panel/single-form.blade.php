@@ -47,7 +47,10 @@
                             </div>
 
                             <div class="col-md-12 table-responsive mt-4">
-                                @include('exports.single_form')
+                                <div hidden>
+                                    @include('exports.single_form')
+                                </div>
+
                                 <table class="formData table table-bordered table-sm">
                                     <thead>
                                         <tr>
