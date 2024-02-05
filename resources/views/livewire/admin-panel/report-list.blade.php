@@ -124,6 +124,9 @@
                                                     ->where('receiver_id', auth()->user()->id)
                                                     ->count();
                                             @endphp
+                                            <a href="{{ route('admin.reporting.view', ['form' => $report->id]) }}"
+                                                class="btn btn-primary }} btn-sm text-white">
+                                                <i class="mdi mdi-eye" title="View"></i></a>
                                             @if (auth()->user()->can('edit field data'))
                                                 @if ($report->status == 0)
                                                     <a href="{{ route('admin.edit_form_data', ['form_id' => $report->id]) }}"

@@ -90,7 +90,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('reports', [adminController::class, 'report'])->name('admin.reporting')->middleware(['permission:all reports']);
 
-    Route::get('reports/{form}/view', [adminController::class, 'viewReport'])->name('admin.reporting.view')->middleware(['permission:all reports']);
+    Route::get('reports/{form}/view', [adminController::class, 'viewReport'])->name('admin.reporting.view');
+    // ->middleware(['permission:all reports']);
 
     Route::get('reports/{report}', [adminController::class, 'reportComment'])->name('admin.reporting.comment')->middleware(['permission:all reports']);
 

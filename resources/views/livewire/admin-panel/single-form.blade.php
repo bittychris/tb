@@ -5,10 +5,16 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-10 text-center">{{ $scanning_name }}</div>
+                            <div class="col-10 text-center text-danger  " style="font-size: 18px;">
+                                {{ $scanning_name }}</div>
                             <div class="col-2">
-                                <a href="{{ route('admin.reporting') }}" class="btn btn-primary btn-sm text-white"
-                                    style="float: right;">Back</a>
+                                @if (auth()->user()->role->name == 'Regional coordinator')
+                                    <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white"
+                                        style="float: right;">Back</a>
+                                @elseif (auth()->user()->role->name == 'Admin' || auth()->user()->role->name == 'AMREF personnel')
+                                    <a href="{{ route('admin.reporting') }}" class="btn btn-primary btn-sm text-white"
+                                        style="float: right;">Back</a>
+                                @endif
                             </div>
                         </div>
                     </h4>
@@ -51,19 +57,21 @@
                                     @include('exports.single_form')
                                 </div>
 
-                                <table class="formData table table-bordered table-sm">
+                                <table class="formData table table-bordered table-sm" style="border: 1px solid #000;">
                                     <thead>
-                                        <tr>
-                                            <th>Age Group</th>
-                                            @foreach ($attributeList as $attribute)
-                                                <th colspan="2">{{ $attribute->name }}</>
-                                            @endforeach
-                                        </tr>
                                         <tr>
                                             <th></th>
                                             @foreach ($attributeList as $attribute)
-                                                <th>F</th>
-                                                <th>M</th>
+                                                <th colspan="2" style="background: #f8cbad; font-weight: bold;">
+                                                    {{ $attribute->name }}
+                                                    </>
+                                            @endforeach
+                                        </tr>
+                                        <tr>
+                                            <th style="border: 1px solid #000; font-weight: bold;">Age Group</th>
+                                            @foreach ($attributeList as $attribute)
+                                                <th style="background: #ddebf7; border: 1px solid #000;">F</th>
+                                                <th style="background: #ddebf7; border: 1px solid #000;">M</th>
                                             @endforeach
                                         </tr>
                                     </thead>
@@ -132,17 +140,19 @@
                                             </tr>
                                         @endforeach
                                         <tr>
-                                            <td>Total</td>
+                                            <td style="background: #92d050;">Total</td>
                                             @foreach ($attributeList as $attribute)
-                                                <td>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
-                                                <td>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
+                                                <td style="background: #92d050;">
+                                                    {{ $this->calculateTotal($attribute->id, 'F') }}</td>
+                                                <td style="background: #92d050;">
+                                                    {{ $this->calculateTotal($attribute->id, 'M') }}</td>
                                             @endforeach
                                         </tr>
                                         <!-- Add Grand Total row -->
                                         <tr>
-                                            <td>Grand Total</td>
+                                            <td style="background: #92d050;">Grand Total</td>
                                             @foreach ($attributeList as $attribute)
-                                                <td colspan="2">
+                                                <td colspan="2" style="background: #92d050;">
                                                     {{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}
                                                 </td>
                                             @endforeach
