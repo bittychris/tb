@@ -36,8 +36,10 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
 Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
 Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
-Route::get('form/export', [ExportController::class, 'form'])->name('form.export');
+Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export');
+Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export');
 Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
+Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
 Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 Route::middleware(['auth'])->group(function() {
@@ -83,8 +85,14 @@ Route::middleware(['auth'])->group(function() {
     Route::get('form_data/{form_id}/edit', [adminController::class, 'editFormData'])->name('admin.edit_form_data')->middleware(['permission:edit field data']);
 
     Route::get('filed_data', [adminController::class, 'reportList'])->name('admin.report')->middleware(['permission:all field data']);
-    
+
+    Route::get('filed_data/{form}', [adminController::class, 'reportListComment'])->name('admin.report.comment')->middleware(['permission:all field data']);
+
     Route::get('reports', [adminController::class, 'report'])->name('admin.reporting')->middleware(['permission:all reports']);
+
+    Route::get('reports/{form}/view', [adminController::class, 'viewReport'])->name('admin.reporting.view')->middleware(['permission:all reports']);
+
+    Route::get('reports/{report}', [adminController::class, 'reportComment'])->name('admin.reporting.comment')->middleware(['permission:all reports']);
 
     Route::get('roles', [adminController::class, 'roles'])->name('admin.roles')->middleware(['permission:all roles']);
 

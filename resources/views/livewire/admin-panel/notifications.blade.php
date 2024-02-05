@@ -11,8 +11,10 @@
         </a>
         <div wire:ignore.self class="dropdown-menu dropdown-menu-right navbar-dropdown"
             aria-labelledby="notificationDropdown" style="margin-top: -15px;">
-            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications <span wire:click="markAllRead"
-                    class="text-primary" style="float: right; cursor: pointer;">Mark all as read</span></p>
+            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications
+                {{-- <span wire:click="markAllRead" class="text-primary" style="float: right; cursor: pointer;">Mark all as
+                    read</span> --}}
+            </p>
 
             @forelse ($notifications as $notifacation)
                 <a class="dropdown-item">
@@ -46,7 +48,7 @@
                     </div>
                     <div class="item-content">
                         <p class="font-weight-light small-text mb-0 text-muted">
-                            No unread nofications
+                            No unread Nofications
                         </p>
                     </div>
                 </a>

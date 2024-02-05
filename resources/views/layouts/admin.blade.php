@@ -124,7 +124,7 @@
 
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
+                    icon: 'info',
                     text: message.detail,
                 });
 

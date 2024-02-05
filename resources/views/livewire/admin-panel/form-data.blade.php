@@ -285,33 +285,3 @@
     </div>
 
 </div>
-
-@push('script')
-    <script>
-        $(document).ready(function() {
-
-            // Check the value of the input field every second
-
-            setInterval(function() {
-
-                // Loop through all number inputs
-
-                $("[type='number']").each(function() {
-
-                    var inputValue = $(this).val();
-
-                    if (inputValue === "") {
-
-                        // If the input field is empty, set its value to 0
-
-                        $(this).val(0);
-
-                    }
-
-                });
-
-            }, 0.5);
-
-        });
-    </script>
-@endpush

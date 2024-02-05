@@ -216,7 +216,7 @@
                                     id="keywords"
                                     placeholder="Search by report name, ward, or Reginal coordinator names">
                             </div>
-                            @if (auth()->user()->can('download reports'))
+                            {{-- @if (auth()->user()->can('download reports'))
                                 <div class="col-4">
                                     <a href="{{ route('form.export', []) }}"
                                         class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
@@ -225,7 +225,7 @@
                                         Download All Reports
                                     </a>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                     <div class="table-responsive">

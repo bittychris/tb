@@ -20,7 +20,9 @@ class ReportList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $form_id, $report_name, $submit_status, $keywords, $startDate, $endDate, $submission_status;
+    public $form_id, $report_name, $submit_status, $keywords, $startDate, $endDate;
+
+    public $submission_status = 'all';
 
     public $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
 
@@ -257,6 +259,17 @@ class ReportList extends Component
 
     }
 
+    public function mount($form = null){
+        $this->endDate = now()->toDateTimeString();
+        $this->startDate = '2022-12-07 10:20:34';
+       if(!empty($form)) {
+            $this->form_id = $form;
+
+            $this->getReportDetails($this->form_id);
+        }
+
+    }
+
     public function closeCommentModel() {
         $this->dispatch('closeCommentModel');
 
@@ -274,11 +287,16 @@ class ReportList extends Component
             'read_at' => Carbon::now()
         ]);
 
-        $this->reset(
-            'form_id',
-            'receiver_id',
-            'content'
-        );
+        if($remove_unread_status) {
+            $this->reset(
+                'form_id',
+                'receiver_id',
+                'content'
+            );
+
+            return redirect(route('admin.report'));
+
+        }
 
     }
 

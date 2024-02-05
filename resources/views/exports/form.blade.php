@@ -33,6 +33,9 @@
                             ->whereNull('read_at')
                             ->count();
                     @endphp
+                    <a href="{{ route('admin.reporting.view', ['form' => $form->id]) }}"
+                        class="btn btn-primary }} btn-sm text-white">
+                        <i class="mdi mdi-eye" title="View"></i></a>
                     <button type="button" wire:click="getReportDetails('{{ $form->id }}')"
                         class="btn btn-{{ $unread_form_comment_count > 0 ? 'success' : 'info' }} btn-sm text-white">
                         <i class="mdi mdi-message-text" title="Comment"></i>
@@ -41,7 +44,7 @@
                         class="btn btn-info btn-sm text-white" style="text-decoration: none;"><i
                             class="mdi mdi-message-text" title="Comment"></i> --}}
                     </a>
-                    <a href="{{ route('formOne.export', ['formdata_id' => $form->id]) }}"
+                    <a href="{{ route('singleFormData.export', ['form_id' => $form->id]) }}"
                         class="btn btn-danger btn-sm text-white" style="text-decoration: none;"><i
                             class="mdi mdi-download" title="Download excel"></i></a>
                 </td>

@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Auth;
 class FormDataOneExport implements FromView, ShouldAutoSize
 {
     protected $data;
-    
-    
+
+
     public function __construct($data)
     {
         $this->data = $data;
@@ -24,13 +24,13 @@ class FormDataOneExport implements FromView, ShouldAutoSize
     * @return \Illuminate\Support\Collection
     */
     public function view() : view
-    {   
+    {
         $user = Auth::user();
         $res =  FormData::where('form_id', $this->data)->get();
         $res = $res->groupBy('attribute_id')->map(function ($group) {
             return $group->sortBy('age_group.min')->unique('age_group.min');
         });
-        
+
        return view('exports.formData', [
         'formDatas' =>  $res,
         'user' => $user

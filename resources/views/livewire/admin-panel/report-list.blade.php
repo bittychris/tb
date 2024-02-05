@@ -16,20 +16,30 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-4">Field Data</div>
-                            <div class="col-4 text-center">Region: <span
-                                    class="text-danger">{{ auth()->user()->region->name }}</span></div>
-                            {{-- <div class="col-3">RC: <span
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="col-7">Field Data</div>
+                            {{-- @if (auth()->user()->can('download reports')) --}}
+                            <div class="col-5 d-flex justify-content-between">
+                                <a href="{{ empty($keywords) ? route('field_data.export', ['keywords' => 0, 'submission_status' => $submission_status, 'startDate' => $startDate, 'endDate' => $endDate]) : route('form.export', ['keywords' => $keywords, 'submission_status' => $submission_status, 'startDate' => $startDate, 'endDate' => $endDate]) }}"
+                                    class="bbtn btn-danger btn-sm text-white d-flex align-items-center text-decoration-none ">
+                                    {{-- <svg width="20px" height="20px" viewBox="0 3 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
+                                        <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg> --}}
+                                    <i class="mdi mdi-download me-2 mt-1"></i>
+                                    Download Field Data
+                                </a>
+                                {{-- @endif --}}
+                                {{-- <div class="col-4 text-center">Region: <span
+                                    class="text-danger">{{ auth()->user()->region->name }}</span></div> --}}
+                                {{-- <div class="col-3">RC: <span
                                     class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }}
                                     {{ ucfirst(auth()->user()->last_name) }}</span></div> --}}
-                            @if (auth()->user()->can('add field data'))
-                                <div class="col-4">
+                                @if (auth()->user()->can('add field data'))
                                     <a href="{{ route('admin.create_form_data') }}"
-                                        class="btn btn-primary text-white btn-sm mt-0 " style="float: right;"><span
+                                        class="btn btn-primary text-white btn-sm mt-0" style="float: right;"><span
                                             class="me-2" style="font-size: 18px;">+</span> Add Field data</a>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </div>
                         <div class="row justify-content-between align-items-center mt-4">
                             <div class="col-4">
@@ -39,11 +49,11 @@
                             <div class="col-md-5 d-flex align-items-center">
                                 <label for="startDate">From:</label>
                                 <input type="date" class="form-control form-control-sm ms-2 me-3" id="startDate"
-                                    wire:model="startDate" wire:change="updateStartDate">
+                                    wire:model.live="startDate">
 
                                 <label for="endDate">To:</label>
                                 <input type="date" class="form-control form-control-sm ms-2" id="endDate"
-                                    wire:model="endDate" wire:change="updateEndDate">
+                                    wire:model.live="endDate">
                             </div>
                             {{-- <div class="col-3">
                                 <input type="date" wire:model.live="date" class="form-control form-control-sm"
@@ -57,30 +67,20 @@
                                     <option value="not_submitted" class="fw-bold">Unsubmitted Field data</option>
                                 </select>
                             </div>
-
-                            {{-- @if (auth()->user()->can('download reports'))
-                                <div class="col-4">
-                                    <a href="{{ route('formattribute.export') }}"
-                                        class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-decoration-none"
-                                        style="float: right;"> --}}
-                            {{-- <svg width="20px" height="20px" viewBox="0 3 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
-                                        <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg> --}}
-                            {{-- <i class="mdi mdi-download me-2 mt-1"></i>
-                                        Download Reports Titles
-                                    </a>
-                                </div>
-                            @endif --}}
                         </div>
                     </h4>
 
                     <div class="table-responsive">
+                        <div hidden>
+                            @include('exports.rc_form_export')
+                        </div>
+
                         <table class="table table-hover table-bordered table-sm">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Form</th>
-                                    <th>Scanning name</th>
+                                    {{-- <th>Scanning name</th> --}}
                                     <th>District</th>
                                     <th>Ward</th>
                                     <th>Address</th>
@@ -96,8 +96,8 @@
                             @forelse($reports as $key => $report)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $report->form_attribute->name }}</td>
-                                    <td>{{ $report->scanning_name }}</td>
+                                    {{-- <td>{{ $report->form_attribute->name }}</td> --}}
+                                    <td style="overflow-x: hidden;" class="text-break">{{ $report->scanning_name }}</td>
                                     <td>{{ $report->ward->district->name }}</td>
                                     <td>{{ $report->ward->name }}</td>
                                     <td>{{ $report->address }}</td>
@@ -193,8 +193,8 @@
                     </div>
 
                     <!-- Comment Modal -->
-                    <div wire:ignore.self class="modal fade" id="commentsModal" tabindex="-1" data-bs-backdrop="static"
-                        aria-labelledby="commentsModalLabel" aria-hidden="true">
+                    <div wire:ignore.self class="modal fade" id="commentsModal" tabindex="-1"
+                        data-bs-backdrop="static" aria-labelledby="commentsModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between align-items-center p-3"

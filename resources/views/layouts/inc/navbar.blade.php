@@ -29,6 +29,9 @@
         </li>
       </ul>  --}}
         <ul class="navbar-nav navbar-nav-right">
+            <div class="mt-2">
+                <livewire:admin-panel.comment-notifier />
+            </div>
             {{-- @if (auth()->user()->can('view notifications'))  --}}
             {{--  notification  --}}
             @if (auth()->user()->role->name == 'Regional coordinator')

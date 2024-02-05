@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Form;
 use App\Models\User;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\UsersExport;
+use App\Models\FormData;
 use App\Exports\FormExport;
+use App\Exports\UsersExport;
+use Illuminate\Http\Request;
+use App\Models\FormAttribute;
 use App\Exports\FormDataExport;
+use App\Exports\FieldDataExport;
 use App\Exports\FormDataOneExport;
 use App\Exports\FormAttributeExport;
-use App\Models\FormData;
-use App\Models\FormAttribute;
+use App\Exports\SingleFormDataExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
@@ -26,8 +29,10 @@ class ExportController extends Controller
     }
     public function formOne($formdata)
     {
-        return Excel::download(new FormDataOneExport($formdata), 'formdata.xlsx');
+
+        return Excel::download(new FormDataOneExport($formdata), 'single-form.xlsx');
     }
+
     public function formattribute()
     {
         $formdata = FormAttribute::all();
@@ -35,14 +40,30 @@ class ExportController extends Controller
             'beforeSheet' => function (\Maatwebsite\Excel\Writer $writer) {
                 $writer->getActiveSheet()->getColumnDimension('A')->setWidth(35); // Set width for column A
                 $writer->getActiveSheet()->getColumnDimension('B')->setWidth(35); // Set width for column B
-             
+
             },
         ]);
     }
 
-    public function form()
+    public function form($keywords, $startDate, $endDate)
     {
-        return Excel::download(new FormExport, 'form.xlsx');
+        $time = now()->toDateTimeString();
+
+        return Excel::download(new FormExport($keywords, $startDate, $endDate), 'form-'.$time.'.xlsx');
     }
 
+    public function fieldData($keywords, $submission_status, $startDate, $endDate)
+    {
+        $time = now()->toDateTimeString();
+
+        return Excel::download(new FieldDataExport($keywords, $submission_status, $startDate, $endDate), 'field-data-'.$time.'.xlsx');
+    }
+
+    public function singleFormData($form_id)
+    {
+        // $formdata = Form::findOrFail($formdata);
+        $time = now()->toDateTimeString();
+
+        return Excel::download(new SingleFormDataExport($form_id), 'field-data-'.$time.'.xlsx');
+    }
 }

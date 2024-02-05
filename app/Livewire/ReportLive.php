@@ -6,9 +6,12 @@ use DateTime;
 use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\User;
+use App\Models\Ward;
+use App\Models\Region;
 use Livewire\Component;
-use App\Models\FormData;
 use App\Models\comments;
+use App\Models\District;
+use App\Models\FormData;
 use Illuminate\Http\Request;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
@@ -21,11 +24,19 @@ class ReportLive extends Component
 
     public $navigate_to = 'report';
 
-    public $keywords, $date, $from_date, $to_date, $startDate, $endDate;
+    public $keywords, $date, $from_date, $to_date, $region_id;
 
     public $form_id, $report_name, $rc, $rc_image, $sender_id, $receiver_id, $content, $unread_comment_count;
 
+    public $startDate = '2022-12-07 10:20:34';
+
+    public $endDate;
+
+    public $form_to_export_ids = [];
+
     public $comments = [];
+
+    public $form_ids = [];
 
     public $quartiles = [];
 
@@ -149,25 +160,37 @@ class ReportLive extends Component
             'read_at' => Carbon::now()
         ]);
 
-        $this->reset(
-            'form_id',
-            'receiver_id',
-            'content'
-        );
+        if($remove_unread_status) {
+            $this->reset(
+                'form_id',
+                'receiver_id',
+                'content'
+            );
+
+            return redirect(route('admin.reporting'));
+
+        }
+
 
     }
 
-    public function mount(){
+    public function mount($report = null){
         $this->currentDateTime = now()->toDateTimeString();
+        $this->endDate = now()->toDateTimeString();
         $this->quartRange = ['2022-12-07 10:20:34', $this->currentDateTime];
+
+        if(!empty($report)) {
+            $this->form_id = $report;
+
+            $this->getReportDetails($this->form_id);
+        }
 
     }
 
     public function submit()
     {
-
-        foreach ($this->quartiles as $quartile => $isSelected) {
-            if ($isSelected) {
+        foreach ($this->quartiles as $quartile) {
+            if ($quartile) {
                 $this->quartRange = $this->getQuartileRange($quartile);
             }
         }
@@ -256,19 +279,63 @@ class ReportLive extends Component
             ->latest()
             ->paginate(10);
 
-        $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
-            ->select('attribute_id', 'age_group_id',
+        // $formdata = FormData::groupBy(['attribute_id', 'age_group_id'])
+        //     ->select('attribute_id', 'age_group_id',
+        //             DB::raw('SUM(male) as male'),
+        //             DB::raw('SUM(female) as female')
+        //     )->whereBetween('created_at', $this->quartRange)
+        //     ->get();
+
+        if($this->region_id) {
+            $districts = District::select('id')->where('region_id', $this->region_id)->get();
+            $district_ids = [];
+            $ward_ids = [];
+            foreach($districts as $district) {
+                array_push($district_ids, $district->id);
+
+            }
+
+            $wards = Ward::whereIn('district_id', $district_ids)->get();
+
+            foreach($wards as $ward) {
+                array_push($ward_ids, $ward->id);
+
+            }
+
+            $forms = Form::whereIn('ward_id', $ward_ids)->get();
+
+            foreach($forms as $form) {
+                array_push($this->form_ids, $form->id);
+
+            }
+
+            // dd($this->form_ids);
+        }
+
+
+        $formdata = FormData::groupBy(['form_id', 'attribute_id', 'age_group_id'])
+            ->select('form_id', 'attribute_id', 'age_group_id',
                     DB::raw('SUM(male) as male'),
                     DB::raw('SUM(female) as female')
-            )->whereBetween('created_at', $this->quartRange)
+            )->join('attributes', 'form_data.attribute_id', '=', 'attributes.id')
+            ->when($this->form_ids, function ($query) {
+                $query->whereIn('form_id', $this->form_ids);
+
+            })
+            ->whereBetween('form_data.created_at', $this->quartRange)
+            ->orderBy('attributes.attribute_no', 'asc')
             ->get();
+
         $this->quartiles = [];
         $users = User::all();
+
+        $regions = Region::orderBy('name', 'asc')->get();
 
         return view('livewire.report-live', [
             'forms' => $res,
             'formDatas' => $formdata,
             'users' => $users,
+            'regions' => $regions,
         ]);
     }
 }

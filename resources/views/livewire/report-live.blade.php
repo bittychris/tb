@@ -55,28 +55,31 @@
                                             class="form-control form-control-sm" id="date"
                                             placeholder="Filter by date">
                                     </div> --}}
-                                    @if (auth()->user()->can('download reports'))
-                                        <div class="col-4">
-                                            <a href="{{ route('form.export', []) }}"
-                                                class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
-                                                style="float: right;">
-                                                {{-- <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
+                                    {{-- @if (auth()->user()->can('download reports')) --}}
+                                    <div class="col-3">
+                                        <a href="{{ empty($keywords) ? route('form.export', ['keywords' => 0, 'startDate' => $startDate, 'endDate' => $endDate]) : route('form.export', ['keywords' => $keywords, 'startDate' => $startDate, 'endDate' => $endDate]) }}"
+                                            class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
+                                            style="float: right;">
+                                            {{-- <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
                                             <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg> --}}
-                                                <i class="mdi mdi-download me-2 mt-1"></i>
-                                                Download All Reports
-                                            </a>
-                                        </div>
-                                    @endif
+                                            <i class="mdi mdi-download me-2 mt-1"></i>
+                                            Download All Reports
+                                        </a>
+                                    </div>
+                                    {{-- @endif --}}
                                 </div>
                                 <div class="table-responsive">
+
+                                    <div hidden>
+                                        @include('exports.form_export')
+                                    </div>
 
                                     @include('exports.form')
                                     {{ $forms->links() }}
 
                                 </div>
                             </div>
-
                         @endif
 
                         @if ($navigate_to == 'overall-report')
@@ -87,9 +90,9 @@
                                             @csrf
                                             <div class="row d-flex justify-content-between align-items-center">
                                                 <div class="col-md-4 align-items-center">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'all' }}" value="All"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                    <input type="checkbox" name="group1" class="me-2"
+                                                        wire:model="quartiles" value="all" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label class="mx-2">All</label>
                                                 </div>
                                                 <div class="col-md-4 d-flex align-items-center">
@@ -127,29 +130,29 @@
 
                                             <div class="d-flex my-5 justify-content-between align-items-center">
                                                 <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q1' }}" value="q1"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                    <input type="checkbox" name="group1" class="me-2"
+                                                        wire:model="quartiles" value="q1" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label>1st Quartile</label>
                                                 </div>
 
                                                 <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q2' }}" value="q2"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                    <input type="checkbox" name="group1" class="me-2"
+                                                        wire:model="quartiles" value="q2" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label>2nd Quartile</label>
                                                 </div>
 
                                                 <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q3' }}" value="q3"
-                                                        class="quartile-checkbox" wire:change="submit">
+                                                    <input type="checkbox" name="group1" class="me-2"
+                                                        wire:model="quartiles" value="q3" class="quartile-checkbox"
+                                                        wire:change="submit">
                                                     <label>3rd Quartile</label>
                                                 </div>
 
                                                 <div class="">
-                                                    <input type="radio" name="group1" class="me-2"
-                                                        wire:model="quartiles.{{ 'q4' }}" value="q4"
+                                                    <input type="checkbox" name="group1" class="me-2"
+                                                        wire:model="quartiles" value="q4"
                                                         class="quartile-checkbox" wire:change="submit">
                                                     <label>4th Quartile</label>
                                                 </div>
@@ -162,6 +165,17 @@
                                                             <option value="{{ $year }}">{{ $year }}
                                                             </option>
                                                         @endfor
+                                                    </select>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <label for="selectedYear" class="me-2">Region: </label>
+                                                    <select id="selectedYear" wire:model.live="region_id"
+                                                        class="form-control" placeholder="year">
+                                                        <option value="" selected>Select Region ...</option>
+                                                        @foreach ($regions as $region)
+                                                            <option value="{{ $region->id }}">{{ $region->name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
 
@@ -204,54 +218,62 @@
                                                 $x = 0;
                                                 $i = 0;
                                             @endphp
-
-                                            <tr>
-                                                @foreach ($formDatas as $formData)
-                                                    @if ($x == 0)
+                                            @forelse ($formDatas as $formData)
+                                                @if ($x == 0)
+                                                    <tr>
                                                         <td colspan="3" class="mt-2"
                                                             style="background: #cccccc5d">
                                                             {{ $formData->attribute->name }}</td>
-                                            </tr>
-                                            <tr class="bg-slate-100">
-                                                <td
-                                                    class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">
-                                                    Age</td>
-                                                <td
-                                                    class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">
-                                                    male</td>
-                                                <td
-                                                    class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">
-                                                    Female</td>
-                                            </tr>
-                        @endif
-                        @php
-                            $x++;
-                            if ($x == 3) {
-                                $x = 0;
-                            }
-                        @endphp
+                                                    </tr>
+                                                    <tr class="bg-slate-100">
+                                                        <td
+                                                            class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">
+                                                            Age</td>
+                                                        <td
+                                                            class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">
+                                                            male</td>
+                                                        <td
+                                                            class="px-4 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border border-2">
+                                                            Female</td>
+                                                    </tr>
+                                                @endif
+                                                @php
+                                                    $x++;
+                                                    if ($x == 3) {
+                                                        $x = 0;
+                                                    }
+                                                @endphp
 
-                        <tr>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
-                                {{ $formData->age_group->slug }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
-                                {{ $formData->male }}
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
-                                {{ $formData->female ?: 0 }}
-                            </td>
-                        </tr>
-                        @endforeach
-                        </tr>
-                        </table>
+                                                <tr>
+                                                    <td
+                                                        class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
+                                                        {{ $formData->age_group->slug }}</td>
+                                                    <td
+                                                        class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
+                                                        {{ $formData->male }}
+                                                    </td>
+                                                    <td
+                                                        class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 border border-2">
+                                                        {{ $formData->female ?: 0 }}
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <div class="row mt-4 justify-content-center align-items-center mx-1">
+                                                    <div
+                                                        class="col-md-12 bg-danger text-center text-white fw-bold py-4">
+                                                        No Overall Field Data found
+                                                    </div>
+                                                </div>
+                                            @endforelse
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
-                @endif
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
 @push('js')
