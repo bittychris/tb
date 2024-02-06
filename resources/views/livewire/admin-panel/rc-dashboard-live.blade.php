@@ -12,134 +12,141 @@
             </div>
         </div>
     </div>
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body dashboard-tabs p-0">
                     <ul class="nav nav-tabs px-4" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview"
-                                role="tab" aria-controls="overview" aria-selected="true">TB SCREENING</a>
+                                role="tab" aria-controls="overview" aria-selected="true">Visits</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="sales-tab" data-bs-toggle="tab" href="#sales" role="tab"
-                                aria-controls="sales" aria-selected="false">Contact Investigation</a>
+                                aria-controls="sales" aria-selected="false">Reports</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" id="purchases-tab" data-bs-toggle="tab" href="#purchases" role="tab"
                                 aria-controls="purchases" aria-selected="false">ACF</a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="tab-content py-0 px-0">
                         <div class="tab-pane fade show active" id="overview" role="tabpanel"
                             aria-labelledby="overview-tab">
                             <div class="d-flex flex-wrap justify-content-xl-between">
-                                <div
+                                {{-- <div
                                     class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-calendar-heart icon-lg me-3 text-primary"></i>
+                                    <i class="mdi mdi-account-multiple icon-lg me-3 text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Received Education</small>
-                                        <div class="dropdown">
-                                            <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
+                                        <small class="mb-1 text-muted">Reginal Corrdinators</small>
+                                        <div class="dropdown"> --}}
+                                {{-- <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
                                                 href="#" role="button" id="dropdownMenuLinkA"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <h5 class="mb-0 d-inline-block">2 Aug 2018</h5>
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> --}}
+                                {{-- <h5 class="mb-0 d-inline-block">{{ $rcs_count }}
+                                            </h5> --}}
+                                {{-- </a> --}}
+                                {{-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
                                                 <a class="dropdown-item" href="#">12 Aug 2018</a>
                                                 <a class="dropdown-item" href="#">22 Sep 2018</a>
                                                 <a class="dropdown-item" href="#">21 Oct 2018</a>
-                                            </div>
-                                        </div>
+                                            </div> --}}
+                                {{-- </div>
+                                    </div>
+                                </div> --}}
+                                <div
+                                    class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                    {{-- <i class="mdi mdi-location me-3 icon-lg text-danger"></i> --}}
+                                    <img src="{{ asset('admin/images/map-marker.png') }}" alt="" srcset=""
+                                        width="40px" class="me-3">
+                                    <div class="d-flex flex-column justify-content-around">
+                                        <small class="mb-1 text-muted">Region</small>
+                                        <h5 class="me-2 mb-0 text-uppercase">{{ auth()->user()->region->name }}</h5>
                                     </div>
                                 </div>
                                 <div
                                     class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-currency-usd me-3 icon-lg text-danger"></i>
+                                    {{-- <i class="mdi mdi-eye me-3 icon-lg text-success"></i> --}}
+                                    <img src="{{ asset('admin/images/map-pinpoint.png') }}" alt=""
+                                        srcset="" width="45px" class="me-3">
                                     <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Screened for TB</small>
-                                        <h5 class="me-2 mb-0">57</h5>
+                                        <small class="mb-1 text-muted">Visited Districts</small>
+                                        <h5 class="me-2 mb-0">{{ $district_count }} / {{ $total_districts }}</h5>
                                     </div>
                                 </div>
                                 <div
                                     class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-eye me-3 icon-lg text-success"></i>
+                                    {{-- <i class="mdi mdi-download me-3 icon-lg text-warning"></i> --}}
+                                    <img src="{{ asset('admin/images/place-marker.png') }}" alt=""
+                                        srcset="" width="45px" class="me-3">
                                     <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Presumptive TB identified</small>
-                                        <h5 class="me-2 mb-0">9</h5>
+                                        <small class="mb-1 text-muted">Visited Wards</small>
+                                        <h5 class="me-2 mb-0">{{ $ward_count }} / {{ $total_wards }}</h5>
                                     </div>
                                 </div>
-                                <div
-                                    class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-download me-3 icon-lg text-warning"></i>
-                                    <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Presumptive TB referred</small>
-                                        <h5 class="me-2 mb-0">23</h5>
-                                    </div>
-                                </div>
-                                <div
+                                {{-- <div
                                     class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
                                     <i class="mdi mdi-flag me-3 icon-lg text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
                                         <small class="mb-1 text-muted">Presumptive TB tested</small>
                                         <h5 class="me-2 mb-0">3497843</h5>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
                             <div class="d-flex flex-wrap justify-content-xl-between">
                                 <div
                                     class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-calendar-heart icon-lg me-3 text-primary"></i>
+                                    <i class="mdi mdi-file-multiple icon-lg me-3 text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Received Education</small>
+                                        <small class="mb-1 text-muted"> All Reports</small>
                                         <div class="dropdown">
-                                            <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
+                                            {{-- <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium"
                                                 href="#" role="button" id="dropdownMenuLinkA"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <h5 class="mb-0 d-inline-block">26 Jul 2018</h5>
-                                            </a>
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> --}}
+                                            <h5 class="mb-0 d-inline-block">{{ $total_reports_count }}</h5>
+                                            {{-- </a>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
                                                 <a class="dropdown-item" href="#">12 Aug 2018</a>
                                                 <a class="dropdown-item" href="#">22 Sep 2018</a>
                                                 <a class="dropdown-item" href="#">21 Oct 2018</a>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
                                 <div
                                     class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-download me-3 icon-lg text-warning"></i>
+                                    <i class="mdi mdi-file-check me-3 icon-lg text-success"></i>
                                     <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Screened for TB </small>
-                                        <h5 class="me-2 mb-0">2233783</h5>
+                                        <small class="mb-1 text-muted">Submitted Reports</small>
+                                        <h5 class="me-2 mb-0">{{ $submitted_report_count }}</h5>
                                     </div>
                                 </div>
                                 <div
                                     class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                    <i class="mdi mdi-eye me-3 icon-lg text-success"></i>
+                                    <i class="mdi mdi-file me-3 icon-lg text-primary"></i>
                                     <div class="d-flex flex-column justify-content-around">
-                                        <small class="mb-1 text-muted">Presumptive TB identified</small>
-                                        <h5 class="me-2 mb-0">9833550</h5>
+                                        <small class="mb-1 text-muted">Reports in Fields</small>
+                                        <h5 class="me-2 mb-0">{{ $reports_in_field_count }}</h5>
                                     </div>
                                 </div>
-                                <div
+                                {{-- <div
                                     class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
                                     <i class="mdi mdi-currency-usd me-3 icon-lg text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
                                         <small class="mb-1 text-muted">Presumptive TB referred</small>
                                         <h5 class="me-2 mb-0">$577545</h5>
                                     </div>
-                                </div>
-                                <div
+                                </div> --}}
+                                {{-- <div
                                     class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
                                     <i class="mdi mdi-flag me-3 icon-lg text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
                                         <small class="mb-1 text-muted">Presumptive TB tested</small>
                                         <h5 class="me-2 mb-0">3497843</h5>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
@@ -201,16 +208,16 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <div class="row d-flex align-items-center">
+                        <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-4">Recent Field Data</div>
-                            <div class="col-4 text-center">Region: <span
-                                    class="text-danger">{{ auth()->user()->region->name }}</span></div>
+                            {{-- <div class="col-4 text-center">Region: <span
+                                    class="text-danger">{{ auth()->user()->region->name }}</span></div> --}}
                             {{-- <div class="col-3">RC: <span
                                     class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }}
                                     {{ ucfirst(auth()->user()->last_name) }}</span>
@@ -219,7 +226,8 @@
                                 <div class="col-4">
                                     <a href="{{ route('admin.create_form_data') }}"
                                         class="btn btn-primary text-white btn-sm mt-0 " style="float: right;"><span
-                                            class="me-2" style="font-size: 18px;">+</span> Add Field data</a>
+                                            class="me-2" style="font-size: 18px;">+</span> Add Field
+                                        data</a>
                                 </div>
                             @endif
                         </div>
@@ -289,7 +297,8 @@
                                     <td>{{ $data->created_at->format('d/m/Y') }}</td>
                                     {{-- <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td> --}}
                                     <td>
-                                        <span class="badge rounded bg-{{ $data->status == 0 ? 'danger' : 'success' }}">
+                                        <span
+                                            class="badge rounded bg-{{ $data->status == 0 ? 'danger' : 'success' }}">
                                             {{ $data->status == 0 ? 'Not submitted' : 'Submited' }}
                                         </span>
                                     </td>
@@ -341,8 +350,8 @@
                                         data?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" wire:click="clearForm" class="btn btn-danger text-white"
-                                            data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" wire:click="clearForm"
+                                            class="btn btn-danger text-white" data-bs-dismiss="modal">Cancel</button>
                                         <button type="submit" wire:loading.remove wire:target="submitData"
                                             class="btn btn-success text-white">Yes, Submit</button>
                                         <button type="submit" wire:loading wire:loading.attr="disabled"

@@ -18,8 +18,11 @@
         @forelse($forms as $form)
             <tr>
                 <td>{{ $i++ }}</td>
-                <td><a class="text-uppercase" href="{{ route('formOne.export', ['formdata_id' => $form->id]) }}"
-                        style="text-decoration: none;">{{ $form->scanning_name }}</a></td>
+                <td>
+                    {{-- <a class="text-uppercase" href="{{ route('formOne.export', ['formdata_id' => $form->id]) }}"
+                        style="text-decoration: none;"> --}}
+                    {{ $form->scanning_name }}
+                    {{-- </a></td> --}}
                 <td>{{ $form->ward->district->region->name }}</td>
                 <td>{{ $form->ward->district->name }}</td>
                 <td>{{ $form->ward->name }}</td>
