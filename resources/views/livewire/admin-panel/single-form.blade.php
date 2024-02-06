@@ -68,7 +68,7 @@
                                             @endforeach
                                         </tr>
                                         <tr>
-                                            <th style="border: 1px solid #000; font-weight: bold;">Age Group</th>
+                                            <th style="border: 1px solid #000; font-weight: bold;">Age</th>
                                             @foreach ($attributeList as $attribute)
                                                 <th style="background: #ddebf7; border: 1px solid #000;">F</th>
                                                 <th style="background: #ddebf7; border: 1px solid #000;">M</th>

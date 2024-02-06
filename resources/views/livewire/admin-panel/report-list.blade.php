@@ -96,8 +96,8 @@
                             @forelse($reports as $key => $report)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    {{-- <td>{{ $report->form_attribute->name }}</td> --}}
-                                    <td style="overflow-x: hidden;" class="text-break">{{ $report->scanning_name }}</td>
+                                    <td>{{ $report->form_attribute->name }}</td>
+                                    {{-- <td style="overflow-x: hidden;" class="text-break">{{ $report->scanning_name }}</td> --}}
                                     <td>{{ $report->ward->district->name }}</td>
                                     <td>{{ $report->ward->name }}</td>
                                     <td>{{ $report->address }}</td>

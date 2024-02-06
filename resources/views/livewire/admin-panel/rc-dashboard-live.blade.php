@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body dashboard-tabs p-0">
@@ -201,7 +201,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -264,7 +264,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Form</th>
-                                    <th>Scanning name</th>
+                                    {{-- <th>Scanning name</th> --}}
                                     <th>District</th>
                                     <th>Ward</th>
                                     <th>Address</th>
@@ -281,7 +281,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $data->form_attribute->name }}</td>
-                                    <td>{{ $data->scanning_name }}</td>
+                                    {{-- <td>{{ $data->scanning_name }}</td> --}}
                                     <td>{{ $data->ward->district->name }}</td>
                                     <td>{{ $data->ward->name }}</td>
                                     <td>{{ $data->address }}</td>
@@ -339,8 +339,8 @@
                                         data?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" wire:click="clearForm"
-                                            class="btn btn-danger text-white" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" wire:click="clearForm" class="btn btn-danger text-white"
+                                            data-bs-dismiss="modal">Cancel</button>
                                         <button type="submit" wire:loading.remove wire:target="submitData"
                                             class="btn btn-success text-white">Yes, Submit</button>
                                         <button type="submit" wire:loading wire:loading.attr="disabled"

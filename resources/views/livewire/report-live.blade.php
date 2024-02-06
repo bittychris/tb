@@ -55,19 +55,29 @@
                                             class="form-control form-control-sm" id="date"
                                             placeholder="Filter by date">
                                     </div> --}}
-                                    {{-- @if (auth()->user()->can('download reports')) --}}
-                                    <div class="col-3">
-                                        <a href="{{ empty($keywords) ? route('form.export', ['keywords' => 0, 'startDate' => $startDate, 'endDate' => $endDate]) : route('form.export', ['keywords' => $keywords, 'startDate' => $startDate, 'endDate' => $endDate]) }}"
-                                            class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
-                                            style="float: right;">
-                                            {{-- <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-2">
-                                            <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg> --}}
-                                            <i class="mdi mdi-download me-2 mt-1"></i>
-                                            Download All Reports
-                                        </a>
-                                    </div>
-                                    {{-- @endif --}}
+                                    @if (count($forms) != 0)
+                                        {{-- @if (auth()->user()->can('download reports')) --}}
+                                        <div class="col-3">
+                                            <a href="{{ empty($keywords) ? route('form.export', ['keywords' => 0, 'startDate' => $startDate, 'endDate' => $endDate]) : route('form.export', ['keywords' => $keywords, 'startDate' => $startDate, 'endDate' => $endDate]) }}"
+                                                class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
+                                                style="float: right;">
+                                                <i class="mdi mdi-download me-2 mt-1"></i>
+                                                Download Reports
+                                            </a>
+                                        </div>
+                                        {{-- @endif --}}
+                                    @else
+                                        <div class="col-md-3">
+                                            <div>
+                                                <button
+                                                    class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
+                                                    style="float: right;" disabled>
+                                                    <i class="mdi mdi-download me-2 mt-1"></i>
+                                                    DOWNLOAD REPORT
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="table-responsive">
 
@@ -88,7 +98,7 @@
                                         <form class="px-2 py-2" wire:submit.prevent="submit">
                                             @csrf
                                             <div class="row d-flex justify-content-between align-items-center">
-                                                <div class="col-md-4 align-items-center">
+                                                <div class="col-md-1 align-items-center">
                                                     <input type="checkbox" name="group1" class="me-2"
                                                         wire:model="quartiles" value="all" class="quartile-checkbox"
                                                         wire:change="submit">
@@ -97,27 +107,55 @@
                                                 <div class="col-md-4 d-flex align-items-center">
                                                     <label for="startDate">From:</label>
                                                     <input type="date" class="form-control form-control-sm ms-2 me-3"
-                                                        id="startDate" wire:model="startdate"
+                                                        id="startDate" wire:model.live="startdate"
                                                         wire:change="updateStartDate">
 
                                                     <label for="endDate">To:</label>
                                                     <input type="date" class="form-control form-control-sm ms-2"
-                                                        id="endDate" wire:model="enddate" wire:change="updateEndDate">
+                                                        id="endDate" wire:model.live="enddate"
+                                                        wire:change="updateEndDate">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="" style="">
-                                                        @php
-                                                            $newRange = implode(',', $quartRange);
-                                                        @endphp
-                                                        <a href="{{ route('formdata.export', ['range' => $newRange]) }}"
-                                                            class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
-                                                            style="float: right;">
 
-                                                            <i class="mdi mdi-download me-2 mt-1"></i>
-                                                            DOWNLOAD REPORT
-                                                        </a>
+                                                @php
+                                                    $newRange = implode(',', $quartRange);
+                                                @endphp
+                                                @if (count($formDatas) != 0)
+                                                    @if (empty($region_id))
+                                                        <div class="col-md-3">
+                                                            <div class="" style="">
+                                                                <a href="{{ route('formdata.export', ['range' => $newRange]) }}"
+                                                                    class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
+                                                                    style="float: right;">
+                                                                    <i class="mdi mdi-download me-2 mt-1"></i>
+                                                                    DOWNLOAD REPORT
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        {{-- @if (auth()->user()->can('download reports')) --}}
+                                                        <div class="col-4">
+                                                            <a href="{{ empty($region_id) ? route('reginal_report.export', ['region_id' => 0, 'startDate' => $startdate, 'endDate' => $enddate]) : route('reginal_report.export', ['region_id' => $region_id, 'startDate' => $startdate, 'endDate' => $enddate]) }}"
+                                                                class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
+                                                                style="float: right;">
+                                                                <i class="mdi mdi-download me-2 mt-1"></i>
+                                                                Download Reginal Report
+                                                            </a>
+                                                        </div>
+                                                        {{-- @endif --}}
+                                                    @endif
+                                                @else
+                                                    <div class="col-md-3">
+                                                        <div>
+                                                            <button
+                                                                class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
+                                                                style="float: right;" disabled>
+                                                                <i class="mdi mdi-download me-2 mt-1"></i>
+                                                                DOWNLOAD REPORT
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
+
                                             </div>
 
                                             <div class="d-flex my-5 justify-content-between align-items-center">
@@ -130,15 +168,15 @@
 
                                                 <div class="">
                                                     <input type="checkbox" name="group1" class="me-2"
-                                                        wire:model="quartiles" value="q2" class="quartile-checkbox"
-                                                        wire:change="submit">
+                                                        wire:model="quartiles" value="q2"
+                                                        class="quartile-checkbox" wire:change="submit">
                                                     <label>2nd Quartile</label>
                                                 </div>
 
                                                 <div class="">
                                                     <input type="checkbox" name="group1" class="me-2"
-                                                        wire:model="quartiles" value="q3" class="quartile-checkbox"
-                                                        wire:change="submit">
+                                                        wire:model="quartiles" value="q3"
+                                                        class="quartile-checkbox" wire:change="submit">
                                                     <label>3rd Quartile</label>
                                                 </div>
 
@@ -162,7 +200,7 @@
                                                     <label for="selectedYear" class="me-2">Region: </label>
                                                     <select id="selectedYear" wire:model.live="region_id"
                                                         class="form-control" placeholder="year">
-                                                        <option value="" selected>Select Region ...</option>
+                                                        <option value="" selected>All Region </option>
                                                         @foreach ($regions as $region)
                                                             <option value="{{ $region->id }}">{{ $region->name }}
                                                             </option>

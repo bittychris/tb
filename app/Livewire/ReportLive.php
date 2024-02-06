@@ -46,7 +46,8 @@ class ReportLive extends Component
 
     public $selectedYear = '2024';
 
-    public $startdate = "";
+    // public $startdate = "";
+    public $startdate = '2022-12-07 10:20:34';
 
     public $enddate = "";
 
@@ -177,6 +178,7 @@ class ReportLive extends Component
     public function mount($report = null){
         $this->currentDateTime = now()->toDateTimeString();
         $this->endDate = now()->toDateTimeString();
+        $this->enddate = now()->toDateTimeString();
         $this->quartRange = ['2022-12-07 10:20:34', $this->currentDateTime];
 
         if(!empty($report)) {
@@ -304,14 +306,15 @@ class ReportLive extends Component
 
             }
 
-            $forms = Form::whereIn('ward_id', $ward_ids)->get();
+            $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+                ->whereBetween('created_at', $this->quartRange)
+                ->get();
 
             foreach($forms as $form) {
                 array_push($this->form_ids, $form->id);
 
             }
 
-            // dd($this->form_ids);
         }
 
 
@@ -324,7 +327,7 @@ class ReportLive extends Component
                 $query->whereIn('form_id', $this->form_ids);
 
             })
-            ->whereBetween('form_data.created_at', $this->quartRange)
+            ->whereBetween('form_data.updated_at', $this->quartRange)
             ->orderBy('attributes.attribute_no', 'asc')
             ->get();
 

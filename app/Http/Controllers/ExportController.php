@@ -13,6 +13,7 @@ use App\Exports\FormDataExport;
 use App\Exports\FieldDataExport;
 use App\Exports\FormDataOneExport;
 use App\Exports\FormAttributeExport;
+use App\Exports\RegionalReportExport;
 use App\Exports\SingleFormDataExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -65,5 +66,12 @@ class ExportController extends Controller
         $time = now()->toDateTimeString();
 
         return Excel::download(new SingleFormDataExport($form_id), 'field-data-'.$time.'.xlsx');
+    }
+
+    public function reginalReport($region_id, $startDate, $endDate)
+    {
+        $time = now()->toDateTimeString();
+
+        return Excel::download(new RegionalReportExport($region_id, $startDate, $endDate), 'reginal-report'.$time.'.xlsx');
     }
 }
