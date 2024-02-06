@@ -84,7 +84,7 @@
                                     <th>District</th>
                                     <th>Ward</th>
                                     <th>Address</th>
-                                    {{-- <th>Created By</th> --}}
+                                    <th>Created on</th>
                                     <th>Status</th>
                                     @if (auth()->user()->can('edit field data') &&
                                             auth()->user()->can('submit field data'))
@@ -101,6 +101,7 @@
                                     <td>{{ $report->ward->district->name }}</td>
                                     <td>{{ $report->ward->name }}</td>
                                     <td>{{ $report->address }}</td>
+                                    <td>{{ $report->created_at->format('d/m/Y') }}</td>
                                     {{-- <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td> --}}
                                     <td>
                                         <span

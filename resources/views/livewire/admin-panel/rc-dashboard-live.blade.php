@@ -269,6 +269,7 @@
                                     <th>Ward</th>
                                     <th>Address</th>
                                     {{-- <th>Created By</th> --}}
+                                    <th>Created on</th>
                                     <th>Status</th>
                                     @if (auth()->user()->can('edit field data') &&
                                             auth()->user()->can('submit field data'))
@@ -285,6 +286,7 @@
                                     <td>{{ $data->ward->district->name }}</td>
                                     <td>{{ $data->ward->name }}</td>
                                     <td>{{ $data->address }}</td>
+                                    <td>{{ $data->created_at->format('d/m/Y') }}</td>
                                     {{-- <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td> --}}
                                     <td>
                                         <span class="badge rounded bg-{{ $data->status == 0 ? 'danger' : 'success' }}">
