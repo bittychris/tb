@@ -88,10 +88,12 @@
                     <td></td>
                     <td style="font-size: 10px; border: 1px solid #000;">{{ $ageGroup->slug }}</td>
                     @foreach ($attributeList as $attribute)
-                        <td style="font-size: 10px; text-align: center; border: 1px solid #000;">
+                        <td
+                            style="font-size: 10px; text-align: center; background: {{ $ageGroup->slug == '0-5' && $attribute->attribute_no == 1 ? 'black' : '' }} {{ $ageGroup->slug == '6-14' && $attribute->attribute_no == 10 ? 'black' : '' }} {{ $ageGroup->slug == '15 & above' && $attribute->attribute_no == 10 ? 'black' : '' }}; border: 1px solid #000;">
                             {{ $formData[$i][$ageGroup->id][$attribute->id]['F'] ?? '- - -' }}
                         </td>
-                        <td style="font-size: 10px; text-align: center; border: 1px solid #000;">
+                        <td
+                            style="font-size: 10px; text-align: center; background: {{ $ageGroup->slug == '0-5' && $attribute->attribute_no == 1 ? 'black' : '' }} {{ $ageGroup->slug == '6-14' && $attribute->attribute_no == 10 ? 'black' : '' }} {{ $ageGroup->slug == '15 & above' && $attribute->attribute_no == 10 ? 'black' : '' }}; border: 1px solid #000;">
                             {{ $formData[$i][$ageGroup->id][$attribute->id]['M'] ?? '- - -' }}
                         </td>
                         @php
