@@ -29,7 +29,7 @@
         @forelse($forms as $form)
             <tr>
                 <td style="text-align: left;">{{ $i++ }}</td>
-                <td style="color: black;">{{ $form->scanning_name }}</td>
+                <td style="color: black;">{{ Str::limit($form->scanning_name, 20) }}</td>
                 <td>{{ $form->ward->district->region->name }}</td>
                 <td>{{ $form->ward->district->name }}</td>
                 <td>{{ $form->ward->name }}</td>

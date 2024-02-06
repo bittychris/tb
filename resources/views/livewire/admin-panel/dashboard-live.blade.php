@@ -251,7 +251,7 @@
                                         <td>{{ $i++ }}</td>
                                         <td>
                                             <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
-                                                style="text-decoration: none;">{{ $report->scanning_name }}</a>
+                                                style="text-decoration: none;">{{ Str::limit($report->scanning_name, 20) }}</a>
                                         </td>
                                         <td>{{ $report->ward->district->region->name }}</td>
                                         <td>{{ $report->ward->district->name }}</td>

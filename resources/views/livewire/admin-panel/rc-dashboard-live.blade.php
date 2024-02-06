@@ -281,7 +281,7 @@
                             @forelse($field_data as $key => $data)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $data->form_attribute->name }}</td>
+                                    <td>{{ Str::limit($data->form_attribute->name, 20) }}</td>
                                     {{-- <td>{{ $data->scanning_name }}</td> --}}
                                     <td>{{ $data->ward->district->name }}</td>
                                     <td>{{ $data->ward->name }}</td>
