@@ -138,7 +138,7 @@
                                                                 class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
                                                                 style="float: right;">
                                                                 <i class="mdi mdi-download me-2 mt-1"></i>
-                                                                Download Reginal Report
+                                                                Download Regional Report
                                                             </a>
                                                         </div>
                                                         {{-- @endif --}}

@@ -4,7 +4,7 @@
             <th></th>
             <th colspan="31"
                 style="background: #ffff00; margin-bottom: 20px; font-weight: bold; text-align: center; font-size: 20px;">
-                REGINAL REPORT
+                REGIONAL REPORT
             </th>
         </tr>
         <tr>
