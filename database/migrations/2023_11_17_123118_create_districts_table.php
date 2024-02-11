@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('region_id')->unsigned()->constrained();
+            $table->foreignId('region_id')->unsigned()->constrained()->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
         });

@@ -69,6 +69,15 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('staffs/{staff_id}/edit', [adminController::class, 'editStaff'])->name('admin.edit_staff')->middleware(['permission:edit staff']);
 
+    Route::get('regions', [adminController::class, 'regions'])->name('admin.regions');
+    // ->middleware(['permission:all age groups']);
+
+    Route::get('districts', [adminController::class, 'districts'])->name('admin.districts');
+    // ->middleware(['permission:all age groups']);
+
+    Route::get('wards', [adminController::class, 'wards'])->name('admin.wards');
+    // ->middleware(['permission:all age groups']);wards
+
     Route::get('age_groups', [adminController::class, 'ageGroups'])->name('admin.age_groups')->middleware(['permission:all age groups']);
 
     Route::get('attributes/list', [adminController::class, 'attributes'])->name('admin.attributes')->middleware(['permission:all attributes']);

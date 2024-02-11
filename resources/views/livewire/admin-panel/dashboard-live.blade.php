@@ -149,7 +149,7 @@
                                 </div> --}}
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
+                        {{-- <div class="tab-pane fade" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
                             <div class="d-flex flex-wrap justify-content-xl-between">
                                 <div
                                     class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
@@ -203,11 +203,37 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title">Cash deposits</p>
+                    <p class="mb-4">To start a blog, think of a topic about and first brainstorm party is ways to
+                        write details</p>
+                    <div id="cash-deposits-chart-legend" class="d-flex justify-content-center pt-3"></div>
+                    <canvas id="cash-deposits-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="col-md-5 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title">Total sales</p>
+                    <h1>$ 28835</h1>
+                    <h4>Gross sales over the years</h4>
+                    <p class="text-muted">Today, many people rely on computers to do homework, work, and create or
+                        store useful information. Therefore, it is important </p>
+                    <div id="total-sales-chart-legend"></div>
+                </div>
+                <canvas id="total-sales-chart"></canvas>
+            </div>
+        </div> --}}
     </div>
     <div class="row">
         <div class="col-md-12 stretch-card">

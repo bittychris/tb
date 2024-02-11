@@ -55,6 +55,7 @@ class FormData extends Component
             $this->form_id = $form->form_attribute_id;
             $this->address = $form->address;
             $this->ward_id = $form->ward_id;
+            $this->district_id = $form->ward->district->id;
 
             $this->wards = Ward::all();
             $this->updatedFormId();
@@ -263,7 +264,13 @@ class FormData extends Component
         // $regions = Region::all();
 
         $this->region_id = auth()->user()->region_id;
+
         $this->districts = District::where('region_id', $this->region_id)->get();
+
+        if($this->editMode == true) {
+            $this->districts = District::orderBy('name', 'asc')->get();
+        }
+
 
         return view('livewire.admin-panel.form-data', [
             'formsAttributes' => $formsAttributes,

@@ -285,3 +285,49 @@
     </div>
 
 </div>
+
+@push('js')
+    <script>
+        document.addEventListener('livewire:load', function() {
+
+            Livewire.on('validateFormData', (message) => {
+
+                alert(message);
+
+            });
+
+        });
+
+
+        window.addEventListener('livewire', (event) => {
+
+            const table = document.querySelector('.formData');
+
+            const inputs = table.querySelectorAll('input[type="number"]');
+
+
+            inputs.forEach((input) => {
+
+                input.addEventListener('input', (e) => {
+
+                    const ageGroupId = e.target.closest('tr').querySelector('td:first-child')
+                        .dataset.ageGroupId;
+
+                    const attributeId = e.target.closest('tr').dataset.attributeId;
+
+                    const gender = e.target.dataset.gender;
+
+
+                    @this.set('formData.' + ageGroupId + '.' + attributeId + '.' + gender, e.target
+                        .value);
+
+
+                    @this.validateFormData();
+
+                });
+
+            });
+
+        });
+    </script>
+@endpush

@@ -15,6 +15,25 @@ class adminController extends Controller
     }
 
     //
+
+    public function regions()
+    {
+        return view('admin_panel.regions');
+
+    }
+
+    public function districts()
+    {
+        return view('admin_panel.districts');
+
+    }
+
+    public function wards()
+    {
+        return view('admin_panel.wards');
+
+    }
+
     public function ageGroups()
     {
         return view('admin_panel.age_groups');
