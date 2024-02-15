@@ -17,8 +17,14 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Insert Field Data</div>
-                            <div class="col-6">
+                            <div class="col-7">{{ $editMode == true ? 'Edit Field Data' : 'Insert Field Data' }}</div>
+                            {{-- <div class="col-3">
+                                <button type="button" wire:click="openUploadModal"
+                                    class="btn btn-danger btn-sm text-white text-uppercase d-flex align-items-center"
+                                    style="float: right;"><i class="mdi mdi-upload me-2"
+                                        style="font-size: 14px;"></i>Import Data</button>
+                            </div> --}}
+                            <div class="col-3">
                                 <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white"
                                     style="float: right;">Back</a>
                             </div>
@@ -105,6 +111,36 @@
 
                             </div>
                             <div class="col-md-12 table-responsive">
+
+                                @if ($color == 'danger')
+                                    <div class="row mx-2 text-danger" style="font-size: 13px;">
+                                        Summary for other Columns:
+                                    </div>
+                                    <div class="row mx-5 mb-3" style="font-size: 13px;">
+                                        <div class="col-md-4 ms-3">
+                                            Total Female:
+                                            <div class="row mx-2">
+                                                <div class="col-12">
+                                                    Age Group 0-5 and 6-14 = {{ $total_one_female }}
+                                                </div>
+                                                <div class="col-12">
+                                                    Age Group 15 & Above = {{ $total_two_female }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            Total Male:
+                                            <div class="row mx-2">
+                                                <div class="col-12">
+                                                    Age Group 0-5 and 6-14 = {{ $total_one_male }}
+                                                </div>
+                                                <div class="col-12">
+                                                    Age Group 15 & Above = {{ $total_two_male }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <table class="formData table table-bordered table-sm">
                                     @php
                                         $main_attr = 'Number of individual received TB health Education (estimated number in hot spot arae)';
@@ -114,17 +150,19 @@
                                         <tr>
                                             <th>Age Group</th>
                                             @foreach ($attributeList as $attribute)
-                                                {{-- @if ($attribute->attribute_no == 1)
-                                                <th colspan="2" class="text-danger" style="border-bottom-color: {{ $color }};">{{ $attribute->name }}</th>
-                                            @else --}}
-                                                <th colspan="2">{{ $attribute->name }}</>
-                                                    {{-- @endif --}}
+                                                @if ($attribute->attribute_no == 1.0)
+                                                    <th colspan="2" class="text-{{ $color }}">
+                                                        {{ $attribute->name }}
+                                                    </th>
+                                                @else
+                                                    <th colspan="2">{{ $attribute->name }}</>
+                                                @endif
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th></th>
                                             @foreach ($attributeList as $attribute)
-                                                {{-- @if ($attribute->attribute_no == 1)
+                                                {{-- @if ($attribute->attribute_no == 1.0)
                                                 <th class="text-danger" style="border-bottom-color: {{ $color }};">F</th>
                                                 <th class="text-danger" style="border-bottom-color: {{ $color }};">M</th>
                                             @else --}}
@@ -140,7 +178,7 @@
                                                 <td>{{ $ageGroup->slug }}</td>
                                                 @foreach ($attributeList as $attribute)
                                                     @if ($attribute->attribute_no == 1.0)
-                                                        <td style="border-right-color: {{ $color }};">
+                                                        <td>
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '0-5' ? 'bg-dark' : '' }}"
                                                                 value="0"
@@ -148,7 +186,7 @@
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
-                                                        <td style="border-left-color: {{ $color }};">
+                                                        <td>
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '0-5' ? 'bg-dark' : '' }}"
                                                                 value="0"
@@ -157,7 +195,7 @@
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
                                                     @elseif ($attribute->attribute_no == 10.0)
-                                                        <td style="border-right-color: {{ $color }};">
+                                                        <td>
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
@@ -165,7 +203,7 @@
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
-                                                        <td style="border-left-color: {{ $color }};">
+                                                        <td>
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
@@ -284,50 +322,55 @@
         </div>
     </div>
 
+    {{-- Upload data model --}}
+    <div wire:ignore.self class="modal fade" id="upload_data_modal" tabindex="-1"
+        aria-labelledby="upload_data_modal_label" aria-hidden="true">
+        <div class="row justify-content-center mt-3 mb-0">
+            <div class="col-5">
+                @if (session()->has('already_exist'))
+                    @include('partial.alert')
+                @endif
+            </div>
+        </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="forms-sample" wire:submit.prevent="">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Field Data</h1>
+                        <button type="button" wire:click="clearForm" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-3">
+                        <div class="form-group">
+                            <label for="excel_file">Excel file</label>
+                            <input type="file" accept="" wire:model="excel_file"
+                                class="form-control form-control-sm" id="excel_file">
+                            @error('excel_file')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" wire:click="clearForm" class="btn btn-warning text-dark"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary text-white">Import</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @push('js')
     <script>
-        document.addEventListener('livewire:load', function() {
-
-            Livewire.on('validateFormData', (message) => {
-
-                alert(message);
-
-            });
-
+        window.addEventListener('openForm', event => {
+            $('#upload_data_modal').modal('show');
         });
 
-
-        window.addEventListener('livewire', (event) => {
-
-            const table = document.querySelector('.formData');
-
-            const inputs = table.querySelectorAll('input[type="number"]');
-
-
-            inputs.forEach((input) => {
-
-                input.addEventListener('input', (e) => {
-
-                    const ageGroupId = e.target.closest('tr').querySelector('td:first-child')
-                        .dataset.ageGroupId;
-
-                    const attributeId = e.target.closest('tr').dataset.attributeId;
-
-                    const gender = e.target.dataset.gender;
-
-
-                    @this.set('formData.' + ageGroupId + '.' + attributeId + '.' + gender, e.target
-                        .value);
-
-
-                    @this.validateFormData();
-
-                });
-
-            });
-
+        window.addEventListener('closeForm', event => {
+            $('#upload_data_modal').modal('hide');
         });
     </script>
 @endpush
