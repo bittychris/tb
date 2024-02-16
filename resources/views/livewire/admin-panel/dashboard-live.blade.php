@@ -374,9 +374,9 @@
                                 fill: true,
                                 // pointBackgroundColor: "#fff",
                                 backgroundColor: 'blue',
-                                // barPercentage: 5,
+                                barPercentage: 5,
                                 // barThickness: 20,
-                                // maxBarThickness: 70,
+                                maxBarThickness: 50,
                                 // minBarLength: 2,
 
                             },
@@ -390,9 +390,9 @@
                                 fill: true,
                                 // pointBackgroundColor: "#fff",
                                 backgroundColor: 'red',
-                                // barPercentage: 5,
+                                barPercentage: 5,
                                 // barThickness: 20,
-                                // maxBarThickness: 70,
+                                maxBarThickness: 50,
                                 // minBarLength: 2,
 
                             },
