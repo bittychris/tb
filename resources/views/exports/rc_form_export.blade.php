@@ -37,7 +37,7 @@
                     style="text-align: center; color: #fff; font-size: 12px; background: {{ $report->status == 0 ? 'red' : 'green' }}; border-radius: 8px;">
                     {{ $report->status == 0 ? 'Not submitted' : 'Submited' }}
                 </td>
-                <td style="text-align: right;">{{ $report->updated_at->format('M d, Y') }}</td>
+                <td style="text-align: right;">{{ $report->updated_at->format('F d, Y') }}</td>
             </tr>
         @empty
             <tr>

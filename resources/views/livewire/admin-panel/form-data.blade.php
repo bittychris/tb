@@ -154,6 +154,14 @@
                                                     <th colspan="2" class="text-{{ $color }}">
                                                         {{ $attribute->name }}
                                                     </th>
+                                                @elseif ($attribute->attribute_no == 0.1)
+                                                    <th colspan="2" class="text-{{ $color }}">
+                                                        {{ $attribute->name }}
+                                                    </th>
+                                                @elseif ($attribute->attribute_no == 0.2)
+                                                    <th colspan="2" class="text-{{ $color }}">
+                                                        {{ $attribute->name }}
+                                                    </th>
                                                 @else
                                                     <th colspan="2">{{ $attribute->name }}</>
                                                 @endif

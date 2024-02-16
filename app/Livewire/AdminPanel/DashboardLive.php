@@ -9,6 +9,9 @@ use App\Models\Region;
 use Livewire\Component;
 use App\Models\District;
 use App\Models\FormData;
+use App\Models\Attribute;
+use App\Models\FormAttribute;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class DashboardLive extends Component
@@ -17,14 +20,113 @@ class DashboardLive extends Component
 
     public $total_reports_count, $submitted_report_count, $reports_in_field_count;
 
+    public $form_id = '2420fdd8-6a21-46ea-874d-37768f84afd3';
+
+    public $formsAttributes;
+
+    public $formsAttribute;
+    
+    public $labels = [];
+
+    public $maleDatasets = [];
+
+    public $femaleDatasets = [];
+    
+    // public $form_id = '249466c0-f8b1-493d-9049-744de6591339'; // public meeting report
+
     public $ward_visited_ids = [];
 
     public $districts_visited_ids = [];
 
     public $regions_visited_ids = [];
 
+    // public function updateFormId(){
+    //     return $this->getChartData();
+        
+    // }
+    
+    public function getChartData() {
+
+        $this->dispatch('updateChart');
+
+        $mainAttribute = '';
+        // $labels = [];
+        $datasets = [];
+        // $maleDatasets = [];
+        // $femaleDatasets = [];
+
+        if(!empty($this->form_id)) {
+
+            $this->formsAttribute = FormAttribute::find($this->form_id);
+
+            $attributeList = Attribute::whereIn('id', json_decode($this->formsAttribute->attribute_ids))->get();
+            
+            foreach($attributeList as $attribute) {
+                if($attribute->attribute_no == 1.0) {
+                    $mainAttribute = $attribute;
+    
+                } elseif($attribute->attribute_no == 0.1) {
+                    $mainAttribute = $attribute;
+    
+                } elseif($attribute->attribute_no == 0.2) {
+                    $mainAttribute = $attribute;
+    
+                }
+            }
+            
+            $forms = Form::where('form_attribute_id', $this->form_id)->get();
+
+            if($forms) {
+                $form_ids = [];
+                $labels = [];
+                $datasets = [];
+
+                foreach($forms  as $form) {
+                    array_push($form_ids, $form->id);
+                }
+
+                $formData = \App\Models\FormData::selectRaw('SUM(male) as total_male, SUM(female) as total_female, updated_at')
+                        ->whereIn('form_id', $form_ids)
+                        ->where('attribute_id', $mainAttribute->id)
+                        ->orderBy('updated_at', 'asc')
+                        ->groupBy('updated_at')
+                        ->get()
+                        ->mapWithKeys(function ($item) {
+                            return [$item->updated_at->format('F d, Y') => [
+                                'male' => $item->total_male,
+                                'female' => $item->total_female,
+                            ]];
+                        });
+
+                foreach($formData as $date => $data) {
+                    array_push($this->labels, $date);
+                    array_push($datasets, $data);
+
+                }
+
+                foreach($datasets as $data) {
+                    array_push($this->maleDatasets, $data['male']);
+                    array_push($this->femaleDatasets, $data['female']);
+
+                }
+            }          
+
+        // $this->js('window.location.reload()'); 
+
+        }
+
+        $this->dispatch('renderChart');
+
+
+    }
+
     public function render()
     {
+        if(!empty($this->form_id)) {
+            $this->getChartData();
+
+        }
+
         $rc_role = Role::findByName('Regional coordinator');
 
         $this->rcs_count = User::where('role_id', $rc_role->id)->count();
@@ -63,8 +165,6 @@ class DashboardLive extends Component
         }
 
         $this->region_count = count(array_unique($this->regions_visited_ids));
-
-        // dd($this->regions_visited_ids);
 
         $this->total_reports_count = Form::all()->count();
 
@@ -105,47 +205,14 @@ class DashboardLive extends Component
 
         $this->submitted_report_count = $submitted_field_reports->count();
 
-        // $data = FormData::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-        //             ->whereYear('created_at', date('Y'))
-        //             ->groupBy('month')
-        //             ->orderBy('month')
-        //             ->get();
-
-
+        $this->formsAttributes = FormAttribute::orderBy('created_at','asc')->get();
         
-        // $data = FormData::selectRaw('DATE_FORMAT(form_data.created_at, "%Y-%m") as month, 
-        //                         SUM(CASE WHEN attribute_id = 123 THEN 1 ELSE 0 END) as males,
-        //                         SUM(CASE WHEN attribute_id = 124 THEN 1 ELSE 0 END) as females')
-        //     ->join('form_attributes', 'form_data.form_attribute_id', '=', 'form_attributes.id')
-        //     ->whereIn('form_attributes.attribute_id', [123, 124])
-        //     ->whereYear('form_data.created_at', date('Y'))
-        //     ->groupBy('month')
-        //     ->orderBy('month')
-        //     ->get();
-
-        //     $formId = 1; // Replace this with the desired form_id
-
-        // $data = FormData::selectRaw('DATE_FORMAT(form_data.created_at, "%Y-%m") as month, 
-        //                             SUM(CASE WHEN form_attributes.attribute_id = 123 THEN 1 ELSE 0 END) as males,
-        //                             SUM(CASE WHEN form_attributes.attribute_id = 124 THEN 1 ELSE 0 END) as females')
-        //         ->join('forms', function ($join) {
-        //             $join->on('form_data.form_id', '=', 'form_attributes.id');
-        //         })
-        //         ->join('form_attributes', function ($join) use ($formId) {
-        //             $join->on('forms.form_attribute_id', '=', 'form_attributes.id')
-        //                 ->where('forms.id', $formId);
-        //         })
-        //         // ->whereIn('form_attributes.attribute_id', [123, 124])
-        //         ->whereYear('form_data.created_at', date('Y'))
-        //         ->groupBy('month')
-        //         ->orderBy('month')
-        //         ->get();
-
-
-        // dd($data);
-
         return view('livewire.admin-panel.dashboard-live', [
-            'submitted_field_reports' => $submitted_field_reports
+            'submitted_field_reports' => $submitted_field_reports,
+            'formsAttributes' => $this->formsAttributes,
+            // 'labels' => $this->labels,
+            // 'maleDatasets' => $this->maleDatasets,
+            // 'femaleDatasets' => $this->femaleDatasets,
         ]);
     }
 }

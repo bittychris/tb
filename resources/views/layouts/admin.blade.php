@@ -93,7 +93,7 @@
 
         </div>
         <!-- container-scroller -->
-
+        {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
         <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
         <!-- endinject -->
         <!-- Plugin js for this page-->

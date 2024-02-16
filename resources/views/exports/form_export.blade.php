@@ -34,7 +34,7 @@
                 <td>{{ $form->ward->district->name }}</td>
                 <td>{{ $form->ward->name }}</td>
                 <td>{{ $form->added_by->first_name }} {{ $form->added_by->last_name }}</td>
-                <td style="text-align: right;">{{ $form->updated_at->format('M d, Y') }}</td>
+                <td style="text-align: right;">{{ $form->updated_at->format('F d, Y') }}</td>
             </tr>
         @empty
             <tr>

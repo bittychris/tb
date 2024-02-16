@@ -82,7 +82,7 @@ class FormData extends Component
     protected $rules = [
         'scanning_name' => ['required'],
 //        'region_id' => ['required'],
-//        'district_id' => ['required'],
+        'district_id' => ['required'],
         'ward_id' => ['required'],
         'address' => ['required'],
     ];
@@ -121,7 +121,7 @@ class FormData extends Component
             }
         }
 
-        dd($mainAttribute);
+        // dd($mainAttribute);
 
         // $mainAttribute = Attribute::where('attribute_no', 1.0)->first();
         $totalMale = [];
@@ -194,7 +194,10 @@ class FormData extends Component
 
         }
 
-        if(count($totalMale) >= 2 || count($totalFemale) >= 2) {
+        if(count($totalMale) < 2 || count($totalFemale) < 2) {
+            $this->dispatch('message_alert', 'Please Enter Number of Females or Males in "'.$mainAttribute->name.'" column');
+
+        } elseif(count($totalMale) >= 2 || count($totalFemale) >= 2) {
 
             if($this->total_one_male > $totalMale[$first_ageGroup_id] || $this->total_two_male > $totalMale[$third_ageGroup_id] || $this->total_one_female > $totalFemale[$first_ageGroup_id] || $this->total_two_female > $totalFemale[$third_ageGroup_id]) {
                $this->color = 'danger';

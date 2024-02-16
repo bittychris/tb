@@ -210,29 +210,56 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8 grid-margin stretch-card">
+        <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title">Cash deposits</p>
-                    <p class="mb-4">To start a blog, think of a topic about and first brainstorm party is ways to
-                        write details</p>
-                    <div id="cash-deposits-chart-legend" class="d-flex justify-content-center pt-3"></div>
-                    <canvas id="cash-deposits-chart"></canvas>
+                    {{-- <div class="row justify-content-between align-items-center"> --}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-title">{{ $formsAttribute->name }} Field Data</p>
+                        </div>
+                        {{-- <div class="col-md-6">
+                            <div class="form-group">
+                                <select wire:model.live="form_id" class="form-control form-control-sm text-dark"
+                                    wire:change="getChartData">
+                                    <option value="" class="fw-bold" id="form_id">Select Form</option>
+                                    @foreach ($formsAttributes as $formsAttribute)
+                                        <option value="{{ $formsAttribute->id }}">{{ $formsAttribute->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('form_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div> --}}
+                        {{-- <div class="col-md-2">
+                            <button wire:click="getChartData">Refresh</button>
+                        </div> --}}
+                    </div>
+                    {{-- <p class="mb-4">To start a blog, think of a topic about and first brainstorm party is ways to
+                        write details</p> --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="cash-deposits-charty-legend" class="d-flex justify-content-center pt-0"></div>
+                            <canvas id="cash-deposits-charty"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-5 grid-margin stretch-card">
+        {{-- <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title">Total sales</p>
-                    <h1>$ 28835</h1>
+                    <p class="card-title">Choose Report Title</p> --}}
+        {{-- <h1>$ 28835</h1>
                     <h4>Gross sales over the years</h4>
                     <p class="text-muted">Today, many people rely on computers to do homework, work, and create or
                         store useful information. Therefore, it is important </p>
-                    <div id="total-sales-chart-legend"></div>
-                </div>
-                <canvas id="total-sales-chart"></canvas>
-            </div>
+                    <div id="total-sales-chart-legend"></div> --}}
+        {{-- </div> --}}
+        {{-- <canvas id="total-sales-chart"></canvas> --}}
+        {{-- </div>
         </div> --}}
     </div>
     <div class="row">
@@ -317,3 +344,142 @@
         </div>
     </div>
 </div>
+
+@push('js')
+    <script>
+        var data;
+        var cashDepositsCanvas;
+
+        window.addEventListener('updateChart', event => {
+            // cashDepositsCanvas.update();
+
+        });
+
+        window.addEventListener('renderChart', event => {
+            // cashDepositsCanvas.update();
+
+            if ({{ count($labels) }} != 0) {
+
+                if ($('#cash-deposits-charty').length) {
+                    cashDepositsCanvas = $("#cash-deposits-charty").get(0).getContext("2d");
+                    data = {
+                        labels: @json($labels),
+                        datasets: [{
+                                label: 'Male',
+                                data: @json($maleDatasets),
+                                borderColor: [
+                                    'blue', '#4d83ff'
+                                ],
+                                // borderWidth: 2,
+                                fill: true,
+                                // pointBackgroundColor: "#fff",
+                                backgroundColor: 'blue',
+                                // barPercentage: 5,
+                                // barThickness: 20,
+                                // maxBarThickness: 70,
+                                // minBarLength: 2,
+
+                            },
+                            {
+                                label: 'Female',
+                                data: @json($femaleDatasets),
+                                borderColor: [
+                                    'red', '#ff4747'
+                                ],
+                                // borderWidth: 2,
+                                fill: true,
+                                // pointBackgroundColor: "#fff",
+                                backgroundColor: 'red',
+                                // barPercentage: 5,
+                                // barThickness: 20,
+                                // maxBarThickness: 70,
+                                // minBarLength: 2,
+
+                            },
+
+                        ]
+                    };
+                    var options = {
+                        scales: {
+                            yAxes: [{
+                                display: true,
+                                gridLines: {
+                                    drawBorder: false,
+                                    lineWidth: 1,
+                                    color: "#e9e9e9",
+                                    zeroLineColor: "#e9e9e9",
+                                },
+                                ticks: {
+                                    min: 0,
+                                    // max: 10000,
+                                    stepSize: 50,
+                                    fontColor: "#6c7383",
+                                    fontSize: 13,
+                                    fontStyle: 300,
+                                    padding: 10
+                                }
+                            }],
+                            xAxes: [{
+                                display: true,
+                                gridLines: {
+                                    drawBorder: false,
+                                    lineWidth: 1,
+                                    color: "#e9e9e9",
+                                },
+                                ticks: {
+                                    fontColor: "#6c7383",
+                                    fontSize: 13,
+                                    fontStyle: 300,
+                                    padding: 15
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: false
+                        },
+                        legendCallback: function(chart) {
+                            var text = [];
+                            text.push('<ul class="dashboard-chart-legend">');
+                            for (var i = 0; i < chart.data.datasets.length; i++) {
+                                text.push('<li><span style="background-color: ' + chart.data.datasets[i]
+                                    .borderColor[0] +
+                                    ' "></span>');
+                                if (chart.data.datasets[i].label) {
+                                    text.push(chart.data.datasets[i].label);
+                                }
+                            }
+                            text.push('</ul>');
+                            return text.join("");
+                        },
+                        elements: {
+                            point: {
+                                radius: 3
+                            },
+                            line: {
+                                tension: 0
+                            }
+                        },
+                        stepsize: 1,
+                        layout: {
+                            padding: {
+                                top: 0,
+                                bottom: -10,
+                                left: 0,
+                                right: 0
+                            }
+                        }
+                    };
+                    var cashDeposits = new Chart(cashDepositsCanvas, {
+                        type: 'bar',
+                        data: data,
+                        options: options
+                    });
+                    document.getElementById('cash-deposits-charty-legend').innerHTML = cashDeposits
+                        .generateLegend();
+                }
+
+            }
+
+        });
+    </script>
+@endpush
