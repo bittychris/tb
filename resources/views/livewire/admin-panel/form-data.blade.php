@@ -18,13 +18,13 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-7">{{ $editMode == true ? 'Edit Field Data' : 'Insert Field Data' }}</div>
-                            {{-- <div class="col-3">
+                            <div class="col-3">
                                 <button type="button" wire:click="openUploadModal"
                                     class="btn btn-danger btn-sm text-white text-uppercase d-flex align-items-center"
                                     style="float: right;"><i class="mdi mdi-upload me-2"
                                         style="font-size: 14px;"></i>Import Data</button>
-                            </div> --}}
-                            <div class="col-3">
+                            </div>
+                            <div class="col-2">
                                 <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white"
                                     style="float: right;">Back</a>
                             </div>

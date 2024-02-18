@@ -81,9 +81,9 @@
                                 </div>
                                 <div class="table-responsive">
 
-                                    <div hidden>
+                                    {{-- <div hidden>
                                         @include('exports.form_export')
-                                    </div>
+                                    </div> --}}
 
                                     @include('exports.form')
                                     {{ $forms->links() }}

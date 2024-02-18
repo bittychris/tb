@@ -239,12 +239,24 @@
                     </div>
                     {{-- <p class="mb-4">To start a blog, think of a topic about and first brainstorm party is ways to
                         write details</p> --}}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="cash-deposits-charty-legend" class="d-flex justify-content-center pt-0"></div>
-                            <canvas id="cash-deposits-charty"></canvas>
+
+                    @if (count($labels) > 0 && count($maleDatasets) > 0 && count($femaleDatasets) > 0)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="cash-deposits-charty-legend" class="d-flex justify-content-center pt-0"></div>
+                                <canvas id="cash-deposits-charty"></canvas>
+                            </div>
                         </div>
-                    </div>
+                        {{-- @else
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    Curre
+                                </div>
+                            </div>
+                        </div> --}}
+                    @endif
+
                 </div>
             </div>
         </div>

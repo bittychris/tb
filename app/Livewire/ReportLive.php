@@ -272,7 +272,7 @@ class ReportLive extends Component
             })
             ->when($this->startDate && $this->endDate, function ($query) {
 
-                $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
 
             })
             ->with(['added_by', 'form_attribute', 'ward' => function($query){

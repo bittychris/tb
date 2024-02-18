@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use App\Models\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -90,7 +91,7 @@ class FieldDataExport implements FromView, ShouldAutoSize
                 })
                 ->when($this->startDate && $this->endDate, function ($query) {
 
-                    $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                    $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
 
                 })
                 ->with(['added_by', 'form_attribute', 'ward' => function($query){
@@ -102,13 +103,140 @@ class FieldDataExport implements FromView, ShouldAutoSize
                 ->latest()
                 ->get();
 
+            $firstReport = Form::query()
+                ->when($this->keywords, function ($query) {
+                    return $query->where(function ($query) {
+                        $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+                            // ->orWhere('created_at', $this->date)
+                            ->orWhereHas('ward', function ($query) {
+                                $query->where('name', 'like', '%' . $this->keywords . '%');
+                            })
+                            ->orWhereHas('added_by', function ($query) {
+                                $query->where('first_name', 'like', '%' . $this->keywords . '%')
+                                    ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+                            })
+                            ->orWhereHas('ward.district', function ($query) {
+                                $query->where('name', 'like', '%' . $this->keywords . '%');
+                            })
+                            ->orWhereHas('ward.district.region', function ($query) {
+                                $query->where('name', 'like', '%' . $this->keywords . '%');
+                            });
+                    });
+                })
+                ->when($this->submission_status, function ($query) {
+
+                    $query->where(function ($query) {
+
+                        if ($this->submission_status == 'submitted') {
+
+                            $query->where('status', 1);
+
+                        } elseif ($this->submission_status == 'not_submitted') {
+
+                            $query->where('status', 0);
+
+                        } elseif ($this->submission_status == 'all') {
+
+                            $query->whereIn('status', [0, 1]);
+
+                        } else {
+
+                            $query->where('status', [0, 1]);
+
+                        }
+
+                    });
+
+                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
+                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
+
+                })
+                ->when($this->startDate && $this->endDate, function ($query) {
+
+                    $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
+
+                })
+                ->with(['added_by', 'form_attribute', 'ward' => function($query){
+                    $query->with(['district' => function($district){
+                                    $district->with('region');
+                                }]);
+                }])
+                ->where('created_by', Auth::user()->id)
+                ->orderBy('created_at', 'asc')
+                ->first();
+
+            $lastReport = Form::query()
+                ->when($this->keywords, function ($query) {
+                    return $query->where(function ($query) {
+                        $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+                            // ->orWhere('created_at', $this->date)
+                            ->orWhereHas('ward', function ($query) {
+                                $query->where('name', 'like', '%' . $this->keywords . '%');
+                            })
+                            ->orWhereHas('added_by', function ($query) {
+                                $query->where('first_name', 'like', '%' . $this->keywords . '%')
+                                    ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+                            })
+                            ->orWhereHas('ward.district', function ($query) {
+                                $query->where('name', 'like', '%' . $this->keywords . '%');
+                            })
+                            ->orWhereHas('ward.district.region', function ($query) {
+                                $query->where('name', 'like', '%' . $this->keywords . '%');
+                            });
+                    });
+                })
+                ->when($this->submission_status, function ($query) {
+
+                    $query->where(function ($query) {
+
+                        if ($this->submission_status == 'submitted') {
+
+                            $query->where('status', 1);
+
+                        } elseif ($this->submission_status == 'not_submitted') {
+
+                            $query->where('status', 0);
+
+                        } elseif ($this->submission_status == 'all') {
+
+                            $query->whereIn('status', [0, 1]);
+
+                        } else {
+
+                            $query->where('status', [0, 1]);
+
+                        }
+
+                    });
+
+                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
+                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
+
+                })
+                ->when($this->startDate && $this->endDate, function ($query) {
+
+                    $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
+
+                })
+                ->with(['added_by', 'form_attribute', 'ward' => function($query){
+                    $query->with(['district' => function($district){
+                                    $district->with('region');
+                                }]);
+                }])
+                ->where('created_by', Auth::user()->id)
+                ->latest()
+                ->first();
+        
+        // dd($lastReport);
+
         // $user = Auth::user();
         // $userforms = $user->forms;
         // $res =  $userforms;
         // $users = User::all();
        return view('exports.rc_form_export', [
         'reports' =>  $reports,
-        // 'users' => $users
+        'lastReport' => $lastReport,
+        'firstReport' => $firstReport
        ]);
     }
 

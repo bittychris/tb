@@ -1,11 +1,18 @@
 <table class="table table-hover table-bordered table-sm">
     <thead>
         <tr class="mb-1">
-            <th colspan="7"
+            <th colspan="7" rowspan="2"
                 style="background: #ffff00; margin-bottom: 20px; font-weight: bold; text-align: center; font-size: 20px;">
-                SUBMITTED
                 REPORTS</th>
         </tr>
+        <tr></tr>
+        <tr>
+            <th colspan="7">From: {{ $firstForm->created_at->format('F d, Y') ?? '---' }}</th>
+        </tr>
+        <tr>
+            <th colspan="7">To: {{ $lastForm->updated_at->format('F d, Y') ?? '---' }}</th>
+        </tr>
+        <tr></tr>
         <tr>
             <th style="background: #92d050; padding-top: 15px; font-weight: bold; text-align: center; color: black;">S/N
             </th>
@@ -29,7 +36,7 @@
         @forelse($forms as $form)
             <tr>
                 <td style="text-align: left;">{{ $i++ }}</td>
-                <td style="color: black;">{{ Str::limit($form->scanning_name, 20) }}</td>
+                <td style="color: black;">{{ $form->form_attribute->name }}</td>
                 <td>{{ $form->ward->district->region->name }}</td>
                 <td>{{ $form->ward->district->name }}</td>
                 <td>{{ $form->ward->name }}</td>

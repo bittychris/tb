@@ -88,16 +88,16 @@ class FormData extends Component
     ];
 
 
-    // public function openUploadModal() {
-    //     $this->dispatch('openForm');
+    public function openUploadModal() {
+        $this->dispatch('openForm');
 
-    // }
+    }
     
-    // public function clearForm() {
-    //     $this->reset(
-    //         'excel_file'
-    //     );
-    // }
+    public function clearForm() {
+        $this->reset(
+            'excel_file'
+        );
+    }
 
     public function saveForm()
     {

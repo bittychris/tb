@@ -7,7 +7,7 @@
                 <span class="count"></span>
             @endif
             @if ($unread_comment_count == 0)
-                <span wire:poll.1000ms="reloadComments" class="badge bg-danger text-white rounded-3 me-5" title="Refresh"
+                <span wire:poll.7000ms="reloadComments" class="badge bg-danger text-white rounded-3 me-5" title="Refresh"
                     style="font-size: 15px; display: none;"><i class="mdi mdi-refresh"></i></span>
             @endif
         </a>

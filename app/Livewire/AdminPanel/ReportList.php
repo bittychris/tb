@@ -32,8 +32,6 @@ class ReportList extends Component
 
     public $comments = [];
 
-    // public $submission_status = 'all';
-
     public function getFormData($report_id) {
         $this->form_id = $report_id;
         $report = Form::find($this->form_id);
@@ -65,32 +63,6 @@ class ReportList extends Component
 
         // $form_attribute_age_group_ids = json_decode($form_attribute->age_group_ids, true);
         $form_attribute_attribute_ids = json_decode($form_attribute->attribute_ids, true);
-
-        // foreach($form_attribute_age_group_ids as $age_group_id) {
-
-        //     foreach($form_data as $available_data) {
-
-        //         if($available_data->age_group_id != $age_group_id) {
-        //             // if($available_data->attribute_id != $first_attr_id || $available_data->attribute_id != $tenth_attr_id) {
-        //                 // array_push($this->unavailable_age_groups_data, $age_group_id);
-
-        //             // }
-
-        //         }
-        //         // elseif($available_data->age_group_id == $age_group_id) {
-
-        //         //     // if($available_data->attribute_id != $first_attr_id || $available_data->attribute_id != $tenth_attr_id) {
-
-        //         //     //     if($available_data->female == null || $available_data->male = null) {
-        //         //             array_push($this->unavailable_age_groups_data, $age_group_id);
-        //         //         }
-
-        //         // //     }
-
-        //         // // }
-
-        //     }
-        // }
 
         foreach($form_data as $available_data) {
 
@@ -126,7 +98,6 @@ class ReportList extends Component
 
             }
         }
-        // dd(count(array_unique($this->unavailable_data_attr)));
 
         if(count(array_unique($this->unavailable_attributes_data)) != 0) {
             $this->dispatch('closeModel');
@@ -197,7 +168,6 @@ class ReportList extends Component
         $validatedData = $this->validate();
 
         $last_comment = comments::where('sender_id', auth()->user()->id)->orWhere('receiver_id', auth()->user()->id)->latest()->limit(1)->get();
-        // dd($last_comment);
 
         foreach($last_comment as $comment) {
             if($comment->receiver_id == auth()->user()->id) {
@@ -256,7 +226,6 @@ class ReportList extends Component
 
         })->orderBy('created_at', 'asc')->get();
 
-
     }
 
     public function mount($form = null){
@@ -310,7 +279,6 @@ class ReportList extends Component
 
     public function render()
     {
-
         // Comments
         $this->comments = comments::where(function ($query) {
 
@@ -328,44 +296,12 @@ class ReportList extends Component
 
         $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
 
-        // if(empty($this->submission_status)) {
-        //     dd($this->submission_status);
-        // }
-
         if((auth()->user()->role->name == 'Admin') || (auth()->user()->role->name == 'AMREF personnel')) {
-
-            // $reports = Form::query()
-            //     ->when($this->keywords, function ($query) {
-            //         return $query->where(function ($query) {
-            //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-            //                 // ->orWhere('created_at', $this->date)
-            //                 ->orWhereHas('ward', function ($query) {
-            //                     $query->where('name', 'like', '%' . $this->keywords . '%');
-            //                 })
-            //                 ->orWhereHas('added_by', function ($query) {
-            //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
-            //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
-            //                 });
-            //         });
-            //     })
-            //     ->when($this->date, function ($query) {
-
-            //         $query->where('created_at', 'like', '%'.$this->date.'%');
-
-            //     })
-            //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
-            //         $query->with(['district' => function($district){
-            //                         $district->with('region');
-            //                     }]);
-            //     }])
-            //     ->latest()
-            //     ->paginate(10);
 
             $reports = Form::query()
             ->when($this->keywords, function ($query) {
                 return $query->where(function ($query) {
                     $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-                        // ->orWhere('created_at', $this->date)
                         ->orWhereHas('ward', function ($query) {
                             $query->where('name', 'like', '%' . $this->keywords . '%');
                         })
@@ -405,13 +341,10 @@ class ReportList extends Component
 
                 });
 
-                // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
-                // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
-
             })
             ->when($this->startDate && $this->endDate, function ($query) {
 
-                $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
 
             })
             ->with(['added_by', 'form_attribute', 'ward' => function($query){
@@ -423,34 +356,6 @@ class ReportList extends Component
             ->paginate(10);
 
         } else {
-
-            // $reports = Form::query()
-            //     ->when($this->keywords, function ($query) {
-            //         return $query->where(function ($query) {
-            //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-            //                 ->orWhere('created_at', 'like', '%'.$this->date.'%')
-            //                 ->orWhereHas('ward', function ($query) {
-            //                     $query->where('name', 'like', '%' . $this->keywords . '%');
-            //                 })
-            //                 ->orWhereHas('added_by', function ($query) {
-            //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
-            //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
-            //                 });
-            //         });
-            //     })
-            //     ->when($this->date, function ($query) {
-
-            //         $query->where('created_at', 'like', '%'.$this->date.'%');
-
-            //     })
-            //     ->with(['added_by', 'form_attribute', 'ward' => function($query){
-            //         $query->with(['district' => function($district){
-            //                         $district->with('region');
-            //                     }]);
-            //     }])
-            //     ->where('created_by', Auth::user()->id)
-            //     ->latest()
-            //     ->paginate(10);
 
             $reports = Form::query()
                 ->when($this->keywords, function ($query) {
@@ -496,13 +401,10 @@ class ReportList extends Component
 
                     });
 
-                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : ($this->submission_status == 'all' ? [0, 1] : 0)))
-                    // $query->where('status', $this->submission_status == 'submitted' ? 1 : ($this->submission_status == 'not_submitted' ? 0 : [0, 1]));
-
                 })
                 ->when($this->startDate && $this->endDate, function ($query) {
 
-                    $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                    $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
 
                 })
                 ->with(['added_by', 'form_attribute', 'ward' => function($query){

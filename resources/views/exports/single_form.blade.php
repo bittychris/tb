@@ -1,29 +1,46 @@
 <table class="formData table table-bordered table-sm">
     <thead>
+        <tr class="mb-1">
+            <th colspan="31" rowspan="2"
+                style="background: #ffff00; margin-bottom: 20px; font-weight: bold; text-align: center; font-size: 20px;">
+                REPORT</th>
+        </tr>
+        <tr></tr>
         <tr>
             <th></th>
         </tr>
         <tr>
-            <th colspan="3" style="text-align: left; font-size: 10px;">
+            <th colspan="5" style="text-align: left; font-size: 10px;">
                 Reginal Coordinator: {{ $form->added_by->first_name }} {{ $form->added_by->last_name }}
             </th>
-            <th colspan="3" style="text-align: left; font-size: 10px;">
+            <th colspan="5" style="text-align: left; font-size: 10px;">
                 Region: {{ $form->ward->district->region->name }}
             </th>
-            <th colspan="3" style="text-align: left; font-size: 10px;">
+            <th colspan="5" style="text-align: left; font-size: 10px;">
                 Ward: {{ $form->ward->name }}
             </th>
         </tr>
         <tr>
-            <th colspan="3" style="text-align: left; font-size: 10px;">
-                Submittion date: {{ $form->updated_at->format('M d, Y') }}
+            <th colspan="5" style="text-align: left; font-size: 10px;">
+                From: {{ $form->created_at->format('F d, Y') }}
             </th>
-            <th colspan="3" style="text-align: left; font-size: 10px;">
+            <th colspan="5" style="text-align: left; font-size: 10px;">
                 District: {{ $form->ward->district->name }}
             </th>
-            <th colspan="3" style="text-align: left; font-size: 10px;">
+            <th colspan="5" style="text-align: left; font-size: 10px;">
                 Address: {{ $address }}
             </th>
+        </tr>
+        <tr>
+            <th colspan="5" style="text-align: left; font-size: 10px;">
+                To: {{ $form->updated_at->format('F d, Y') }}
+            </th>
+            {{-- <th colspan="5" style="text-align: left; font-size: 10px;">
+                District: {{ $form->ward->district->name }}
+            </th>
+            <th colspan="5" style="text-align: left; font-size: 10px;">
+                Address: {{ $address }}
+            </th> --}}
         </tr>
         <tr>
             <th></th>

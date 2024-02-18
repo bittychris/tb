@@ -46,6 +46,14 @@
                                 <input type="text" wire:model.live="keywords" class="form-control form-control-sm"
                                     id="keywords" placeholder="Search by form name, district, ward, or RC names">
                             </div>
+                            {{-- @php
+                                if (!empty($startDate)) {
+                                    $birth_date_str = $startDate;
+                                    $birth_date = date_create_from_format('Y-m-d', $birth_date_str);
+
+                                    print_r($birth_date + 1);
+                                }
+                            @endphp --}}
                             <div class="col-md-5 d-flex align-items-center">
                                 <label for="startDate">From:</label>
                                 <input type="date" class="form-control form-control-sm ms-2 me-3" id="startDate"
@@ -71,9 +79,9 @@
                     </h4>
 
                     <div class="table-responsive">
-                        <div hidden>
+                        {{-- <div hidden>
                             @include('exports.rc_form_export')
-                        </div>
+                        </div> --}}
 
                         <table class="table table-hover table-bordered table-sm">
                             <thead>
@@ -86,8 +94,7 @@
                                     <th>Address</th>
                                     <th>Created on</th>
                                     <th>Status</th>
-                                    @if (auth()->user()->can('edit field data') &&
-                                            auth()->user()->can('submit field data'))
+                                    @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
                                         <th>Action</th>
                                     @endif
 
@@ -110,8 +117,7 @@
                                         </span>
                                     </td>
 
-                                    @if (auth()->user()->can('edit field data') &&
-                                            auth()->user()->can('submit field data'))
+                                    @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
                                         <td>
                                             @php
                                                 $unread_form_comment_count = $report

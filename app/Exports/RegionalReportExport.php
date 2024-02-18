@@ -64,10 +64,32 @@ class RegionalReportExport implements FromView, ShouldAutoSize
 
             }
 
-            $forms = Form::whereIn('ward_id', $ward_ids)
-            ->whereBetween('updated_at', [$this->startDate, $this->endDate])
-            ->where('status', true)
-            ->get();
+            $forms = Form::select('forms.*', 'form_attributes.updated_at as upt_at', 'form_attributes.created_at as crt_at')
+                ->join('form_attributes', 'forms.form_attribute_id', '=', 'form_attributes.id')
+                ->whereIn('ward_id', $ward_ids)
+                ->whereBetween('forms.updated_at', [$this->startDate, $this->endDate])
+                ->where('status', true)
+                ->orderBy('crt_at', 'asc')
+                ->get();
+            
+            
+
+            // $forms = Form::whereIn('ward_id', $ward_ids)
+            //     ->whereBetween('updated_at', [$this->startDate, $this->endDate])
+            //     ->where('status', true)
+            //     ->get();
+
+            $firstForm = Form::whereIn('ward_id', $ward_ids)
+                ->whereBetween('updated_at', [$this->startDate, $this->endDate])
+                ->where('status', true)
+                ->orderBy('updated_at', 'asc')
+                ->first();
+
+            $lastForm = Form::whereIn('ward_id', $ward_ids)
+                ->whereBetween('updated_at', [$this->startDate, $this->endDate])
+                ->where('status', true)
+                ->latest()
+                ->first();
 
             foreach($forms as $form) {
                 array_push($this->form_ids, $form->id);
@@ -125,6 +147,8 @@ class RegionalReportExport implements FromView, ShouldAutoSize
 
         }
 
+        // dd($testForms);
+
         // dd($this->total_male);
 
         // $this->calculateTotal();
@@ -139,6 +163,8 @@ class RegionalReportExport implements FromView, ShouldAutoSize
             'form_ids' => $this->form_ids,
             'rc' => $this->rc,
             'form' => $this->form,
+            'firstForm' => $firstForm,
+            'lastForm' => $lastForm,
             // 'districts' => $this->districts,
             // 'address' => $this->address,
             'attributeList' => $this->attributeList,
