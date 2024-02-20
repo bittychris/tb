@@ -256,40 +256,40 @@
                             </div>
                         </div> --}}
 
+                        {{-- </div> --}}
                     </div>
                 </div>
-            </div>
-            {{-- <div class="col-md-6 grid-margin stretch-card">
+                {{-- <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title">Choose Report Title</p> --}}
-            {{-- <h1>$ 28835</h1>
+                {{-- <h1>$ 28835</h1>
                         <h4>Gross sales over the years</h4>
                         <p class="text-muted">Today, many people rely on computers to do homework, work, and create or
                             store useful information. Therefore, it is important </p>
                         <div id="total-sales-chart-legend"></div> --}}
-            {{-- </div> --}}
-            {{-- <canvas id="total-sales-chart"></canvas> --}}
-            {{-- </div>
+                {{-- </div> --}}
+                {{-- <canvas id="total-sales-chart"></canvas> --}}
+                {{-- </div>
             </div> --}}
+            </div>
         </div>
-</div>
-@endif
-<div class="row">
-    <div class="col-md-12 stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">
-                    <div class="row justify-content-between align-items-center">
-                        <div class="col-6">Recent Reports</div>
-                    </div>
-                    <div class="row justify-content-between align-items-center mt-4">
-                        <div class="col-6">
-                            <input type="text" wire:model.live="keywords" class="form-control form-control-sm"
-                                id="keywords"
-                                placeholder="Search by report name, ward, or Reginal coordinator names">
+    @endif
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-6">Recent Reports</div>
                         </div>
-                        {{-- @if (auth()->user()->can('download reports'))
+                        <div class="row justify-content-between align-items-center mt-4">
+                            <div class="col-6">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm"
+                                    id="keywords"
+                                    placeholder="Search by report name, ward, or Reginal coordinator names">
+                            </div>
+                            {{-- @if (auth()->user()->can('download reports'))
                                 <div class="col-4">
                                     <a href="{{ route('form.export', []) }}"
                                         class="btn btn-danger btn-sm text-white text-white d-flex align-items-center"
@@ -299,62 +299,63 @@
                                     </a>
                                 </div>
                             @endif --}}
+                        </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <table id="recent-purchases-listing" class="table table-hover table-bordered table-sm">
-                        <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Scanning Name</th>
-                                <th>Region</th>
-                                <th>District</th>
-                                <th>ward</th>
-                                <th>Reginal Cordinator</th>
-                                <th>Submition date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $i = 1;
-                            @endphp
-                            @forelse($submitted_field_reports as $report)
+                    <div class="table-responsive">
+                        <table id="recent-purchases-listing" class="table table-hover table-bordered table-sm">
+                            <thead>
                                 <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td>
-                                        {{-- <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
+                                    <th>S/N</th>
+                                    <th>Scanning Name</th>
+                                    <th>Region</th>
+                                    <th>District</th>
+                                    <th>ward</th>
+                                    <th>Reginal Cordinator</th>
+                                    <th>Submition date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @forelse($submitted_field_reports as $report)
+                                    <tr>
+                                        <td>{{ $i++ }}</td>
+                                        <td>
+                                            {{-- <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
                                                 style="text-decoration: none;"> --}}
-                                        {{ Str::limit($report->scanning_name, 20) }}
-                                        {{-- </a> --}}
-                                    </td>
-                                    <td>{{ $report->ward->district->region->name }}</td>
-                                    <td>{{ $report->ward->district->name }}</td>
-                                    <td>{{ $report->ward->name }}</td>
-                                    <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}
-                                    </td>
-                                    <td>{{ $report->updated_at->format('M d, Y') }}</td>
-                                    <td>
-                                        {{-- <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
+                                            {{ Str::limit($report->scanning_name, 20) }}
+                                            {{-- </a> --}}
+                                        </td>
+                                        <td>{{ $report->ward->district->region->name }}</td>
+                                        <td>{{ $report->ward->district->name }}</td>
+                                        <td>{{ $report->ward->name }}</td>
+                                        <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}
+                                        </td>
+                                        <td>{{ $report->updated_at->format('M d, Y') }}</td>
+                                        <td>
+                                            {{-- <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
                                                 class="btn btn-danger btn-sm text-white"
                                                 style="text-decoration: none;"><i class="mdi mdi-download"></i></a> --}}
-                                        <a href="{{ route('singleFormData.export', ['form_id' => $report->id]) }}"
-                                            class="btn btn-danger btn-sm text-white" style="text-decoration: none;"><i
-                                                class="mdi mdi-download" title="Download excel"></i></a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center" colspan="8">No report found!</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                            <a href="{{ route('singleFormData.export', ['form_id' => $report->id]) }}"
+                                                class="btn btn-danger btn-sm text-white"
+                                                style="text-decoration: none;"><i class="mdi mdi-download"
+                                                    title="Download excel"></i></a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="text-center" colspan="8">No report found!</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 @push('js')
