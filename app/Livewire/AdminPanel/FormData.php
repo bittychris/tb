@@ -22,6 +22,8 @@ class FormData extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $previousValue;
+    
     public $form;
     public $created_at;
     public $form_id;
@@ -111,8 +113,12 @@ class FormData extends Component
         $this->total_two_male = 0;
         $this->total_one_female = 0;
         $this->total_two_female = 0;
+        $first_male_value = 0;
+        $first_female_value = 0;
+        $mainAttribute = '';
 
         foreach($this->attributeList as $attribute) {
+            
             if($attribute->attribute_no == 1.0) {
                 $mainAttribute = $attribute;
 
@@ -125,9 +131,6 @@ class FormData extends Component
             }
         }
 
-        // dd($mainAttribute);
-
-        // $mainAttribute = Attribute::where('attribute_no', 1.0)->first();
         $totalMale = [];
         $totalFemale = [];
         $first_ageGroup_id = '';
@@ -149,6 +152,42 @@ class FormData extends Component
             }
 
         }
+        
+        foreach($this->formData as $age_groupId => $data) {
+            if($age_groupId != $first_ageGroup_id) {
+                foreach($this->attributeList as $attribute) {
+                    $first_female_value = '';
+
+                    if($attribute->attribute_no == 1.0 && $data[$mainAttribute->id]) {
+
+                        $first_female_value = $data[$mainAttribute->id]['F'];
+                        $first_male_value = $data[$mainAttribute->id]['M']; 
+                    }
+
+                    // dd($first_female_value);
+                    if($attribute->attribute_no == 2.0) {
+                        // if(!empty($data[$attribute->id]['F']) && $data[$mainAttribute->id]['F'] != 0) {
+                            if($data[$attribute->id]['F'] <= $first_female_value) {
+                                $this->dispatch('success_alert', 'Please Enter Correct value on Number of Females in "'.$attribute->name.'" column');
+                                
+                            } else {
+                                $this->dispatch('message_alert', 'Please Enter Correct value on Number of Females in "'.$attribute->name.'" column');
+
+                            }
+                        // }
+                    }
+
+
+                    
+                }
+
+            }
+        }
+
+        // dd($mainAttribute);
+
+        // $mainAttribute = Attribute::where('attribute_no', 1.0)->first();
+        
 
         foreach ($this->formData as $groupId => $age_group) {
 
@@ -336,21 +375,24 @@ class FormData extends Component
         });
     }
 
-    public function calculateTotalConfirmed() {
-        $confirmedAttributes = Attribute::where('attribute_no', '>=', 6.0)->where('attribute_no', '<=', 11.0)->get();
-        $confirmedAttribute = Attribute::where('attribute_no', 12.0)->first();
+    public function validateInput($ageGroup_id, $attribute_id, $gender)
 
-        foreach($this->ageGroups as $ageGroup) {
-            foreach($confirmedAttributes as $attribute) {
-                if($this->formData[$ageGroup->id][$attribute->id]['F'] || $this->formData[$ageGroup->id][$attribute->id]['M']) {
-                    $this->formData[$ageGroup->id][$confirmedAttribute->id]['F'] += $this->formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
-                    $this->formData[$ageGroup->id][$confirmedAttribute->id]['M'] += $this->formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+    {
 
-                }
-            }
-        }
+        $previousValue = $this->formData[$ageGroup_id][$attribute_id][$gender] ?? null;
 
-        // dd($confirmedAttributes);
+        dd($previousValue);
+
+        // if ($id > 1 && $this->values[$id]['value'] > $previousValue) {
+
+        //     $this->addError('values.' . $id, 'The value should be less than or equal to the previous value.');
+
+        // } else {
+
+        //     $this->previousValue = $this->values[$id]['value'];
+
+        // }
+
     }
 
     // public function updatedFormData($value, $ageGroupId, $attributeId, $gender) {

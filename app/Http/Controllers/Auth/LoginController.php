@@ -53,12 +53,27 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember_me)) {
 
-            $request->session()->regenerate();
+            $user = User::where('email', $request->email)->first();
 
-            return redirect()->intended(route('admin.dashboard'));
+            if($user->status == true) {
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('admin.dashboard'));
+
+            } elseif($user->status == false) {
+                Auth::logout();
+
+                $request->session()->invalidate();
+
+                $request->session()->regenerateToken();
+
+                return redirect()->back()->with('error', 'Your Account has been Deactivated, Contact System Administrator to Activate your Account');
+
+            }
             
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
+            
         }
         
     }

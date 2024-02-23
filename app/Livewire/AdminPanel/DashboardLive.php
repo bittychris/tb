@@ -20,7 +20,7 @@ class DashboardLive extends Component
 
     public $total_reports_count, $submitted_report_count, $reports_in_field_count;
 
-    public $form_id = '2420fdd8-6a21-46ea-874d-37768f84afd3';
+    // public $form_id = '2420fdd8-6a21-46ea-874d-37768f84afd3';
 
     public $formsAttributes;
 
@@ -55,9 +55,9 @@ class DashboardLive extends Component
         // $maleDatasets = [];
         // $femaleDatasets = [];
 
-        if(!empty($this->form_id)) {
+        // if(!empty($this->form_id)) {
 
-            $this->formsAttribute = FormAttribute::find($this->form_id);
+            $this->formsAttribute = FormAttribute::where('name', 'TB SCREENING (CI+ACF)')->first();
 
             $attributeList = Attribute::whereIn('id', json_decode($this->formsAttribute->attribute_ids))->get();
             
@@ -74,7 +74,7 @@ class DashboardLive extends Component
                 }
             }
             
-            $forms = Form::where('form_attribute_id', $this->form_id)->get();
+            $forms = Form::where('form_attribute_id', $this->formsAttribute->id)->get();
 
             if($forms) {
                 $form_ids = [];
@@ -90,7 +90,8 @@ class DashboardLive extends Component
                     ->join('wards', 'forms.ward_id', '=', 'wards.id')
                     ->join('districts', 'wards.district_id', '=', 'districts.id')
                     ->join('regions', 'districts.region_id', '=', 'regions.id')
-                    ->where('forms.form_attribute_id', '=', '2420fdd8-6a21-46ea-874d-37768f84afd3')
+                    ->where('forms.form_attribute_id', '=', $this->formsAttribute->id)
+                    // ->where('forms.form_attribute_id', '=', '2420fdd8-6a21-46ea-874d-37768f84afd3')
                     ->where('form_data.attribute_id', '=', '6a00ea10-2cde-4063-a0a2-a3f75a7c4697')
                     ->where('forms.status', '=', 1)
                     ->orderBy('regions.name', 'asc')
@@ -116,7 +117,7 @@ class DashboardLive extends Component
                 }
             }          
 
-        }
+        // }
 
         $this->dispatch('renderChart');
 
@@ -125,10 +126,10 @@ class DashboardLive extends Component
 
     public function render()
     {
-        if(!empty($this->form_id)) {
+        // if(!empty($this->form_id)) {
             $this->getChartData();
 
-        }
+        // }
 
         $rc_role = Role::findByName('Regional coordinator');
 

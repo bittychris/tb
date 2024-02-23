@@ -23,17 +23,20 @@ return new class extends Migration
             $table->foreign('form_id')
                 ->references('id')
                 ->on('forms')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->foreign('sender_id')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->foreign('receiver_id')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             });
     }

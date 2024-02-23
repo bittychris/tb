@@ -113,7 +113,7 @@
                                 <div class="form-group">
                                     <label for="created_at">Date</label>
                                     @if ($editMode == true)
-                                        <input type="text" readonly
+                                        <input type="text" readonly disabled
                                             wire:model="created_at"class="form-control form-control-sm">
                                     @else
                                         <input type="date" wire:model="created_at"
@@ -195,6 +195,13 @@
                                             <tr>
                                                 <td>{{ $ageGroup->slug }}</td>
                                                 @foreach ($attributeList as $attribute)
+                                                    {{-- @php
+                                                        if (!empty($formData[$ageGroup->id][$attribute->id]['F'])) {
+                                                            // $prev_value = '';
+                                                            $prev_value[$ageGroup->id][$attribute->id]['F'] = $formData[$ageGroup->id][$attribute->id]['F'];
+                                                        }
+
+                                                    @endphp --}}
                                                     @if ($attribute->attribute_no == 1.0)
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -202,7 +209,15 @@
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '0-5' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
+                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                            {{-- @php
+                                                                if (!empty($formData[$ageGroup->id][$attribute->id]['F'])) {
+                                                                    // $prev_value = '';
+                                                                    $prev_value[$ageGroup->id][$attribute->id]['F'] = $formData[$ageGroup->id][$attribute->id]['F'];
+                                                                }
+
+                                                            @endphp --}}
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -235,7 +250,7 @@
                                                                 readonly value="0" disabled
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
-                                                            {{ $this->calculateTotalConfirmed($attribute->id, 'F') }}
+                                                            {{-- {{ $this->calculateTotalConfirmed($attribute->id, 'F') }} --}}
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -245,10 +260,14 @@
                                                         </td>
                                                     @else
                                                         <td>
+
+
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
+                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                            {{-- {{ !empty($prev_value[$ageGroup->id][$attribute->id]['F']) ? $prev_value[$ageGroup->id][$attribute->id]['F'] : '' }} --}}
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"

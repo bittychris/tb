@@ -25,15 +25,18 @@ return new class extends Migration
             $table->foreign('form_attribute_id')
                 ->references('id')
                 ->on('form_attributes')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreign('created_by')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreign('completed_by')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 
