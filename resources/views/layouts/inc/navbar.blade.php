@@ -7,7 +7,7 @@
                     style="object-fit: ; width: 95px !important; height: 50px !important; margin-left: 25px !important;" />
             </a>
             <a class="navbar-brand brand-logo-mini text-bold" href="{{ route('admin.dashboard') }}"
-                style="font-size: 13px;">USAID
+                style="font-size: 13px;"><span style="color: #012a6c;">US</span><span style="color: #c2113b;">AID</span>
                 {{-- <img src="{{ asset('admin/images/logo-mini.svg') }}" alt="logo"/> --}}
             </a>
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">

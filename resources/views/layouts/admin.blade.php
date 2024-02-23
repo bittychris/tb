@@ -82,7 +82,9 @@
                         <div class="d-sm-flex justify-content-center justify-content-sm-between">
                             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a
                                     href="{{ route('index') }}" class="text-danger" target="_blank"
-                                    style="text-decoration: none;">USAID Afya Shirikishi </a>{{ date('Y') }}</span>
+                                    style="text-decoration: none;"> <span style="color: #012a6c;">US</span><span
+                                        style="color: #c2113b;">AID</span> Afya Shirikishi
+                                </a>{{ date('Y') }}</span>
                         </div>
                     </footer>
                     <!-- Footer end-->

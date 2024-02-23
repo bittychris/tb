@@ -4,8 +4,10 @@
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="d-flex align-items-end flex-wrap">
                     <div class="me-md-3 me-xl-5">
-                        <h2>Welcome to <span class="text-danger">USAID</span> Afya Shirikishi,</h2>
-                        <p class="mb-md-0">Your dashboard for tracking data for <span class="text-danger">USAID</span>
+                        <h2>Welcome to <span class="text-danger"><span style="color: #012a6c;">US</span><span
+                                    style="color: #c2113b;">AID</span></span> Afya Shirikishi,</h2>
+                        <p class="mb-md-0">Your dashboard for tracking data for <span class="text-danger"><span
+                                    style="color: #012a6c;">US</span><span style="color: #c2113b;">AID</span></span>
                             Afya Shirikishi.</p>
                     </div>
                 </div>
@@ -279,8 +281,7 @@
                                     {{-- <th>Created By</th> --}}
                                     <th>Created on</th>
                                     <th>Status</th>
-                                    @if (auth()->user()->can('edit field data') &&
-                                            auth()->user()->can('submit field data'))
+                                    @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
                                         <th>Action</th>
                                     @endif
 
@@ -303,8 +304,7 @@
                                         </span>
                                     </td>
 
-                                    @if (auth()->user()->can('edit field data') &&
-                                            auth()->user()->can('submit field data'))
+                                    @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
                                         <td>
                                             @if (auth()->user()->can('edit field data'))
                                                 @if ($data->status == 0)

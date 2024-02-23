@@ -102,7 +102,9 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
-                            <h2 data-aos="fade-down">Welcome to <span>USAID Afya Shirikishi</span></h2>
+                            <h2 data-aos="fade-down">Welcome to <span><span style="color: #012a6c;">US</span><span
+                                        style="color: #c2113b;">AID</span> Afya
+                                    Shirikishi</span></h2>
                             <p data-aos="fade-up">One Stop centre for TB treatment & Family Planning.</p>
                             <a data-aos="fade-up" data-aos-delay="200" href="{{ route('login') }}"
                                 class="btn-get-started">Sign In</a>
@@ -1005,7 +1007,9 @@
                 <div class="footer-legal text-center position-relative">
                     <div class="container">
                         <div class="copyright">
-                            &copy; Copyright <strong><span>USAID Afya Shirikishi</span></strong>. All Rights Reserved
+                            &copy; Copyright <strong><span><span style="color: #012a6c;">US</span><span
+                                        style="color: #c2113b;">AID</span> Afya Shirikishi</span></strong>. All Rights
+                            Reserved
                         </div>
                         {{-- <div class="credits"> --}}
                         <!-- All the links in the footer should remain intact. -->

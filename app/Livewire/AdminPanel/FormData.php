@@ -23,6 +23,7 @@ class FormData extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $form;
+    public $created_at;
     public $form_id;
     public $scanning_name;
     public $region_id;
@@ -56,6 +57,8 @@ class FormData extends Component
 
     public function mount($form)
     {
+        $this->created_at = now()->format('Y-m-d');
+
         if ($this->form) {
             $this->editMode = true;
 
@@ -65,6 +68,7 @@ class FormData extends Component
             $this->address = $form->address;
             $this->ward_id = $form->ward_id;
             $this->district_id = $form->ward->district->id;
+            $this->created_at = $form->created_at->format('d/m/Y');
 
             $this->wards = Ward::all();
             $this->updatedFormId();
@@ -88,16 +92,16 @@ class FormData extends Component
     ];
 
 
-    public function openUploadModal() {
-        $this->dispatch('openForm');
+    // public function openUploadModal() {
+    //     $this->dispatch('openForm');
 
-    }
+    // }
     
-    public function clearForm() {
-        $this->reset(
-            'excel_file'
-        );
-    }
+    // public function clearForm() {
+    //     $this->reset(
+    //         'excel_file'
+    //     );
+    // }
 
     public function saveForm()
     {
@@ -216,12 +220,20 @@ class FormData extends Component
                         $formTb = new Form();
                     }
 
+                    
                     $formTb->form_attribute_id = $this->form_id;
                     $formTb->created_by = Auth::id();
                     $formTb->completed_by = Auth::id();
                     $formTb->scanning_name = $this->scanning_name;
                     $formTb->ward_id = $this->ward_id;
                     $formTb->address = $this->address;
+                    
+                    if($this->editMode == false) {
+                        $formTb->created_at = date('Y-m-d H:m:s', strtotime($this->created_at));
+                        $formTb->updated_at = date('Y-m-d H:m:s', strtotime($this->created_at));
+                        
+                    }
+
                     $formTb->save();
 
                     if ($this->form) {
@@ -324,6 +336,23 @@ class FormData extends Component
         });
     }
 
+    public function calculateTotalConfirmed() {
+        $confirmedAttributes = Attribute::where('attribute_no', '>=', 6.0)->where('attribute_no', '<=', 11.0)->get();
+        $confirmedAttribute = Attribute::where('attribute_no', 12.0)->first();
+
+        foreach($this->ageGroups as $ageGroup) {
+            foreach($confirmedAttributes as $attribute) {
+                if($this->formData[$ageGroup->id][$attribute->id]['F'] || $this->formData[$ageGroup->id][$attribute->id]['M']) {
+                    $this->formData[$ageGroup->id][$confirmedAttribute->id]['F'] += $this->formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                    $this->formData[$ageGroup->id][$confirmedAttribute->id]['M'] += $this->formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+
+                }
+            }
+        }
+
+        // dd($confirmedAttributes);
+    }
+
     // public function updatedFormData($value, $ageGroupId, $attributeId, $gender) {
 
     //     $this->formData2[$ageGroupId][$attributeId][$gender] = $value;
@@ -383,6 +412,9 @@ class FormData extends Component
             $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('attribute_no', 'asc')->get();
 
         }
+
+        // $this->calculateTotalConfirmed();
+
         // else {
         //     $formsAttributes = FormAttribute::all();
         // }

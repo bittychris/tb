@@ -51,7 +51,9 @@
                                     {{-- USAID Afya Shirikishi --}}
                                     {{-- <img src="../../images/logo.svg" alt="logo"> --}}
                                 </div>
-                                <h4 class="text-center mb-4">Welcome to USAID Afya Shirikishi</h4>
+                                <h4 class="text-center mb-4">Welcome to <span style="color: #012a6c;">US</span><span
+                                        style="color: #c2113b;">AID</span> Afya Shirikishi
+                                </h4>
                                 {{-- <h6 class="font-weight-light">Sign in to continue.</h6> --}}
                                 <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                                     @csrf

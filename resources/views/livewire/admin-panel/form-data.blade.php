@@ -18,12 +18,12 @@
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-7">{{ $editMode == true ? 'Edit Field Data' : 'Insert Field Data' }}</div>
-                            <div class="col-3">
+                            {{-- <div class="col-3">
                                 <button type="button" wire:click="openUploadModal"
                                     class="btn btn-danger btn-sm text-white text-uppercase d-flex align-items-center"
                                     style="float: right;"><i class="mdi mdi-upload me-2"
                                         style="font-size: 14px;"></i>Import Data</button>
-                            </div>
+                            </div> --}}
                             <div class="col-2">
                                 <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white"
                                     style="float: right;">Back</a>
@@ -71,7 +71,7 @@
                                     @error('region_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>  --}}
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="district_id">District</label>
                                     <select wire:model.live="district_id"
@@ -86,7 +86,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="district_id">Ward</label>
                                     <select wire:model="ward_id" class="form-control form-control-sm text-dark">
@@ -100,7 +100,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="scanning_name">Address</label>
                                     <input type="text" wire:model="address" class="form-control form-control-sm">
@@ -108,11 +108,25 @@
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="created_at">Date</label>
+                                    @if ($editMode == true)
+                                        <input type="text" readonly
+                                            wire:model="created_at"class="form-control form-control-sm">
+                                    @else
+                                        <input type="date" wire:model="created_at"
+                                            class="form-control form-control-sm">
+                                    @endif
+                                    @error('created_at')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="col-md-12 table-responsive">
 
-                                @if ($color == 'danger')
+                                {{-- @if ($color == 'danger')
                                     <div class="row mx-2 text-danger" style="font-size: 13px;">
                                         Summary for other Columns:
                                     </div>
@@ -140,12 +154,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
                                 <table class="formData table table-bordered table-sm">
-                                    @php
-                                        $main_attr = 'Number of individual received TB health Education (estimated number in hot spot arae)';
-                                        $text_color = '';
-                                    @endphp
                                     <thead>
                                         <tr>
                                             <th>Age Group</th>
@@ -219,6 +229,20 @@
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
+                                                    @elseif ($attribute->attribute_no == 12.0)
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                readonly value="0" disabled
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                            {{ $this->calculateTotalConfirmed($attribute->id, 'F') }}
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                readonly value="0" disabled
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+                                                        </td>
                                                     @else
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -238,13 +262,8 @@
                                         <tr>
                                             <td>Total</td>
                                             @foreach ($attributeList as $attribute)
-                                                {{-- @if ($attribute->attribute_no == 1)
-                                                <td style="color: {{ $color }};">{{ $this->calculateTotal($attribute->id, 'F') }}</td>
-                                                <td style="color: {{ $color }};">{{ $this->calculateTotal($attribute->id, 'M') }}</td>
-                                            @else --}}
                                                 <td>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
                                                 <td>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
-                                                {{-- @endif --}}
                                             @endforeach
                                         </tr>
 
@@ -252,65 +271,13 @@
                                         <tr>
                                             <td>Grand Total</td>
                                             @foreach ($attributeList as $attribute)
-                                                {{-- @if ($attribute->attribute_no == 1)
-                                                <td colspan="2" style="color: {{ $color }};">{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
-                                            @else --}}
                                                 <td colspan="2">
                                                     {{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}
                                                 </td>
-                                                {{-- @endif --}}
                                             @endforeach
                                         </tr>
                                     </tbody>
                                 </table>
-
-                                {{-- <table wire:ignore.self class="formData table table-borde   table-sm">
-                                    <thead wire:ignore.self>
-                                        <tr wire:ignore.self>
-                                            <th>Age Group</th>
-                                            @foreach ($attributeList as $attribute)
-                                                <th colspan="2" wire:ignore>{{ $attribute->name }}</th>
-                                            @endforeach
-                                        </tr>
-                                        <tr wire:ignore.self>
-                                            <th></th>
-                                            @foreach ($attributeList as $attribute)
-                                                <th wire:key="{{ 'F-' . $attribute->id }}" wire:ignore>F</th>
-                                                <th wire:key="{{ 'M-' . $attribute->id }}" wire:ignore>M</th>
-                                            @endforeach
-                                        </tr>
-                                    </thead>
-                                    <tbody wire:ignore.self>
-                                        @foreach ($ageGroups as $ageGroup)
-                                            <tr wire:ignore>
-                                                <td>{{ $ageGroup->slug }}</td>
-                                                @foreach ($attributeList as $attribute)
-                                                    <td wire:key="{{ 'F-' . $ageGroup->id . '-' . $attribute->id }}" wire:ignore.self>
-                                                        <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F">
-                                                    </td>
-                                                    <td wire:key="{{ 'M-' . $ageGroup->id . '-' . $attribute->id }}" wire:ignore.self>
-                                                        <input type="number" style="width: 60px" min="0" wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M">
-                                                    </td>
-                                                @endforeach
-                                            </tr>
-                                        @endforeach
-                                        <tr wire:ignore.self>
-                                            <td>Total</td>
-                                            @foreach ($attributeList as $index => $attribute)
-                                                <td wire:key="{{ 'F-total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') }}</td>
-                                                <td wire:key="{{ 'M-total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'M') }}</td>
-                                            @endforeach
-                                        </tr>
-
-                                        <!-- Add Grand Total row -->
-                                        <tr wire:ignore.self>
-                                            <td>Grand Total</td>
-                                            @foreach ($attributeList as $index => $attribute)
-                                                <td colspan="2" wire:key="{{ 'total-' . $attribute->id }}" wire:ignore.self>{{ $this->calculateTotal($attribute->id, 'F') + $this->calculateTotal($attribute->id, 'M') }}</td>
-                                            @endforeach
-                                        </tr>
-                                    </tbody>
-                                </table> --}}
                             </div>
                         </div>
 
@@ -331,7 +298,7 @@
     </div>
 
     {{-- Upload data model --}}
-    <div wire:ignore.self class="modal fade" id="upload_data_modal" tabindex="-1"
+    {{-- <div wire:ignore.self class="modal fade" id="upload_data_modal" tabindex="-1"
         aria-labelledby="upload_data_modal_label" aria-hidden="true">
         <div class="row justify-content-center mt-3 mb-0">
             <div class="col-5">
@@ -367,7 +334,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 
 </div>
 

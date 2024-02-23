@@ -4,22 +4,10 @@
             <th></th>
             <th colspan="31" rowspan="2"
                 style="background: #ffff00; margin-bottom: 20px; font-weight: bold; text-align: center; font-size: 20px;">
-                REGIONAL REPORT
+                OVERALL REPORT
             </th>
         </tr>
         <tr></tr>
-        <tr>
-            <th></th>
-            <th colspan="5" style="text-align: left; font-size: 10px;">
-                Reginal Coordinator: {{ $firstForm->added_by->first_name }} {{ $firstForm->added_by->last_name }}
-            </th>
-        </tr>
-        <tr>
-            <th></th>
-            <th colspan="5" style="text-align: left; font-size: 10px;">
-                Region: {{ $firstForm->added_by->region->name }}
-            </th>
-        </tr>
         <tr>
             <th></th>
             <th colspan="5" style="text-align: left; font-size: 10px;">
@@ -175,5 +163,6 @@
             </tr>
         </tbody>
     </table>
-
+    {{-- @else --}}
+    {{-- @endif --}}
 @endfor

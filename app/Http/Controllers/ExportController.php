@@ -72,6 +72,6 @@ class ExportController extends Controller
     {
         $time = now()->toDateTimeString();
 
-        return Excel::download(new RegionalReportExport($region_id, $startDate, $endDate), 'reginal-report'.$time.'.xlsx');
+        return Excel::download(new RegionalReportExport($region_id, $startDate, $endDate), 'reginal-report-'.$time.'.xlsx');
     }
 }

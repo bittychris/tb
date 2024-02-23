@@ -4,8 +4,10 @@
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="d-flex align-items-end flex-wrap">
                     <div class="me-md-3 me-xl-5">
-                        <h2>Welcome to <span class="text-danger">USAID</span> Afya Shirikishi,</h2>
-                        <p class="mb-md-0">Your dashboard for tracking data for <span class="text-danger">USAID</span>
+                        <h2>Welcome to <span class="text-danger"><span style="color: #012a6c;">US</span><span
+                                    style="color: #c2113b;">AID</span></span> Afya Shirikishi,</h2>
+                        <p class="mb-md-0">Your dashboard for tracking data for <span class="text-danger"><span
+                                    style="color: #012a6c;">US</span><span style="color: #c2113b;">AID</span></span>
                             Afya Shirikishi.</p>
                     </div>
                 </div>
@@ -238,12 +240,12 @@
                             <button wire:click="getChartData">Refresh</button>
                         </div> --}}
                         </div>
-                        {{-- <p class="mb-4">To start a blog, think of a topic about and first brainstorm party is ways to
-                        write details</p> --}}
-
+                        <p class="mb-3">Number of individual received TB health Education (estimated number in hot
+                            spot area)</p>
                         <div class="row">
                             <div class="col-md-12">
-                                <div id="cash-deposits-charty-legend" class="d-flex justify-content-center pt-0"></div>
+                                <div id="cash-deposits-charty-legend" class="d-flex justify-content-center pt-0">
+                                </div>
                                 <canvas id="cash-deposits-charty"></canvas>
                             </div>
                         </div>
@@ -363,10 +365,10 @@
         var data;
         var cashDepositsCanvas;
 
-        window.addEventListener('updateChart', event => {
-            // cashDepositsCanvas.update();
+        // window.addEventListener('updateChart', event => {
+        // cashDepositsCanvas.update();
 
-        });
+        // });
 
         window.addEventListener('renderChart', event => {
             // cashDepositsCanvas.update();
@@ -381,15 +383,15 @@
                                 label: 'Male',
                                 data: @json($maleDatasets),
                                 borderColor: [
-                                    'blue', '#4d83ff'
+                                    '#012a6c', '#c21138'
                                 ],
-                                // borderWidth: 2,
-                                fill: true,
-                                // pointBackgroundColor: "#fff",
-                                backgroundColor: 'blue',
-                                barPercentage: 5,
+                                borderWidth: 2,
+                                fill: false,
+                                pointBackgroundColor: "#fff",
+                                // backgroundColor: 'blue',
+                                // barPercentage: 5,
                                 // barThickness: 20,
-                                maxBarThickness: 50,
+                                // maxBarThickness: 50,
                                 // minBarLength: 2,
 
                             },
@@ -397,15 +399,15 @@
                                 label: 'Female',
                                 data: @json($femaleDatasets),
                                 borderColor: [
-                                    'red', '#ff4747'
+                                    '#c21138', '#012a6c'
                                 ],
-                                // borderWidth: 2,
-                                fill: true,
-                                // pointBackgroundColor: "#fff",
-                                backgroundColor: 'red',
-                                barPercentage: 5,
+                                borderWidth: 2,
+                                fill: false,
+                                pointBackgroundColor: "#fff",
+                                // backgroundColor: 'red',
+                                // barPercentage: 5,
                                 // barThickness: 20,
-                                maxBarThickness: 50,
+                                // maxBarThickness: 50,
                                 // minBarLength: 2,
 
                             },
@@ -425,7 +427,7 @@
                                 ticks: {
                                     min: 0,
                                     // max: 10000,
-                                    stepSize: 50,
+                                    stepSize: 200,
                                     fontColor: "#6c7383",
                                     fontSize: 13,
                                     fontStyle: 300,
@@ -443,7 +445,11 @@
                                     fontColor: "#6c7383",
                                     fontSize: 13,
                                     fontStyle: 300,
-                                    padding: 15
+                                    padding: 15,
+                                    autoSkip: false,
+                                    maxRotation: 45,
+                                    minRotation: 45,
+
                                 }
                             }]
                         },
@@ -476,14 +482,14 @@
                         layout: {
                             padding: {
                                 top: 0,
-                                bottom: -10,
+                                bottom: 5,
                                 left: 0,
                                 right: 0
                             }
                         }
                     };
                     var cashDeposits = new Chart(cashDepositsCanvas, {
-                        type: 'bar',
+                        type: 'line',
                         data: data,
                         options: options
                     });

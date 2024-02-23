@@ -85,21 +85,26 @@ class DashboardLive extends Component
                     array_push($form_ids, $form->id);
                 }
 
-                $formData = \App\Models\FormData::selectRaw('SUM(male) as total_male, SUM(female) as total_female, updated_at')
-                        ->whereIn('form_id', $form_ids)
-                        ->where('attribute_id', $mainAttribute->id)
-                        ->orderBy('updated_at', 'asc')
-                        ->groupBy('updated_at')
-                        ->get()
-                        ->mapWithKeys(function ($item) {
-                            return [$item->updated_at->format('F d, Y') => [
-                                'male' => $item->total_male,
-                                'female' => $item->total_female,
-                            ]];
-                        });
-
-                foreach($formData as $date => $data) {
-                    array_push($this->labels, $date);
+                $formData = FormData::selectRaw('SUM(male) as total_male, SUM(female) as total_female, regions.name as region')
+                    ->join('forms', 'form_data.form_id', '=', 'forms.id')
+                    ->join('wards', 'forms.ward_id', '=', 'wards.id')
+                    ->join('districts', 'wards.district_id', '=', 'districts.id')
+                    ->join('regions', 'districts.region_id', '=', 'regions.id')
+                    ->where('forms.form_attribute_id', '=', '2420fdd8-6a21-46ea-874d-37768f84afd3')
+                    ->where('form_data.attribute_id', '=', '6a00ea10-2cde-4063-a0a2-a3f75a7c4697')
+                    ->where('forms.status', '=', 1)
+                    ->orderBy('regions.name', 'asc')
+                    ->groupBy('region')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->region => [
+                            'male' => $item->total_male,
+                            'female' => $item->total_female,
+                        ]];
+                    });
+                
+                foreach($formData as $region => $data) {
+                    array_push($this->labels, $region);
                     array_push($datasets, $data);
 
                 }
@@ -110,8 +115,6 @@ class DashboardLive extends Component
 
                 }
             }          
-
-        // $this->js('window.location.reload()'); 
 
         }
 
