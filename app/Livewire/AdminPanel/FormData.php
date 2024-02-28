@@ -235,25 +235,6 @@ class FormData extends Component
         });
     }
 
-    public function validateInput($ageGroup_id, $attribute_id, $gender)
-
-    {
-
-        $previousValue = $this->formData[$ageGroup_id][$attribute_id][$gender] ?? null;
-
-        dd($previousValue);
-
-        // if ($id > 1 && $this->values[$id]['value'] > $previousValue) {
-
-        //     $this->addError('values.' . $id, 'The value should be less than or equal to the previous value.');
-
-        // } else {
-
-        //     $this->previousValue = $this->values[$id]['value'];
-
-        // }
-
-    }
 
     // public function updatedFormData($value, $ageGroupId, $attributeId, $gender) {
 
@@ -304,11 +285,6 @@ class FormData extends Component
 
     // }
     
-    public function testedSum( $x)
-    {
-       return $this->sum += $x;
-    }
-
     public function render()
     {
         $this->sum += $this->value;
@@ -320,15 +296,7 @@ class FormData extends Component
 
         }
 
-        // $this->calculateTotalConfirmed();
-
-        // else {
-        //     $formsAttributes = FormAttribute::all();
-        // }
-
-        // $this->main_attr = Attribute::where('attribute_no', 1)->get();
-
-        // dd($this->main_attr);
+       
         $formsAttributes = FormAttribute::orderBy('created_at','asc')->get();
         // $regions = Region::all();
 

@@ -224,14 +224,14 @@
                                     class="text-danger text-uppercase-start">{{ ucfirst(auth()->user()->first_name) }}
                                     {{ ucfirst(auth()->user()->last_name) }}</span>
                             </div> --}}
-                            @if (auth()->user()->can('add field data'))
+                            {{-- @if (auth()->user()->can('add field data'))
                                 <div class="col-4">
                                     <a href="{{ route('admin.create_form_data') }}"
                                         class="btn btn-primary text-white btn-sm mt-0 " style="float: right;"><span
                                             class="me-2" style="font-size: 18px;">+</span> Add Field
                                         data</a>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                         <div class="row justify-content-between align-items-center mt-4">
                             <div class="col-5">
@@ -281,9 +281,9 @@
                                     {{-- <th>Created By</th> --}}
                                     <th>Created on</th>
                                     <th>Status</th>
-                                    @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
+                                    {{-- @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
                                         <th>Action</th>
-                                    @endif
+                                    @endif --}}
 
                                 </tr>
                             </thead>
@@ -304,7 +304,7 @@
                                         </span>
                                     </td>
 
-                                    @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
+                                    {{-- @if (auth()->user()->can('edit field data') && auth()->user()->can('submit field data'))
                                         <td>
                                             @if (auth()->user()->can('edit field data'))
                                                 @if ($data->status == 0)
@@ -321,7 +321,7 @@
                                                         class="mdi mdi-{{ $data->status == 0 ? 'send' : 'check' }}"></i></button>
                                             @endif
                                         </td>
-                                    @endif
+                                    @endif --}}
 
                                 </tr>
                             @empty

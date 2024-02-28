@@ -314,7 +314,7 @@
                                     <th>ward</th>
                                     <th>Reginal Cordinator</th>
                                     <th>Submition date</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -336,15 +336,15 @@
                                         <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}
                                         </td>
                                         <td>{{ $report->updated_at->format('M d, Y') }}</td>
-                                        <td>
-                                            {{-- <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
+                                        {{-- <td> --}}
+                                        {{-- <a href="{{ route('formOne.export', ['formdata_id' => $report->id]) }}"
                                                 class="btn btn-danger btn-sm text-white"
                                                 style="text-decoration: none;"><i class="mdi mdi-download"></i></a> --}}
-                                            <a href="{{ route('singleFormData.export', ['form_id' => $report->id]) }}"
+                                        {{-- <a href="{{ route('singleFormData.export', ['form_id' => $report->id]) }}"
                                                 class="btn btn-danger btn-sm text-white"
                                                 style="text-decoration: none;"><i class="mdi mdi-download"
                                                     title="Download excel"></i></a>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @empty
                                     <tr>

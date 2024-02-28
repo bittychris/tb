@@ -191,9 +191,97 @@
                                             <tr>
                                                 <td>{{ $ageGroup->slug }}</td>
                                                 @foreach ($attributeList as $attribute)
-                                                    @if ($attribute->attribute_no == 1.0)
+                                                    @if ($attribute->attribute_no == 0.1)
+                                                        <?php
+                                                        $a01f = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                                                        $a01m = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+                                                        ?>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                {{-- max="{{ $a01f }}" --}}
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;"
+                                                                {{-- max="{{ $a01m }}" --}}
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+                                                        </td>
+                                                    @elseif ($attribute->attribute_no == 0.2)
+                                                        <?php
+                                                        $a01f = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                                                        $a01m = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+                                                        ?>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                {{-- max="{{ $a01f }}" --}}
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;"
+                                                                {{-- max="{{ $a01m }}" --}}
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+                                                        </td>
+                                                    @elseif ($attribute->attribute_no == 0.3)
+                                                        <?php
+                                                        $a03f = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                                                        $a03m = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+                                                        ?>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                max="{{ $a01f }}"
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;"
+                                                                max="{{ $a01m }}"
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+                                                        </td>
+                                                    @elseif ($attribute->attribute_no == 0.4)
+                                                        <?php
+                                                        $a04f = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                                                        $a04m = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+                                                        ?>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                max="{{ $a03f }}"
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;"
+                                                                max="{{ $a03f }}"
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+
+                                                        </td>
+                                                    @elseif ($attribute->attribute_no == 0.5)
                                                         <?php
                                                         $af = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                                                        $am = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
+                                                        ?>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                max="{{ $a04f }}"
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;"
+                                                                max="{{ $a04f }}"
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+
+                                                        </td>
+                                                    @elseif ($attribute->attribute_no == 1.0)
+                                                        <?php
+                                                        $af = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                                                        $am = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
                                                         ?>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -201,13 +289,9 @@
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '0-5' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
-                                                            <?php
-                                                            $am = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
-                                                            ?>
                                                             <input type="number" style="width: 60px;"
                                                                 class="{{ $ageGroup->slug == '0-5' ? 'bg-dark' : '' }}"
                                                                 value="0"
@@ -239,7 +323,6 @@
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 readonly disabled {{-- wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F" --}}
                                                                 value="{{ $sum }}">
-                                                            {{-- {{ $this->calculateTotalConfirmed($attribute->id, 'F') }} --}}
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -257,8 +340,7 @@
                                                                 max='{{ $ageGroup->slug == '0-5' ? '' : $af }}'
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -276,8 +358,7 @@
                                                                 max='{{ $bf }}'
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -295,8 +376,7 @@
                                                                 max='{{ $cf }}'
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -314,8 +394,7 @@
                                                                 max='{{ $df }}'
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -333,8 +412,7 @@
                                                                 {{-- max='{{ $df }}' --}}
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -352,8 +430,7 @@
                                                                 max='{{ $ff }}'
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
@@ -368,34 +445,14 @@
                                                         ?>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $gf }}'
+                                                                max='{{ $ff }}'
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $gm }}'
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
-                                                        </td>
-                                                    @elseif ($attribute->attribute_no == 15.0)
-                                                        <?php
-                                                        $im = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
-                                                        $if = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
-                                                        ?>
-                                                        <td>
-                                                            <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $hf }}'
-                                                                id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="validateInput({{ $ageGroup->id, $attribute->id, 'F' }})">
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $hm }}'
+                                                                max='{{ $fm }}'
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
@@ -408,13 +465,11 @@
                                                             <input type="number" style="width: 60px;" min="0"
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}"
-                                                                wire:change="testedSum({{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }})">
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                             {{ $value }}
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $em }}'
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
