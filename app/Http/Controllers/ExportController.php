@@ -26,12 +26,15 @@ class ExportController extends Controller
     }
     public function formdata($range)
     {
-        return Excel::download(new FormDataExport($range), 'formdata.xlsx');
+        $time = now()->toDateTimeString();
+
+        return Excel::download(new FormDataExport($range), 'form_data-'.$time.'.xlsx');
     }
     public function formOne($formdata)
     {
+        $time = now()->toDateTimeString();
 
-        return Excel::download(new FormDataOneExport($formdata), 'single-form.xlsx');
+        return Excel::download(new FormDataOneExport($formdata), 'single-form-'.$time.'.xlsx');
     }
 
     public function formattribute()

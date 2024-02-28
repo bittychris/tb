@@ -33,15 +33,15 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 
 // Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
 
-Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
-Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
-Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
-Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export');
-Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export');
-Route::get('reginal_report/export/{region_id}/{startDate}/{endDate}', [ExportController::class, 'reginalReport'])->name('reginal_report.export');
-Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
-Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
-Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
+// Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
+// Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
+// Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
+// Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export');
+// Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export');
+// Route::get('reginal_report/export/{region_id}/{startDate}/{endDate}', [ExportController::class, 'reginalReport'])->name('reginal_report.export');
+// Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
+// Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
+// Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 Route::middleware(['auth'])->group(function() {
 
@@ -114,6 +114,27 @@ Route::middleware(['auth'])->group(function() {
     Route::get('permissions_to_roles/add', [adminController::class, 'addPermissionsToRole'])->name('admin.add.permissions.role')->middleware(['permission:assign permissions to role']);
 
     Route::get('permissions_to_roles/{role_id}/edit', [adminController::class, 'editPermissionsToRole'])->name('admin.edit.permissions.role')->middleware(['permission:edit assigned permissions to role']);
+
+
+    // Report download routes
+    
+    Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
+    
+    Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
+    
+    Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
+    
+    Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export');
+    
+    Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export');
+    
+    Route::get('reginal_report/export/{region_id}/{startDate}/{endDate}', [ExportController::class, 'reginalReport'])->name('reginal_report.export');
+    
+    Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
+    
+    Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
+    
+    Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 
 });
