@@ -34,6 +34,9 @@ class FormData extends Component
     public $wards = [];
     public $ward_id;
     public $address;
+    public $value = 0;
+    public $sum = 0;
+    
 
     public $main_attr;
 
@@ -443,10 +446,14 @@ class FormData extends Component
     //     }
 
     // }
+    public function testedSum( $x)
+    {
+       return $this->sum += $x;
+    }
 
     public function render()
     {
-       
+        $this->sum += $this->value;
         if(!empty($this->form_id)) {
             $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 
