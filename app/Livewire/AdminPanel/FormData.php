@@ -111,243 +111,100 @@ class FormData extends Component
     public function saveForm()
     {
         $this->validate();
+                
+        try {
+            DB::beginTransaction();
 
-        $this->total_one_male = 0;
-        $this->total_two_male = 0;
-        $this->total_one_female = 0;
-        $this->total_two_female = 0;
-        $first_male_value = 0;
-        $first_female_value = 0;
-        $mainAttribute = '';
+            if ($this->form) {
+                $formTb = $this->form;
+            } else {
+                $formTb = new Form();
+            }
 
-        foreach($this->attributeList as $attribute) {
             
-            if($attribute->attribute_no == 1.0) {
-                $mainAttribute = $attribute;
-
-            } elseif($attribute->attribute_no == 0.1) {
-                $mainAttribute = $attribute;
-
-            } elseif($attribute->attribute_no == 0.2) {
-                $mainAttribute = $attribute;
-
-            }
-        }
-
-        $totalMale = [];
-        $totalFemale = [];
-        $first_ageGroup_id = '';
-        $second_ageGroup_id = '';
-        $third_ageGroup_id = '';
-
-        foreach($this->ageGroups as $key => $data) {
+            $formTb->form_attribute_id = $this->form_id;
+            $formTb->created_by = Auth::id();
+            $formTb->completed_by = Auth::id();
+            $formTb->scanning_name = $this->scanning_name;
+            $formTb->ward_id = $this->ward_id;
+            $formTb->address = $this->address;
             
-            if($key == 0) {
-                $first_ageGroup_id = $data->id;
+            if($this->editMode == false) {
+                $formTb->created_at = date('Y-m-d H:m:s', strtotime($this->created_at));
+                $formTb->updated_at = date('Y-m-d H:m:s', strtotime($this->created_at));
+                
             }
 
-            if($key == 1) {
-                $second_ageGroup_id = $data->id;
-            }
+            $formTb->save();
 
-            if($key == 2) {
-                $third_ageGroup_id = $data->id;
-            }
+            if ($this->form) {
+                foreach ($this->formData as $groupId => $age_group) {
+                    foreach ($age_group as $attributeId => $value) {
+                        $existingRecord = \App\Models\FormData::where([
+                            'form_id' => $formTb->id,
+                            'age_group_id' => $groupId,
+                            'attribute_id' => $attributeId,
+                        ])->first();
 
-        }
-        
-        foreach($this->formData as $age_groupId => $data) {
-            if($age_groupId != $first_ageGroup_id) {
-                foreach($this->attributeList as $attribute) {
-                    $first_female_value = '';
+                        if ($existingRecord) {
 
-                    if($attribute->attribute_no == 1.0 && $data[$mainAttribute->id]) {
-
-                        $first_female_value = $data[$mainAttribute->id]['F'];
-                        $first_male_value = $data[$mainAttribute->id]['M']; 
-                    }
-
-                    // dd($first_female_value);
-                    if($attribute->attribute_no == 2.0) {
-                        // if(!empty($data[$attribute->id]['F']) && $data[$mainAttribute->id]['F'] != 0) {
-                            if($data[$attribute->id]['F'] <= $first_female_value) {
-                                $this->dispatch('success_alert', 'Please Enter Correct value on Number of Females in "'.$attribute->name.'" column');
-                                
-                            } else {
-                                $this->dispatch('message_alert', 'Please Enter Correct value on Number of Females in "'.$attribute->name.'" column');
-
-                            }
-                        // }
-                    }
-
-
-                    
-                }
-
-            }
-        }
-
-        // dd($mainAttribute);
-
-        // $mainAttribute = Attribute::where('attribute_no', 1.0)->first();
-        
-
-        foreach ($this->formData as $groupId => $age_group) {
-
-            if(!empty($this->formData[$groupId][$mainAttribute->id]['M'])) {
-                $totalMale[$groupId] = $this->formData[$groupId][$mainAttribute->id]['M'];
-            }
-
-            if(!empty($this->formData[$groupId][$mainAttribute->id]['F'])) {
-                $totalFemale[$groupId] = $this->formData[$groupId][$mainAttribute->id]['F'];
-            }            
-
-            if($groupId == $first_ageGroup_id || $groupId == $second_ageGroup_id) {
-                foreach ($age_group as $attributeId => $value) {
-                    if($mainAttribute->id != $attributeId) {
-                        if(!empty($value['M'])) {
-
-                            $this->total_one_male += $value['M'];
-
-                        }
-
-                        if(!empty($value['F'])) {
-
-                            $this->total_one_female += $value['F'];
-
+                            $existingRecord->update([
+                                'male' => array_key_exists('M', $value) ? $value['M'] : null,
+                                'female' => array_key_exists('F', $value) ? $value['F'] : null,
+                            ]);
+                        } else {
+                            \App\Models\FormData::create([
+                                'form_id' => $formTb->id,
+                                'age_group_id' => $groupId,
+                                'attribute_id' => $attributeId,
+                                'male' => array_key_exists('M', $value) ? $value['M'] : null,
+                                'female' => array_key_exists('F', $value) ? $value['F'] : null,
+                            ]);
                         }
                     }
                 }
-            }
-
-            if($groupId == $third_ageGroup_id) {
-                foreach ($age_group as $attributeId => $value) {
-                    if($mainAttribute->id != $attributeId) {
-                        if(!empty($value['M'])) {
-
-                            $this->total_two_male += $value['M'];
-
-                        }
-
-                        if(!empty($value['F'])) {
-
-                            $this->total_two_female += $value['F'];
-
-                        }
-                    }
-                }
-            }
-
-        }
-
-        if(count($totalMale) < 2 || count($totalFemale) < 2) {
-            $this->dispatch('message_alert', 'Please Enter Number of Females or Males in "'.$mainAttribute->name.'" column');
-
-        } elseif(count($totalMale) >= 2 || count($totalFemale) >= 2) {
-
-            if($this->total_one_male > $totalMale[$first_ageGroup_id] || $this->total_two_male > $totalMale[$third_ageGroup_id] || $this->total_one_female > $totalFemale[$first_ageGroup_id] || $this->total_two_female > $totalFemale[$third_ageGroup_id]) {
-               $this->color = 'danger';
-
-               $this->dispatch('message_alert', 'Number of Females or Males in "'.$mainAttribute->name.'" column are not Correct');
 
             } else {
-                $this->color = 'success';
-                
-                try {
-                    DB::beginTransaction();
-
-                    if ($this->form) {
-                        $formTb = $this->form;
-                    } else {
-                        $formTb = new Form();
+                foreach ($this->formData as $groupId => $age_group) {
+                    foreach ($age_group as $attributeId => $value) {
+                        \App\Models\FormData::create([
+                            'form_id' => $formTb->id,
+                            'age_group_id' => $groupId,
+                            'attribute_id' => $attributeId,
+                            'male' => array_key_exists('M', $value) ? $value['M'] : null,
+                            'female' => array_key_exists('F', $value) ? $value['F'] : null,
+                        ]);
                     }
-
-                    
-                    $formTb->form_attribute_id = $this->form_id;
-                    $formTb->created_by = Auth::id();
-                    $formTb->completed_by = Auth::id();
-                    $formTb->scanning_name = $this->scanning_name;
-                    $formTb->ward_id = $this->ward_id;
-                    $formTb->address = $this->address;
-                    
-                    if($this->editMode == false) {
-                        $formTb->created_at = date('Y-m-d H:m:s', strtotime($this->created_at));
-                        $formTb->updated_at = date('Y-m-d H:m:s', strtotime($this->created_at));
-                        
-                    }
-
-                    $formTb->save();
-
-                    if ($this->form) {
-                        foreach ($this->formData as $groupId => $age_group) {
-                            foreach ($age_group as $attributeId => $value) {
-                                $existingRecord = \App\Models\FormData::where([
-                                    'form_id' => $formTb->id,
-                                    'age_group_id' => $groupId,
-                                    'attribute_id' => $attributeId,
-                                ])->first();
-
-                                if ($existingRecord) {
-
-                                    $existingRecord->update([
-                                        'male' => array_key_exists('M', $value) ? $value['M'] : null,
-                                        'female' => array_key_exists('F', $value) ? $value['F'] : null,
-                                    ]);
-                                } else {
-                                    \App\Models\FormData::create([
-                                        'form_id' => $formTb->id,
-                                        'age_group_id' => $groupId,
-                                        'attribute_id' => $attributeId,
-                                        'male' => array_key_exists('M', $value) ? $value['M'] : null,
-                                        'female' => array_key_exists('F', $value) ? $value['F'] : null,
-                                    ]);
-                                }
-                            }
-                        }
-
-                    } else {
-                        foreach ($this->formData as $groupId => $age_group) {
-                            foreach ($age_group as $attributeId => $value) {
-                                \App\Models\FormData::create([
-                                    'form_id' => $formTb->id,
-                                    'age_group_id' => $groupId,
-                                    'attribute_id' => $attributeId,
-                                    'male' => array_key_exists('M', $value) ? $value['M'] : null,
-                                    'female' => array_key_exists('F', $value) ? $value['F'] : null,
-                                ]);
-                            }
-                        }
-                    }
-
-                    DB::commit();
-                    if ($this->form) {
-                        $acting_user = User::find(auth()->user()->id);
-                        $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'Admin'));
-
-                        // redirect(route('admin.report'));
-
-                        $this->dispatch('field_data_success_alert', 'Data update successfully.');
-
-                    } else {
-                        $acting_user = User::find(auth()->user()->id);
-                        $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'Admin'));
-
-                        // redirect(route('admin.report'));
-
-                        $this->dispatch('field_data_success_alert', 'Data saved successfully.');
-
-                    }
-
-                } catch (\Throwable $th) {
-                    DB::rollBack();
-                    report($th);
-                    // $this->dispatch('failure_alert', $th->getMessage());
-
-                    $this->dispatch('failure_alert', 'An error occurred. Try again later or Check fill the empty fields.');
                 }
             }
 
-        }    
+            DB::commit();
+            if ($this->form) {
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated field data', 'Admin'));
+
+                // redirect(route('admin.report'));
+
+                $this->dispatch('field_data_success_alert', 'Data update successfully.');
+
+            } else {
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'Admin'));
+
+                // redirect(route('admin.report'));
+
+                $this->dispatch('field_data_success_alert', 'Data saved successfully.');
+
+            }
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            report($th);
+            // $this->dispatch('failure_alert', $th->getMessage());
+
+            $this->dispatch('failure_alert', 'An error occurred. Try again later or Check fill the empty fields.');
+        }
+      
         
     }
 
@@ -446,6 +303,7 @@ class FormData extends Component
     //     }
 
     // }
+    
     public function testedSum( $x)
     {
        return $this->sum += $x;
