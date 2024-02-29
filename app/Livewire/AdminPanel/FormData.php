@@ -33,10 +33,7 @@ class FormData extends Component
     public $district_id;
     public $wards = [];
     public $ward_id;
-    public $address;
-    public $value = 0;
-    public $sum = 0;
-    
+    public $address;    
 
     public $main_attr;
 
@@ -46,17 +43,8 @@ class FormData extends Component
     public $attributeList = [];
 
     public $formData = [];
-    public $formData2 = [];
-
-    public $total_one_male = 0;
-
-    public $total_two_male = 0;
-
-    public $total_one_female = 0;
-
-    public $total_two_female = 0;
-
-    public $excel_file;
+    
+    // public $excel_file;
 
     public $editMode = false;
 
@@ -228,66 +216,32 @@ class FormData extends Component
         $this->wards = Ward::where('district_id', $this->district_id)->get();
     }
 
+    public function calculateTotalTested($attribute, $ageGroup, $gender)
+    {
+        $total = 0;
+        foreach ($this->attributeList as $attribute) {
+            if ($attribute->attribute_no == 6.0 || $attribute->attribute_no == 7.0 || $attribute->attribute_no == 8.0 || $attribute->attribute_no == 9.0 || $attribute->attribute_no == 10.0 || $attribute->attribute_no == 11.0)
+            if (isset($this->formData[$ageGroup][$attribute->id][$gender])) {
+                $total += $this->formData[$ageGroup][$attribute->id][$gender];
+            }
+            
+            if ($attribute->attribute_no == 12.0) {
+                $this->formData[$ageGroup][$attribute->id][$gender] = $total;
+            }
+        }
+        return $total;
+    }
+    
+
     public function calculateTotal($attributeId, $gender)
     {
         return collect($this->formData)->sum(function ($ageGroup) use ($attributeId, $gender) {
             return intval($ageGroup[$attributeId][$gender] ?? 0);
         });
     }
-
-
-    // public function updatedFormData($value, $ageGroupId, $attributeId, $gender) {
-
-    //     $this->formData2[$ageGroupId][$attributeId][$gender] = $value;
-
-
-    //     // For the first age group, get the total sum for all inputs
-
-    //     if ($ageGroupId == 1) {
-
-    //         $totalSum = array_sum(array_map(function ($data) use ($gender) {
-
-    //             return $data[$gender];
-
-    //         }, $this->formData2[1]));
-
-    //     }
-
-
-    //     // For all age groups except the first one, calculate the remaining sum
-
-    //     foreach ($this->formData2 as $ageGroupId => $attributes) {
-
-    //         if ($ageGroupId != 1) {
-
-    //             $remainingSum = $totalSum;
-
-    //             foreach ($attributes as $attributeId => $genders) {
-
-    //                 $remainingSum -= $genders['F'] + $genders['M'];
-
-    //             }
-
-
-    //             // Distribute the remaining sum across all attributes and genders
-
-    //             foreach ($attributes as $attributeId => $genders) {
-
-    //                 $this->formData2[$ageGroupId][$attributeId]['F'] = max(0, $remainingSum / 2);
-
-    //                 $this->formData2[$ageGroupId][$attributeId]['M'] = max(0, $remainingSum / 2);
-
-    //             }
-
-    //         }
-
-    //     }
-
-    // }
     
     public function render()
     {
-        $this->sum += $this->value;
         if(!empty($this->form_id)) {
             $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 

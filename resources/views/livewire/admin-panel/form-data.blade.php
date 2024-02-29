@@ -307,7 +307,6 @@
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
-                                                                wire:change="testedSum({{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }})"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
@@ -315,18 +314,6 @@
                                                                 class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
-                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
-                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
-                                                        </td>
-                                                    @elseif ($attribute->attribute_no == 12.0)
-                                                        <td>
-                                                            <input type="number" style="width: 60px;" min="0"
-                                                                readonly disabled {{-- wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F" --}}
-                                                                value="{{ $sum }}">
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" style="width: 60px;" min="0"
-                                                                readonly value="0" disabled
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
@@ -456,6 +443,25 @@
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
+                                                    @elseif ($attribute->attribute_no == 12.0)
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                readonly disabled
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                            <span style="display: none;">
+                                                                {{ $this->calculateTotalTested($attribute->id, $ageGroup->id, 'F') }}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                readonly disabled
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+                                                            <span style="display: none;">
+                                                                {{ $this->calculateTotalTested($attribute->id, $ageGroup->id, 'M') }}
+                                                            </span>
+                                                        </td>
                                                     @else
                                                         <td>
                                                             @php
@@ -466,7 +472,6 @@
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
-                                                            {{ $value }}
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
