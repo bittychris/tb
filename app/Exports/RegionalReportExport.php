@@ -63,7 +63,7 @@ class RegionalReportExport implements FromView, ShouldAutoSize
             $this->quartile = '4th Quartile';
             
         } else {
-            $this->quartile = '---';
+            $this->quartile = 'All Quartiles';
         }
 
         if($this->region_id) {

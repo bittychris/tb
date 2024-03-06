@@ -54,7 +54,7 @@ class FormDataExport implements FromView, ShouldAutoSize
             $this->quartile = '4th Quartile';
             
         } else {
-            $this->quartile = '---';
+            $this->quartile = 'All Quartiles';
         }
 
         $forms = Form::select('forms.*', 'form_attributes.updated_at as upt_at', 'form_attributes.created_at as crt_at')

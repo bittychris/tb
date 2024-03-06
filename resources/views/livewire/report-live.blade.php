@@ -167,7 +167,7 @@
                                                     <button type="button"
                                                         class="btn {{ $select_all_quartiles == true ? 'btn-primary' : 'btn-danger' }} text-white"
                                                         wire:click="{{ $select_all_quartiles == true ? 'DeselectAllQuartiles' : 'SelectAllQuartiles' }}">
-                                                        {{ $select_all_quartiles == true ? 'Select By Quatile(s)' : 'All Quatiles' }}</button>
+                                                        {{ $select_all_quartiles == true ? 'Select By Quartile(s)' : 'All Quartiles' }}</button>
                                                 </div>
                                                 <div class="">
                                                     <input type="radio" name="quartile" class="me-2"

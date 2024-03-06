@@ -238,7 +238,7 @@ class ReportLive extends Component
 
             if(count($this->form_ids) == 0) {
                 $this->select_all_quartiles = false;
-                $this->dispatch('message_alert', 'There is Overall Field Data for '.$region->name. ' region in Year '.$this->selectedYear);
+                $this->dispatch('message_alert', 'There is no Overall Field Data for '.$region->name. ' region in Year '.$this->selectedYear);
                 $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
 
                 $this->region_id = '';
@@ -262,7 +262,7 @@ class ReportLive extends Component
 
             if(count($this->form_ids) == 0) {
                 $this->select_all_quartiles = false;
-                $this->dispatch('message_alert', 'There is Overall Field Data for year '.$this->selectedYear);
+                $this->dispatch('message_alert', 'There is no Overall Field Data for year '.$this->selectedYear);
                 $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
     
             } else {
@@ -336,7 +336,7 @@ class ReportLive extends Component
             }
 
             if(count($this->form_ids) == 0) {
-                $this->dispatch('message_alert', 'There is Overall Field Data for '.$region->name. ' region in '.$quartile.' of Year '.$this->selectedYear);
+                $this->dispatch('message_alert', 'There is no Overall Field Data for '.$region->name. ' region in '.$quartile.' of Year '.$this->selectedYear);
                 // $this->region_id = '';
                 $this->quartile = '';
                 $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
@@ -357,7 +357,7 @@ class ReportLive extends Component
             }
 
             if(count($this->form_ids) == 0) {
-                $this->dispatch('message_alert', 'There is Overall Field Data in '.$quartile.' of year '.$this->selectedYear);
+                $this->dispatch('message_alert', 'There is no Overall Field Data in '.$quartile.' of year '.$this->selectedYear);
                 $this->quartile = '';
                 $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
     
@@ -492,7 +492,7 @@ class ReportLive extends Component
             }
 
             if(count($this->form_ids) == 0) {
-                $this->dispatch('message_alert', 'There is Field Data for '.$region->name. ' region');
+                $this->dispatch('message_alert', 'There is no Field Data for '.$region->name. ' region');
                 $this->region_id = '';
             
             }
