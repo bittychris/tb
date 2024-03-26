@@ -285,81 +285,99 @@
 
                     <div class="row gy-4">
 
-                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
                             <div class="service-item  position-relative">
                                 <div class="icon">
-                                    <i class="fa-solid fa-mountain-city"></i>
+                                    <i class="fa-solid fa-lungs-virus"></i>
                                 </div>
-                                <h3>Tuberculosis Screening</h3>
-                                <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus
-                                    dolores iure perferendis tempore et consequatur.</p>
-                                <a href="service-details.html" class="readmore stretched-link">Learn more <i
-                                        class="bi bi-arrow-right"></i></a>
+                                <h3>TB Screening</h3>
+                                <p>We conduct TB screening using the national TB screening tool among high risk
+                                    individuals in the community to detect TB disease early, allowing for timely
+                                    intervention and treatment to prevent the spread of the disease.</p>
+                                {{-- <a href="service-details.html" class="readmore stretched-link">Learn more <i
+                                        class="bi bi-arrow-right"></i></a> --}}
                             </div>
                         </div><!-- End Service Item -->
 
-                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
                             <div class="service-item position-relative">
                                 <div class="icon">
-                                    <i class="fa-solid fa-arrow-up-from-ground-water"></i>
+                                    <i class="fa-solid fa-people-roof"></i>
                                 </div>
                                 <h3>Family Planning</h3>
-                                <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque
-                                    eum hic non ut nesciunt dolorem.</p>
-                                <a href="service-details.html" class="readmore stretched-link">Learn more <i
-                                        class="bi bi-arrow-right"></i></a>
+                                <p>USAID Afya Shirikishi strives to increase the uptake of FP services in the
+                                    communities so as to address unmet family planning needs in the four regions.
+                                    <br>
+                                    <br>
+                                    Through community outreach activities, routine CHW work, ADDOs and
+                                    Postpartum/post-abortion follow up, the program offers family planning education,
+                                    referral to health facilities for family planning services and distribution of
+                                    condoms and contraceptive pills among people of reproductive age in the community.
+                                </p>
+                                {{-- <a href="service-details.html" class="readmore stretched-link">Learn more <i
+                                        class="bi bi-arrow-right"></i></a> --}}
                             </div>
                         </div><!-- End Service Item -->
 
-                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="300">
                             <div class="service-item position-relative">
                                 <div class="icon">
-                                    <i class="fa-solid fa-compass-drafting"></i>
+                                    <i class="fa-solid fa-mars-and-venus-burst"></i>
                                 </div>
                                 <h3>Gender Based Violence</h3>
-                                <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id
-                                    voluptas adipisci eos earum corrupti.</p>
-                                <a href="service-details.html" class="readmore stretched-link">Learn more <i
-                                        class="bi bi-arrow-right"></i></a>
+                                <p>USAID Afya Shirikishi emphasizes the importance of gender equality, reproductive
+                                    rights, and access to comprehensive healthcare services for all members of the
+                                    community.</p>
+                                {{-- <a href="service-details.html" class="readmore stretched-link">Learn more <i
+                                        class="bi bi-arrow-right"></i></a> --}}
                             </div>
                         </div><!-- End Service Item -->
 
-                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="400">
                             <div class="service-item position-relative">
                                 <div class="icon">
-                                    <i class="fa-solid fa-trowel-bricks"></i>
+                                    <i class="fa-solid fa-chalkboard-user"></i>
                                 </div>
                                 <h3>Youth Intvention Clubs Section<br />(InSchool)</h3>
-                                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea
-                                    fuga sit provident adipisci neque.</p>
-                                <a href="service-details.html" class="readmore stretched-link">Learn more <i
-                                        class="bi bi-arrow-right"></i></a>
+                                <p>Afya Shirikishi project supports implementation of SRH and TB dialogues in secondary
+                                    schools through school clubs in Kigoma, Katavi, Songwe and Rukwa region.
+                                    <br>
+                                    <br>
+                                    Activities
+                                    implemented by school clubs include lunch meetings, club member’s discussion
+                                    sessions and access to youth friendly SRH services at health facilities through
+                                    royalty cards.
+                                </p>
+                                {{-- <a href="service-details.html" class="readmore stretched-link">Learn more <i
+                                        class="bi bi-arrow-right"></i></a> --}}
                             </div>
                         </div><!-- End Service Item -->
 
-                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                        <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="500">
                             <div class="service-item position-relative">
                                 <div class="icon">
-                                    <i class="fa-solid fa-helmet-safety"></i>
+                                    <i class="fa-solid fa-hospital-user"></i>
                                 </div>
                                 <h3>ICHF Section</h3>
-                                <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut.
-                                    Sed animi at autem alias eius labore.</p>
-                                <a href="service-details.html" class="readmore stretched-link">Learn more <i
-                                        class="bi bi-arrow-right"></i></a>
+                                <p>In collaboration with regional/district community health fund coordinators, social
+                                    welfare officers, and community health workers, USAID Afya Shirikishi is engaged in
+                                    raising awareness and educating the community on the importance of joining the iCHF
+                                    scheme for healthcare service provision. </p>
+                                {{-- <a href="service-details.html" class="readmore stretched-link">Learn more <i
+                                        class="bi bi-arrow-right"></i></a> --}}
                             </div>
                         </div><!-- End Service Item -->
 
-                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                        <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="600"
+                            style="opacity: 20%;">
                             <div class="service-item position-relative">
                                 <div class="icon">
-                                    <i class="fa-solid fa-arrow-up-from-ground-water"></i>
+                                    <i class="fa-solid fa-person"></i>
                                 </div>
                                 <h3>Male Champions</h3>
-                                <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure.
-                                    Corrupti recusandae ducimus enim.</p>
-                                <a href="service-details.html" class="readmore stretched-link">Learn more <i
-                                        class="bi bi-arrow-right"></i></a>
+                                <p>COMING SOON</p>
+                                {{-- <a href="service-details.html" class="readmore stretched-link">Learn more <i
+                                        class="bi bi-arrow-right"></i></a> --}}
                             </div>
                         </div><!-- End Service Item -->
 
