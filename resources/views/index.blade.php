@@ -106,8 +106,14 @@
                                         style="color: #c2113b;">AID</span> Afya
                                     Shirikishi</span></h2>
                             <p data-aos="fade-up">One Stop centre for TB treatment & Family Planning.</p>
-                            <a data-aos="fade-up" data-aos-delay="200" href="{{ route('login') }}"
-                                class="btn-get-started">Sign In</a>
+                            @auth
+                                <a data-aos="fade-up" data-aos-delay="200" href="{{ route('admin.dashboard') }}"
+                                    class="btn-get-started">Return to Dashboard</a>
+                            @else
+                                <a data-aos="fade-up" data-aos-delay="200" href="{{ route('login') }}"
+                                    class="btn-get-started">Sign In</a>
+                            @endauth
+
                         </div>
                     </div>
                 </div>

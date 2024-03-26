@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>403 page</title>
+        <title>500 page</title>
         {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> --}}
         {{-- <link rel="stylesheet" id="picostrap-styles-css" href="https://cdn.livecanvas.com/media/css/library/bundle.css"
@@ -52,13 +52,13 @@
                             </div>
                         </div><!-- /lc-block --> --}}
                         <div class="lc-block mt-4">
-                            @if (auth()->user())
+                            {{-- @if (auth()->user())
                                 <a class="btn btn-danger" href="{{ route('admin.dashboard') }}" role="button">Return
                                     to Dashboard</a>
-                            @else
-                                <a class="btn btn-danger" href="{{ route('index') }}" role="button">Return to
-                                    Homepage</a>
-                            @endif
+                            @else --}}
+                            <a class="btn btn-danger" href="{{ route('index') }}" role="button">Return to
+                                Homepage</a>
+                            {{-- @endif --}}
                         </div><!-- /lc-block -->
                     </div><!-- /col -->
                 </div>

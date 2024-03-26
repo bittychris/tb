@@ -47,13 +47,13 @@
                             </div>
                         </div><!-- /lc-block -->
                         <div class="lc-block">
-                            @if (auth()->user())
+                            {{-- @if (Auth::user())
                                 <a class="btn btn-danger" href="{{ route('admin.dashboard') }}" role="button">Return
                                     to Dashboard</a>
-                            @else
-                                <a class="btn btn-danger" href="{{ route('index') }}" role="button">Return to
-                                    Homepage</a>
-                            @endif
+                            @else --}}
+                            <a class="btn btn-danger" href="{{ route('index') }}" role="button">Return to
+                                Homepage</a>
+                            {{-- @endif --}}
                         </div><!-- /lc-block -->
                     </div><!-- /col -->
                 </div>
