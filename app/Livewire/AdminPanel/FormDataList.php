@@ -5,6 +5,7 @@ namespace App\Livewire\AdminPanel;
 use Livewire\Component;
 use App\Models\FormData;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class FormDataList extends Component
 {

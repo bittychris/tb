@@ -91,22 +91,22 @@ class DistrictSeeder extends Seeder
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ),
-            9 =>
-                array (
-                    'id' => 10,
-                    'region_id' => 2,
-                    'name' => 'KINONDONI',
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),
-            10 =>
-                array (
-                    'id' => 11,
-                    'region_id' => 2,
-                    'name' => 'KINONDONI',
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ),
+            // 9 =>
+            //     array (
+            //         'id' => 10,
+            //         'region_id' => 2,
+            //         'name' => 'KINONDONI',
+            //         'created_at' => Carbon::now(),
+            //         'updated_at' => Carbon::now(),
+            //     ),
+            // 10 =>
+            //     array (
+            //         'id' => 11,
+            //         'region_id' => 2,
+            //         'name' => 'KINONDONI',
+            //         'created_at' => Carbon::now(),
+            //         'updated_at' => Carbon::now(),
+            //     ),
             11 =>
                 array (
                     'id' => 12,

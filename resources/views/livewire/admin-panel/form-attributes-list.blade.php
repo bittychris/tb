@@ -7,7 +7,7 @@
 
             @elseif (session()->has('warning'))
                 @include('partial.alert')
-            
+
             @elseif (session()->has('error'))
                 @include('partial.alert')
 
@@ -21,10 +21,18 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <div class="row justify-content-between align-items-center">
-                            <div class="col-6">Attributes</div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#add_attribute_modal" style="float: right;"><i class="mdi mdi-plus"></i></button>
+                            <div class="col-4">Forms</div>
+
+                            <div class="col-5">
+                                <input type="text" wire:model.live="keywords" class="form-control form-control-sm" id="keywords" placeholder="Search by form name">
                             </div>
+
+                            @if (auth()->user()->can('add form attribute'))
+                                <div class="col-3">
+                                    <a href="{{ route('admin.add_form_attributes') }}" class="btn btn-primary btn-sm text-white" style="float: right;"><span class="me-2" style="font-size: 18px;">+</span> Add From</a>
+                                </div>
+                            @endif  
+
                         </div>
                     </h4>
                     <div class="table-responsive">
@@ -32,34 +40,44 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
+                                    <th>Form name</th>
+                                    @if ((auth()->user()->can('edit form attribute')) || (auth()->user()->can('delete form attribute')))
+                                        <th>Action</th>
+                                    @endif  
+                                    
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @php
-                                    $i = 1;
-                                @endphp
-                                @forelse ($from_attributes as $from_attribute)
+                                @forelse ($form_attributes as $key => $form_attribute)
                                 <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td>{{ $from_attribute->name }}</td>
-                                    <td class="text-center">
-                                        {{-- <button class="btn btn-primary btn-sm" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
-                                        <button class="btn btn-warning btn-sm" wire:click="prepareEditAttribute('{{$from_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#edit_attribute_modal" title="Edit"><i class="mdi mdi-pen"></i></button>
-                                        <button class="btn btn-danger btn-sm" wire:click="prepareDeleteAttribute('{{$from_attribute->id}}')" data-bs-toggle="modal" data-bs-target="#delete_attribute_modal" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>
+                                        {{ $form_attribute->name }}
                                     </td>
+                                    @if ((auth()->user()->can('edit form attribute')) || (auth()->user()->can('delete form attribute')))
+                                        <td class="text-center">
+                                            {{-- <button class="btn btn-primary btn-sm text-white" wire:click="ViewCustomer('{{$customer->id}}')" data-bs-toggle="modal" data-bs-target="#view_customer_modal"><i class="uil-eye"></i></button> --}}
+                                            @if (auth()->user()->can('edit form attribute'))
+                                                <a href="{{route('admin.edit_form_attributes', ['form_id' => $form_attribute->id])}}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="mdi mdi-pen"></i></a>
+                                            @endif  
+
+                                            {{--  @if (auth()->user()->can('delete form attribute'))
+                                                <button class="btn btn-danger btn-sm" wire:click="prepareData('{{$form_attribute->id}}')" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                            @endif    --}}
+
+                                        </td>
+                                    @endif  
+
                                 </tr>
                                 @empty
                                 <tr>
                                     <td colspan="3" class="text-center">No Attribute found</td>
                                 </tr>
                                 @endforelse
-                               
+
                             </tbody>
                         </table>
-                        {{ $from_attributes->links() }}
+                        {{ $form_attributes->links() }}
                     </div>
                 </div>
             </div>
@@ -76,11 +94,12 @@
                <button type="button" wire:click="clearForm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
            </div>
            <div class="modal-body px-3">
-               Do you want to Delete this Attribute?
+               {{-- Do you want to Delete this Attribute? --}}
+               Not working for now. Close this Pop up
            </div>
            <div class="modal-footer">
-               <button type="button" wire:click="clearForm" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-               <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Yes, Delete</button>
+               <button type="button" wire:click="clearForm" class="btn btn-warning text-white" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" disabled class="btn btn-danger text-white" data-bs-dismiss="modal">Yes, Delete</button>
            </div>
        </form>
 
@@ -93,25 +112,15 @@
 @push('js')
 
 <script>
-    //  // View modal
-    //  document.addEventListener('livewire:load', function () {
-    //     livewire.on('prepareEditAgeGroup', () => {
-    //         $('#edit_age_group_modal').modal('show')
-    //     });
-    //     livewire.on('updateAgeGroup', () => {
-    //         $('#edit_age_group_modal').modal('hide')
-    //     });
-    // });
-
-    // // Delete modal
-    // document.addEventListener('livewire:load', function () {
-    //     livewire.on('prepareDeleteAgeGroup', () => {
-    //         $('#delete_age_group_modal').modal('show')
-    //     });
-    //     livewire.on('closeFrom', () => {
-    //         $('#delete_age_group_modal').modal('hide')
-    //     });
-    // });
-</script>
     
+    window.addEventListener('openDeleteModal', event => {
+        $('#delete_form_attribute_modal').modal('show');
+    });
+
+    window.addEventListener('closeForm', event => {
+        $('#delete_form_attribute_modal').modal('hide');
+    });
+
+</script>
+
 @endpush

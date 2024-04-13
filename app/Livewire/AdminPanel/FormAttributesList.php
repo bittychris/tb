@@ -11,11 +11,34 @@ class FormAttributesList extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    
+
+    public $keywords;
+
+    // public $formAttribute_id;
+
+    // public function prepareData($formAttribute_id) {
+    //     $this->formAttribute_id = $formAttribute_id;
+    //     $this->dispatch('openDeleteModal');
+
+    // }
+
+    // public function deleteFormAttribute() {
+
+    // }
+
+    // public function clearForm() {
+    //     $this->formAttribute_id = '';
+
+    // }
+
     public function render()
     {
-        $from_attributes = FormAttribute::latest()->paginate(10);
+        $form_attributes = FormAttribute::when($this->keywords, function ($query) {
 
-        return view('livewire.admin-panel.form-attributes-list', ['from_attributes' => $from_attributes]);
+            $query->where('name', 'like', '%'.$this->keywords.'%');
+
+        })->orderBy('created_at', 'asc')->paginate(10);
+
+        return view('livewire.admin-panel.form-attributes-list', ['form_attributes' => $form_attributes]);
     }
 }

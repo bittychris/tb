@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -22,14 +23,23 @@ class LoginController extends Controller
     |
     */
 
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except('logout');
+    // }
 
     public function show_login()
     {
-        return view('auth.login');
+        // $users = User::count();
+        
+        // if($users == 0) {
+        //     return redirect()->route('admin_registration');
+            
+        // } else {
+            return view('auth.login');
+            
+        // }
+        
     }
 
     public function authenticate(Request $request): RedirectResponse
@@ -46,13 +56,46 @@ class LoginController extends Controller
             'password' => $request->password],
              $remember_me)) {
 
-            $request->session()->regenerate();
+            $user = User::where('email', $request->email)->first();
 
+<<<<<<< HEAD
             return redirect()->intended(route('admin.dashboard'));
 
+=======
+            if($user->status == true) {
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('admin.dashboard'));
+
+            } elseif($user->status == false) {
+                Auth::logout();
+
+                $request->session()->invalidate();
+
+                $request->session()->regenerateToken();
+
+                return redirect()->back()->with('error', 'Your Account has been Deactivated, Contact System Administrator to Activate your Account');
+
+            }
+            
+>>>>>>> origin/bashiri-last-merge
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
+            
         }
+        
+    }
+
+    public function userProfile() {
+        // $email = auth()->user()->email;
+
+        return view('admin_panel.user_profile');
+    }
+
+    public function changePassword() {
+        // $email = auth()->user()->email;
+
+        return view('auth.passwords.reset');
     }
 
     public function logout(Request $request)

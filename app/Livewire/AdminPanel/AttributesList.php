@@ -2,9 +2,11 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\Attribute;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\Attribute;
 use Livewire\WithPagination;
+use App\Notifications\UserActionNotification;
 
 class AttributesList extends Component
 {
@@ -12,14 +14,15 @@ class AttributesList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $attribute_id, $attribute, $name;
+    public $action, $attribute_id, $attribute, $name, $attribute_no, $keywords;
 
     public $editMode = false;
-    
+
     protected function rules() {
 
         return [
-            'name' => ['required', 'string']
+            'name' => ['required', 'string'],
+            'attribute_no' => ['required', 'numeric'],
         ];
 
     }
@@ -35,61 +38,89 @@ class AttributesList extends Component
         $checkAttributeExists = Attribute::where('name', $validatedData['name'])->exists();
 
         if ($checkAttributeExists) {
-            session()->flash('already_exist', 'The Attribute already exists.');
+            $this->dispatch('message_alert', 'The Attribute already exists.');
+
+            // session()->flash('already_exist', 'The Attribute already exists.');
 
         } else {
-        
+
             $attribute = Attribute::create([
-                'name' => $validatedData['name']
+                'name' => $validatedData['name'],
+                'attribute_no' => $validatedData['attribute_no']
             ]);
 
             if ($attribute) {
                 $this->clearForm();
-                session()->flash('success', 'Attribute saved successfully');
+
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Attribute', 'Admin'));
+
+                $this->dispatch('closeForm');
+                $this->dispatch('success_alert', 'Attribute saved successfully');
+
+                // session()->flash('success', 'Attribute saved successfully');
 
             } else {
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('closeForm');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
 
     }
 
-    public function prepareEditAttribute($attribute_id) {
-        
-        $this->editMode = true;
+    public function prepareData($attribute_id, $action) {
 
-        $attribute = Attribute::findOrFail($attribute_id);
+        $this->attribute_id = $attribute_id;
+        $this->action = $action;
 
-        $this->attribute_id = $attribute->id;
-        $this->name = $attribute->name;
+
+        if($this->action == 'edit') {
+            $this->editMode = true;
+
+            $this->dispatch('openForm');
+
+            $attribute = Attribute::findOrFail($attribute_id);
+
+            $this->attribute_id = $attribute->id;
+            $this->name = $attribute->name;
+            $this->attribute_no = $attribute->attribute_no;
+
+        } elseif($this->action == 'delete') {
+            $this->dispatch('openDeleteModal');
+
+        }
 
     }
 
     public function updateAttribute() {
 
         $validatedData = $this->validate();
-        
+
         $attribute = Attribute::where('id', $this->attribute_id)->update([
-            'name' => $validatedData['name']
+            'name' => $validatedData['name'],
+            'attribute_no' => $validatedData['attribute_no']
 
         ]);
 
         if ($attribute) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
 
-            session()->flash('success', 'Age group updated successfully');
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Attribute details', 'Admin'));
+
+            $this->dispatch('closeForm');
+            $this->dispatch('success_alert', 'Attribute updated successfully');
+
+            // session()->flash('success', 'Attribute updated successfully');
 
         } else {
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('closeForm');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
-
-    }
-
-    public function prepareDeleteAttribute($attribute_id) {
-
-        $this->attribute_id = $attribute_id;
 
     }
 
@@ -99,14 +130,22 @@ class AttributesList extends Component
 
         if ($attribute) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
 
-            session()->flash('warning', 'Attribute deleted successfully');
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted Attribute', 'Admin'));
+
+            $this->dispatch('closeForm');
+            $this->dispatch('success_alert', 'Attribute deleted successfully');
+
+            // session()->flash('warning', 'Attribute deleted successfully');
 
         } else {
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('closeForm');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
-        
+
     }
 
     public function clearForm() {
@@ -115,13 +154,18 @@ class AttributesList extends Component
         $this->attribute_id = '';
 
         $this->reset(
-            'name'
+            'name',
+            'attribute_no'
         );
     }
 
     public function render()
     {
-        $attributes = Attribute::latest()->paginate(10);
+        $attributes = Attribute::when($this->keywords, function ($query) {
+
+            $query->where('name', 'like', '%'.$this->keywords.'%');
+
+        })->orderBy('attribute_no', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.attributes-list', ['attributes' => $attributes]);
     }

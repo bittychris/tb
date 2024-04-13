@@ -2,8 +2,8 @@
 
 @section('title', 'Form Attributes')
 
-@section('admin-content') 
+@section('admin-content')
 
-    <livewire:admin_panel.add-form-attribute />
+    <livewire:admin_panel.add-form-attribute :form_id="null"/>
 
 @endsection

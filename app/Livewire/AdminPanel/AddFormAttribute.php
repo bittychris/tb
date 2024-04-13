@@ -2,23 +2,26 @@
 
 namespace App\Livewire\AdminPanel;
 
+use App\Models\User;
 use Livewire\Component;
 use App\Models\AgeGroup;
 use App\Models\Attribute;
 use App\Models\FormAttribute;
+use App\Notifications\UserActionNotification;
 
 class AddFormAttribute extends Component
 {
-    public $fromAttribute = '';
-    public $name = '';
-    
-    public $age_group_ids = [0];
-
-    public $attribute_ids = [0];
+    public $fromAttribute, $name;
 
     public $editMode = false;
 
-    protected function rules() {
+    public $form_id;
+
+    public $selectedAgeGroupIds = [];
+    public $selectedAttributeIds = [];
+
+    protected function rules()
+    {
 
         return [
             'name' => ['required', 'string']
@@ -26,82 +29,107 @@ class AddFormAttribute extends Component
 
     }
 
-    public function updated($fields)
+    public function mount($form_id = null)
     {
-        $this->validateOnly($fields);
+        $this->form_id = $form_id ;
+
+
+        if ($form_id){
+            $this->editMode = true;
+            $form_attribute = FormAttribute::find($form_id);
+
+            $this->name = $form_attribute->name;
+            $this->selectedAgeGroupIds = json_decode($form_attribute->age_group_ids);
+            $this->selectedAttributeIds = json_decode($form_attribute->attribute_ids);
+        }else{
+            $this->editMode = false;
+        }
     }
 
-    public function saveFormAttribute() {
-
+    public function saveFormAttribute()
+    {
         $validatedData = $this->validate();
 
         $checkAttributeExists = FormAttribute::where('name', $validatedData['name'])->exists();
 
-        if ($checkAttributeExists) {
-            session()->flash('already_exist', 'The From Attributes already exists.');
+        if ($checkAttributeExists && !$this->editMode) {
+            $this->dispatch('message_alert', 'The From Attributes already exists.');
+
+            // session()->flash('already_exist', 'The From Attributes already exists.');
 
         } else {
-        
-            array_splice($this->age_group_ids, 0, 1);
 
-            array_splice($this->attribute_ids, 0, 1);
+            if (count($this->selectedAgeGroupIds) == 0) {
+                $this->dispatch('message_alert', 'No Age Group selected.');
 
-            if (empty($this->age_group_ids)) {
-                session()->flash('warning', 'No Age Group selected');
+                // session()->flash('warning', 'No Age Group selected');
 
-            } elseif (empty($this->attribute_ids)) {
-                session()->flash('warning', 'No Attribute selected');
-            
-            } elseif (!empty($this->age_group_ids) && !empty($this->attribute_ids)) {
+                return;
+            } elseif (count($this->selectedAttributeIds) == 0) {
+                $this->dispatch('message_alert', 'No Attribute selected.');
 
-                $age_group_ids = json_encode($this->age_group_ids);
+                // session()->flash('warning', 'No Attribute selected');
+                return;
+            } else {
 
-                $attribute_ids = json_encode($this->attribute_ids);
+                $age_group_ids = json_encode($this->selectedAgeGroupIds);
 
-                $form_attribute = FormAttribute::create([
-                    'name' => $validatedData['name'],
-                    'age_group_ids' => $age_group_ids,
-                    'attribute_ids' => $attribute_ids
-                ]);
-    
-                if ($form_attribute) {
-                    $this->clearForm();
-                    session()->flash('success', 'From attribute saved successfully');
+                $attribute_ids = json_encode($this->selectedAttributeIds);
 
-                    return redirect('admin/form_attributes');
-                    
-                } else {
-                    session()->flash('error', 'An error occurred. Try again later.');
+                if ($this->editMode){
+                    FormAttribute::where('id', $this->form_id)->update([
+                        'name' => $this->name,
+                        'age_group_ids' => $age_group_ids,
+                        'attribute_ids' => $attribute_ids
+                    ]);
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated Form Attribute details', 'Admin'));
+
+                    $this->dispatch('form_attr_success_alert', 'From attribute updated successfully');
+
+                    // session()->flash('success', 'From attribute updated successfully');
+                    // return redirect(route('admin.form_attributes'));
+
+                } else{
+                    $form_attribute = FormAttribute::create([
+                        'name' => $this->name,
+                        'age_group_ids' => $age_group_ids,
+                        'attribute_ids' => $attribute_ids
+                    ]);
+
+                    $acting_user = User::find(auth()->user()->id);
+                    $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new Form attribute', 'Admin'));
+
+                    $this->dispatch('form_attr_success_alert', 'From attribute saved successfully');
+
+                    // session()->flash('success', 'From attribute saved successfully');
+                    // return redirect(route('admin.form_attributes'));
+                    // return redirect(route('admin.edit_form_attributes', ['form_id' => $form_attribute->id]));
                 }
 
             }
-            
+
         }
 
     }
 
-    public function clearForm() {
+    public function clearForm()
+    {
         $this->editMode = false;
-
-        $this->reset(
-            'name'
-        );
-
-        $this->age_group_ids = [0];
-        $this->attribute_ids = [0];
 
     }
 
     public function render()
     {
-        $ageGroups = AgeGroup::all();
+        $ageGroups = AgeGroup::orderBy('created_at','asc')->get();
 
-        $attributes = Attribute::all();
+        $attributes = Attribute::orderBy('attribute_no','asc')->get();
 
-        return view('livewire.admin-panel.add-form-attribute', 
-        [
-            'ageGroups' => $ageGroups, 
-            'attributes' => $attributes
-        ]);
+        return view('livewire.admin-panel.add-form-attribute',
+            [
+                'ageGroups' => $ageGroups,
+                'attributes' => $attributes
+            ]);
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\AgeGroup;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\AgeGroup;
 use Livewire\WithPagination;
+use App\Notifications\UserActionNotification;
 
 class AgeGroupsList extends Component
 {
@@ -12,7 +14,7 @@ class AgeGroupsList extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $ageGroup_id, $ageGroup, $age_group_name, $min_age, $max_age;
+    public $action, $ageGroup_id, $ageGroup, $age_group_name, $min_age, $max_age, $keywords;
 
     public $editMode = false;
     
@@ -37,7 +39,9 @@ class AgeGroupsList extends Component
         $checkAgeGroupExists = AgeGroup::where('slug', $validatedData['age_group_name'])->exists();
 
         if ($checkAgeGroupExists) {
-            session()->flash('already_exist', 'The Age group already exists.');
+            $this->dispatch('message_alert', 'The Age group already exists.');
+
+            // session()->flash('already_exist', 'The Age group already exists.');
 
         } else {
         
@@ -49,26 +53,46 @@ class AgeGroupsList extends Component
 
             if ($ageGroup) {
                 $this->clearForm();
-                session()->flash('success', 'Age group saved successfully');
+
+                $acting_user = User::find(auth()->user()->id);
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'added new age group', 'Admin'));
+            
+                $this->dispatch('closeForm');
+                $this->dispatch('success_alert', 'Age group saved successfully');
+
+                // session()->flash('success', 'Age group saved successfully');
 
             } else {
-                session()->flash('error', 'An error occurred. Try again later.');
+                $this->dispatch('closeForm');
+                $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+                // session()->flash('error', 'An error occurred. Try again later.');
             }
 
         }
 
     }
 
-    public function prepareEditAgeGroup($ageGroup_id) {
+    public function prepareData($ageGroup_id, $action) {
 
-        $this->editMode = true;
+        $this->ageGroup_id = $ageGroup_id;
+        $this->action = $action;
 
-        $ageGroup = AgeGroup::findOrFail($ageGroup_id);
+        if($this->action == 'edit') {
+            $this->editMode = true;
 
-        $this->ageGroup_id = $ageGroup->id;
-        $this->age_group_name = $ageGroup->slug;
-        $this->min_age = $ageGroup->min;
-        $this->max_age = $ageGroup->max;
+            $this->dispatch('openForm');
+
+            $ageGroup = AgeGroup::findOrFail($ageGroup_id);
+
+            $this->age_group_name = $ageGroup->slug;
+            $this->min_age = $ageGroup->min;
+            $this->max_age = $ageGroup->max;
+
+        } elseif($this->action == 'delete') {
+            $this->dispatch('openDeleteModal');
+
+        }  
 
     }
 
@@ -84,19 +108,21 @@ class AgeGroupsList extends Component
 
         if ($ageGroup) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
 
-            session()->flash('success', 'Age group updated successfully');
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Updated age group details', 'Admin'));
+        
+            $this->dispatch('closeForm');
+            $this->dispatch('success_alert', 'Age group updated successfully');
+
+            // session()->flash('success', 'Age group updated successfully');
 
         } else {
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('closeForm');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
-
-    }
-
-    public function prepareDeleteAgeGroup($ageGroup_id) {
-
-        $this->ageGroup_id = $ageGroup_id;
 
     }
 
@@ -106,12 +132,20 @@ class AgeGroupsList extends Component
 
         if ($ageGroup) {
             $this->clearForm();
-            // $this->dispatch('success', 'Age group updated successfully');
+            
+            $acting_user = User::find(auth()->user()->id);
+            $acting_user->notify(new UserActionNotification(auth()->user(), 'Deleted age group', 'Admin'));
+        
+            $this->dispatch('closeForm');
+            $this->dispatch('success_alert', 'Age group deleted successfully');
 
-            session()->flash('warning', 'Age group deleted successfully');
+            // session()->flash('warning', 'Age group deleted successfully');
 
         } else {
-            session()->flash('error', 'An error occurred. Try again later.');
+            $this->dispatch('closeForm');
+            $this->dispatch('failure_alert', 'An error occurred. Try again later.');
+
+            // session()->flash('error', 'An error occurred. Try again later.');
         }
         
     }
@@ -130,7 +164,17 @@ class AgeGroupsList extends Component
 
     public function render()
     {
-        $ageGroups = AgeGroup::latest()->paginate(10);
+        $ageGroups = AgeGroup::when($this->keywords, function ($query) {
+
+            $query->where('slug', 'like', '%'.$this->keywords.'%')
+                ->orWhere(function ($query) {
+
+                    $query->whereBetween('min', [0, $this->keywords])
+                            ->whereBetween('max', [$this->keywords, 1000]);
+
+                });
+                
+        })->orderBy('created_at', 'asc')->paginate(10);
 
         return view('livewire.admin-panel.age-groups-list', ['ageGroups' => $ageGroups]);
     }
