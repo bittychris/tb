@@ -41,12 +41,15 @@ class LoginController extends Controller
 
         $remember_me = $request->has('remember');
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember_me)) {
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password],
+             $remember_me)) {
 
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.dashboard'));
-            
+
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
         }

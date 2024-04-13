@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\dashboardController;
 
 /*
@@ -23,9 +24,9 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('index', [App\Http\Controllers\indexController::class, 'index'])->name('index');
-Route::get('/home', [App\Http\Controllers\HomeControauthenticateller::class, 'index'])->name('home');
+Route::get('home', [HomeController::class, 'index'])->name('home');
 
-Route::get('login', [LoginController::class, 'show_login'])->name('login');
+Route::get('login', [LoginController::class, 'show_login'])->name('login'); //to show just a page for login
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
 Route::group(['middleware' => 'auth'], function() {
@@ -34,7 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'admin'], function() {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-        Route::get('dashboard', [App\Http\Controllers\dashboardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
     });
 
