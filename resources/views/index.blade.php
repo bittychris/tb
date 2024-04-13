@@ -102,9 +102,8 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
-                            <h2 data-aos="fade-down">Welcome to <span><span style="color: #012a6c;">US</span><span
-                                        style="color: #c2113b;">AID</span> Afya
-                                    Shirikishi</span></h2>
+                            <h2 data-aos="fade-down">Welcome to <span><span style="color: #012a6c;">U</span><span
+                                        style="color: #c2113b;">AS</span> MEL SYSTEM </span></h2>
                             <p data-aos="fade-up">One Stop centre for TB treatment & Family Planning.</p>
                             @auth
                                 <a data-aos="fade-up" data-aos-delay="200" href="{{ route('admin.dashboard') }}"
