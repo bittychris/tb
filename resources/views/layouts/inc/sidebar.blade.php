@@ -128,7 +128,7 @@
                 <a class="nav-link" data-bs-toggle="collapse" href="#recycle_bin" aria-expanded="false"
                     aria-controls="recycle_bin">
                     <i class="mdi mdi-delete menu-icon"></i>
-                    <span class="menu-title">Recycle bin</span>
+                    <span class="menu-title">Deactivated accounts</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="recycle_bin">
@@ -139,7 +139,7 @@
                         @endif
                         @if (auth()->user()->can('all deleted staffs'))
                             <li class="nav-item"> <a class="nav-link"
-                                    href="{{ route('admin.deactivated.staffs') }}">Staffs</a></li>
+                                    href="{{ route('admin.deactivated.staffs') }}">Staff</a></li>
                         @endif
                     </ul>
                 </div>
