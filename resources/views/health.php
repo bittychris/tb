@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+@extends('layouts.health')
 
 @section('title', 'Dashboard')
 
-@section('admin-content') 
+@section('admin-content')
 
   <div class="row">
     <div class="col-md-12 grid-margin">
