@@ -201,7 +201,7 @@ class ReportLive extends Component
         $this->quartRange = '';
         $this->form_ids = [];
 
-        $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-12-01 23:59:59'];
+        $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-12-31 23:59:59'];
         $this->startdate = $this->quartRange[0];
         $this->enddate = $this->quartRange[1];
 
@@ -276,7 +276,7 @@ class ReportLive extends Component
     public function DeselectAllQuartiles() {
         $this->quartile = '';
 
-        $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-12-01 23:59:59'];
+        $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-12-31 23:59:59'];
         $this->startdate = $this->quartRange[0];
         $this->enddate = $this->quartRange[1];
 
@@ -376,15 +376,15 @@ class ReportLive extends Component
             //     return ['2024-01-01 00:00:00', $this->currentDateTime];
 
             case 'q1':
-                return [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-03-01 23:59:59'];
+                return [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-03-31 23:59:59'];
 
             case 'q2':
-                return [$this->selectedYear.'-03-01 00:00:00', $this->selectedYear.'-06-01 23:59:59'];
+                return [$this->selectedYear.'-03-01 00:00:00', $this->selectedYear.'-06-30 23:59:59'];
 
             case 'q3':
-                return [$this->selectedYear.'-06-01 00:00:00', $this->selectedYear.'-09-01 23:59:59'];
+                return [$this->selectedYear.'-06-01 00:00:00', $this->selectedYear.'-09-30 23:59:59'];
             case 'q4':
-                return [$this->selectedYear.'-09-01 00:00:00', $this->selectedYear.'-12-01 23:59:59'];
+                return [$this->selectedYear.'-09-01 00:00:00', $this->selectedYear.'-12-31 23:59:59'];
             default:
                 return null;
 
