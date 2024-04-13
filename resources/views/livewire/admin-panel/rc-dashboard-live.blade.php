@@ -5,10 +5,12 @@
                 <div class="d-flex align-items-end flex-wrap">
                     <div class="me-md-3 me-xl-5">
                         <h2>Welcome to <span class="text-danger"><span style="color: #012a6c;">US</span><span
-                                    style="color: #c2113b;">AID</span></span> Afya Shirikishi,</h2>
-                        <p class="mb-md-0">Your dashboard for tracking data for <span class="text-danger"><span
+                                    style="color: #c2113b;">AID</span></span> Afya Shirikishi, UAS MEL SYSTEM</h2>
+                        <p class="mb-md-0">Your dashboard for tracking data for <span class="text-danger">
+                                {{-- <span
                                     style="color: #012a6c;">US</span><span style="color: #c2113b;">AID</span></span>
-                            Afya Shirikishi.</p>
+                            Afya Shirikishi --}}
+                                UAS MEL SYSTEM.</p>
                     </div>
                 </div>
             </div>
