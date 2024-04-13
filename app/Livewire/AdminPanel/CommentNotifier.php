@@ -18,7 +18,7 @@ class CommentNotifier extends Component
                 return redirect(route('admin.reporting.comment', ['report' => $form_id]));
 
             } else {
-                $this->dispatch('message_alert', 'You can\'t the Comment since you are neither RC nor ASP.');
+                $this->dispatch('message_alert', 'You can\'t the Comment since you are neither RC, MEL officer nor MEL manager .');
 
             }
 

@@ -278,7 +278,9 @@
                                                             style="background-color: #f5f6f7;">
                                                             <div class="col-12 border-secondary border-bottom pb-1 small"
                                                                 style="font-size: 12px;">
-                                                                <span class="text-danger fw-bold">ASP: </span>
+                                                                <span
+                                                                    class="text-danger fw-bold">{{ $comment->sender->role->name }}:
+                                                                </span>
                                                                 {{ $comment->sender->first_name }}
                                                                 {{ $comment->sender->last_name }}
                                                             </div>
