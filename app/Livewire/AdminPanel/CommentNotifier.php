@@ -14,11 +14,11 @@ class CommentNotifier extends Component
             if(auth()->user()->role->name == 'Regional coordinator') {
                 return redirect(route('admin.report.comment', ['form' => $form_id]));
 
-            } elseif(auth()->user()->role->name == 'AMREF personnel') {
+            } elseif(auth()->user()->role->name == 'MEL officer' || auth()->user()->role->name == 'MEL manager') {
                 return redirect(route('admin.reporting.comment', ['report' => $form_id]));
 
             } else {
-                $this->dispatch('message_alert', 'You can\'t the Comment since you are neither RC nor ASP.');
+                $this->dispatch('message_alert', 'You can\'t the Comment since you are neither RC, MEL officer nor MEL manager .');
 
             }
 

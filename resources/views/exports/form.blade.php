@@ -127,7 +127,7 @@
                                 {{-- <img src="{{ !empty($comment->sender->image) ? asset('storage/user_images/' . $comment->sender->image) : asset('admin/images/faces/user_logo.jpg') }}"
                                     alt="profile image" style="width: 45px; height: 45px; border-radius: 100%;" /> --}}
                             </div>
-                        @elseif ($comment->receiver_id == auth()->user()->id)
+                        @elseif ($comment->sender->id != auth()->user()->id)
                             <div class="d-flex flex-row justify-content-start mb-1">
                                 {{-- <img src="{{ !empty($comment->sender->image) ? asset('storage/user_images/' . $comment->sender->image) : asset('admin/images/faces/user_logo.jpg') }}"
                                     alt="profile image" style="width: 45px; height: 45px; border-radius: 100%;" /> --}}
@@ -136,7 +136,8 @@
                                         style="background-color: #f5f6f7;">
                                         <div class="col-12 border-secondary border-bottom pb-1 small"
                                             style="font-size: 12px;">
-                                            <span class="text-danger fw-bold">RC: </span>
+                                            <span class="text-danger fw-bold">{{ $comment->sender->role->name }}:
+                                            </span>
                                             {{ $comment->sender->first_name }}
                                             {{ $comment->sender->last_name }}
                                         </div>

@@ -59,24 +59,26 @@ class DashboardLive extends Component
 
             $this->formsAttribute = FormAttribute::where('name', 'TB SCREENING (CI+ACF)')->first();
 
+            if($this->formsAttribute) {
+
             $attributeList = Attribute::whereIn('id', json_decode($this->formsAttribute->attribute_ids))->get();
             
-            foreach($attributeList as $attribute) {
-                if($attribute->attribute_no == 1.0) {
-                    $mainAttribute = $attribute;
-    
-                } elseif($attribute->attribute_no == 0.1) {
-                    $mainAttribute = $attribute;
-    
-                } elseif($attribute->attribute_no == 0.2) {
-                    $mainAttribute = $attribute;
-    
+                foreach($attributeList as $attribute) {
+                    if($attribute->attribute_no == 1.0) {
+                        $mainAttribute = $attribute;
+        
+                    } elseif($attribute->attribute_no == 0.1) {
+                        $mainAttribute = $attribute;
+        
+                    } elseif($attribute->attribute_no == 0.2) {
+                        $mainAttribute = $attribute;
+        
+                    }
                 }
-            }
             
-            $forms = Form::where('form_attribute_id', $this->formsAttribute->id)->get();
+                $forms = Form::where('form_attribute_id', $this->formsAttribute->id)->get();
 
-            if($forms) {
+                if($forms) {
                 $form_ids = [];
                 $labels = [];
                 $datasets = [];
@@ -115,8 +117,10 @@ class DashboardLive extends Component
                     array_push($this->femaleDatasets, $data['female']);
 
                 }
-            }          
+                }          
 
+            }
+            
         // }
 
         $this->dispatch('renderChart');

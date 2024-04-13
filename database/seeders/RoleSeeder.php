@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
 {
@@ -20,7 +19,8 @@ class RoleSeeder extends Seeder
 
         Role::create(['name' => 'Admin']);
         Role::create(['name' => 'Regional coordinator']);
-        Role::create(['name' => 'AMREF personnel']);
+        Role::create(['name' => 'MEL officer']);
+        Role::create(['name' => 'MEL manager']);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         

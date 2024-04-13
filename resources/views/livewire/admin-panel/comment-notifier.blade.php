@@ -29,7 +29,7 @@
                             <p class="font-weight-light small-text text-muted mb-0">
                                 Comment about {{ $comment->form->scanning_name }} Report
                             </p>
-                        @elseif (auth()->user()->role->name == 'AMREF personnel')
+                        @elseif (auth()->user()->role->name == 'MEL manager' || auth()->user()->role->name == 'MEL officer')
                             <p class="font-weight-light small-text text-muted mb-0">
                                 Replied about {{ $comment->form->scanning_name }} Report comment
                             </p>

@@ -56,7 +56,7 @@ class RcDashboardLive extends Component
 
             if ($submit_report) {
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Submitted field data', 'Admin and AMREF personnel'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Submitted field data', 'Admin and MEL'));
 
                 $this->dispatch('closeModel');
                 $this->dispatch('success_alert', 'Field data submitted successfully.');

@@ -32,7 +32,7 @@ Route::get('/', function () {
 });
 
 
-Auth::routes();
+// Auth::routes();
 Route::get('index', [App\Http\Controllers\indexController::class, 'index'])->name('index');
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
@@ -64,7 +64,7 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 // Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 
-        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
+// Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::middleware(['auth'])->group(function() {
 
@@ -88,8 +88,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('deleted_staffs', [adminController::class, 'deactivatedStaffs'])->name('admin.deactivated.staffs')->middleware(['permission:all deleted staffs']);
 
-
-        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+    Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
 
     Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff')->middleware(['permission:add staff']);
 
@@ -145,23 +144,23 @@ Route::middleware(['auth'])->group(function() {
 
     // Report download routes
 
-    Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
+    Route::get('users/export', [ExportController::class, 'export'])->name('user.export')->middleware(['permission:download reports']);
 
-    Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
+    Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export')->middleware(['permission:download reports']);
 
-    Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
+    Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export')->middleware(['permission:download reports']);
 
-    Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export');
+    Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export')->middleware(['permission:download reports']);
 
-    Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export');
+    Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export')->middleware(['permission:download reports']);
 
-    Route::get('reginal_report/export/{region_id}/{startDate}/{endDate}', [ExportController::class, 'reginalReport'])->name('reginal_report.export');
+    Route::get('reginal_report/export/{region_id}/{startDate}/{endDate}', [ExportController::class, 'reginalReport'])->name('reginal_report.export')->middleware(['permission:download reports']);
 
-    Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
+    Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export')->middleware(['permission:download reports']);
 
-    Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
+    Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export')->middleware(['permission:download reports']);
 
-    Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
+    Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi')->middleware(['permission:download reports']);
 
 
 });

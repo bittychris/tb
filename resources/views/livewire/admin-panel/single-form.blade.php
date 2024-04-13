@@ -11,7 +11,7 @@
                                 @if (auth()->user()->role->name == 'Regional coordinator')
                                     <a href="{{ route('admin.report') }}" class="btn btn-primary btn-sm text-white"
                                         style="float: right;">Back</a>
-                                @elseif (auth()->user()->role->name == 'Admin' || auth()->user()->role->name == 'AMREF personnel')
+                                @elseif (auth()->user()->role->name == 'Admin' || auth()->user()->role->name == '')
                                     <a href="{{ route('admin.reporting') }}" class="btn btn-primary btn-sm text-white"
                                         style="float: right;">Back</a>
                                 @endif

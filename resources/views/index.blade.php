@@ -1032,7 +1032,8 @@
                     <div class="container">
                         <div class="copyright">
                             &copy; Copyright <strong><span><span style="color: #012a6c;">US</span><span
-                                        style="color: #c2113b;">AID</span> Afya Shirikishi</span></strong>. All Rights
+                                        style="color: #c2113b;">AID</span> Afya Shirikishi MEL System</span></strong>.
+                            All Rights
                             Reserved
                         </div>
                         {{-- <div class="credits"> --}}

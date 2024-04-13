@@ -43,8 +43,7 @@
                                     <th>Role</th>
                                     <th>Overall Permission</th>
 
-                                    @if (auth()->user()->can('edit assigned permissions to role') ||
-                                            auth()->user()->can('delete roles permissions'))
+                                    @if (auth()->user()->can('edit assigned permissions to role') || auth()->user()->can('delete roles permissions'))
                                         <th>Action</th>
                                     @endif
 
@@ -58,14 +57,14 @@
                                 @forelse ($Roles as $Role)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td>{{ $Role->name }}</td>
+                                        <td>{{ $Role->name == 'Admin' ? 'Administrator' : $Role->name }}</td>
                                         <td>
                                             {{-- @foreach ($RolesPermissions as $permission) --}}
                                             @if ($Role->name == 'Admin')
                                                 <span class="badge rounded bg-success">
-                                                    Administrate the whole system
+                                                    Administrate system
                                                 </span>
-                                            @elseif ($Role->name == 'AMREF personnel')
+                                            @elseif ($Role->name == 'MEL manager' || $Role->name == 'MEL officer')
                                                 <span class="badge rounded bg-success">
                                                     Access report processes
                                                 </span>
@@ -77,8 +76,7 @@
                                             {{-- @endforeach --}}
                                         </td>
 
-                                        @if (auth()->user()->can('edit assigned permissions to role') ||
-                                                auth()->user()->can('delete roles permissions'))
+                                        @if (auth()->user()->can('edit assigned permissions to role') || auth()->user()->can('delete roles permissions'))
                                             <td class="text-center">
                                                 @if (auth()->user()->can('edit assigned permissions to role'))
                                                     <a href="{{ route('admin.edit.permissions.role', ['role_id' => $Role->id]) }}"
