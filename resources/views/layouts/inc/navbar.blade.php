@@ -32,21 +32,21 @@
             <div class="mt-2">
                 <livewire:admin-panel.comment-notifier />
             </div>
-            {{-- @if (auth()->user()->can('view notifications'))  --}}
             {{--  notification  --}}
-            @if (auth()->user()->role->name == 'Regional coordinator')
-                <div class="mt-2">
-                </div>
-            @elseif (auth()->user()->role->name == 'Admin')
-                <div class="mt-2">
-                    <livewire:admin-panel.notifications />
-                </div>
-            @elseif (auth()->user()->role->name == 'AMREF personnel')
-                <div class="mt-2">
-                    <livewire:admin-panel.amref-personnel-notifications />
-                </div>
+            @if (auth()->user()->can('view notifications'))
+                @if (auth()->user()->role->name == 'Regional coordinator')
+                    <div class="mt-2">
+                    </div>
+                @elseif (auth()->user()->role->name == 'Admin')
+                    <div class="mt-2">
+                        <livewire:admin-panel.notifications />
+                    </div>
+                @elseif (auth()->user()->role->name == 'MEL officer' || auth()->user()->role->name == 'MEL manager')
+                    <div class="mt-2">
+                        <livewire:admin-panel.amref-personnel-notifications />
+                    </div>
+                @endif
             @endif
-            {{-- @endif  --}}
 
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
@@ -56,6 +56,12 @@
                         class="nav-profile-name">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    <a href="#" class="dropdown-item my-0"
+                        style="text-align: center !important; background-color: #cccccc81;">
+                        <span class="text-uppercase mx-auto my-0 text-danger fw-bold"
+                            style="font-size: 14px;">{{ auth()->user()->role->name == 'Admin' ? 'Adminstrator' : auth()->user()->role->name }}</span>
+
+                    </a>
                     <a href="{{ route('user.profile') }}" class="dropdown-item">
                         <i class="mdi mdi-account text-danger"></i>
                         My profile

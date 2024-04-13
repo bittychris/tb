@@ -122,7 +122,7 @@ class ReportList extends Component
 
             if ($submit_report) {
                 $acting_user = User::find(auth()->user()->id);
-                $acting_user->notify(new UserActionNotification(auth()->user(), 'Submitted field data', 'Admin and AMREF personnel'));
+                $acting_user->notify(new UserActionNotification(auth()->user(), 'Submitted field data', 'Admin and MEL'));
 
                 $this->dispatch('closeModel');
                 $this->dispatch('success_alert', 'Field data submitted successfully.');
@@ -296,7 +296,7 @@ class ReportList extends Component
 
         $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
 
-        if((auth()->user()->role->name == 'Admin') || (auth()->user()->role->name == 'AMREF personnel')) {
+        if((auth()->user()->role->name == 'Admin') || (auth()->user()->role->name == 'MEL manager') || (auth()->user()->role->name == 'MEL officer')) {
 
             $reports = Form::query()
             ->when($this->keywords, function ($query) {
