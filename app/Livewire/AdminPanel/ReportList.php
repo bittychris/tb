@@ -194,15 +194,15 @@ class ReportList extends Component
 
             $this->comments = comments::where(function ($query) {
 
-                $query->where('form_id', $this->form_id)
+                $query->where('form_id', $this->form_id);
 
-                      ->where(function ($query) {
+                    //   ->where(function ($query) {
 
-                          $query->where('sender_id', auth()->user()->id)
+                    //       $query->where('sender_id', auth()->user()->id)
 
-                                ->orWhere('receiver_id', auth()->user()->id);
+                    //             ->orWhere('receiver_id', auth()->user()->id);
 
-                      });
+                    //   });
 
             })->orderBy('created_at', 'asc')->get();
         }
@@ -214,15 +214,15 @@ class ReportList extends Component
 
         $this->comments = comments::where(function ($query) {
 
-            $query->where('form_id', $this->form_id)
+            $query->where('form_id', $this->form_id);
 
-                  ->where(function ($query) {
+                //   ->where(function ($query) {
 
-                      $query->where('sender_id', auth()->user()->id)
+                //       $query->where('sender_id', auth()->user()->id)
 
-                            ->orWhere('receiver_id', auth()->user()->id);
+                //             ->orWhere('receiver_id', auth()->user()->id);
 
-                  });
+                //   });
 
         })->orderBy('created_at', 'asc')->get();
 
@@ -282,15 +282,15 @@ class ReportList extends Component
         // Comments
         $this->comments = comments::where(function ($query) {
 
-            $query->where('form_id', $this->form_id)
+            $query->where('form_id', $this->form_id);
 
-                  ->where(function ($query) {
+                //   ->where(function ($query) {
 
-                      $query->where('sender_id', auth()->user()->id)
+                //       $query->where('sender_id', auth()->user()->id)
 
-                            ->orWhere('receiver_id', auth()->user()->id);
+                //             ->orWhere('receiver_id', auth()->user()->id);
 
-                  });
+                //   });
 
         })->orderBy('created_at', 'asc')->get();
 
