@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\indexController;
+use App\Http\Controllers\ageGroupController;
+
 use App\Http\Controllers\ExportController;
 // use App\Http\Controllers\ageGroupController;
+
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\Data\FormController;
 use App\Http\Controllers\Auth\LoginController;
@@ -23,12 +26,29 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+Auth::routes();
+Route::get('index', [App\Http\Controllers\indexController::class, 'index'])->name('index');
+Route::get('home', [HomeController::class, 'index'])->name('home');
+
 Route::get('/', [indexController::class, 'index'])->name('index');
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+Route::get('login', [LoginController::class, 'show_login'])->name('login'); //to show just a page for login
+
 // Route::get('/home',  [HomeController::class, 'index'])->name('home');
 
 // Route::post('admin_registration', [RegisterController::class, 'create'])->name('register');
 // Route::get('admin_registration', [RegisterController::class, 'show_admin_registration'])->name('admin_registration');
 Route::get('login', [LoginController::class, 'show_login'])->name('login');
+
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
 // Route::middleware(['auth', 'role:admin' ])->prefix('admin')->group(function() {
@@ -42,6 +62,9 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 // Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
 // Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
 // Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
+
+
+        Route::get('dashboard', [dashboardController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::middleware(['auth'])->group(function() {
 
@@ -65,7 +88,11 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('deleted_staffs', [adminController::class, 'deactivatedStaffs'])->name('admin.deactivated.staffs')->middleware(['permission:all deleted staffs']);
 
+
+        Route::get('form_attributes/add', [adminController::class, 'addFormAttributes'])->name('admin.add_form_attributes');
+
     Route::get('add_staff', [adminController::class, 'addStaff'])->name('admin.add_staff')->middleware(['permission:add staff']);
+
 
     Route::get('staffs/{staff_id}/edit', [adminController::class, 'editStaff'])->name('admin.edit_staff')->middleware(['permission:edit staff']);
 
@@ -117,23 +144,23 @@ Route::middleware(['auth'])->group(function() {
 
 
     // Report download routes
-    
+
     Route::get('users/export', [ExportController::class, 'export'])->name('user.export');
-    
+
     Route::get('formdata/export/{range}', [ExportController::class, 'formdata'])->name('formdata.export');
-    
+
     Route::get('formattribute/export', [ExportController::class, 'formattribute'])->name('formattribute.export');
-    
+
     Route::get('form/export/{keywords}/{startDate}/{endDate}', [ExportController::class, 'form'])->name('form.export');
-    
+
     Route::get('field_data/export/{keywords}/{submission_status}/{startDate}/{endDate}', [ExportController::class, 'fieldData'])->name('field_data.export');
-    
+
     Route::get('reginal_report/export/{region_id}/{startDate}/{endDate}', [ExportController::class, 'reginalReport'])->name('reginal_report.export');
-    
+
     Route::get('formdata/{formdata_id}', [ExportController::class, 'formOne'])->name('formOne.export');
-    
+
     Route::get('single_field_data/{form_id}', [ExportController::class, 'singleFormData'])->name('singleFormData.export');
-    
+
     Route::get('dataformsapi', [FormController::class, 'index'])->name('dataformsapi');
 
 
