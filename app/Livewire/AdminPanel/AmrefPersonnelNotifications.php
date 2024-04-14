@@ -50,7 +50,7 @@ class AmrefPersonnelNotifications extends Component
             
         // $this->notifications = auth()->user()->unreadNotifications;
 
-        $this->notifications = DB::table('notifications')->whereJsonContains('data->user_role', 'Admin and AMREF personnel')->where('read_at', NULL)->get();
+        $this->notifications = DB::table('notifications')->whereJsonContains('data->user_role', 'Admin and MEL')->where('read_at', NULL)->get();
         
         $this->notificationCounter = count($this->notifications);
 

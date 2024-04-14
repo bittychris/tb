@@ -102,8 +102,17 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
+<<<<<<< HEAD
                             <h2 data-aos="fade-down">Welcome to <span><span style="color: #012a6c;">U</span><span
                                         style="color: #c2113b;">AS</span> MEL SYSTEM </span></h2>
+=======
+                            <h2 data-aos="fade-down">
+                                {{-- Welcome to --}}
+                                {{-- <span><span style="color: #012a6c;">U</span><span style="color: #c2113b;">AS</span>
+                                    Shirikishi</span>  --}}
+                                UAS MEL SYSTEM
+                            </h2>
+>>>>>>> origin/bashiri-last-merge
                             <p data-aos="fade-up">One Stop centre for TB treatment & Family Planning.</p>
                             @auth
                                 <a data-aos="fade-up" data-aos-delay="200" href="{{ route('admin.dashboard') }}"
@@ -1031,7 +1040,8 @@
                     <div class="container">
                         <div class="copyright">
                             &copy; Copyright <strong><span><span style="color: #012a6c;">US</span><span
-                                        style="color: #c2113b;">AID</span> Afya Shirikishi</span></strong>. All Rights
+                                        style="color: #c2113b;">AID</span> Afya Shirikishi MEL System</span></strong>.
+                            All Rights
                             Reserved
                         </div>
                         {{-- <div class="credits"> --}}

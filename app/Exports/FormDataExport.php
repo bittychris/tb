@@ -41,16 +41,16 @@ class FormDataExport implements FromView, ShouldAutoSize
         $this->startDate = date('Y-m-d', strtotime($range[0]));
         $this->endDate = date('Y-m-d', strtotime($range[1]));
 
-        if((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-01-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-03-01 23:59:59')) {
+        if((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-01-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-03-31 23:59:59')) {
             $this->quartile = '1st Quartile';
             
-        } elseif((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-03-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-06-01 23:59:59')) {
+        } elseif((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-03-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-06-30 23:59:59')) {
             $this->quartile = '2nd Quartile';
             
-        } elseif((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-06-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-09-01 23:59:59')) {
+        } elseif((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-06-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-09-30 23:59:59')) {
             $this->quartile = '3rd Quartile';
             
-        } elseif((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-09-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-12-01 23:59:59')) {
+        } elseif((Carbon::parse($this->startDate)->startOfDay() >= date('Y', strtotime($range[0])).'-09-01 00:00:00') && (Carbon::parse($this->endDate)->startOfDay() <= date('Y', strtotime($range[1])).'-12-31 23:59:59')) {
             $this->quartile = '4th Quartile';
             
         } else {

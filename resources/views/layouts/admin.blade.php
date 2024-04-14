@@ -2,26 +2,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
-        {{-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
-
-
-        {{-- bootstrap --}}
-        {{-- <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}"> --}}
-
-        <!-- Scripts -->
-        {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-
-
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <title>@yield('title') - {{ config('app.name') }}</title>
@@ -83,7 +63,7 @@
                             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a
                                     href="{{ route('index') }}" class="text-danger" target="_blank"
                                     style="text-decoration: none;"> <span style="color: #012a6c;">US</span><span
-                                        style="color: #c2113b;">AID</span> Afya Shirikishi
+                                        style="color: #c2113b;">AID</span> Afya Shirikishi, UAS MEL System
                                 </a>{{ date('Y') }}</span>
                         </div>
                     </footer>

@@ -56,16 +56,16 @@
                                             placeholder="Filter by date">
                                     </div> --}}
                                     @if (count($forms) != 0)
-                                        {{-- @if (auth()->user()->can('download reports')) --}}
-                                        <div class="col-3">
-                                            <a href="{{ empty($keywords) ? route('form.export', ['keywords' => 0, 'startDate' => $startDate, 'endDate' => $endDate]) : route('form.export', ['keywords' => $keywords, 'startDate' => $startDate, 'endDate' => $endDate]) }}"
-                                                class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
-                                                style="float: right;">
-                                                <i class="mdi mdi-download me-2 mt-1"></i>
-                                                Download Reports
-                                            </a>
-                                        </div>
-                                        {{-- @endif --}}
+                                        @if (auth()->user()->can('download reports'))
+                                            <div class="col-3">
+                                                <a href="{{ empty($keywords) ? route('form.export', ['keywords' => 0, 'startDate' => $startDate, 'endDate' => $endDate]) : route('form.export', ['keywords' => $keywords, 'startDate' => $startDate, 'endDate' => $endDate]) }}"
+                                                    class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
+                                                    style="float: right;">
+                                                    <i class="mdi mdi-download me-2 mt-1"></i>
+                                                    Download Reports
+                                                </a>
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="col-md-3">
                                             <div>
@@ -136,16 +136,16 @@
                                                             </div>
                                                         </div>
                                                     @elseif (!empty($region_id) && count($form_ids) != 0)
-                                                        {{-- @if (auth()->user()->can('download reports')) --}}
-                                                        <div class="col-4">
-                                                            <a href="{{ empty($region_id) ? route('reginal_report.export', ['region_id' => 0, 'startDate' => $startdate, 'endDate' => $enddate]) : route('reginal_report.export', ['region_id' => $region_id, 'startDate' => $startdate, 'endDate' => $enddate]) }}"
-                                                                class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
-                                                                style="float: right;">
-                                                                <i class="mdi mdi-download me-2 mt-1"></i>
-                                                                Download Regional Report
-                                                            </a>
-                                                        </div>
-                                                        {{-- @endif --}}
+                                                        @if (auth()->user()->can('download reports'))
+                                                            <div class="col-4">
+                                                                <a href="{{ empty($region_id) ? route('reginal_report.export', ['region_id' => 0, 'startDate' => $startdate, 'endDate' => $enddate]) : route('reginal_report.export', ['region_id' => $region_id, 'startDate' => $startdate, 'endDate' => $enddate]) }}"
+                                                                    class="bbtn btn-danger btn-sm text-white text-white d-flex align-items-center text-uppercase text-decoration-none"
+                                                                    style="float: right;">
+                                                                    <i class="mdi mdi-download me-2 mt-1"></i>
+                                                                    Download Regional Report
+                                                                </a>
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                 @else
                                                     <div class="col-md-3">
