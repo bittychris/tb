@@ -54,12 +54,8 @@
                                 <h4 class="text-center mb-4">Welcome to <span style="color: #012a6c;">US</span><span
                                         style="color: #c2113b;">AID</span> Afya Shirikishi
                                 </h4>
-<<<<<<< HEAD
-                                <h4><span>UAS MEL SYSTEM</span></h4>
-=======
                                 <h4 class="text-center mb-4"><span>UAS MEL SYSTEM</span></h4>
 
->>>>>>> origin/bashiri-last-merge
                                 {{-- <h6 class="font-weight-light">Sign in to continue.</h6> --}}
                                 <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                                     @csrf

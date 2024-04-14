@@ -31,15 +31,15 @@ class LoginController extends Controller
     public function show_login()
     {
         // $users = User::count();
-        
+
         // if($users == 0) {
         //     return redirect()->route('admin_registration');
-            
+
         // } else {
             return view('auth.login');
-            
+
         // }
-        
+
     }
 
     public function authenticate(Request $request): RedirectResponse
@@ -58,10 +58,6 @@ class LoginController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
-<<<<<<< HEAD
-            return redirect()->intended(route('admin.dashboard'));
-
-=======
             if($user->status == true) {
                 $request->session()->regenerate();
 
@@ -77,13 +73,12 @@ class LoginController extends Controller
                 return redirect()->back()->with('error', 'Your Account has been Deactivated, Contact System Administrator to Activate your Account');
 
             }
-            
->>>>>>> origin/bashiri-last-merge
+
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
-            
+
         }
-        
+
     }
 
     public function userProfile() {
