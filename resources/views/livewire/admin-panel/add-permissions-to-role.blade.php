@@ -74,7 +74,7 @@
                                         <div class="row">
                                             @foreach ($permissions as $key => $permission)
                                                 @if ($permission->group_name == $permissionGroups->group_name)
-                                                    <div class="col-4 px-4">
+                                                    <div class="col-4 px-4" wire:key="{{ $key . 'perm' }}">
                                                         <input class="form-check-input" type="checkbox"
                                                             wire:model="selectedPermissionIds"
                                                             value="{{ $permission->id }}"
