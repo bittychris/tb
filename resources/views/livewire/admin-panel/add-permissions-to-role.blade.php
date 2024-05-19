@@ -61,7 +61,7 @@
                             </div>
                             <div class="row">
                                 @foreach ($permissionGroups as $groupKey => $permissionGroups)
-                                    <div class="col-12 mb-2">
+                                    <div class="col-12 mb-2" wire:key="{{ $key . 'permGroup' }}">
                                         <div class="row">
                                             <div class="col-12">
                                                 {{--  <input class="form-check-input" type="checkbox" wire:model="selectedPermissionIds" value="{{ $permissionGroups->id }}" id="permissionGroup.{{$groupKey}}">  --}}
