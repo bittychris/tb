@@ -7,7 +7,7 @@ use App\Traits\Uuids;
 
 class BaseModal extends Model
 {
-    use Uuids;
+    // use Uuids;
     protected $keyType = 'string';
 
     protected $casts = [

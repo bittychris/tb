@@ -12,10 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('form_id');
-            $table->uuid('sender_id');
-            $table->uuid('receiver_id');
+            // $table->uuid('id')->primary();
+            $table->id();
+            $table->unsignedBigInteger('form_id');
+            // $table->uuid('form_id');
+            $table->unsignedBigInteger('sender_id');
+            // $table->uuid('sender_id');
+            $table->unsignedBigInteger('receiver_id');
+            // $table->uuid('receiver_id');
             $table->text('content');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
@@ -37,8 +41,7 @@ return new class extends Migration
                 ->on('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-
-            });
+        });
     }
 
     /**

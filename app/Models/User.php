@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Traits\Uuids;
+// use App\Traits\Uuids;
 use App\Models\Region;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
 
-    use HasApiTokens, HasFactory, Notifiable, Uuids, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -55,14 +55,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(Role::class);
-        
     }
 
-    public function region() {
+    public function region()
+    {
         return $this->belongsTo(Region::class);
-        
     }
 
     /* protected static function boot()
@@ -79,5 +79,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Form::class, 'created_by');
     }
-    
 }

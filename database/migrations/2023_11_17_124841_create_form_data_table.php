@@ -12,10 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('form_data', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('form_id');
-            $table->uuid('age_group_id');
-            $table->uuid('attribute_id');
+            // $table->uuid('id')->primary();
+            $table->id();
+            // $table->uuid('form_id');
+            $table->unsignedBigInteger('form_id');
+            // $table->uuid('age_group_id');
+            $table->unsignedBigInteger('age_group_id');
+            // $table->uuid('attribute_id');
+            $table->unsignedBigInteger('attribute_id');
             $table->integer('male')->nullable();
             $table->integer('female')->nullable();
             $table->timestamps();
@@ -25,11 +29,13 @@ return new class extends Migration
                 ->on('forms')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+
             $table->foreign('age_group_id')
                 ->references('id')
                 ->on('age_groups')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+
             $table->foreign('attribute_id')
                 ->references('id')
                 ->on('attributes')

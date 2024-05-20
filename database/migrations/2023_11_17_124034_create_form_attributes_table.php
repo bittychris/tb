@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('form_attributes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            // $table->uuid('id')->primary();
+            $table->id();
             $table->string('name');
             $table->json('age_group_ids');
             $table->json('attribute_ids');

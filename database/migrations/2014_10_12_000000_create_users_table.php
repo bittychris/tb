@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            // $table->uuid('id')->primary();
+            $table->id();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -22,7 +23,8 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('region_id')->unsigned()->nullable()->constrained();
             // $table->foreignID('role_id')->nullable()->constarained();
-            $table->char('role_id', 36);
+            // $table->char('role_id', 36);
+            $table->unsignedBigInteger('role_id');
             $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
