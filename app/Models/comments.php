@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Traits\Uuids;
+// use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class comments extends Model
 {
-    use HasFactory, Uuids;
+    use HasFactory;
 
     protected $table = 'comments';
 
@@ -40,6 +40,5 @@ class comments extends Model
     public function replies()
     {
         return $this->hasMany(comments::class, '_id');
-
     }
 }
