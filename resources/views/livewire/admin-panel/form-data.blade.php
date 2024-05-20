@@ -303,7 +303,7 @@
                                                     @elseif ($attribute->attribute_no == 10.0)
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
+                                                                class="{{ $ageGroup->slug === '6-14' || $ageGroup->slug === '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
@@ -311,7 +311,7 @@
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
+                                                                class="{{ $ageGroup->slug === '6-14' || $ageGroup->slug === '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
