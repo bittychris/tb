@@ -300,10 +300,12 @@
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
 
                                                         </td>
-                                                    @elseif ($attribute->attribute_no == 10.0)
+                                                    @elseif (
+                                                        $attribute->attribute_no == 9.0 &&
+                                                            $scanning_name == 'CONTACT INVESTIGATION - Non Bacteriologically confirmed & Clinical Diagnosis Only')
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                class="{{ $ageGroup->slug === '6-14' || $ageGroup->slug === '15 & above' ? 'bg-dark' : '' }}"
+                                                                class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
@@ -311,7 +313,26 @@
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                class="{{ $ageGroup->slug === '6-14' || $ageGroup->slug === '15 & above' ? 'bg-dark' : '' }}"
+                                                                class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
+                                                                value="0"
+                                                                {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
+                                                        </td>
+                                                    @elseif (
+                                                        $attribute->attribute_no == 10.0 &&
+                                                            $scanning_name != 'CONTACT INVESTIGATION - Non Bacteriologically confirmed & Clinical Diagnosis Only')
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
+                                                                value="0"
+                                                                {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
+                                                                wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
+                                                                value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" style="width: 60px;" min="0"
+                                                                class="{{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'bg-dark' : '' }}"
                                                                 value="0"
                                                                 {{ $ageGroup->slug == '6-14' || $ageGroup->slug == '15 & above' ? 'disabled' : '' }}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
