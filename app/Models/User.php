@@ -11,11 +11,14 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use LdapRecord\Laravel\Auth\HasLdapUser;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 
-class User extends Authenticatable
+class User extends Authenticatable implements LdapAuthenticatable
 {
 
-    use HasApiTokens, HasFactory, Notifiable, Uuids, HasRoles;
+    use HasFactory, Notifiable, AuthenticatesWithLdap, HasLdapUser;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +30,7 @@ class User extends Authenticatable
         'last_name',
         'phone',
         'email',
+        'username',
         'role_id',
         'region_id',
         'password',
@@ -57,12 +61,12 @@ class User extends Authenticatable
 
     public function role() {
         return $this->belongsTo(Role::class);
-        
+
     }
 
     public function region() {
         return $this->belongsTo(Region::class);
-        
+
     }
 
     /* protected static function boot()
@@ -79,5 +83,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Form::class, 'created_by');
     }
-    
+
 }

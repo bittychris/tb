@@ -45,18 +45,29 @@ class LoginController extends Controller
     public function authenticate(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            // 'email' => ['required', 'email'],
+            'username' => ['required', 'username'],
             'password' => ['required'],
         ]);
 
         $remember_me = $request->has('remember');
 
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password],
-             $remember_me)) {
+        // if (Auth::attempt([
+        //     'email' => $request->email,
+        //     'password' => $request->password],
+        //      $remember_me)) {
 
-            $user = User::where('email', $request->email)->first();
+        $credentials = [
+            'uid' => $this->username,
+            'password' => $this->password,
+        ];
+
+        if (! Auth::attempt($credentials, $this->filled('remember'))) {
+            RateLimiter::hit($this->throttleKey());
+
+
+
+            $user = User::where('username', $request->username)->first();
 
             if($user->status == true) {
                 $request->session()->regenerate();

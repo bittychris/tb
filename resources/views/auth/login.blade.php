@@ -60,8 +60,8 @@
                                 <form action="{{ route('authenticate') }}" method="POST" class="pt-3">
                                     @csrf
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control form-control-lg"
-                                            value="{{ old('email') }}" id="email" placeholder="Username" equired
+                                        <input type="text" name="username" class="form-control form-control-lg"
+                                            value="{{ old('username') }}" id="username" placeholder="Username" equired
                                             autocomplete="email" autofocus>
                                     </div>
                                     <div class="form-group">
