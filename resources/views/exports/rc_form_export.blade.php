@@ -38,9 +38,9 @@
             <tr>
                 <td style="text-align: left;">{{ $i++ }}</td>
                 <td style="color: black;">{{ $report->form_attribute->name }}</td>
-                <td>{{ $report->ward->district->region->name }}</td>
-                <td>{{ $report->ward->district->name }}</td>
-                <td>{{ $report->ward->name }}</td>
+                <td>{{ $report->added_by->region->name ?? '---' }}</td>
+                <td>{{ $report->ward->district->name ?? '---' }}</td>
+                <td>{{ $report->ward->name ?? '---' }}</td>
                 <td
                     style="text-align: center; color: #fff; font-size: 12px; background: {{ $report->status == 0 ? 'red' : 'green' }}; border-radius: 8px;">
                     {{ $report->status == 0 ? 'Not submitted' : 'Submited' }}
