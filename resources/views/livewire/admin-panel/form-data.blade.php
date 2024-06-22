@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="district_id">Form</label>
+                                    <label for="district_id">Form <span class="text-danger">*</span></label>
                                     <select wire:model.live="form_id" class="form-control form-control-sm text-dark">
                                         <option value="" class="fw-bold">Select Form</option>
                                         @foreach ($formsAttributes as $formsAttribute)
@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="scanning_name">Scanning Name</label>
+                                    <label for="scanning_name">Scanning Name<span class="text-danger">*</span></label>
                                     <input type="text" wire:model="scanning_name"
                                         class="form-control form-control-sm">
                                     @error('scanning_name')
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="created_at">Date</label>
+                                    <label for="created_at">Date<span class="text-danger">*</span></label>
                                     @if ($editMode == true)
                                         <input type="text" readonly disabled
                                             wire:model="created_at"class="form-control form-control-sm">

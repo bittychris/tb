@@ -332,9 +332,9 @@
                                             {{ Str::limit($report->scanning_name, 20) }}
                                             {{-- </a> --}}
                                         </td>
-                                        <td>{{ $report->ward->district->region->name }}</td>
-                                        <td>{{ $report->ward->district->name }}</td>
-                                        <td>{{ $report->ward->name }}</td>
+                                        <td>{{ $report->added_by->region->name ?? '---' }}</td>
+                                        <td>{{ $report->ward->district->name ?? '---' }}</td>
+                                        <td>{{ $report->ward->name ?? '---' }}</td>
                                         <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}
                                         </td>
                                         <td>{{ $report->updated_at->format('M d, Y') }}</td>

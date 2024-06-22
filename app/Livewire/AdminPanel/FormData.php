@@ -23,7 +23,7 @@ class FormData extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $previousValue;
-    
+
     public $form;
     public $created_at;
     public $form_id;
@@ -33,7 +33,7 @@ class FormData extends Component
     public $district_id;
     public $wards = [];
     public $ward_id;
-    public $address;    
+    public $address;
 
     public $main_attr;
 
@@ -43,7 +43,7 @@ class FormData extends Component
     public $attributeList = [];
 
     public $formData = [];
-    
+
     // public $excel_file;
 
     public $editMode = false;
@@ -78,10 +78,10 @@ class FormData extends Component
 
     protected $rules = [
         'scanning_name' => ['required'],
-//        'region_id' => ['required'],
-        'district_id' => ['required'],
-        'ward_id' => ['required'],
-        'address' => ['required'],
+        //        'region_id' => ['required'],
+        'district_id' => ['nullable'],
+        'ward_id' => ['nullable'],
+        'address' => ['nullable'],
     ];
 
 
@@ -89,7 +89,7 @@ class FormData extends Component
     //     $this->dispatch('openForm');
 
     // }
-    
+
     // public function clearForm() {
     //     $this->reset(
     //         'excel_file'
@@ -99,7 +99,7 @@ class FormData extends Component
     public function saveForm()
     {
         $this->validate();
-                
+
         try {
             DB::beginTransaction();
 
@@ -109,18 +109,17 @@ class FormData extends Component
                 $formTb = new Form();
             }
 
-            
+
             $formTb->form_attribute_id = $this->form_id;
             $formTb->created_by = Auth::id();
             $formTb->completed_by = Auth::id();
             $formTb->scanning_name = $this->scanning_name;
             $formTb->ward_id = $this->ward_id;
             $formTb->address = $this->address;
-            
-            if($this->editMode == false) {
+
+            if ($this->editMode == false) {
                 $formTb->created_at = date('Y-m-d H:m:s', strtotime($this->created_at));
                 $formTb->updated_at = date('Y-m-d H:m:s', strtotime($this->created_at));
-                
             }
 
             $formTb->save();
@@ -151,7 +150,6 @@ class FormData extends Component
                         }
                     }
                 }
-
             } else {
                 foreach ($this->formData as $groupId => $age_group) {
                     foreach ($age_group as $attributeId => $value) {
@@ -174,7 +172,6 @@ class FormData extends Component
                 // redirect(route('admin.report'));
 
                 $this->dispatch('field_data_success_alert', 'Data update successfully.');
-
             } else {
                 $acting_user = User::find(auth()->user()->id);
                 $acting_user->notify(new UserActionNotification(auth()->user(), 'Added new field data', 'Admin'));
@@ -182,9 +179,7 @@ class FormData extends Component
                 // redirect(route('admin.report'));
 
                 $this->dispatch('field_data_success_alert', 'Data saved successfully.');
-
             }
-
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
@@ -192,8 +187,6 @@ class FormData extends Component
 
             $this->dispatch('failure_alert', 'An error occurred. Try again later or Check fill the empty fields.');
         }
-      
-        
     }
 
     public function updatedFormId()
@@ -221,17 +214,17 @@ class FormData extends Component
         $total = 0;
         foreach ($this->attributeList as $attribute) {
             if ($attribute->attribute_no == 6.0 || $attribute->attribute_no == 7.0 || $attribute->attribute_no == 8.0 || $attribute->attribute_no == 9.0 || $attribute->attribute_no == 10.0 || $attribute->attribute_no == 11.0)
-            if (isset($this->formData[$ageGroup][$attribute->id][$gender])) {
-                $total += $this->formData[$ageGroup][$attribute->id][$gender];
-            }
-            
+                if (isset($this->formData[$ageGroup][$attribute->id][$gender])) {
+                    $total += $this->formData[$ageGroup][$attribute->id][$gender];
+                }
+
             if ($attribute->attribute_no == 12.0) {
                 $this->formData[$ageGroup][$attribute->id][$gender] = $total;
             }
         }
         return $total;
     }
-    
+
 
     public function calculateTotal($attributeId, $gender)
     {
@@ -239,26 +232,25 @@ class FormData extends Component
             return intval($ageGroup[$attributeId][$gender] ?? 0);
         });
     }
-    
+
     public function render()
     {
-        if(!empty($this->form_id)) {
+        if (!empty($this->form_id)) {
             $formsAttributes = FormAttribute::where('id', $this->form_id)->first();
 
             $this->ageGroups = AgeGroup::whereIn('id', json_decode($formsAttributes->age_group_ids))->orderBy('created_at', 'asc')->get();
             $this->attributeList = Attribute::whereIn('id', json_decode($formsAttributes->attribute_ids))->orderBy('attribute_no', 'asc')->get();
-
         }
 
-       
-        $formsAttributes = FormAttribute::orderBy('created_at','asc')->get();
+
+        $formsAttributes = FormAttribute::orderBy('created_at', 'asc')->get();
         // $regions = Region::all();
 
         $this->region_id = auth()->user()->region_id;
 
         $this->districts = District::where('region_id', $this->region_id)->get();
 
-        if($this->editMode == true) {
+        if ($this->editMode == true) {
             $this->districts = District::orderBy('name', 'asc')->get();
         }
 

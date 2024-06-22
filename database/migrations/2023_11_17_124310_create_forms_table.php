@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('completed_by')->nullable();
             $table->string('scanning_name');
             $table->foreignId('ward_id')->unsigned()->constrained()->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->boolean('status')->default(false); // show if form is submitted (1) or not (0)
             $table->timestamps();
 
