@@ -294,9 +294,9 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ Str::limit($data->form_attribute->name, 20) }}</td>
                                     {{-- <td>{{ $data->scanning_name }}</td> --}}
-                                    <td>{{ $data->ward->district->name }}</td>
-                                    <td>{{ $data->ward->name }}</td>
-                                    <td>{{ $data->address }}</td>
+                                    <td>{{ $data->ward->district->name ?? '--' }}</td>
+                                    <td>{{ $data->ward->name ?? '---' }}</td>
+                                    <td>{{ $data->address ?? '---' }}</td>
                                     <td>{{ $data->created_at->format('d/m/Y') }}</td>
                                     {{-- <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td> --}}
                                     <td>

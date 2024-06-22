@@ -25,13 +25,13 @@ class DashboardLive extends Component
     public $formsAttributes;
 
     public $formsAttribute;
-    
+
     public $labels = [];
 
     public $maleDatasets = [];
 
     public $femaleDatasets = [];
-    
+
     // public $form_id = '249466c0-f8b1-493d-9049-744de6591339'; // public meeting report
 
     public $ward_visited_ids = [];
@@ -42,10 +42,11 @@ class DashboardLive extends Component
 
     // public function updateFormId(){
     //     return $this->getChartData();
-        
+
     // }
-    
-    public function getChartData() {
+
+    public function getChartData()
+    {
 
         $this->dispatch('updateChart');
 
@@ -57,33 +58,30 @@ class DashboardLive extends Component
 
         // if(!empty($this->form_id)) {
 
-            $this->formsAttribute = FormAttribute::where('name', 'TB SCREENING (CI+ACF)')->first();
+        $this->formsAttribute = FormAttribute::where('name', 'TB SCREENING (CI+ACF)')->first();
 
-            if($this->formsAttribute) {
+        if ($this->formsAttribute) {
 
             $attributeList = Attribute::whereIn('id', json_decode($this->formsAttribute->attribute_ids))->get();
-            
-                foreach($attributeList as $attribute) {
-                    if($attribute->attribute_no == 1.0) {
-                        $mainAttribute = $attribute;
-        
-                    } elseif($attribute->attribute_no == 0.1) {
-                        $mainAttribute = $attribute;
-        
-                    } elseif($attribute->attribute_no == 0.2) {
-                        $mainAttribute = $attribute;
-        
-                    }
-                }
-            
-                $forms = Form::where('form_attribute_id', $this->formsAttribute->id)->get();
 
-                if($forms) {
+            foreach ($attributeList as $attribute) {
+                if ($attribute->attribute_no == 1.0) {
+                    $mainAttribute = $attribute;
+                } elseif ($attribute->attribute_no == 0.1) {
+                    $mainAttribute = $attribute;
+                } elseif ($attribute->attribute_no == 0.2) {
+                    $mainAttribute = $attribute;
+                }
+            }
+
+            $forms = Form::where('form_attribute_id', $this->formsAttribute->id)->get();
+
+            if ($forms) {
                 $form_ids = [];
                 $labels = [];
                 $datasets = [];
 
-                foreach($forms  as $form) {
+                foreach ($forms  as $form) {
                     array_push($form_ids, $form->id);
                 }
 
@@ -105,33 +103,28 @@ class DashboardLive extends Component
                             'female' => $item->total_female,
                         ]];
                     });
-                
-                foreach($formData as $region => $data) {
+
+                foreach ($formData as $region => $data) {
                     array_push($this->labels, $region);
                     array_push($datasets, $data);
-
                 }
 
-                foreach($datasets as $data) {
+                foreach ($datasets as $data) {
                     array_push($this->maleDatasets, $data['male']);
                     array_push($this->femaleDatasets, $data['female']);
-
                 }
-                }          
-
             }
-            
+        }
+
         // }
 
         $this->dispatch('renderChart');
-
-
     }
 
     public function render()
     {
         // if(!empty($this->form_id)) {
-            $this->getChartData();
+        $this->getChartData();
 
         // }
 
@@ -147,29 +140,32 @@ class DashboardLive extends Component
 
         $wards_visited = Form::all();
 
-        foreach($wards_visited as $ward) {
+        foreach ($wards_visited as $ward) {
             array_push($this->ward_visited_ids, $ward->ward_id);
-
         }
 
-        $this->ward_count = count(array_unique($this->ward_visited_ids));
+        if (count(array_unique($this->ward_visited_ids)) != 0 && $this->ward_visited_ids[0] != null) {
+            $this->ward_count = count(array_unique($this->ward_visited_ids));
 
-        $ward_ids = array_unique($this->ward_visited_ids);
+            $ward_ids = array_unique($this->ward_visited_ids);
+        } else {
+            $this->ward_count = 0;
+            $ward_ids = [];
+        }
+
 
         $wards_visited = Ward::whereIn('id', $ward_ids)->get();
 
-        foreach($wards_visited as $ward) {
+        foreach ($wards_visited as $ward) {
             array_push($this->districts_visited_ids, $ward->district_id);
-
         }
 
         $this->district_count = count(array_unique($this->districts_visited_ids));
 
         $districts_visited = District::whereIn('id', $this->districts_visited_ids)->get();
 
-        foreach($districts_visited as $district) {
+        foreach ($districts_visited as $district) {
             array_push($this->regions_visited_ids, $district->region_id);
-
         }
 
         $this->region_count = count(array_unique($this->regions_visited_ids));
@@ -201,20 +197,19 @@ class DashboardLive extends Component
             ->when($this->date, function ($query) {
 
                 $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-
             })
-            ->with(['added_by', 'form_attribute', 'ward' => function($query){
-                $query->with(['district' => function($district){
-                                $district->with('region');
-                            }]);
+            ->with(['added_by', 'form_attribute', 'ward' => function ($query) {
+                $query->with(['district' => function ($district) {
+                    $district->with('region');
+                }]);
             }])->where('status', true)
             ->latest()
             ->limit(10)->get();
 
         $this->submitted_report_count = $submitted_field_reports->count();
 
-        $this->formsAttributes = FormAttribute::orderBy('created_at','asc')->get();
-        
+        $this->formsAttributes = FormAttribute::orderBy('created_at', 'asc')->get();
+
         return view('livewire.admin-panel.dashboard-live', [
             'submitted_field_reports' => $submitted_field_reports,
             'formsAttributes' => $this->formsAttributes,

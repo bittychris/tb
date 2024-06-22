@@ -27,32 +27,32 @@ class RcDashboardLive extends Component
 
     public $regions_visited_ids = [];
 
-    public function getFormData($report_id) {
+    public function getFormData($report_id)
+    {
         $this->form_id = $report_id;
         $report = Form::find($this->form_id);
         $this->report_name = $report->form_attribute->name;
 
         $this->dispatch('openSubmitDataModel');
-
     }
 
-    public function submitData() {
+    public function submitData()
+    {
         $form_data = DB::table('form_data')
-                        ->where('form_id', $this->form_id)
-                        ->where('male', null)
-                        ->orWhere('female', null)
-                        ->get();
+            ->where('form_id', $this->form_id)
+            ->where('male', null)
+            ->orWhere('female', null)
+            ->get();
 
-        if(count($form_data) > 0) {
+        if (count($form_data) > 0) {
             $this->dispatch('failure_alert', 'Failed to submit data, some parts of the form are empty');
-
         } else {
             $submit_report = DB::table('forms')
-                                ->where('id', $this->form_id)
-                                ->where('created_by', auth()->user()->id)
-                                ->update([
-                                        'status' => true,
-                                    ]);
+                ->where('id', $this->form_id)
+                ->where('created_by', auth()->user()->id)
+                ->update([
+                    'status' => true,
+                ]);
 
             if ($submit_report) {
                 $acting_user = User::find(auth()->user()->id);
@@ -60,17 +60,14 @@ class RcDashboardLive extends Component
 
                 $this->dispatch('closeModel');
                 $this->dispatch('success_alert', 'Field data submitted successfully.');
-
             } else {
                 $this->dispatch('failure_alert', 'An error occurred. Try again later.');
-
             }
-
         }
-
     }
 
-    public function clearForm() {
+    public function clearForm()
+    {
         $this->reset(
             'form_id',
         );
@@ -90,9 +87,8 @@ class RcDashboardLive extends Component
 
         $district_ids = [];
 
-        foreach($districts as $district) {
+        foreach ($districts as $district) {
             array_push($district_ids, $district->id);
-
         }
 
         $this->total_wards = Ward::whereIn('district_id', $district_ids)->count();
@@ -100,20 +96,23 @@ class RcDashboardLive extends Component
 
         $wards_visited = Form::where('created_by', Auth::user()->id)->get();
 
-        foreach($wards_visited as $ward) {
+        foreach ($wards_visited as $ward) {
             array_push($this->ward_visited_ids, $ward->ward_id);
-
         }
 
-        $this->ward_count = count(array_unique($this->ward_visited_ids));
+        if (count(array_unique($this->ward_visited_ids)) != 0 && $this->ward_visited_ids[0] != null) {
+            $this->ward_count = count(array_unique($this->ward_visited_ids));
 
-        $ward_ids = array_unique($this->ward_visited_ids);
+            $ward_ids = array_unique($this->ward_visited_ids);
+        } else {
+            $this->ward_count = 0;
+            $ward_ids = [];
+        }
 
         $wards_visited = Ward::whereIn('id', $ward_ids)->get();
 
-        foreach($wards_visited as $ward) {
+        foreach ($wards_visited as $ward) {
             array_push($this->districts_visited_ids, $ward->district_id);
-
         }
 
         $this->district_count = count(array_unique($this->districts_visited_ids));
@@ -135,43 +134,41 @@ class RcDashboardLive extends Component
         $this->submitted_report_count = Form::where('status', true)->where('created_by', Auth::user()->id)->count();
 
         $field_data = Form::query()
-                ->when($this->keywords, function ($query) {
-                    return $query->where(function ($query) {
-                        $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
-                            // ->orWhere('created_at', $this->date)
-                            ->orWhereHas('ward', function ($query) {
-                                $query->where('name', 'like', '%' . $this->keywords . '%');
-                            })
-                            ->orWhereHas('added_by', function ($query) {
-                                $query->where('first_name', 'like', '%' . $this->keywords . '%')
-                                    ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
-                            })
-                            ->orWhereHas('ward.district', function ($query) {
-                                $query->where('name', 'like', '%' . $this->keywords . '%');
-                            })
-                            ->orWhereHas('ward.district.region', function ($query) {
-                                $query->where('name', 'like', '%' . $this->keywords . '%');
-                            });
-                    });
-                })
-                ->when($this->submission_status, function ($query) {
+            ->when($this->keywords, function ($query) {
+                return $query->where(function ($query) {
+                    $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+                        // ->orWhere('created_at', $this->date)
+                        ->orWhereHas('ward', function ($query) {
+                            $query->where('name', 'like', '%' . $this->keywords . '%');
+                        })
+                        ->orWhereHas('added_by', function ($query) {
+                            $query->where('first_name', 'like', '%' . $this->keywords . '%')
+                                ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+                        })
+                        ->orWhereHas('ward.district', function ($query) {
+                            $query->where('name', 'like', '%' . $this->keywords . '%');
+                        })
+                        ->orWhereHas('ward.district.region', function ($query) {
+                            $query->where('name', 'like', '%' . $this->keywords . '%');
+                        });
+                });
+            })
+            ->when($this->submission_status, function ($query) {
 
-                    $query->where('status', 'like', '%' .$this->submission_status. '%');
+                $query->where('status', 'like', '%' . $this->submission_status . '%');
+            })
+            ->when($this->date, function ($query) {
 
-                })
-                ->when($this->date, function ($query) {
-
-                    $query->whereBetween('created_at', ['2022-01-07', $this->date]);
-
-                })
-                ->with(['added_by', 'form_attribute', 'ward' => function($query){
-                    $query->with(['district' => function($district){
-                                    $district->with('region');
-                                }]);
-                }])
-                ->where('created_by', Auth::user()->id)
-                ->latest()
-                ->limit(10)->get();
+                $query->whereBetween('created_at', ['2022-01-07', $this->date]);
+            })
+            ->with(['added_by', 'form_attribute', 'ward' => function ($query) {
+                $query->with(['district' => function ($district) {
+                    $district->with('region');
+                }]);
+            }])
+            ->where('created_by', Auth::user()->id)
+            ->latest()
+            ->limit(10)->get();
 
         $this->total_reports_count = $field_data->count();
 
