@@ -14,10 +14,10 @@
                 Reginal Coordinator: {{ $form->added_by->first_name }} {{ $form->added_by->last_name }}
             </th>
             <th colspan="5" style="text-align: left; font-size: 10px;">
-                Region: {{ $form->ward->district->region->name }}
+                Region: {{ $form->added_by->region->name ?? '---' }}
             </th>
             <th colspan="5" style="text-align: left; font-size: 10px;">
-                Ward: {{ $form->ward->name }}
+                Ward: {{ $form->ward->name ?? '---' }}
             </th>
         </tr>
         <tr>
@@ -25,10 +25,10 @@
                 From: {{ $form->created_at->format('F d, Y') }}
             </th>
             <th colspan="5" style="text-align: left; font-size: 10px;">
-                District: {{ $form->ward->district->name }}
+                District: {{ $form->ward->district->name ?? '---' }}
             </th>
             <th colspan="5" style="text-align: left; font-size: 10px;">
-                Address: {{ $address }}
+                Address: {{ $address ?? '---' }}
             </th>
         </tr>
         <tr>
@@ -100,7 +100,8 @@
                         {{ $formData[$ageGroup->id][$attribute->id]['M'] ?? '- - -' }}
                     </td>
                     @php
-                        $total_female[$ageGroup->id][$attribute->id] = $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
+                        $total_female[$ageGroup->id][$attribute->id] =
+                            $formData[$ageGroup->id][$attribute->id]['F'] ?? 0;
                         $total_male[$ageGroup->id][$attribute->id] = $formData[$ageGroup->id][$attribute->id]['M'] ?? 0;
                     @endphp
                 @endforeach
