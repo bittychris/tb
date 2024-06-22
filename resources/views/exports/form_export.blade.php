@@ -37,9 +37,9 @@
             <tr>
                 <td style="text-align: left;">{{ $i++ }}</td>
                 <td style="color: black;">{{ $form->form_attribute->name }}</td>
-                <td>{{ $form->ward->district->region->name }}</td>
-                <td>{{ $form->ward->district->name }}</td>
-                <td>{{ $form->ward->name }}</td>
+                <td>{{ $form->added_by->region->name ?? '---' }}</td>
+                <td>{{ $form->ward->district->name ?? '---' }}</td>
+                <td>{{ $form->ward->name ?? '---' }}</td>
                 <td>{{ $form->added_by->first_name }} {{ $form->added_by->last_name }}</td>
                 <td style="text-align: right;">{{ $form->updated_at->format('F d, Y') }}</td>
             </tr>
