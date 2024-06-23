@@ -23,9 +23,9 @@
                         style="text-decoration: none;"> --}}
                     {{ $form->form_attribute->name }}
                     {{-- </a></td> --}}
-                <td>{{ $form->ward->district->region->name }}</td>
-                <td>{{ $form->ward->district->name }}</td>
-                <td>{{ $form->ward->name }}</td>
+                <td>{{ $report->added_by->region->name ?? '---' }}</td>
+                <td>{{ $form->ward->district->name ?? '---' }}</td>
+                <td>{{ $form->ward->name ?? '---' }}</td>
                 <td>{{ $form->added_by->first_name }} {{ $form->added_by->last_name }}</td>
                 <td>{{ $form->updated_at->format('M d, Y') }}</td>
                 <td>

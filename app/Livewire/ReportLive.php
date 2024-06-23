@@ -58,18 +58,18 @@ class ReportLive extends Component
 
     public $enddate = "";
 
-    public function navigateTo($show) {
+    public function navigateTo($show)
+    {
         $this->navigate_to = $show;
-
     }
 
     // Comments part
-    protected function rules() {
+    protected function rules()
+    {
 
         return [
             'content' => ['required', 'string']
         ];
-
     }
 
     public function updated($fields)
@@ -77,21 +77,22 @@ class ReportLive extends Component
         $this->validateOnly($fields);
     }
 
-    public function getReportDetails($form_id) {
+    public function getReportDetails($form_id)
+    {
         $this->form_id = $form_id;
 
         $report_details = Form::find($this->form_id);
 
         $this->report_name = $report_details->scanning_name;
-        $this->rc = $report_details->added_by->first_name. ' ' .$report_details->added_by->last_name;
+        $this->rc = $report_details->added_by->first_name . ' ' . $report_details->added_by->last_name;
         $this->rc_image = $report_details->added_by->image;
         $this->receiver_id = $report_details->added_by->id;
 
         $this->dispatch('openCommentModel');
-
     }
 
-    public function sendComment() {
+    public function sendComment()
+    {
         $validatedData = $this->validate();
 
         $comment = comments::create([
@@ -101,41 +102,40 @@ class ReportLive extends Component
             'content' => $validatedData['content'],
         ]);
 
-        if($comment) {
+        if ($comment) {
             $this->clearForm();
-
         }
-
     }
 
-    public function clearForm() {
+    public function clearForm()
+    {
         $this->reset(
             'content'
         );
     }
 
-    public function reloadComments() {
+    public function reloadComments()
+    {
         $this->unread_comment_count = comments::where('form_id', $this->form_id)->where('receiver_id', auth()->user()->id)->where('read_at', null)->count();
 
         $this->comments = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id);
 
-                //   ->where(function ($query) {
+            //   ->where(function ($query) {
 
-                //       $query->where('sender_id', auth()->user()->id)
+            //       $query->where('sender_id', auth()->user()->id)
 
-                //             ->orWhere('receiver_id', auth()->user()->id);
+            //             ->orWhere('receiver_id', auth()->user()->id);
 
-                //   });
+            //   });
 
         })->orderBy('created_at', 'asc')->get();
-
     }
 
     public function sendEditLink()
     {
-        $content = "edit_report-" .$this->form_id. "";
+        $content = "edit_report-" . $this->form_id . "";
 
         $edit_link = comments::create([
             'form_id' => $this->form_id,
@@ -144,31 +144,28 @@ class ReportLive extends Component
             'content' => $content,
         ]);
 
-        if($edit_link) {
+        if ($edit_link) {
             $this->clearForm();
-
         }
-
     }
 
-    public function closeCommentModel() {
+    public function closeCommentModel()
+    {
         $this->dispatch('closeCommentModel');
 
         $remove_unread_status = comments::where(function ($query) {
 
             $query->where('form_id', $this->form_id)
 
-                  ->where(function ($query) {
+                ->where(function ($query) {
 
-                      $query->where('receiver_id', auth()->user()->id);
-
-                  });
-
+                    $query->where('receiver_id', auth()->user()->id);
+                });
         })->update([
             'read_at' => Carbon::now()
         ]);
 
-        if($remove_unread_status) {
+        if ($remove_unread_status) {
             $this->reset(
                 'form_id',
                 'receiver_id',
@@ -176,218 +173,208 @@ class ReportLive extends Component
             );
 
             return redirect(route('admin.reporting'));
-
         }
-
-
     }
 
-    public function mount($report = null){
+    public function mount($report = null)
+    {
         $this->currentDateTime = now()->toDateTimeString();
         $this->endDate = now()->toDateTimeString();
         $this->enddate = now()->toDateTimeString();
         $this->quartRange = ['1999-01-01 00:00:00', $this->currentDateTime];
 
-        if(!empty($report)) {
+        if (!empty($report)) {
             $this->form_id = $report;
 
             $this->getReportDetails($this->form_id);
         }
-
     }
 
-    public function SelectAllQuartiles() {
+    public function SelectAllQuartiles()
+    {
         $this->quartile = '';
         $this->quartRange = '';
         $this->form_ids = [];
 
-        $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-12-31 23:59:59'];
+        $this->quartRange = [$this->selectedYear . '-01-01 00:00:00', $this->selectedYear . '-12-31 23:59:59'];
         $this->startdate = $this->quartRange[0];
         $this->enddate = $this->quartRange[1];
 
-        if(!empty($this->region_id)) {
+        if (!empty($this->region_id)) {
             $this->form_ids = [];
-            
+
             $region = Region::find($this->region_id);
 
             $districts = District::select('id')->where('region_id', $this->region_id)->get();
             $district_ids = [];
             $ward_ids = [];
-            foreach($districts as $district) {
+            foreach ($districts as $district) {
                 array_push($district_ids, $district->id);
-
             }
 
             $wards = Ward::whereIn('district_id', $district_ids)->get();
 
-            foreach($wards as $ward) {
+            foreach ($wards as $ward) {
                 array_push($ward_ids, $ward->id);
-
             }
 
             $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
                 ->whereBetween('created_at', $this->quartRange)
                 ->get();
 
-            foreach($forms as $form) {
+            foreach ($forms as $form) {
                 array_push($this->form_ids, $form->id);
-
             }
 
             $this->select_all_quartiles = true;
 
-            if(count($this->form_ids) == 0) {
+            if (count($this->form_ids) == 0) {
                 $this->select_all_quartiles = false;
-                $this->dispatch('message_alert', 'There is no Overall Field Data for '.$region->name. ' region in Year '.$this->selectedYear);
-                $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
+                $this->dispatch('message_alert', 'There is no Overall Field Data for ' . $region->name . ' region in Year ' . $this->selectedYear);
+                $this->quartRange = [$this->selectedYear . '-01-01 00:00:00', $this->currentDateTime];
 
                 $this->region_id = '';
-            
             } else {
                 return $this->form_ids;
             }
-
         } else {
 
             $forms = Form::where('status', true)
-            ->whereBetween('created_at', $this->quartRange)
-            ->get();
-    
-            foreach($forms as $form) {
+                ->whereBetween('created_at', $this->quartRange)
+                ->get();
+
+            foreach ($forms as $form) {
                 array_push($this->form_ids, $form->id);
-    
             }
 
             $this->select_all_quartiles = true;
 
-            if(count($this->form_ids) == 0) {
+            if (count($this->form_ids) == 0) {
                 $this->select_all_quartiles = false;
-                $this->dispatch('message_alert', 'There is no Overall Field Data for year '.$this->selectedYear);
-                $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
-    
+                $this->dispatch('message_alert', 'There is no Overall Field Data for year ' . $this->selectedYear);
+                $this->quartRange = [$this->selectedYear . '-01-01 00:00:00', $this->currentDateTime];
             } else {
                 return $this->form_ids;
             }
-
-        } 
-            
+        }
     }
 
-    public function DeselectAllQuartiles() {
+    public function DeselectAllQuartiles()
+    {
         $this->quartile = '';
 
-        $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-12-31 23:59:59'];
+        $this->quartRange = [$this->selectedYear . '-01-01 00:00:00', $this->selectedYear . '-12-31 23:59:59'];
         $this->startdate = $this->quartRange[0];
         $this->enddate = $this->quartRange[1];
 
         $this->select_all_quartiles = false;
-            
     }
 
     public function submit()
     {
         $this->form_ids = [];
-        
+
         $this->quartRange = $this->getQuartileRange($this->quartile);
         $this->startdate = $this->quartRange[0];
         $this->enddate = $this->quartRange[1];
 
-        if($this->quartile == 'q1') {
+        if ($this->quartile == 'q1') {
             $quartile = '1st Quartile';
-            
-        } elseif($this->quartile == 'q2') {
+        } elseif ($this->quartile == 'q2') {
             $quartile = '2nd Quartile';
-            
-        } elseif($this->quartile == 'q3') {
+        } elseif ($this->quartile == 'q3') {
             $quartile = '3rd Quartile';
-            
-        } elseif($this->quartile == 'q4') {
+        } elseif ($this->quartile == 'q4') {
             $quartile = '4th Quartile';
-            
         }
 
-        if(!empty($this->region_id)) {
+        if (!empty($this->region_id)) {
             $this->form_ids = [];
-            
+            $rc_ids = [];
+
             $region = Region::find($this->region_id);
 
-            $districts = District::select('id')->where('region_id', $this->region_id)->get();
-            $district_ids = [];
-            $ward_ids = [];
-            foreach($districts as $district) {
-                array_push($district_ids, $district->id);
+            // $districts = District::select('id')->where('region_id', $this->region_id)->get();
+            // $district_ids = [];
+            // $ward_ids = [];
+            // foreach ($districts as $district) {
+            //     array_push($district_ids, $district->id);
+            // }
 
+            // $wards = Ward::whereIn('district_id', $district_ids)->get();
+
+            // foreach ($wards as $ward) {
+            //     array_push($ward_ids, $ward->id);
+            // }
+
+            // $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+            //     ->whereBetween('created_at', $this->quartRange)
+            //     ->get();
+
+            // foreach ($forms as $form) {
+            //     array_push($this->form_ids, $form->id);
+            // }
+
+            $rcs = User::where('region_id', $this->region_id)->get();
+
+            foreach ($rcs as $rc) {
+                array_push($rc_ids, $rc->id);
             }
 
-            $wards = Ward::whereIn('district_id', $district_ids)->get();
-
-            foreach($wards as $ward) {
-                array_push($ward_ids, $ward->id);
-
-            }
-
-            $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+            $forms = Form::whereIn('added_by', array_unique($rc_ids))->where('status', true)
                 ->whereBetween('created_at', $this->quartRange)
                 ->get();
 
-            foreach($forms as $form) {
+            foreach ($forms as $form) {
                 array_push($this->form_ids, $form->id);
-
             }
 
-            if(count($this->form_ids) == 0) {
-                $this->dispatch('message_alert', 'There is no Overall Field Data for '.$region->name. ' region in '.$quartile.' of Year '.$this->selectedYear);
+            if (count($this->form_ids) == 0) {
+                $this->dispatch('message_alert', 'There is no Overall Field Data for ' . $region->name . ' region in ' . $quartile . ' of Year ' . $this->selectedYear);
                 // $this->region_id = '';
                 $this->quartile = '';
-                $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
-            
+                $this->quartRange = [$this->selectedYear . '-01-01 00:00:00', $this->currentDateTime];
             } else {
                 return $this->form_ids;
             }
-
         } else {
 
             $forms = Form::where('status', true)
-            ->whereBetween('created_at', $this->quartRange)
-            ->get();
-    
-            foreach($forms as $form) {
+                ->whereBetween('created_at', $this->quartRange)
+                ->get();
+
+            foreach ($forms as $form) {
                 array_push($this->form_ids, $form->id);
-    
             }
 
-            if(count($this->form_ids) == 0) {
-                $this->dispatch('message_alert', 'There is no Overall Field Data in '.$quartile.' of year '.$this->selectedYear);
+            if (count($this->form_ids) == 0) {
+                $this->dispatch('message_alert', 'There is no Overall Field Data in ' . $quartile . ' of year ' . $this->selectedYear);
                 $this->quartile = '';
-                $this->quartRange = [$this->selectedYear.'-01-01 00:00:00', $this->currentDateTime];
-    
+                $this->quartRange = [$this->selectedYear . '-01-01 00:00:00', $this->currentDateTime];
             } else {
                 return $this->form_ids;
             }
-
-        } 
-        
+        }
     }
 
     private function getQuartileRange($quartile)
     {
         switch ($quartile) {
-            // case 'all':
-            //     return ['2024-01-01 00:00:00', $this->currentDateTime];
+                // case 'all':
+                //     return ['2024-01-01 00:00:00', $this->currentDateTime];
 
             case 'q1':
-                return [$this->selectedYear.'-01-01 00:00:00', $this->selectedYear.'-03-31 23:59:59'];
+                return [$this->selectedYear . '-01-01 00:00:00', $this->selectedYear . '-03-31 23:59:59'];
 
             case 'q2':
-                return [$this->selectedYear.'-03-01 00:00:00', $this->selectedYear.'-06-30 23:59:59'];
+                return [$this->selectedYear . '-03-01 00:00:00', $this->selectedYear . '-06-30 23:59:59'];
 
             case 'q3':
-                return [$this->selectedYear.'-06-01 00:00:00', $this->selectedYear.'-09-30 23:59:59'];
+                return [$this->selectedYear . '-06-01 00:00:00', $this->selectedYear . '-09-30 23:59:59'];
             case 'q4':
-                return [$this->selectedYear.'-09-01 00:00:00', $this->selectedYear.'-12-31 23:59:59'];
+                return [$this->selectedYear . '-09-01 00:00:00', $this->selectedYear . '-12-31 23:59:59'];
             default:
                 return null;
-
         }
     }
 
@@ -416,13 +403,13 @@ class ReportLive extends Component
 
             $query->where('form_id', $this->form_id);
 
-                //   ->where(function ($query) {
+            //   ->where(function ($query) {
 
-                //       $query->where('sender_id', auth()->user()->id)
+            //       $query->where('sender_id', auth()->user()->id)
 
-                //             ->orWhere('receiver_id', auth()->user()->id);
+            //             ->orWhere('receiver_id', auth()->user()->id);
 
-                //   });
+            //   });
 
         })->orderBy('created_at', 'asc')->get();
 
@@ -451,52 +438,59 @@ class ReportLive extends Component
             ->when($this->startDate && $this->endDate, function ($query) {
 
                 $query->whereBetween('updated_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
-
             })
-            ->with(['added_by', 'form_attribute', 'ward' => function($query){
-                $query->with(['district' => function($district){
-                                $district->with('region');
-                            }]);
+            ->with(['added_by', 'form_attribute', 'ward' => function ($query) {
+                $query->with(['district' => function ($district) {
+                    $district->with('region');
+                }]);
             }])->where('status', true)
             ->latest()
             ->paginate(10);
 
-            
-        if(!empty($this->region_id)) {
+
+        if (!empty($this->region_id)) {
             $this->form_ids = [];
-            
+            $rc_ids = [];
+
             $region = Region::find($this->region_id);
 
-            $districts = District::select('id')->where('region_id', $this->region_id)->get();
-            $district_ids = [];
-            $ward_ids = [];
-            foreach($districts as $district) {
-                array_push($district_ids, $district->id);
+            // $districts = District::select('id')->where('region_id', $this->region_id)->get();
+            // $district_ids = [];
+            // $ward_ids = [];
+            // foreach($districts as $district) {
+            //     array_push($district_ids, $district->id);
 
+            // }
+
+            // $wards = Ward::whereIn('district_id', $district_ids)->get();
+
+            // foreach($wards as $ward) {
+            //     array_push($ward_ids, $ward->id);
+
+            // }
+
+            // $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+            //     ->whereBetween('created_at', $this->quartRange)
+            //     ->get();
+
+            $rcs = User::where('region_id', $this->region_id)->get();
+
+            foreach ($rcs as $rc) {
+                array_push($rc_ids, $rc->id);
             }
 
-            $wards = Ward::whereIn('district_id', $district_ids)->get();
-
-            foreach($wards as $ward) {
-                array_push($ward_ids, $ward->id);
-
-            }
-
-            $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+            $forms = Form::whereIn('created_by', array_unique($rc_ids))->where('status', true)
                 ->whereBetween('created_at', $this->quartRange)
                 ->get();
 
-            foreach($forms as $form) {
+            foreach ($forms as $form) {
                 array_push($this->form_ids, $form->id);
-
             }
 
-            if(count($this->form_ids) == 0) {
-                $this->dispatch('message_alert', 'There is no Field Data for '.$region->name. ' region');
+            if (count($this->form_ids) == 0) {
+                $this->dispatch('message_alert', 'There is no Field Data for ' . $region->name . ' region');
                 $this->region_id = '';
-            
             }
-
         } else {
             $this->form_ids = [];
 
@@ -504,34 +498,31 @@ class ReportLive extends Component
                 ->whereBetween('created_at', $this->quartRange)
                 ->get();
 
-            foreach($forms as $form) {
+            foreach ($forms as $form) {
                 array_push($this->form_ids, $form->id);
-
             }
-
         }
-        
+
         $formdata = FormData::selectRaw('SUM(male) as total_male, SUM(female) as total_female, form_data.attribute_id, attributes.id as attributeId, form_data.age_group_id as age_groupId')
-        
-                    ->join('forms', 'form_data.form_id', '=', 'forms.id')
-                    ->join('attributes', 'form_data.attribute_id', '=', 'attributes.id')
-                    ->join('wards', 'forms.ward_id', '=', 'wards.id')
-                    ->join('districts', 'wards.district_id', '=', 'districts.id')
-                    ->join('regions', 'districts.region_id', '=', 'regions.id')
-                    ->when($this->form_ids, function ($query) {
-                                $query->whereIn('form_data.form_id', $this->form_ids);
-                
-                    })
-                    ->where('forms.status', '=', 1)
-                    ->orderBy('attributes.attribute_no', 'asc')
-                    ->groupBy(['attributeId', 'age_groupId'])
-                    ->get();
-        
+
+            ->join('forms', 'form_data.form_id', '=', 'forms.id')
+            ->join('attributes', 'form_data.attribute_id', '=', 'attributes.id')
+            ->leftJoin('wards', 'forms.ward_id', '=', 'wards.id')
+            ->leftJoin('districts', 'wards.district_id', '=', 'districts.id')
+            ->leftJoin('regions', 'districts.region_id', '=', 'regions.id')
+            ->when($this->form_ids, function ($query) {
+                $query->whereIn('form_data.form_id', $this->form_ids);
+            })
+            ->where('forms.status', '=', 1)
+            ->orderBy('attributes.attribute_no', 'asc')
+            ->groupBy(['attributeId', 'age_groupId'])
+            ->get();
+
         foreach ($formdata as $data) {
             $this->formData[$data->age_groupId][$data->attributeId]['M'] = $data->total_male;
             $this->formData[$data->age_groupId][$data->attributeId]['F'] = $data->total_female;
         }
-        
+
         $users = User::all();
 
         $attributes = Attribute::orderBy('attribute_no', 'asc')->get();

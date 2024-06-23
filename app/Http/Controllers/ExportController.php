@@ -28,19 +28,19 @@ class ExportController extends Controller
     {
         $time = now()->toDateTimeString();
 
-        return Excel::download(new FormDataExport($range), 'form_data-'.$time.'.xlsx');
+        return Excel::download(new FormDataExport($range), 'overall_report-' . $time . '.xlsx');
     }
     public function formOne($formdata)
     {
         $time = now()->toDateTimeString();
 
-        return Excel::download(new FormDataOneExport($formdata), 'single-form-'.$time.'.xlsx');
+        return Excel::download(new FormDataOneExport($formdata), 'single-form-' . $time . '.xlsx');
     }
 
     public function formattribute()
     {
         $formdata = FormAttribute::all();
-        return Excel::download(new FormAttributeExport($formdata), 'formattributedata.xlsx',[
+        return Excel::download(new FormAttributeExport($formdata), 'formattributedata.xlsx', [
             'beforeSheet' => function (\Maatwebsite\Excel\Writer $writer) {
                 $writer->getActiveSheet()->getColumnDimension('A')->setWidth(35); // Set width for column A
                 $writer->getActiveSheet()->getColumnDimension('B')->setWidth(35); // Set width for column B
@@ -53,14 +53,14 @@ class ExportController extends Controller
     {
         $time = now()->toDateTimeString();
 
-        return Excel::download(new FormExport($keywords, $startDate, $endDate), 'form-'.$time.'.xlsx');
+        return Excel::download(new FormExport($keywords, $startDate, $endDate), 'form-' . $time . '.xlsx');
     }
 
     public function fieldData($keywords, $submission_status, $startDate, $endDate)
     {
         $time = now()->toDateTimeString();
 
-        return Excel::download(new FieldDataExport($keywords, $submission_status, $startDate, $endDate), 'field-data-'.$time.'.xlsx');
+        return Excel::download(new FieldDataExport($keywords, $submission_status, $startDate, $endDate), 'field-data-' . $time . '.xlsx');
     }
 
     public function singleFormData($form_id)
@@ -68,13 +68,13 @@ class ExportController extends Controller
         // $formdata = Form::findOrFail($formdata);
         $time = now()->toDateTimeString();
 
-        return Excel::download(new SingleFormDataExport($form_id), 'field-data-'.$time.'.xlsx');
+        return Excel::download(new SingleFormDataExport($form_id), 'field-data-' . $time . '.xlsx');
     }
 
     public function reginalReport($region_id, $startDate, $endDate)
     {
         $time = now()->toDateTimeString();
 
-        return Excel::download(new RegionalReportExport($region_id, $startDate, $endDate), 'reginal-report-'.$time.'.xlsx');
+        return Excel::download(new RegionalReportExport($region_id, $startDate, $endDate), 'reginal-report-' . $time . '.xlsx');
     }
 }

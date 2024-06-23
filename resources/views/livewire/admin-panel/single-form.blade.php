@@ -34,21 +34,21 @@
                             <div class="row col-md-4">
                                 <div class="col-12">
                                     <label for="district_id" class="fw-bold me-2">Region: </label>
-                                    {{ $form->ward->district->region->name }}
+                                    {{ $form->ward->district->region->name ?? '---' }}
                                 </div>
                                 <div class="col-12">
                                     <label for="district_id" class="fw-bold me-2">District: </label>
-                                    {{ $form->ward->district->name }}
+                                    {{ $form->ward->district->name ?? '---' }}
                                 </div>
                             </div>
                             <div class="row col-md-4">
                                 <div class="col-12">
                                     <label for="district_id" class="fw-bold me-2">Ward: </label>
-                                    {{ $form->ward->name }}
+                                    {{ $form->ward->name ?? '---' }}
                                 </div>
                                 <div class="col-12">
                                     <label for="district_id" class="fw-bold me-2">Address: </label>
-                                    {{ $address }}
+                                    {{ $address ?? '---' }}
                                 </div>
                             </div>
 

@@ -114,9 +114,9 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ Str::limit($report->form_attribute->name, 20) }}</td>
                                     {{-- <td style="overflow-x: hidden;" class="text-break">{{ $report->scanning_name }}</td> --}}
-                                    <td>{{ $report->ward->district->name }}</td>
-                                    <td>{{ $report->ward->name }}</td>
-                                    <td>{{ $report->address }}</td>
+                                    <td>{{ $report->ward->district->name ?? '---' }}</td>
+                                    <td>{{ $report->ward->name ?? '---' }}</td>
+                                    <td>{{ $report->address ?? '---' }}</td>
                                     <td>{{ $report->created_at->format('d/m/Y') }}</td>
                                     {{-- <td>{{ $report->added_by->first_name }} {{ $report->added_by->last_name }}</td> --}}
                                     <td>
