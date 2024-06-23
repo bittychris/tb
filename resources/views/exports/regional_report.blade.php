@@ -17,7 +17,7 @@
         <tr>
             <th></th>
             <th colspan="5" style="text-align: left; font-size: 10px;">
-                Region: {{ $firstForm->added_by->region->name }}
+                Region: {{ $firstForm->added_by->region->name ?? '---' }}
             </th>
         </tr>
         <tr>
@@ -105,8 +105,10 @@
                             {{ $formData[$i][$ageGroup->id][$attribute->id]['M'] ?? '- - -' }}
                         </td>
                         @php
-                            $total_female[$ageGroup->id][$attribute->id] = $formData[$i][$ageGroup->id][$attribute->id]['F'] ?? 0;
-                            $total_male[$ageGroup->id][$attribute->id] = $formData[$i][$ageGroup->id][$attribute->id]['M'] ?? 0;
+                            $total_female[$ageGroup->id][$attribute->id] =
+                                $formData[$i][$ageGroup->id][$attribute->id]['F'] ?? 0;
+                            $total_male[$ageGroup->id][$attribute->id] =
+                                $formData[$i][$ageGroup->id][$attribute->id]['M'] ?? 0;
                         @endphp
                     @endforeach
                 </tr>

@@ -290,23 +290,38 @@ class ReportLive extends Component
 
         if (!empty($this->region_id)) {
             $this->form_ids = [];
+            $rc_ids = [];
 
             $region = Region::find($this->region_id);
 
-            $districts = District::select('id')->where('region_id', $this->region_id)->get();
-            $district_ids = [];
-            $ward_ids = [];
-            foreach ($districts as $district) {
-                array_push($district_ids, $district->id);
+            // $districts = District::select('id')->where('region_id', $this->region_id)->get();
+            // $district_ids = [];
+            // $ward_ids = [];
+            // foreach ($districts as $district) {
+            //     array_push($district_ids, $district->id);
+            // }
+
+            // $wards = Ward::whereIn('district_id', $district_ids)->get();
+
+            // foreach ($wards as $ward) {
+            //     array_push($ward_ids, $ward->id);
+            // }
+
+            // $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+            //     ->whereBetween('created_at', $this->quartRange)
+            //     ->get();
+
+            // foreach ($forms as $form) {
+            //     array_push($this->form_ids, $form->id);
+            // }
+
+            $rcs = User::where('region_id', $this->region_id)->get();
+
+            foreach ($rcs as $rc) {
+                array_push($rc_ids, $rc->id);
             }
 
-            $wards = Ward::whereIn('district_id', $district_ids)->get();
-
-            foreach ($wards as $ward) {
-                array_push($ward_ids, $ward->id);
-            }
-
-            $forms = Form::whereIn('ward_id', $ward_ids)->where('status', true)
+            $forms = Form::whereIn('added_by', array_unique($rc_ids))->where('status', true)
                 ->whereBetween('created_at', $this->quartRange)
                 ->get();
 
@@ -464,7 +479,7 @@ class ReportLive extends Component
                 array_push($rc_ids, $rc->id);
             }
 
-            $forms = Form::whereIn('added_by', $rc_ids)->where('status', true)
+            $forms = Form::whereIn('created_by', array_unique($rc_ids))->where('status', true)
                 ->whereBetween('created_at', $this->quartRange)
                 ->get();
 
@@ -492,9 +507,9 @@ class ReportLive extends Component
 
             ->join('forms', 'form_data.form_id', '=', 'forms.id')
             ->join('attributes', 'form_data.attribute_id', '=', 'attributes.id')
-            ->join('wards', 'forms.ward_id', '=', 'wards.id')
-            ->join('districts', 'wards.district_id', '=', 'districts.id')
-            ->join('regions', 'districts.region_id', '=', 'regions.id')
+            ->leftJoin('wards', 'forms.ward_id', '=', 'wards.id')
+            ->leftJoin('districts', 'wards.district_id', '=', 'districts.id')
+            ->leftJoin('regions', 'districts.region_id', '=', 'regions.id')
             ->when($this->form_ids, function ($query) {
                 $query->whereIn('form_data.form_id', $this->form_ids);
             })
