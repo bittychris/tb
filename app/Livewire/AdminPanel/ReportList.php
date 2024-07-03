@@ -44,7 +44,7 @@ class ReportList extends Component
     public function submitData()
     {
 
-        $special_attributes = Attribute::where('attribute_no', 1)->orWhere('attribute_no', 10)->get();
+        $special_attributes = Attribute::where('attribute_no', 1.0)->orWhere('attribute_no', 10.0)->get();
 
         foreach ($special_attributes as $attribute) {
             if ($attribute->attribute_no == 1) {
@@ -395,6 +395,63 @@ class ReportList extends Component
                 ->where('created_by', Auth::user()->id)
                 ->latest()
                 ->paginate(10);
+
+            // $reports = Form::query()
+            //     ->when($this->keywords, function ($query) {
+            //         return $query->where(function ($query) {
+            //             $query->where('scanning_name', 'like', '%' . $this->keywords . '%')
+            //                 // ->orWhere('created_at', $this->date)
+            //                 ->orWhereHas('ward', function ($query) {
+            //                     $query->whereNotNull('wards.id') // added to handle null ward_id
+            //                         ->where('name', 'like', '%' . $this->keywords . '%');
+            //                 })
+            //                 ->orWhereHas('added_by', function ($query) {
+            //                     $query->where('first_name', 'like', '%' . $this->keywords . '%')
+            //                         ->orWhere('last_name', 'like', '%' . $this->keywords . '%');
+            //                 })
+            //                 ->orWhereHas('ward.district', function ($query) {
+            //                     $query->whereNotNull('districts.id') // added to handle null ward_id
+            //                         ->where('name', 'like', '%' . $this->keywords . '%');
+            //                 })
+            //                 ->orWhereHas('ward.district.region', function ($query) {
+            //                     $query->whereNotNull('regions.id') // added to handle null ward_id
+            //                         ->where('name', 'like', '%' . $this->keywords . '%');
+            //                 });
+            //         });
+            //     })
+            //     ->when($this->submission_status, function ($query) {
+
+            //         $query->where(function ($query) {
+
+            //             if ($this->submission_status == 'submitted') {
+
+            //                 $query->where('status', 1);
+            //             } elseif ($this->submission_status == 'not_submitted') {
+
+            //                 $query->where('status', 0);
+            //             } elseif ($this->submission_status == 'all') {
+
+            //                 $query->whereIn('status', [0, 1]);
+            //             } else {
+
+            //                 $query->where('status', [0, 1]);
+            //             }
+            //         });
+            //     })
+            //     ->when($this->startDate && $this->endDate, function ($query) {
+
+            //         $query->whereBetween('created_at', [Carbon::parse($this->startDate)->startOfDay(), Carbon::parse($this->endDate)->endOfDay()]);
+            //     })
+            //     ->with(['added_by', 'form_attribute', 'ward' => function ($query) {
+            //         $query->whereNotNull('id') // added to handle null ward_id
+            //             ->with(['district' => function ($district) {
+            //                 $district->whereNotNull('id') // added to handle null ward_id
+            //                     ->with('region');
+            //             }]);
+            //     }])
+            //     ->where('created_by', Auth::user()->id)
+            //     ->latest()
+            //     ->paginate(10);
             // Form::query()
             // ->when($this->keywords, function ($query) {
             //     return $query->where(function ($query) {
