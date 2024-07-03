@@ -60,7 +60,7 @@ class FormData extends Component
             $this->form_id = $form->form_attribute_id;
             $this->address = $form->address;
             $this->ward_id = $form->ward_id;
-            $this->district_id = $form->ward->district->id;
+            $this->district_id = !empty($form->ward->district->id) ? $form->ward->district->id : '';
             $this->created_at = $form->created_at->format('d/m/Y');
 
             $this->wards = Ward::all();
