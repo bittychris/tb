@@ -33,11 +33,12 @@ Route::get('/', function () {
 
 
 // Auth::routes();
-Route::get('index', [App\Http\Controllers\indexController::class, 'index'])->name('home.index');
-Route::get('home', [HomeController::class, 'index'])->name('home');
+// Route::get('index', [App\Http\Controllers\indexController::class, 'index'])->name('index');
+// Route::get('home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/', [indexController::class, 'index'])->name('index');
 
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('login', [LoginController::class, 'show_login'])->name('login'); //to show just a page for login
 

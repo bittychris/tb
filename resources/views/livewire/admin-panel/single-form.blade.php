@@ -34,7 +34,7 @@
                             <div class="row col-md-4">
                                 <div class="col-12">
                                     <label for="district_id" class="fw-bold me-2">Region: </label>
-                                    {{ $form->ward->added_by->region->name ?? '---' }}
+                                    {{ $form->added_by->region->name ?? '---' }}
                                 </div>
                                 <div class="col-12">
                                     <label for="district_id" class="fw-bold me-2">District: </label>

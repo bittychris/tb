@@ -435,14 +435,14 @@
                                                         ?>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $ff }}'
+                                                                {{-- max='{{ $ff }}' --}}
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $fm }}'
+                                                                {{-- max='{{ $fm }}' --}}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
@@ -453,14 +453,14 @@
                                                         ?>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $ff }}'
+                                                                {{-- max='{{ $ff }}' --}}
                                                                 id="formData-{{ $ageGroup->id }}-{{ $attribute->id }}-F"
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.F"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['F'] ?? 0 }}">
                                                         </td>
                                                         <td>
                                                             <input type="number" style="width: 60px;" min="0"
-                                                                max='{{ $fm }}'
+                                                                {{-- max='{{ $fm }}' --}}
                                                                 wire:model.live="formData.{{ $ageGroup->id }}.{{ $attribute->id }}.M"
                                                                 value="{{ $formData[$ageGroup->id][$attribute->id]['M'] ?? 0 }}">
                                                         </td>
