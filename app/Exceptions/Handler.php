@@ -31,7 +31,7 @@ class Handler extends ExceptionHandler
     /**
      * Render the exception into an HTTP response.
      */
-    public function render($request, Throwable $exception)
+   /* public function render($request, Throwable $exception)
     {
         if ($this->isHttpException($exception)) {
     
@@ -52,6 +52,7 @@ class Handler extends ExceptionHandler
 
         }
     
-    } 
+    }*/ 
     
 }
+
